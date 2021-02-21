@@ -1,10 +1,11 @@
 ﻿using SGP.Domain.Enums;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Entities;
+using SGP.Shared.Interfaces;
 
 namespace SGP.Domain.Entities
 {
-    public class Cliente : BaseEntity
+    public class Cliente : BaseEntity, IAggregateRoot
     {
         public Cliente(string nome, CadastroPessoaFisica cpf, Sexo sexo, DataNascimento dataNascimento)
         {
@@ -12,7 +13,7 @@ namespace SGP.Domain.Entities
             CPF = cpf;
             Sexo = sexo;
             DataNascimento = dataNascimento;
-            CadastradoEm = DataCadastro.Agora();
+            DataCadastro = DataCadastro.Agora();
         }
 
         private Cliente()
@@ -23,6 +24,6 @@ namespace SGP.Domain.Entities
         public CadastroPessoaFisica CPF { get; private set; }
         public Sexo Sexo { get; private set; }
         public DataNascimento DataNascimento { get; private set; }
-        public DataCadastro CadastradoEm { get; private set; }
+        public DataCadastro DataCadastro { get; private set; }
     }
 }

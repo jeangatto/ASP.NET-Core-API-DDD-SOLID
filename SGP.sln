@@ -14,7 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Shared", "src\SGP.Shared\SGP.Shared.csproj", "{7AFD8537-6821-49CC-A324-237BB78CC417}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.Domain", "src\SGP.Domain\SGP.Domain.csproj", "{0FFEFA59-1037-445D-9793-C361310B94AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Domain", "src\SGP.Domain\SGP.Domain.csproj", "{0FFEFA59-1037-445D-9793-C361310B94AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.Infrastructure", "src\SGP.Infrastructure\SGP.Infrastructure.csproj", "{BF0F4669-1B12-4EA5-B91F-047C54E4F661}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.ConsoleApp", "src\SGP.ConsoleApp\SGP.ConsoleApp.csproj", "{3027C243-24C4-4175-A00F-4DF253B89BAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +34,14 @@ Global
 		{0FFEFA59-1037-445D-9793-C361310B94AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FFEFA59-1037-445D-9793-C361310B94AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FFEFA59-1037-445D-9793-C361310B94AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF0F4669-1B12-4EA5-B91F-047C54E4F661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF0F4669-1B12-4EA5-B91F-047C54E4F661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF0F4669-1B12-4EA5-B91F-047C54E4F661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF0F4669-1B12-4EA5-B91F-047C54E4F661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3027C243-24C4-4175-A00F-4DF253B89BAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3027C243-24C4-4175-A00F-4DF253B89BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3027C243-24C4-4175-A00F-4DF253B89BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3027C243-24C4-4175-A00F-4DF253B89BAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
