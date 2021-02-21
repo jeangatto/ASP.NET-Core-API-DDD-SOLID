@@ -12,6 +12,9 @@ namespace SGP.Shared.Entities
             Id = Guid.NewGuid();
         }
 
+        /// <summary>
+        /// Chave (ID).
+        /// </summary>
         public Guid Id { get; private set; }
     }
 }

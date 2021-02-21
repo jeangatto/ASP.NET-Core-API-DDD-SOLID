@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace SGP.Domain.ValueObjects
 {
     /// <summary>
-    /// Cadastro Nacional da Pessoa Jurídica (CNPJ)
+    /// Cadastro Nacional da Pessoa Jurídica (CNPJ).
     /// </summary>
     public class CadastroNacionalPessoaJuridica : ValueObject
     {
@@ -13,6 +13,9 @@ namespace SGP.Domain.ValueObjects
             Numero = numero;
         }
 
+        /// <summary>
+        /// Número do Documento.
+        /// </summary>
         public string Numero { get; }
 
         protected override IEnumerable<object> GetEqualityComponents()

@@ -28,6 +28,9 @@ namespace SGP.Domain.Entities
         public short AcessosComSucesso { get; private set; }
         public short AcessosComFalha { get; private set; }
 
+        /// <summary>
+        /// Indica que a contado do usuário está bloqueada.
+        /// </summary>
         public bool ContaBloqueada => DataBloqueio.HasValue && DataBloqueio > DateTime.Now;
 
         public void AlterarApelido(string apelido)

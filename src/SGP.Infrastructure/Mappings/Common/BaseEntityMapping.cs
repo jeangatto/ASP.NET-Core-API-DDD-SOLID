@@ -8,7 +8,10 @@ namespace SGP.Infrastructure.Mappings.Common
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
+            // Definindo a coluna "ID" como Chave Primária (PK).
             builder.HasKey(e => e.Id);
+
+            // Definindo a coluna "ID" como NOT NULL.
             builder.Property(e => e.Id).IsRequired();
         }
     }

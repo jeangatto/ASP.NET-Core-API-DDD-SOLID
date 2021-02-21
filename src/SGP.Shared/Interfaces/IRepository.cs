@@ -1,7 +1,7 @@
 ﻿namespace SGP.Shared.Interfaces
 {
     /// <summary>
-    /// [Interface de Marcador] Indica que a classe é um repositório.
+    /// [Interface Marcador] Indica que a interface é um repositório.
     /// </summary>
     public interface IRepository
     {
