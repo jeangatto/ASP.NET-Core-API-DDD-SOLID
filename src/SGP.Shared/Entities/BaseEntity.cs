@@ -3,7 +3,7 @@
 namespace SGP.Shared.Entities
 {
     /// <summary>
-    /// Entidade base com o tipo da chave em guid.
+    /// Entidade base com a chave tipada em <see cref="Guid"/>.
     /// </summary>
     public abstract class BaseEntity
     {
