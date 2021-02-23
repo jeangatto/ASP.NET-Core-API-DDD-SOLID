@@ -1,5 +1,4 @@
-﻿using SGP.Domain.ValueObjects;
-using SGP.Shared.Entities;
+﻿using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 using System;
 
@@ -12,7 +11,6 @@ namespace SGP.Domain.Entities
             Apelido = apelido;
             Email = email;
             Senha = senha;
-            DataCadastro = DataCadastro.Agora();
         }
 
         private Usuario()
@@ -22,7 +20,6 @@ namespace SGP.Domain.Entities
         public string Apelido { get; private set; }
         public string Email { get; private set; }
         public string Senha { get; private set; }
-        public DataCadastro DataCadastro { get; private set; }
         public DateTime? DataUltimoAcesso { get; private set; }
         public DateTime? DataBloqueio { get; private set; }
         public short AcessosComSucesso { get; private set; }

@@ -31,14 +31,6 @@ namespace SGP.Infrastructure.Mappings
                 .IsUnicode(false)
                 .HasMaxLength(60);
 
-            builder.OwnsOne(u => u.DataCadastro)
-                .Property(u => u.Data)
-                .HasColumnName(nameof(Usuario.DataCadastro))
-                .IsRequired();
-
-            builder.Navigation(u => u.DataCadastro)
-                .IsRequired();
-
             builder.Property(u => u.DataUltimoAcesso)
                 .IsRequired(false);
 

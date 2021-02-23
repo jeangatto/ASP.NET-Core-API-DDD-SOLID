@@ -8,4 +8,8 @@
 		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="ValueObjects\" />
+	</ItemGroup>
+
 </Project>

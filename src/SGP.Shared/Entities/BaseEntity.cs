@@ -10,11 +10,17 @@ namespace SGP.Shared.Entities
         protected BaseEntity()
         {
             Id = Guid.NewGuid();
+            CadastradoEm = DateTime.Now;
         }
 
         /// <summary>
         /// Chave (ID).
         /// </summary>
         public Guid Id { get; private set; }
+
+        /// <summary>
+        /// Data da criação da entidade.
+        /// </summary>
+        public DateTime CadastradoEm { get; private set; }
     }
 }
