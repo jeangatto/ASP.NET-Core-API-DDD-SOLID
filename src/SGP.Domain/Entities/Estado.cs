@@ -6,9 +6,8 @@ namespace SGP.Domain.Entities
 {
     public class Estado : BaseEntity
     {
-        public Estado(Guid paisId, string nome, string uf, int ibge, string ddd)
+        public Estado(string nome, string uf, int ibge, string ddd)
         {
-            PaisId = paisId;
             Nome = nome;
             UF = uf;
             Ibge = ibge;
