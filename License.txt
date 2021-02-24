@@ -1,5 +1,7 @@
-Todos os direitos reservados.
-O autor permite apenas a visualização do código, sendo proibida qualquer utilização do mesmo, no todo ou em parte.
-
-All rights reserved.
-The author only allows the visualization of the code, being prohibited any use of it, in whole or in part.
+/**
+ * Todos os direitos reservados.
+ * O autor permite apenas a visualizaÃ§Ã£o do cÃ³digo, sendo proibida qualquer utilizaÃ§Ã£o do mesmo, no todo ou em parte.
+ *
+ * All rights reserved.
+ * The author only allows the visualization of the code, being prohibited any use of it, in whole or in part.
+ */
