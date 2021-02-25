@@ -6,20 +6,20 @@ namespace SGP.Domain.Entities
 {
     public class Usuario : BaseEntity, IAggregateRoot
     {
-        public Usuario(string apelido, string email, string senha)
+        public Usuario(string nome, string email, string senhaCriptografada)
         {
-            Apelido = apelido;
+            Nome = nome;
             Email = email;
-            Senha = senha;
+            SenhaCriptografada = senhaCriptografada;
         }
 
         private Usuario()
         {
         }
 
-        public string Apelido { get; private set; }
+        public string Nome { get; private set; }
         public string Email { get; private set; }
-        public string Senha { get; private set; }
+        public string SenhaCriptografada { get; private set; }
         public DateTime? DataUltimoAcesso { get; private set; }
         public DateTime? DataBloqueio { get; private set; }
         public short AcessosComSucesso { get; private set; }
@@ -30,9 +30,9 @@ namespace SGP.Domain.Entities
         /// </summary>
         public bool ContaBloqueada => DataBloqueio.HasValue && DataBloqueio.Value > DateTime.Now;
 
-        public void AlterarApelido(string apelido)
+        public void AlterarNome(string nome)
         {
-            Apelido = apelido;
+            Nome = nome;
         }
 
         public void AlterarEmail(string email)
@@ -40,9 +40,9 @@ namespace SGP.Domain.Entities
             Email = email;
         }
 
-        public void AlterarSenha(string senha)
+        public void AlterarSenha(string senhaCriptografada)
         {
-            Senha = senha;
+            SenhaCriptografada = senhaCriptografada;
         }
 
         public void AtualizarDataUltimoAcesso()

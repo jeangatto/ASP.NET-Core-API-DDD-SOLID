@@ -7,7 +7,7 @@
     public interface IEntityKey<TKey>
     {
         /// <summary>
-        /// Chave (ID)
+        /// Chave - Identificação Única (PK).
         /// </summary>
         TKey Id { get; }
     }

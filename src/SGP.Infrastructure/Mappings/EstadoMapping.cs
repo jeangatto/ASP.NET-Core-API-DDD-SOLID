@@ -35,7 +35,8 @@ namespace SGP.Infrastructure.Mappings
                 .IsUnicode(false)
                 .HasMaxLength(12);
 
-            builder.HasData(
+            builder.HasData(new Estado[]
+            {
                 new Estado("Acre", "AC", 12, Regiao.Norte),
                 new Estado("Alagoas", "AL", 27, Regiao.Nordeste),
                 new Estado("Amapá", "AP", 16, Regiao.Norte),
@@ -62,7 +63,8 @@ namespace SGP.Infrastructure.Mappings
                 new Estado("Santa Catarina", "SC", 42, Regiao.Sul),
                 new Estado("São Paulo", "SP", 35, Regiao.Sudeste),
                 new Estado("Sergipe", "SE", 28, Regiao.Nordeste),
-                new Estado("Tocantins", "TO", 17, Regiao.Norte));
+                new Estado("Tocantins", "TO", 17, Regiao.Norte)
+            });
         }
     }
 }

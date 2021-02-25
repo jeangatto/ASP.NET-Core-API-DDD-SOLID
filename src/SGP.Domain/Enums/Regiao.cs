@@ -1,6 +1,6 @@
 ﻿namespace SGP.Domain.Enums
 {
-    public enum Regiao
+    public enum Regiao : byte
     {
         Norte,
         Nordeste,

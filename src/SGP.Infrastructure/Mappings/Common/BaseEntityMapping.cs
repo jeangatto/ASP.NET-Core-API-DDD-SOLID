@@ -12,13 +12,10 @@ namespace SGP.Infrastructure.Mappings.Common
         {
             base.Configure(builder);
 
-            // Configurando a coluna "CadastradoEm" como NOT NULL.
             builder.Property(e => e.CadastradoEm)
-                .IsRequired()
-                // Configurando para o banco nunca gerar o valor, a data é gerada pela aplicação.
-                .ValueGeneratedNever()
-                // Evitando que a coluna seja alterada após o INSERT.
-                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                .IsRequired()          // Configurando a coluna como NOT NULL.
+                .ValueGeneratedNever() // Configurando para o banco nunca gerar o valor, a data é gerada pela aplicação
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore); // Evitando que a coluna seja alterada após o INSERT.
         }
     }
 }

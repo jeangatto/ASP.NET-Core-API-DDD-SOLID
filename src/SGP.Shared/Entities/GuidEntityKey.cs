@@ -3,6 +3,9 @@ using System;
 
 namespace SGP.Shared.Entities
 {
+    /// <summary>
+    /// Entidade com a chave (PK) tipada em <see cref="Guid"/>.
+    /// </summary>
     public abstract class GuidEntityKey : IEntityKey<Guid>
     {
         protected GuidEntityKey()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace SGP.Infrastructure.Extensions
@@ -11,6 +12,9 @@ namespace SGP.Infrastructure.Extensions
         /// <param name="modelBuilder"></param>
         public static ModelBuilder RemoveCascadeDeleteConvention(this ModelBuilder modelBuilder)
         {
+            if (modelBuilder == null)
+                throw new ArgumentNullException(nameof(modelBuilder));
+
             var foreignKeys = modelBuilder.Model
                 .GetEntityTypes()
                 .SelectMany(e => e.GetForeignKeys())

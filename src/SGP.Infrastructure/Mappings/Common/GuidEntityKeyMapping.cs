@@ -9,17 +9,13 @@ namespace SGP.Infrastructure.Mappings.Common
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
-            // Definindo o nome da tabela pelo nome da classe.
             builder.ToTable(typeof(TEntity).Name);
 
-            // Configurando a coluna "ID" como Chave Primária (PK).
-            builder.HasKey(e => e.Id);
+            builder.HasKey(e => e.Id); // Configurando a coluna "ID" como Chave Primária (PK).
 
-            // Configurando a coluna "ID" como NOT NULL.
             builder.Property(e => e.Id)
-                .IsRequired()
-                // Configurando para o banco nunca gerar o valor, o ID é gerado pela aplicação.
-                .ValueGeneratedNever();
+                .IsRequired()           // Configurando a coluna como NOT NULL.
+                .ValueGeneratedNever(); // Configurando para o banco nunca gerar o valor, o ID é gerado pela aplicação.
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SGP.Infrastructure.Mappings
         {
             base.Configure(builder);
 
-            builder.Property(usuario => usuario.Apelido)
+            builder.Property(usuario => usuario.Nome)
                 .IsRequired()
                 .IsUnicode(false)
                 .HasMaxLength(30);
@@ -23,7 +23,7 @@ namespace SGP.Infrastructure.Mappings
             builder.HasIndex(usuario => usuario.Email)
                 .IsUnique();
 
-            builder.Property(usuario => usuario.Senha)
+            builder.Property(usuario => usuario.SenhaCriptografada)
                 .IsRequired()
                 .IsUnicode(false)
                 .HasMaxLength(60);
