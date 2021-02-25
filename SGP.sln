@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -7,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		License.txt = License.txt
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -15,9 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Shared", "src\SGP.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Domain", "src\SGP.Domain\SGP.Domain.csproj", "{0FFEFA59-1037-445D-9793-C361310B94AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.Infrastructure", "src\SGP.Infrastructure\SGP.Infrastructure.csproj", "{BF0F4669-1B12-4EA5-B91F-047C54E4F661}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Infrastructure", "src\SGP.Infrastructure\SGP.Infrastructure.csproj", "{BF0F4669-1B12-4EA5-B91F-047C54E4F661}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.ConsoleApp", "src\SGP.ConsoleApp\SGP.ConsoleApp.csproj", "{3027C243-24C4-4175-A00F-4DF253B89BAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.ConsoleApp", "src\SGP.ConsoleApp\SGP.ConsoleApp.csproj", "{3027C243-24C4-4175-A00F-4DF253B89BAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
