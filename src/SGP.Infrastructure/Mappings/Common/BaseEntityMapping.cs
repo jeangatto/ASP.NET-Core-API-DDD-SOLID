@@ -1,18 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Shared.Entities;
 
 namespace SGP.Infrastructure.Mappings.Common
 {
-    public class BaseEntityMapping<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity
+    public abstract class BaseEntityMapping<TEntity> : GuidEntityKeyMapping<TEntity>
+        where TEntity : BaseEntity
     {
-        public virtual void Configure(EntityTypeBuilder<TEntity> builder)
+        public override void Configure(EntityTypeBuilder<TEntity> builder)
         {
-            // Definindo a coluna "ID" como Chave Primária (PK).
-            builder.HasKey(e => e.Id);
+            base.Configure(builder);
 
-            // Definindo a coluna "ID" como NOT NULL.
-            builder.Property(e => e.Id).IsRequired();
+            // Configurando a coluna "CadastradoEm" como NOT NULL.
+            builder.Property(e => e.CadastradoEm)
+                .IsRequired()
+                // Configurando para o banco nunca gerar o valor, a data é gerada pela aplicação.
+                .ValueGeneratedNever()
+                // Evitando que a coluna seja alterada após o INSERT.
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
         }
     }
 }

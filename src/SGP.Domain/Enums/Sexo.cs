@@ -1,6 +1,6 @@
 ﻿namespace SGP.Domain.Enums
 {
-    public enum Sexo : byte
+    public enum Sexo
     {
         Feminino,
         Masculino,

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Mappings.Common;
 
@@ -11,39 +10,37 @@ namespace SGP.Infrastructure.Mappings
         {
             base.Configure(builder);
 
-            builder.ToTable(nameof(Usuario));
-
-            builder.Property(u => u.Apelido)
+            builder.Property(usuario => usuario.Apelido)
                 .IsRequired()
                 .IsUnicode(false)
                 .HasMaxLength(30);
 
-            builder.Property(u => u.Email)
+            builder.Property(usuario => usuario.Email)
                 .IsRequired()
                 .IsUnicode(false)
                 .HasMaxLength(100);
 
-            builder.HasIndex(u => u.Email)
+            builder.HasIndex(usuario => usuario.Email)
                 .IsUnique();
 
-            builder.Property(u => u.Senha)
+            builder.Property(usuario => usuario.Senha)
                 .IsRequired()
                 .IsUnicode(false)
                 .HasMaxLength(60);
 
-            builder.Property(u => u.DataUltimoAcesso)
+            builder.Property(usuario => usuario.DataUltimoAcesso)
                 .IsRequired(false);
 
-            builder.Property(u => u.DataBloqueio)
+            builder.Property(usuario => usuario.DataBloqueio)
                 .IsRequired(false);
 
-            builder.Property(u => u.AcessosComSucesso)
+            builder.Property(usuario => usuario.AcessosComSucesso)
                 .IsRequired();
 
-            builder.Property(u => u.AcessosComFalha)
+            builder.Property(usuario => usuario.AcessosComFalha)
                 .IsRequired();
 
-            builder.Ignore(u => u.ContaBloqueada);
+            builder.Ignore(usuario => usuario.ContaBloqueada);
         }
     }
 }

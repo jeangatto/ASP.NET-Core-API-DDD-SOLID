@@ -8,7 +8,7 @@ namespace SGP.Infrastructure.Extensions
         /// <summary>
         /// Remove a delação em cascata de chaves estrangeiras (FK).
         /// </summary>
-        /// <param name="modelBuilder"></param>       
+        /// <param name="modelBuilder"></param>
         public static ModelBuilder RemoveCascadeDeleteConvention(this ModelBuilder modelBuilder)
         {
             var foreignKeys = modelBuilder.Model
