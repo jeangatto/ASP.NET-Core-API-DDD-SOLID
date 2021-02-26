@@ -18,12 +18,15 @@ namespace SGP.ConsoleApp
         public static async Task Main(string[] args)
         {
             var services = new ServiceCollection();
+
             services.AddLogging(builder =>
             {
                 builder.ClearProviders();
                 builder.AddConsole();
             });
+
             services.AddScoped<IHashService, HashService>();
+
             services.AddDbContext<SGPContext>(builder => builder.UseSqlServer(ConnectionString));
 
             var serviceProvider = services.BuildServiceProvider(new ServiceProviderOptions
@@ -39,6 +42,7 @@ namespace SGP.ConsoleApp
                 await context.Database.EnsureCreatedAsync();
             }
 
+            Console.WriteLine("----------- TERMINOU ----------- ");
             Console.ReadKey();
         }
     }

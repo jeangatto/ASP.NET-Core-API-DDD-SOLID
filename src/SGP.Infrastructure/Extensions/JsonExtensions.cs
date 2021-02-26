@@ -9,7 +9,7 @@ namespace SGP.Infrastructure.Extensions
     {
         /// <summary>
         /// Configuração padrão do serializador em JSON.
-        /// Otimizada para gerar um JSON menor, resultando numa melhor performance.
+        /// Otimizado para gerar um JSON menor, resultando numa melhor performance.
         /// </summary>
         public static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {

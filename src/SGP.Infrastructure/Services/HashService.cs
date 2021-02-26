@@ -15,9 +15,15 @@ namespace SGP.Infrastructure.Services
 
         public bool Compare(string text, string hash)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentNullException(nameof(text));
+
+            if (string.IsNullOrWhiteSpace(hash))
+                throw new ArgumentNullException(nameof(hash));
+
             try
             {
-                return BCrypt.Net.BCrypt.Verify(text, hash);
+                return BCrypt.Net.BCrypt.EnhancedVerify(text, hash);
             }
             catch (Exception ex)
             {
@@ -28,9 +34,12 @@ namespace SGP.Infrastructure.Services
 
         public string Hash(string text)
         {
+            if (string.IsNullOrWhiteSpace(text))
+                throw new ArgumentNullException(nameof(text));
+
             try
             {
-                return BCrypt.Net.BCrypt.HashPassword(text);
+                return BCrypt.Net.BCrypt.EnhancedHashPassword(text);
             }
             catch (Exception ex)
             {

@@ -11,11 +11,11 @@ namespace SGP.Infrastructure.Mappings.Common
         {
             builder.ToTable(typeof(TEntity).Name);
 
-            builder.HasKey(e => e.Id); // Configurando a coluna "ID" como Chave Primária (PK).
+            builder.HasKey(e => e.Id); // Configurando a coluna "Id" como Chave Primária (PK).
 
             builder.Property(e => e.Id)
                 .IsRequired()           // Configurando a coluna como NOT NULL.
-                .ValueGeneratedNever(); // Configurando para o banco nunca gerar o valor, o ID é gerado pela aplicação.
+                .ValueGeneratedNever(); // Configurando para o banco nunca gerar o valor, o "Id" é gerado pela aplicação.
         }
     }
 }

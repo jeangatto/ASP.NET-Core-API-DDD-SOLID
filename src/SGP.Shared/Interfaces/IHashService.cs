@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="text">O texto para verificar.</param>
         /// <param name="hash">A senha criptografada anteriormente.</param>
-        /// <exception cref="System.ArgumentException">Lançado quando um ou mais argumentos têm valores não suportados ou ilegais.</exception>
+        /// <exception cref="System.ArgumentNullException">Lançado quando um ou mais argumentos têm valores não nulos ou vazios.</exception>
         /// <returns>Verdadeiro se as senhas corresponderem; caso contrário, falso.</returns>
         bool Compare(string text, string hash);
 
@@ -18,7 +18,7 @@
         /// Gera o hash de uma senha.
         /// </summary>
         /// <param name="text">A senha para criptografar.</param>
-        /// <exception cref="System.ArgumentException">Lançado quando um ou mais argumentos têm valores não suportados ou ilegais.</exception>
+        /// <exception cref="System.ArgumentNullException">Lançado quando um ou mais argumentos têm valores não nulos ou vazios.</exception>
         /// <returns>A senha com criptografada.</returns>
         string Hash(string text);
     }
