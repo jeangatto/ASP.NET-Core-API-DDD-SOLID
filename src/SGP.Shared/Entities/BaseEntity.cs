@@ -5,10 +5,7 @@ using System;
 
 namespace SGP.Shared.Entities
 {
-    /// <summary>
-    /// Entidade com a chave (PK) tipada em <see cref="Guid"/>.
-    /// </summary>
-    public abstract class BaseEntity : Notifiable, IEntityKey<Guid>
+    public abstract class BaseEntity : GuidEntityKey
     {
         protected BaseEntity()
         {
