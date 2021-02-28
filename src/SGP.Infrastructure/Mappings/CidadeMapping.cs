@@ -1,14 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Domain.Entities;
-using SGP.Infrastructure.Mappings.Common;
+using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class CidadeMapping : BaseEntityMapping<Cidade>
+    public class CidadeMapping : IEntityTypeConfiguration<Cidade>
     {
-        public override void Configure(EntityTypeBuilder<Cidade> builder)
+        public void Configure(EntityTypeBuilder<Cidade> builder)
         {
-            base.Configure(builder);
+            builder.ConfigureBaseEntity();
 
             builder.Property(cidade => cidade.EstadoId)
                 .IsRequired();

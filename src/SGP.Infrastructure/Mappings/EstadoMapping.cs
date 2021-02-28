@@ -2,15 +2,15 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Domain.Entities;
 using SGP.Domain.Enums;
-using SGP.Infrastructure.Mappings.Common;
+using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class EstadoMapping : BaseEntityMapping<Estado>
+    public class EstadoMapping : IEntityTypeConfiguration<Estado>
     {
-        public override void Configure(EntityTypeBuilder<Estado> builder)
+        public void Configure(EntityTypeBuilder<Estado> builder)
         {
-            base.Configure(builder);
+            builder.ConfigureBaseEntity();
 
             builder.Property(estado => estado.Nome)
                 .IsRequired()

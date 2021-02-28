@@ -1,14 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Domain.Entities;
-using SGP.Infrastructure.Mappings.Common;
+using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class UsuarioMapping : BaseEntityMapping<Usuario>
+    public class UsuarioMapping : IEntityTypeConfiguration<Usuario>
     {
-        public override void Configure(EntityTypeBuilder<Usuario> builder)
+        public void Configure(EntityTypeBuilder<Usuario> builder)
         {
-            base.Configure(builder);
+            builder.ConfigureBaseEntity();
 
             builder.Property(usuario => usuario.Nome)
                 .IsRequired()

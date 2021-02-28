@@ -16,7 +16,6 @@ namespace SGP.Shared.Entities
             Id = Guid.NewGuid();
         }
 
-        /// <inheritdoc/>
         public Guid Id { get; private set; }
 
         /// <summary>
