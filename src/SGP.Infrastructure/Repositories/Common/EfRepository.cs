@@ -67,7 +67,7 @@ namespace SGP.Infrastructure.Repositories.Common
             return GetQueryable(@readonly).FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
-        protected IQueryable<TEntity> GetQueryable(bool @readonly = true)
+        protected IQueryable<TEntity> GetQueryable(bool @readonly)
         {
             return @readonly ? DbSet.AsNoTracking() : DbSet;
         }

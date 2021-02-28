@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace SGP.Shared.Interfaces
 {
+    /// <summary>
+    /// Repositório Assíncrono.
+    /// </summary>
+    /// <typeparam name="TEntity">O tipo de entidade que será manipulada no banco de dados.</typeparam>
     public interface IAsyncRepository<TEntity> : IRepository where TEntity : IAggregateRoot
     {
         #region Write Methods
@@ -16,7 +20,7 @@ namespace SGP.Shared.Interfaces
         void RemoveRange(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// Salva todas as alterações feitas neste contexto no banco de dados.  
+        /// Salva as alterações feitas no banco de dados.
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns>O número de entradas gravadas no banco de dados.</returns>
