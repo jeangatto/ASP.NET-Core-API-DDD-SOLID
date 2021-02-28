@@ -3,7 +3,7 @@ using System;
 
 namespace SGP.Domain.Entities
 {
-    public class Cidade : GuidEntityKey
+    public class Cidade : BaseEntity
     {
         public Cidade(Guid estadoId, string nome, int ibge)
         {

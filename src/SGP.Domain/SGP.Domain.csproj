@@ -6,11 +6,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
+		<PackageReference Include="FluentValidation" Version="9.5.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="ValueObjects\" />
+		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

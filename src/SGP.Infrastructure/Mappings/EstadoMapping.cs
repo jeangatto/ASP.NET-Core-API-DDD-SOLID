@@ -6,7 +6,7 @@ using SGP.Infrastructure.Mappings.Common;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class EstadoMapping : GuidEntityKeyMapping<Estado>
+    public class EstadoMapping : BaseEntityMapping<Estado>
     {
         public override void Configure(EntityTypeBuilder<Estado> builder)
         {

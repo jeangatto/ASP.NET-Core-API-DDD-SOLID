@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Extensions;
+using SGP.Shared.Notifications;
 using System.Reflection;
 
 namespace SGP.Infrastructure.Context
@@ -30,6 +31,8 @@ namespace SGP.Infrastructure.Context
             // Collation: define o conjunto de regras que o servidor irá utilizar para ordenação e comparação entre textos.
             // Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
             modelBuilder.UseCollation("Latin1_General_CI_AI");
+            modelBuilder.Ignore<Notifiable>();
+            modelBuilder.Ignore<Notification>();
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.RemoveCascadeDeleteConvention();
         }

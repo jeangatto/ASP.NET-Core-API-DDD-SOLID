@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SGP.Domain.Entities
 {
-    public class Estado : GuidEntityKey
+    public class Estado : BaseEntity
     {
         public Estado(string nome, string uf, short ibge, Regiao regiao)
         {
