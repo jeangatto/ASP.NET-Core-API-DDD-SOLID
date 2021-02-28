@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Ardalis.GuardClauses;
+using Microsoft.Extensions.Logging;
 using SGP.Shared.Interfaces;
 using System;
 
@@ -15,11 +16,8 @@ namespace SGP.Infrastructure.Services
 
         public bool Compare(string text, string hash)
         {
-            if (string.IsNullOrWhiteSpace(text))
-                throw new ArgumentNullException(nameof(text));
-
-            if (string.IsNullOrWhiteSpace(hash))
-                throw new ArgumentNullException(nameof(hash));
+            Guard.Against.NullOrWhiteSpace(text, nameof(text));
+            Guard.Against.NullOrWhiteSpace(hash, nameof(hash));
 
             try
             {
@@ -34,8 +32,7 @@ namespace SGP.Infrastructure.Services
 
         public string Hash(string text)
         {
-            if (string.IsNullOrWhiteSpace(text))
-                throw new ArgumentNullException(nameof(text));
+            Guard.Against.NullOrWhiteSpace(text, nameof(text));
 
             try
             {

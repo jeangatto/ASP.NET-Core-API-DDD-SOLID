@@ -1,0 +1,38 @@
+﻿using Microsoft.EntityFrameworkCore;
+using SGP.Domain.Entities;
+using SGP.Domain.Repositories;
+using SGP.Infrastructure.Context;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SGP.Infrastructure.Repositories
+{
+    public class CidadeRepository : ICidadeRepository
+    {
+        private readonly SGPContext _context;
+
+        public CidadeRepository(SGPContext context)
+        {
+            _context = context;
+        }
+
+        public Task<Cidade> GetByIbgeAsync(int estadoIbge)
+        {
+            return _context.Cidades
+                .AsNoTracking()
+                .Include(c => c.Estado)
+                .FirstOrDefaultAsync(c => c.Estado.Ibge == estadoIbge);
+        }
+
+        public async Task<IEnumerable<Cidade>> GetByUfAsync(string estadoSigla)
+        {
+            return await _context.Cidades
+                .AsNoTracking()
+                .Include(c => c.Estado)
+                .Where(c => c.Estado.Sigla == estadoSigla)
+                .OrderBy(c => c.Nome)
+                .ToListAsync();
+        }
+    }
+}

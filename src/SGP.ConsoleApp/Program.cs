@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
+using SGP.Infrastructure.Repositories;
 using SGP.Infrastructure.Services;
 using SGP.Shared.Interfaces;
 using System;
@@ -28,7 +30,11 @@ namespace SGP.ConsoleApp
             });
 
             services.AddScoped<IHashService, HashService>();
+            services.AddScoped<ICidadeRepository, CidadeRepository>();
+            services.AddScoped<IEstadoRepository, EstadoRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
+            // Entity Framework Context
             services.AddDbContext<SGPContext>(builder => builder.UseSqlServer(ConnectionString));
 
             var serviceProvider = services.BuildServiceProvider(new ServiceProviderOptions

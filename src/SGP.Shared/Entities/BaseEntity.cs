@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Shared.Notifications;
 using System;
@@ -19,7 +20,7 @@ namespace SGP.Shared.Entities
 
         public void Validate<T>(T instance, IValidator<T> validator) where T : class
         {
-            AddNotifications(validator.Validate(instance));
+            validator.Validate(instance).AddToNotifiable(this);
         }
     }
 }

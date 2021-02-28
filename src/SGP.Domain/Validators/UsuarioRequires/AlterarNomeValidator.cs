@@ -1,10 +1,10 @@
-﻿namespace SGP.Domain.Entities.Validators
+﻿namespace SGP.Domain.Validators.UsuarioRequires
 {
     public class AlterarNomeValidator : BaseUsuarioValidator
     {
         public AlterarNomeValidator()
         {
-            RuleForNome();
+            ValidateNome();
         }
     }
 }

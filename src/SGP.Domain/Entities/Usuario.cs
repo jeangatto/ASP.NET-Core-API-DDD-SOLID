@@ -1,5 +1,4 @@
-﻿using SGP.Domain.Entities.Validators;
-using SGP.Domain.Entities.Validators.UsuarioValidator;
+﻿using SGP.Domain.Validators.UsuarioRequires;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 using System;

@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
+using SGP.Domain.Entities;
 
-namespace SGP.Domain.Entities.Validators
+namespace SGP.Domain.Validators.UsuarioRequires
 {
     public abstract class BaseUsuarioValidator : AbstractValidator<Usuario>
     {
-        protected void RuleForNome()
+        protected void ValidateNome()
         {
             RuleFor(x => x.Nome)
                 .NotEmpty()
@@ -12,7 +13,7 @@ namespace SGP.Domain.Entities.Validators
                 .MaximumLength(30);
         }
 
-        protected void RuleForEmail()
+        protected void ValidateEmail()
         {
             RuleFor(x => x.Email)
                 .NotEmpty()
@@ -20,7 +21,7 @@ namespace SGP.Domain.Entities.Validators
                 .MaximumLength(100);
         }
 
-        protected void RuleForSenha()
+        protected void ValidateSenha()
         {
             RuleFor(x => x.Senha)
                 .NotEmpty()

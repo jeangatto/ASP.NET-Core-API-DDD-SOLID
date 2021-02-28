@@ -17,6 +17,7 @@ namespace SGP.Infrastructure.Context
         {
             get
             {
+                // Desabilitando o JOIN automático, deverá ser incluido manualmente.
                 base.ChangeTracker.LazyLoadingEnabled = false;
                 return base.ChangeTracker;
             }
@@ -31,10 +32,12 @@ namespace SGP.Infrastructure.Context
             // Collation: define o conjunto de regras que o servidor irá utilizar para ordenação e comparação entre textos.
             // Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
             modelBuilder.UseCollation("Latin1_General_CI_AI");
-            modelBuilder.Ignore<Notifiable>();
-            modelBuilder.Ignore<Notification>();
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.RemoveCascadeDeleteConvention();
+
+            // Ignorados globalmente
+            modelBuilder.Ignore<Notifiable>();
+            modelBuilder.Ignore<Notification>();
         }
     }
 }

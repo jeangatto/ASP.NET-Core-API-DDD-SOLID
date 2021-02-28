@@ -9,6 +9,8 @@ namespace SGP.Infrastructure.Mappings.Common
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
+            // Configurando o nome da tabela para ser o mesmo que o nome da classe.
+            // Por padrão o EF usa o nome declarado no DbSet dentro da classe Contexto.
             builder.ToTable(typeof(TEntity).Name);
 
             // Configurando a coluna "Id" como Chave Primária (PK).
