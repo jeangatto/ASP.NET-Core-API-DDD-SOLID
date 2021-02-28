@@ -17,6 +17,8 @@ namespace SGP.ConsoleApp
 
         public static async Task Main(string[] args)
         {
+            Console.WriteLine("----------- ÍNICIOU ----------- ");
+
             var services = new ServiceCollection();
 
             services.AddLogging(builder =>

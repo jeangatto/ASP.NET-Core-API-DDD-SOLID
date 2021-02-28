@@ -4,7 +4,7 @@ using SGP.Infrastructure.Mappings.Common;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class CidadeMapping : GuidEntityKeyMapping<Cidade>
+    public class CidadeMapping : BaseEntityMapping<Cidade>
     {
         public override void Configure(EntityTypeBuilder<Cidade> builder)
         {
