@@ -17,7 +17,7 @@ namespace SGP.Infrastructure.Context
         {
             get
             {
-                // Desabilitando o JOIN automático, deverá ser incluido manualmente.
+                // Desabilitando o JOIN automático.
                 base.ChangeTracker.LazyLoadingEnabled = false;
                 return base.ChangeTracker;
             }
