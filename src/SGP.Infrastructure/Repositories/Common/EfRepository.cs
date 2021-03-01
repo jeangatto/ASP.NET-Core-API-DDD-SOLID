@@ -43,6 +43,11 @@ namespace SGP.Infrastructure.Repositories.Common
             DbSet.Update(entity);
         }
 
+        public void UpdateRange(IEnumerable<TEntity> entities)
+        {
+            DbSet.UpdateRange(entities);
+        }
+
         public void Remove(TEntity entity)
         {
             DbSet.Remove(entity);

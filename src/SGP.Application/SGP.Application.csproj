@@ -4,19 +4,18 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Interfaces\" />
-		<Folder Include="Responses\" />
+		<Folder Include="Mapper\" />
 		<Folder Include="Services\" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="10.1.1" />
 	</ItemGroup>
 
 </Project>
