@@ -1,4 +1,4 @@
-﻿namespace SGP.Application.Responses.Common
+﻿namespace SGP.Shared.Messages
 {
     /// <summary>
     /// Classe base usada pelas respostas da API.

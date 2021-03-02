@@ -1,4 +1,4 @@
-﻿using SGP.Application.Interfaces.Common;
+﻿using SGP.Shared.Interfaces;
 
 namespace SGP.Application.Interfaces
 {

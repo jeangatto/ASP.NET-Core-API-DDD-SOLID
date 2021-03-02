@@ -8,23 +8,21 @@ using System.Threading.Tasks;
 
 namespace SGP.Infrastructure.Repositories
 {
-    public class EstadoRepository : IEstadoRepository
+    public class PaisRepository : IPaisRepository
     {
         private readonly SGPContext _context;
 
-        public EstadoRepository(SGPContext context)
+        public PaisRepository(SGPContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Estado>> GetAllAsync(string siglaPais)
+        public async Task<IEnumerable<Pais>> GetAllAsync()
         {
-            return await _context.Estados
+            return await _context.Paises
                 .AsNoTracking()
-                .Include(e => e.Pais)
-                .Where(e => e.Pais.Sigla == siglaPais)
-                .OrderBy(e => e.Nome)
-                .ThenBy(e => e.Ibge)
+                .OrderBy(p => p.Nome)
+                .ThenBy(p => p.Sigla)
                 .ToListAsync();
         }
     }

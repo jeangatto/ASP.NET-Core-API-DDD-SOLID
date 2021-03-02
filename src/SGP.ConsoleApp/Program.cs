@@ -19,7 +19,7 @@ namespace SGP.ConsoleApp
 
         public static async Task Main(string[] args)
         {
-            Console.WriteLine("----------- ÍNICIOU ----------- ");
+            Console.WriteLine("----------- INICIOU -----------");
 
             var services = new ServiceCollection();
 
@@ -30,8 +30,9 @@ namespace SGP.ConsoleApp
             });
 
             services.AddScoped<IHashService, HashService>();
-            services.AddScoped<ICidadeRepository, CidadeRepository>();
+            services.AddScoped<IPaisRepository, PaisRepository>();
             services.AddScoped<IEstadoRepository, EstadoRepository>();
+            services.AddScoped<ICidadeRepository, CidadeRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
             // Entity Framework Context
@@ -50,7 +51,8 @@ namespace SGP.ConsoleApp
                 await context.Database.EnsureCreatedAsync();
             }
 
-            Console.WriteLine("----------- TERMINOU ----------- ");
+            Console.WriteLine("----------- TERMINOU -----------");
+            Console.WriteLine("Pressione qualquer tecla para fechar...");
             Console.ReadKey();
         }
     }

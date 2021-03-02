@@ -22,6 +22,7 @@ namespace SGP.Infrastructure.Repositories
             return _context.Cidades
                 .AsNoTracking()
                 .Include(c => c.Estado)
+                .ThenInclude(e => e.Pais)
                 .FirstOrDefaultAsync(c => c.Estado.Ibge == estadoIbge);
         }
 
@@ -30,6 +31,7 @@ namespace SGP.Infrastructure.Repositories
             return await _context.Cidades
                 .AsNoTracking()
                 .Include(c => c.Estado)
+                .ThenInclude(e => e.Pais)
                 .Where(c => c.Estado.Sigla == estadoSigla)
                 .OrderBy(c => c.Nome)
                 .ToListAsync();

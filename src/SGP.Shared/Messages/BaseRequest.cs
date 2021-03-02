@@ -1,4 +1,4 @@
-﻿namespace SGP.Application.Requests.Common
+﻿namespace SGP.Shared.Messages
 {
     /// <summary>
     /// Classe base usada pelas solicitações de API.

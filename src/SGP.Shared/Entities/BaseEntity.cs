@@ -19,7 +19,7 @@ namespace SGP.Shared.Entities
         public Guid Id { get; private set; }
 
         /// <summary>
-        /// Valida a entidade e se no resultado da validação existirem erros serão adicionados nas notificações.
+        /// Valida a entidade e se no resultado da validação existirem erros, eles serão adicionados nas notificações.
         /// </summary>
         /// <typeparam name="T">O tipo de entidade que será validado.</typeparam>
         /// <param name="instance">A instância da entidade.</param>

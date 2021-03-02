@@ -10,10 +10,5 @@
 
         public string Key { get; }
         public string Message { get; }
-
-        public override string ToString()
-        {
-            return $"{Key}: {Message}";
-        }
     }
 }

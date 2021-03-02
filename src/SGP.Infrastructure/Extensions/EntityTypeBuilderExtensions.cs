@@ -6,6 +6,11 @@ namespace SGP.Infrastructure.Extensions
 {
     public static class EntityTypeBuilderExtensions
     {
+        /// <summary>
+        /// Configuração das propriedades da Entidade Base <see cref="BaseEntity"/>
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="builder"></param>
         public static void ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
             where TEntity : BaseEntity
         {

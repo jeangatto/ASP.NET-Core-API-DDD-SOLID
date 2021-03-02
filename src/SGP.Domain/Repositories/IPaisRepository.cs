@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace SGP.Domain.Repositories
 {
-    public interface IEstadoRepository : IRepository
+    public interface IPaisRepository : IRepository
     {
-        Task<IEnumerable<Estado>> GetAllAsync(string siglaPais);
+        Task<IEnumerable<Pais>> GetAllAsync();
     }
 }
