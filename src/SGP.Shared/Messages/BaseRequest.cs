@@ -3,7 +3,7 @@
     /// <summary>
     /// Classe base usada pelas solicitações de API.
     /// </summary>
-    public abstract class BaseRequest
+    public abstract class BaseRequest : BaseMessage
     {
     }
 }

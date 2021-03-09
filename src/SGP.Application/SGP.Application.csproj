@@ -14,9 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Mapper\" />
 		<Folder Include="Requests\" />
-		<Folder Include="Services\" />
 	</ItemGroup>
 
 </Project>

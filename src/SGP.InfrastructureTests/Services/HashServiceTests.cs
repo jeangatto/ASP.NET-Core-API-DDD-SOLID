@@ -5,7 +5,7 @@ using SGP.Shared.Interfaces;
 using System;
 using Xunit;
 
-namespace SGP.Infrastructure.Services.Tests
+namespace SGP.InfrastructureTests.Services
 {
     public class HashServiceTests
     {
