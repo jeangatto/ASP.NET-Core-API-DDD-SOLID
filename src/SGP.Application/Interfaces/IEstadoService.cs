@@ -2,7 +2,7 @@
 
 namespace SGP.Application.Interfaces
 {
-    public interface ICidadeService : IService
+    public interface IEstadoService : IService
     {
     }
 }

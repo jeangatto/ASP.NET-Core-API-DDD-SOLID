@@ -10,7 +10,7 @@ namespace SGP.Infrastructure.Repositories
 {
     public class UsuarioRepository : EfRepository<Usuario>, IUsuarioRepository
     {
-        public UsuarioRepository(SGPContext context)
+        public UsuarioRepository(SgpContext context)
             : base(context)
         {
         }

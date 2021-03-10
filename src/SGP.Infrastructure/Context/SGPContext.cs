@@ -7,9 +7,9 @@ using System.Reflection;
 
 namespace SGP.Infrastructure.Context
 {
-    public class SGPContext : DbContext
+    public class SgpContext : DbContext
     {
-        public SGPContext(DbContextOptions<SGPContext> options) : base(options)
+        public SgpContext(DbContextOptions<SgpContext> options) : base(options)
         {
         }
 

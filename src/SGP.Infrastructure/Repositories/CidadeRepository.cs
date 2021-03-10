@@ -10,9 +10,9 @@ namespace SGP.Infrastructure.Repositories
 {
     public class CidadeRepository : ICidadeRepository
     {
-        private readonly SGPContext _context;
+        private readonly SgpContext _context;
 
-        public CidadeRepository(SGPContext context)
+        public CidadeRepository(SgpContext context)
         {
             _context = context;
         }

@@ -1,4 +1,4 @@
-﻿namespace SGP.Shared.Interfaces
+﻿namespace SGP.Shared.Repositories
 {
     /// <summary>
     /// [Interface Marcador] Indica que a interface é um repositório.

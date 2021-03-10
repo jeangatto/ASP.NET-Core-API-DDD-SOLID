@@ -4,7 +4,7 @@
     /// Chave da Entidade.
     /// </summary>
     /// <typeparam name="TKey">O tipo da chave.</typeparam>
-    public interface IEntityKey<TKey>
+    public interface IEntityKey<out TKey>
     {
         /// <summary>
         /// Chave - Identificação Única (PK).

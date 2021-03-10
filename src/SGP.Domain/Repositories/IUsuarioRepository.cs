@@ -1,5 +1,5 @@
 ﻿using SGP.Domain.Entities;
-using SGP.Shared.Interfaces;
+using SGP.Shared.Repositories;
 using System;
 using System.Threading.Tasks;
 

@@ -10,9 +10,9 @@ namespace SGP.Infrastructure.Repositories
 {
     public class EstadoRepository : IEstadoRepository
     {
-        private readonly SGPContext _context;
+        private readonly SgpContext _context;
 
-        public EstadoRepository(SGPContext context)
+        public EstadoRepository(SgpContext context)
         {
             _context = context;
         }

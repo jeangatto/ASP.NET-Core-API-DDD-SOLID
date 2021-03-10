@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
+using SGP.Infrastructure.Services;
 using SGP.Shared.Interfaces;
 using System;
 using Xunit;

@@ -14,7 +14,7 @@ namespace SGP.Infrastructure.Extensions
         /// Popula a base de dados com as informações essenciais (básicas) para o funcionamento do sistema.
         /// </summary>
         /// <param name="context"></param>
-        public static async Task EnsureSeedDataAsync(this SGPContext context)
+        public static async Task EnsureSeedDataAsync(this SgpContext context)
         {
             Guard.Against.Null(context, nameof(context));
 

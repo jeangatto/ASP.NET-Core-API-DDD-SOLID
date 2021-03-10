@@ -12,6 +12,7 @@ using SGP.Infrastructure.Extensions;
 using SGP.Infrastructure.Repositories;
 using SGP.Infrastructure.Services;
 using SGP.Shared.Interfaces;
+using SGP.Shared.UnitOfWork;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -40,18 +41,30 @@ namespace SGP.ConsoleApp
                 builder.AddConsole();
             });
 
+            //-----------------------IoC------------------------
+
+            // AppServices
             services.AddScoped<IPaisService, PaisService>();
-            services.AddScoped<IHashService, HashService>();
+
+            // Repositories
             services.AddScoped<IPaisRepository, PaisRepository>();
             services.AddScoped<IEstadoRepository, EstadoRepository>();
             services.AddScoped<ICidadeRepository, CidadeRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
+            // InfraServices
+            services.AddScoped<IHashService, HashService>();
+
+            // UoW
+            services.AddScoped<IUnitOfWork, UnitOfWork<SgpContext>>();
+
             // AutoMapper
             services.AddAutoMapper(typeof(PaisResponse).Assembly);
 
-            // Entity Framework Context
-            services.AddDbContext<SGPContext>(options => options.UseSqlServer(connectionString));
+            // Entity Framework Core
+            services.AddDbContext<SgpContext>(options => options.UseSqlServer(connectionString));
+
+            //-------------------------------------------------
 
             var serviceProvider = services.BuildServiceProvider(new ServiceProviderOptions
             {
@@ -61,7 +74,10 @@ namespace SGP.ConsoleApp
 
             using (var scope = serviceProvider.CreateScope())
             {
-                var context = scope.ServiceProvider.GetRequiredService<SGPContext>();
+                var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
+                var logger = loggerFactory.CreateLogger("Console");
+
+                var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
                 await context.Database.EnsureDeletedAsync();
                 await context.Database.EnsureCreatedAsync();
                 await context.EnsureSeedDataAsync();
@@ -72,7 +88,7 @@ namespace SGP.ConsoleApp
 
                 var paisService = scope.ServiceProvider.GetRequiredService<IPaisService>();
                 var result = await paisService.GetAllAsync();
-                Console.WriteLine(result.Data.ToJson());
+                logger.LogInformation(result.Data.ToJson());
             }
 
             Console.WriteLine();

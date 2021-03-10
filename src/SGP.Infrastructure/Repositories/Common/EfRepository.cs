@@ -2,6 +2,7 @@
 using SGP.Infrastructure.Context;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
+using SGP.Shared.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,20 +14,12 @@ namespace SGP.Infrastructure.Repositories.Common
     public abstract class EfRepository<TEntity> : IAsyncRepository<TEntity>
         where TEntity : BaseEntity, IAggregateRoot
     {
-        #region Constructor
-
         protected readonly DbSet<TEntity> DbSet;
-        private readonly SGPContext _context;
 
-        protected EfRepository(SGPContext context)
+        protected EfRepository(SgpContext context)
         {
-            _context = context;
-            DbSet = _context.Set<TEntity>();
+            DbSet = context.Set<TEntity>();
         }
-
-        #endregion
-
-        #region Write Methods
 
         public void Add(TEntity entity)
         {
@@ -36,16 +29,6 @@ namespace SGP.Infrastructure.Repositories.Common
         public void AddRange(IEnumerable<TEntity> entities)
         {
             DbSet.AddRange(entities);
-        }
-
-        public void Update(TEntity entity)
-        {
-            DbSet.Update(entity);
-        }
-
-        public void UpdateRange(IEnumerable<TEntity> entities)
-        {
-            DbSet.UpdateRange(entities);
         }
 
         public void Remove(TEntity entity)
@@ -58,25 +41,25 @@ namespace SGP.Infrastructure.Repositories.Common
             DbSet.RemoveRange(entities);
         }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public void Update(TEntity entity)
         {
-            return _context.SaveChangesAsync(cancellationToken);
+            DbSet.Update(entity);
         }
 
-        #endregion
-
-        #region ReadOnly Methods
+        public void UpdateRange(IEnumerable<TEntity> entities)
+        {
+            DbSet.UpdateRange(entities);
+        }
 
         public virtual Task<TEntity> GetByIdAsync(Guid id, bool @readonly = true, CancellationToken cancellationToken = default)
         {
-            return GetQueryable(@readonly).FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            return GetQueryable(@readonly)
+                .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
         protected IQueryable<TEntity> GetQueryable(bool @readonly)
         {
             return @readonly ? DbSet.AsNoTracking() : DbSet;
         }
-
-        #endregion
     }
 }

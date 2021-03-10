@@ -8,6 +8,8 @@ namespace SGP.Application.Mapper
     {
         public DomainToResponseMapper()
         {
+            CreateMap<Cidade, CidadeResponse>(MemberList.Destination);
+            CreateMap<Estado, EstadoResponse>(MemberList.Destination);
             CreateMap<Pais, PaisResponse>(MemberList.Destination);
         }
     }

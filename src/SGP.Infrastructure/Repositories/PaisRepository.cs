@@ -10,9 +10,9 @@ namespace SGP.Infrastructure.Repositories
 {
     public class PaisRepository : IPaisRepository
     {
-        private readonly SGPContext _context;
+        private readonly SgpContext _context;
 
-        public PaisRepository(SGPContext context)
+        public PaisRepository(SgpContext context)
         {
             _context = context;
         }

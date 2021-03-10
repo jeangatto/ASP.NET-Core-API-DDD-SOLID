@@ -1,5 +1,6 @@
 ﻿using SGP.Shared.Messages;
 using System;
+using System.Collections.Generic;
 
 namespace SGP.Application.Responses
 {
@@ -9,5 +10,7 @@ namespace SGP.Application.Responses
         public string Nome { get; set; }
         public string Sigla { get; set; }
         public short Bacen { get; set; }
+
+        public IEnumerable<EstadoResponse> Estados { get; set; }
     }
 }
