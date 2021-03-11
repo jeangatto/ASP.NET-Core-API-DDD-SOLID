@@ -75,7 +75,7 @@ namespace SGP.ConsoleApp
             using (var scope = serviceProvider.CreateScope())
             {
                 var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
-                var logger = loggerFactory.CreateLogger("Console");
+                var logger = loggerFactory.CreateLogger(nameof(Program));
 
                 var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
                 await context.Database.EnsureDeletedAsync();

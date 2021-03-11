@@ -11,7 +11,7 @@ namespace SGP.Infrastructure.Extensions
         /// Configuração padrão do serializador em JSON.
         /// Otimizado para gerar um JSON menor, resultando numa melhor performance.
         /// </summary>
-        public static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        public static readonly JsonSerializerSettings SerializerSettings = new()
         {
             // Formatando o JSON em uma única linha.
             Formatting = Formatting.None,

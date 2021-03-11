@@ -30,7 +30,7 @@ namespace SGP.Domain.Entities
         /// <summary>
         /// Indica que a conta do usuário está bloqueada.
         /// </summary>
-        public bool ContaBloqueada => DataBloqueio.HasValue && DataBloqueio.Value > DateTime.Now;
+        public bool ContaBloqueada => DataBloqueio > DateTime.Now;
 
         public void AlterarNome(string nome)
         {
