@@ -11,7 +11,7 @@ namespace SGP.Infrastructure.Extensions
         /// Configuração padrão do serializador em JSON.
         /// Otimizado para gerar um JSON menor, resultando numa melhor performance.
         /// </summary>
-        public static readonly JsonSerializerSettings SerializerSettings = new()
+        public static readonly JsonSerializerSettings JsonOptions = new()
         {
             // Formatando o JSON em uma única linha.
             Formatting = Formatting.None,
@@ -28,7 +28,7 @@ namespace SGP.Infrastructure.Extensions
         /// <param name="value">O objeto a ser desserializado.</param>
         /// <returns>O objeto desserializado da string JSON.</returns>
         public static T FromJson<T>(this string value)
-            => JsonConvert.DeserializeObject<T>(value, SerializerSettings);
+            => JsonConvert.DeserializeObject<T>(value, JsonOptions);
 
         /// <summary>
         /// Serializa o objeto especificado em uma string JSON.
@@ -36,6 +36,6 @@ namespace SGP.Infrastructure.Extensions
         /// <param name="value">O objeto a ser serializado.</param>
         /// <returns>Uma representação de string JSON do objeto.</returns>
         public static string ToJson(this object value)
-            => JsonConvert.SerializeObject(value, SerializerSettings);
+            => JsonConvert.SerializeObject(value, JsonOptions);
     }
 }

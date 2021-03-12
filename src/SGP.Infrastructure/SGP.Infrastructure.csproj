@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
+		<NoWarn>1701;1702;RCS1090;</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -16,6 +17,12 @@
 	<ItemGroup>
 		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
 		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Seeds\Cidades.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>

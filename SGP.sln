@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C3E53C44
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.InfrastructureTests", "src\SGP.InfrastructureTests\SGP.InfrastructureTests.csproj", "{2654F4F9-4B30-466D-A96A-0975015F9E0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.DomainTests", "src\SGP.DomainTests\SGP.DomainTests.csproj", "{410D2683-7E8C-4E0B-ABA1-23FDB1B0E633}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.DomainTests", "src\SGP.DomainTests\SGP.DomainTests.csproj", "{410D2683-7E8C-4E0B-ABA1-23FDB1B0E633}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

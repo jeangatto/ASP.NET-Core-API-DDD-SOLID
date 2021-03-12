@@ -1,13 +1,13 @@
 ﻿using SGP.Domain.Entities;
-using SGP.Shared.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SGP.Domain.Repositories
 {
-    public interface ICidadeRepository : IRepository
+    public interface ICidadeRepository
     {
-        Task<Cidade> GetByIbgeAsync(int estadoIbge);
-        Task<IEnumerable<Cidade>> GetByUfAsync(string estadoSigla);
+        Task<IEnumerable<Cidade>> GetAllAsync(string estado);
+        Task<IEnumerable<string>> GetAllEstadosAsync();
+        Task<Cidade> GetByIbgeAsync(string ibge);
     }
 }

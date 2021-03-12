@@ -3,10 +3,12 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
+		<NoWarn>1701;1702;RCS1090;</NoWarn>
 	</PropertyGroup>
 	
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="10.1.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -14,7 +16,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Interfaces\" />
 		<Folder Include="Requests\" />
+		<Folder Include="Responses\" />
+		<Folder Include="Services\" />
 	</ItemGroup>
 
 </Project>

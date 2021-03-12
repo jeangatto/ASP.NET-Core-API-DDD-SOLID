@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace SGP.Shared.Repositories
 {
-    public interface IAsyncReadOnlyRepository<TEntity> : IRepository where TEntity : IAggregateRoot
+    public interface IAsyncReadOnlyRepository<TEntity> where TEntity : IAggregateRoot
     {
         /// <summary>
-        /// Encontra uma entidade com o valor da chave primária fornecido.
+        /// Encontra uma entidade pelo o valor da chave primária fornecido.
         /// </summary>
         /// <param name="id">O valor da chave primária da entidade a ser encontrada.</param>
         /// <param name="readonly">Quando verdadeiro a entidade não será rastreada pelo rastreador de mudanças do contexto.</param>

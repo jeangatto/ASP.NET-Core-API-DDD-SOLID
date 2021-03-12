@@ -17,24 +17,30 @@ namespace SGP.Infrastructure.Repositories
             _context = context;
         }
 
-        public Task<Cidade> GetByIbgeAsync(int estadoIbge)
-        {
-            return _context.Cidades
-                .AsNoTracking()
-                .Include(c => c.Estado)
-                .ThenInclude(e => e.Pais)
-                .FirstOrDefaultAsync(c => c.Estado.Ibge == estadoIbge);
-        }
-
-        public async Task<IEnumerable<Cidade>> GetByUfAsync(string estadoSigla)
+        public async Task<IEnumerable<Cidade>> GetAllAsync(string estado)
         {
             return await _context.Cidades
                 .AsNoTracking()
-                .Include(c => c.Estado)
-                .ThenInclude(e => e.Pais)
-                .Where(c => c.Estado.Sigla == estadoSigla)
-                .OrderBy(c => c.Nome)
+                .Where(cidade => cidade.Estado == estado)
+                .OrderBy(cidade => cidade.Nome)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<string>> GetAllEstadosAsync()
+        {
+            return await _context.Cidades
+                .AsNoTracking()
+                .GroupBy(cidade => cidade.Estado)
+                .Select(grouping => grouping.Key)
+                .OrderBy(estado => estado)
+                .ToListAsync();
+        }
+
+        public Task<Cidade> GetByIbgeAsync(string ibge)
+        {
+            return _context.Cidades
+                .AsNoTracking()
+                .FirstOrDefaultAsync(cidade => cidade.Ibge == ibge);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SGP.Shared.Repositories
 {
-    public interface IWriteOnlyRepository<in TEntity> : IRepository where TEntity : IAggregateRoot
+    public interface IWriteOnlyRepository<in TEntity> where TEntity : IAggregateRoot
     {
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);

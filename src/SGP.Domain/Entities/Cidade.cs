@@ -1,25 +1,20 @@
-﻿using SGP.Shared.Entities;
-using System;
-
-namespace SGP.Domain.Entities
+﻿namespace SGP.Domain.Entities
 {
-    public class Cidade : BaseEntity
+    public class Cidade
     {
-        public Cidade(Guid estadoId, string nome, int ibge)
+        public Cidade(string ibge, string estado, string nome)
         {
-            EstadoId = estadoId;
-            Nome = nome;
             Ibge = ibge;
+            Estado = estado;
+            Nome = nome;
         }
 
         private Cidade()
         {
         }
 
-        public Guid EstadoId { get; private set; }
-        public string Nome { get; private set; }
-        public int Ibge { get; private set; }
-
-        public Estado Estado { get; private set; }
+        public string Ibge { get; }
+        public string Estado { get; }
+        public string Nome { get; }
     }
 }

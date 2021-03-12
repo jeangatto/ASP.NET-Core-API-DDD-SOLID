@@ -24,8 +24,6 @@ namespace SGP.Infrastructure.Context
         }
 
         public DbSet<Cidade> Cidades { get; set; }
-        public DbSet<Estado> Estados { get; set; }
-        public DbSet<Pais> Paises { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
