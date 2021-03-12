@@ -2,15 +2,18 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SGP.Application.Interfaces;
+using SGP.Application.Responses;
+using SGP.Application.Services;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
+using SGP.Infrastructure.Extensions;
 using SGP.Infrastructure.Repositories;
 using SGP.Infrastructure.Services;
 using SGP.Shared.Interfaces;
 using SGP.Shared.UnitOfWork;
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SGP.ConsoleApp
@@ -39,17 +42,23 @@ namespace SGP.ConsoleApp
 
             //-----------------------IoC------------------------
 
+            // Entity Framework Core
+            services.AddDbContext<SgpContext>(options => options.UseSqlServer(connectionString));
+
+            // UoW
+            services.AddScoped<IUnitOfWork, UnitOfWork<SgpContext>>();
+
             // Repositories
             services.AddScoped<ICidadeRepository, CidadeRepository>();
 
             // InfraServices
             services.AddScoped<IHashService, HashService>();
 
-            // UoW
-            services.AddScoped<IUnitOfWork, UnitOfWork<SgpContext>>();
+            // AppServices
+            services.AddScoped<ICidadeAppService, CidadeAppService>();
 
-            // Entity Framework Core
-            services.AddDbContext<SgpContext>(options => options.UseSqlServer(connectionString));
+            // AutoMapper
+            services.AddAutoMapper(typeof(CidadeResponse).Assembly);
 
             //-------------------------------------------------
 
@@ -66,13 +75,10 @@ namespace SGP.ConsoleApp
                 await context.Database.EnsureCreatedAsync();
                 await context.EnsureSeedDataAsync();
 
-                var repository = scope.ServiceProvider.GetRequiredService<ICidadeRepository>();
+                var appService = scope.ServiceProvider.GetRequiredService<ICidadeAppService>();
 
-                var estados = await repository.GetAllEstadosAsync();
-                Console.WriteLine(estados.Count());
-
-                var cidadesSp = await repository.GetAllAsync("sp");
-                Console.WriteLine(cidadesSp.Count());
+                var result = await appService.GetAllEstadosAsync();
+                Console.WriteLine(result.ToJson());
             }
 
             Console.WriteLine();

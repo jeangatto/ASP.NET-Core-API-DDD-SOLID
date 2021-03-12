@@ -20,9 +20,9 @@ namespace SGP.Infrastructure.Context
             if (!await context.Cidades.AsNoTracking().AnyAsync())
             {
                 var path = Path.Combine(Directory.GetCurrentDirectory(), SeedFolderName, "Cidades.json");
-                var cidadesJson = await File.ReadAllTextAsync(path, Encoding.UTF8);
-                var cidadesDomain = cidadesJson.FromJson<IEnumerable<Cidade>>();
-                context.AddRange(cidadesDomain);
+                var cidadesAsJson = await File.ReadAllTextAsync(path, Encoding.UTF8);
+                var cidadesAsDomain = cidadesAsJson.FromJson<IEnumerable<Cidade>>();
+                context.AddRange(cidadesAsDomain);
                 await context.SaveChangesAsync();
             }
         }
