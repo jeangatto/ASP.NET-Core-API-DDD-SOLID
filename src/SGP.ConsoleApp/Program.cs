@@ -78,12 +78,12 @@ namespace SGP.ConsoleApp
 
                 var appService = scope.ServiceProvider.GetRequiredService<ICidadeAppService>();
 
-                var result0 = await appService.GetAllEstadosAsync();
-                Console.WriteLine(result0.ToJson());
+                var estados = await appService.GetAllEstadosAsync();
+                Console.WriteLine(estados.ToJson());
 
                 var req = new GetAllByEstadoRequest("sp");
-                var result1 = await appService.GetAllAsync(req);
-                Console.WriteLine(result1.ToJson());
+                var result = await appService.GetAllAsync(req);
+                Console.WriteLine(result.ToJson());
             }
 
             Console.WriteLine();

@@ -1,5 +1,4 @@
 ﻿using SGP.Shared.Notifications;
-using System;
 
 namespace SGP.Shared.Messages
 {
@@ -8,21 +7,6 @@ namespace SGP.Shared.Messages
     /// </summary>
     public abstract class BaseRequest : Notifiable
     {
-        protected BaseRequest(Guid correlationId)
-        {
-            CorrelationId = correlationId;
-        }
-
-        protected BaseRequest()
-        {
-            CorrelationId = Guid.NewGuid();
-        }
-
-        /// <summary>
-        /// Identificação única usado pelo o log.
-        /// </summary>
-        public Guid CorrelationId { get; }
-
         /// <summary>
         /// Valida a requisição.
         /// </summary>

@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using SGP.Shared.Extensions;
+﻿using SGP.Shared.Extensions;
 using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.CidadeRequests
@@ -15,9 +14,7 @@ namespace SGP.Application.Requests.CidadeRequests
 
         public override void Validate()
         {
-            var validator = new InlineValidator<GetAllByEstadoRequest>();
-            validator.RuleFor(x => x.Estado).NotEmpty().Length(2);
-            validator.Validate(this).AddToNotifiable(this);
+            new GetAllByEstadoRequestValidator().Validate(this).AddToNotifiable(this);
         }
     }
 }

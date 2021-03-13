@@ -3,7 +3,6 @@ using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
 using SGP.Domain.Repositories;
-using SGP.Shared.Extensions;
 using SGP.Shared.Results;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,22 +20,42 @@ namespace SGP.Application.Services
             _repository = repository;
         }
 
-        public async Task<IResult<IEnumerable<CidadeResponse>>> GetAllAsync(GetAllByEstadoRequest request)
+        public async Task<IResult<IEnumerable<CidadeResponse>>> GetAllAsync(GetAllByEstadoRequest req)
         {
-            request.Validate();
-            if (!request.IsValid)
+            var result = new Result<IEnumerable<CidadeResponse>>();
+
+            req.Validate();
+            if (!req.IsValid)
             {
-                return Result<IEnumerable<CidadeResponse>>.Fail(request.Notifications);
+                return result.Fail(req.Notifications);
             }
 
-            var cidades = await _repository.GetAllAsync(request.Estado);
-            return _mapper.Map<IEnumerable<CidadeResponse>>(cidades).Success();
+            var cidades = await _repository.GetAllAsync(req.Estado);
+            return result.Success(_mapper.Map<IEnumerable<CidadeResponse>>(cidades));
         }
 
-        public async Task<IResult<IEnumerable<string>>> GetAllEstadosAsync()
+        public async Task<IEnumerable<string>> GetAllEstadosAsync()
         {
-            var estados = await _repository.GetAllEstadosAsync();
-            return estados.Success();
+            return await _repository.GetAllEstadosAsync();
+        }
+
+        public async Task<IResult<CidadeResponse>> GetByIbgeAsync(GetByIbgeRequest req)
+        {
+            var result = new Result<CidadeResponse>();
+
+            req.Validate();
+            if (!req.IsValid)
+            {
+                return result.Fail(req.Notifications);
+            }
+
+            var cidade = await _repository.GetByIbgeAsync(req.Ibge);
+            if (cidade == null)
+            {
+                return result.Fail($"Nenhuma cidade encontrada pelo ibge {req.Ibge}.");
+            }
+
+            return result.Success(_mapper.Map<CidadeResponse>(cidade));
         }
     }
 }

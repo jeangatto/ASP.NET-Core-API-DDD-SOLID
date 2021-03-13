@@ -1,95 +1,120 @@
 ﻿using SGP.Shared.Notifications;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SGP.Shared.Results
 {
     public class Result : IResult
     {
-        protected Result()
+        public Result()
         {
+            Notifications = Enumerable.Empty<Notification>();
         }
 
         public string Message { get; protected set; }
         public bool Succeeded { get; protected set; }
         public IEnumerable<Notification> Notifications { get; protected set; }
 
-        public static IResult Fail()
+        public IResult Fail()
         {
-            return new Result { Succeeded = false };
+            this.Succeeded = false;
+            return this;
         }
 
-        public static IResult Fail(string message)
+        public IResult Fail(string message)
         {
-            return new Result { Succeeded = false, Message = message };
+            this.Succeeded = false;
+            this.Message = message;
+            return this;
         }
 
-        public static IResult Fail(string message, IEnumerable<Notification> notifications)
+        public IResult Fail(string message, IEnumerable<Notification> notifications)
         {
-            return new Result { Succeeded = false, Message = message, Notifications = notifications };
+            this.Succeeded = false;
+            this.Message = message;
+            this.Notifications = notifications;
+            return this;
         }
 
-        public static IResult Fail(IEnumerable<Notification> notifications)
+        public IResult Fail(IEnumerable<Notification> notifications)
         {
-            return new Result { Succeeded = false, Message = "Requisição inválida.", Notifications = notifications };
+            this.Succeeded = false;
+            this.Notifications = notifications;
+            return this;
         }
 
-        public static IResult Success()
+        public IResult Success()
         {
-            return new Result { Succeeded = true };
+            this.Succeeded = true;
+            return this;
         }
 
-        public static IResult Success(string message)
+        public IResult Success(string message)
         {
-            return new Result { Succeeded = true, Message = message };
+            this.Succeeded = true;
+            this.Message = message;
+            return this;
         }
     }
 
     public class Result<T> : Result, IResult<T>
     {
-        protected Result()
+        public T Data { get; private set; }
+
+        public new IResult<T> Fail()
         {
+            this.Succeeded = false;
+            return this;
         }
 
-        public T Data { get; private init; }
-
-        public static new IResult<T> Fail()
+        public new IResult<T> Fail(string message)
         {
-            return new Result<T> { Succeeded = false };
+            this.Succeeded = false;
+            this.Message = message;
+            return this;
         }
 
-        public static new IResult<T> Fail(string message)
+        public new IResult<T> Fail(string message, IEnumerable<Notification> notifications)
         {
-            return new Result<T> { Succeeded = false, Message = message };
+            this.Succeeded = false;
+            this.Message = message;
+            this.Notifications = notifications;
+            return this;
         }
 
-        public static new IResult<T> Fail(string message, IEnumerable<Notification> notifications)
+        public new IResult<T> Fail(IEnumerable<Notification> notifications)
         {
-            return new Result<T> { Succeeded = false, Message = message, Notifications = notifications };
+            this.Succeeded = false;
+            this.Notifications = notifications;
+            return this;
         }
 
-        public static new IResult<T> Fail(IEnumerable<Notification> notifications)
+        public new IResult<T> Success()
         {
-            return new Result<T> { Succeeded = false, Message = "Requisição inválida.", Notifications = notifications };
+            this.Succeeded = true;
+            return this;
         }
 
-        public static new IResult<T> Success()
+        public new IResult<T> Success(string message)
         {
-            return new Result<T> { Succeeded = true };
+            this.Succeeded = true;
+            this.Message = message;
+            return this;
         }
 
-        public static new IResult<T> Success(string message)
+        public IResult<T> Success(T data)
         {
-            return new Result<T> { Succeeded = true, Message = message };
+            this.Succeeded = true;
+            this.Data = data;
+            return this;
         }
 
-        public static IResult<T> Success(T data)
+        public IResult<T> Success(T data, string message)
         {
-            return new Result<T> { Succeeded = true, Data = data };
-        }
-
-        public static IResult<T> Success(T data, string message)
-        {
-            return new Result<T> { Succeeded = true, Data = data, Message = message };
+            this.Succeeded = true;
+            this.Message = message;
+            this.Data = data;
+            return this;
         }
     }
 }
