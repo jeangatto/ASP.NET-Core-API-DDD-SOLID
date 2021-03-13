@@ -13,11 +13,8 @@ namespace SGP.Infrastructure.Extensions
         public static void ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
             where TEntity : BaseEntity
         {
-            // Configurando a coluna "Id" como Chave Primária (PK).
             builder.HasKey(e => e.Id);
 
-            // Configurando a coluna como NOT NULL.
-            // Configurando para o banco nunca gerar o valor, o "Id" é gerado pela aplicação.
             builder.Property(e => e.Id)
                 .IsRequired()
                 .ValueGeneratedNever();

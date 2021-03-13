@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SGP.Application.Interfaces;
+using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
 using SGP.Application.Services;
 using SGP.Domain.Repositories;
@@ -77,8 +78,12 @@ namespace SGP.ConsoleApp
 
                 var appService = scope.ServiceProvider.GetRequiredService<ICidadeAppService>();
 
-                var result = await appService.GetAllEstadosAsync();
-                Console.WriteLine(result.ToJson());
+                var result0 = await appService.GetAllEstadosAsync();
+                Console.WriteLine(result0.ToJson());
+
+                var req = new GetAllByEstadoRequest("sp");
+                var result1 = await appService.GetAllAsync(req);
+                Console.WriteLine(result1.ToJson());
             }
 
             Console.WriteLine();

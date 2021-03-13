@@ -5,21 +5,15 @@
 		<LangVersion>latest</LangVersion>
 		<NoWarn>1701;1702;RCS1090;</NoWarn>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="10.1.1" />
+		<PackageReference Include="FluentValidation" Version="9.5.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Interfaces\" />
-		<Folder Include="Requests\" />
-		<Folder Include="Responses\" />
-		<Folder Include="Services\" />
 	</ItemGroup>
 
 </Project>

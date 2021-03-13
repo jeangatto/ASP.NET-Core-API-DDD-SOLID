@@ -1,4 +1,7 @@
-﻿namespace SGP.Shared.Results
+﻿using SGP.Shared.Notifications;
+using System.Collections.Generic;
+
+namespace SGP.Shared.Results
 {
     public class Result : IResult
     {
@@ -8,6 +11,7 @@
 
         public string Message { get; protected set; }
         public bool Succeeded { get; protected set; }
+        public IEnumerable<Notification> Notifications { get; protected set; }
 
         public static IResult Fail()
         {
@@ -17,6 +21,16 @@
         public static IResult Fail(string message)
         {
             return new Result { Succeeded = false, Message = message };
+        }
+
+        public static IResult Fail(string message, IEnumerable<Notification> notifications)
+        {
+            return new Result { Succeeded = false, Message = message, Notifications = notifications };
+        }
+
+        public static IResult Fail(IEnumerable<Notification> notifications)
+        {
+            return new Result { Succeeded = false, Message = "Requisição inválida.", Notifications = notifications };
         }
 
         public static IResult Success()
@@ -46,6 +60,16 @@
         public static new IResult<T> Fail(string message)
         {
             return new Result<T> { Succeeded = false, Message = message };
+        }
+
+        public static new IResult<T> Fail(string message, IEnumerable<Notification> notifications)
+        {
+            return new Result<T> { Succeeded = false, Message = message, Notifications = notifications };
+        }
+
+        public static new IResult<T> Fail(IEnumerable<Notification> notifications)
+        {
+            return new Result<T> { Succeeded = false, Message = "Requisição inválida.", Notifications = notifications };
         }
 
         public static new IResult<T> Success()
