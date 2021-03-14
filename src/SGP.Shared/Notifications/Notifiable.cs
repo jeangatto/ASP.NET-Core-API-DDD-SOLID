@@ -61,6 +61,9 @@ namespace SGP.Shared.Notifications
         /// <summary>
         /// Limpa a coleção de notificaçãos (erros).
         /// </summary>
-        public void Clear() => _notifications.Clear();
+        public void Clear()
+        {
+            _notifications.Clear();
+        }
     }
 }

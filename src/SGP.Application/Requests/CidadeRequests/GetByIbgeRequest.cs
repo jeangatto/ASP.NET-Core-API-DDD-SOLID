@@ -14,7 +14,9 @@ namespace SGP.Application.Requests.CidadeRequests
 
         public override void Validate()
         {
-            new GetByIbgeRequestValidator().Validate(this).AddToNotifiable(this);
+            new GetByIbgeRequestValidator()
+                .Validate(this)
+                .AddToNotifiable(this);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace SGP.Application.Services
             var cidade = await _repository.GetByIbgeAsync(req.Ibge);
             if (cidade == null)
             {
-                return result.Fail($"Nenhuma cidade encontrada pelo ibge {req.Ibge}.");
+                return result.Fail($"Nenhuma cidade encontrada pelo IBGE: '{req.Ibge}'");
             }
 
             return result.Success(_mapper.Map<CidadeResponse>(cidade));
