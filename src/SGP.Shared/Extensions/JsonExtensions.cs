@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace SGP.Infrastructure.Extensions
+namespace SGP.Shared.Extensions
 {
     /// <summary>
     /// Extensões para a utilização do JSON.

@@ -54,8 +54,7 @@ namespace SGP.Application.Services
             var cidade = await _repository.GetByIbgeAsync(req.Ibge);
             if (cidade == null)
             {
-                var notification = new Notification(nameof(req.Ibge), $"Nenhuma cidade encontrada pelo IBGE: '{req.Ibge}'");
-                return result.Fail(notification);
+                return result.Fail(new Notification(nameof(req.Ibge), $"Nenhuma cidade encontrada pelo IBGE: '{req.Ibge}'"));
             }
 
             var response = _mapper.Map<CidadeResponse>(cidade);

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SGP.Application.Interfaces;
+using SGP.Application.Requests;
 using SGP.Application.Requests.UsuarioRequests;
 using SGP.Application.Responses;
 using SGP.Domain.Entities;
@@ -10,7 +11,6 @@ using SGP.Shared.Messages;
 using SGP.Shared.Notifications;
 using SGP.Shared.Results;
 using SGP.Shared.UnitOfWork;
-using System;
 using System.Threading.Tasks;
 
 namespace SGP.Application.Services
@@ -61,8 +61,7 @@ namespace SGP.Application.Services
             // Verificando se o e-mail já existe na base de dados.
             if (await _repository.EmailAlreadyExistsAsync(email))
             {
-                var notification = new Notification(nameof(req.Email), "O endereço de e-mail informado não está disponivel.");
-                return result.Fail(notification);
+                return result.Fail(new Notification(nameof(req.Email), "O endereço de e-mail informado não está disponivel."));
             }
 
             // Adicionando no repositório.
@@ -75,23 +74,27 @@ namespace SGP.Application.Services
             return result.Success(new CreatedResponse(usuario.Id));
         }
 
-        public async Task<IResult<UsuarioResponse>> GetByIdAsync(Guid id)
+        public async Task<IResult<UsuarioResponse>> GetByIdAsync(GetByIdRequest req)
         {
             var result = new Result<UsuarioResponse>();
 
-            if (id == Guid.Empty)
+            // Validando a requisição.
+            req.Validate();
+            if (!req.IsValid)
             {
-                var notification = new Notification(nameof(id), $"Id inválido: {id}.");
-                return result.Fail(notification);
+                // Retornando os erros.
+                return result.Fail(req.Notifications);
             }
 
-            var usuario = await _repository.GetByIdAsync(id);
+            // Obtendo a entidade do repositório.
+            var usuario = await _repository.GetByIdAsync(req.Id);
             if (usuario == null)
             {
-                var notification = new Notification(nameof(id), $"Registro não encontrado: {id}.");
-                return result.Fail(notification);
+                // Retornando erro não encontrado.
+                return result.Fail(new Notification(nameof(req.Id), $"Registro não encontrado: {req.Id}."));
             }
 
+            // Mapeando domínio para resposta (DTO).
             var response = _mapper.Map<UsuarioResponse>(usuario);
             return result.Success(response);
         }

@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using SGP.Domain.Entities;
-using SGP.Infrastructure.Extensions;
+using SGP.Shared.Extensions;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
