@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
+using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Context;
 using SGP.Infrastructure.Repositories.Common;
 using System;
@@ -15,19 +16,21 @@ namespace SGP.Infrastructure.Repositories
         {
         }
 
-        public Task<bool> EmailAlreadyExistsAsync(string email)
+        public Task<bool> EmailAlreadyExistsAsync(Email email)
         {
-            return DbSet.AsNoTracking().AnyAsync(u => u.Email == email);
+            return DbSet.AsNoTracking()
+                .AnyAsync(u => u.Email.Address == email.Address);
         }
 
-        public Task<bool> EmailAlreadyExistsAsync(string email, Guid existingId)
+        public Task<bool> EmailAlreadyExistsAsync(Email email, Guid existingId)
         {
-            return DbSet.AsNoTracking().AnyAsync(u => u.Email == email && u.Id != existingId);
+            return DbSet.AsNoTracking()
+                .AnyAsync(u => u.Email.Address == email.Address && u.Id != existingId);
         }
 
-        public Task<Usuario> GetByEmailAsync(string email, string senha)
+        public Task<Usuario> GetByEmailAsync(Email email, string senha)
         {
-            return DbSet.FirstOrDefaultAsync(u => u.Email == email && u.Senha == senha);
+            return DbSet.FirstOrDefaultAsync(u => u.Email.Address == email.Address && u.Senha == senha);
         }
     }
 }

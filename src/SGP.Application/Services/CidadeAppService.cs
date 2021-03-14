@@ -3,6 +3,7 @@ using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
 using SGP.Domain.Repositories;
+using SGP.Shared.Notifications;
 using SGP.Shared.Results;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -31,7 +32,8 @@ namespace SGP.Application.Services
             }
 
             var cidades = await _repository.GetAllAsync(req.Estado);
-            return result.Success(_mapper.Map<IEnumerable<CidadeResponse>>(cidades));
+            var response = _mapper.Map<IEnumerable<CidadeResponse>>(cidades);
+            return result.Success(response);
         }
 
         public async Task<IEnumerable<string>> GetAllEstadosAsync()
@@ -52,10 +54,12 @@ namespace SGP.Application.Services
             var cidade = await _repository.GetByIbgeAsync(req.Ibge);
             if (cidade == null)
             {
-                return result.Fail($"Nenhuma cidade encontrada pelo IBGE: '{req.Ibge}'");
+                var notification = new Notification(nameof(req.Ibge), $"Nenhuma cidade encontrada pelo IBGE: '{req.Ibge}'");
+                return result.Fail(notification);
             }
 
-            return result.Success(_mapper.Map<CidadeResponse>(cidade));
+            var response = _mapper.Map<CidadeResponse>(cidade);
+            return result.Success(response);
         }
     }
 }

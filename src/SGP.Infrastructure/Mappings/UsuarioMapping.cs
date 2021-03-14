@@ -16,13 +16,18 @@ namespace SGP.Infrastructure.Mappings
                 .IsUnicode(false)
                 .HasMaxLength(30);
 
-            builder.Property(usuario => usuario.Email)
-                .IsRequired()
-                .IsUnicode(false)
-                .HasMaxLength(100);
+            // Mapeamento Value Objects
+            builder.OwnsOne(usuario => usuario.Email, ownedNav =>
+            {
+                ownedNav.Property(email => email.Address)
+                    .IsRequired()
+                    .IsUnicode(false)
+                    .HasMaxLength(100)
+                    .HasColumnName("Email");
 
-            builder.HasIndex(usuario => usuario.Email)
-                .IsUnique();
+                ownedNav.HasIndex(email => email.Address)
+                    .IsUnique();
+            });
 
             builder.Property(usuario => usuario.Senha)
                 .IsRequired()
@@ -40,8 +45,6 @@ namespace SGP.Infrastructure.Mappings
 
             builder.Property(usuario => usuario.AcessosComFalha)
                 .IsRequired();
-
-            builder.Ignore(usuario => usuario.ContaBloqueada);
         }
     }
 }

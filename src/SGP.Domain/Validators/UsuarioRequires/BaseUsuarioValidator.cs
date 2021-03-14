@@ -16,9 +16,14 @@ namespace SGP.Domain.Validators.UsuarioRequires
         protected void ValidateEmail()
         {
             RuleFor(x => x.Email)
-                .NotEmpty()
-                .EmailAddress()
-                .MaximumLength(100);
+                .NotNull()
+                .ChildRules
+                (
+                    child => child.RuleFor(x => x.Address)
+                        .NotEmpty()
+                        .EmailAddress()
+                        .MaximumLength(100)
+                );
         }
 
         protected void ValidateSenha()

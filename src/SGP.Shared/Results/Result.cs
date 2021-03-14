@@ -43,6 +43,21 @@ namespace SGP.Shared.Results
             return this;
         }
 
+        public IResult Fail(string message, Notification notification)
+        {
+            this.Succeeded = false;
+            this.Message = message;
+            this.Notifications = new[] { notification };
+            return this;
+        }
+
+        public IResult Fail(Notification notification)
+        {
+            this.Succeeded = false;
+            this.Notifications = new[] { notification };
+            return this;
+        }
+
         public IResult Success()
         {
             this.Succeeded = true;
@@ -86,6 +101,21 @@ namespace SGP.Shared.Results
         {
             this.Succeeded = false;
             this.Notifications = notifications;
+            return this;
+        }
+
+        public new IResult<T> Fail(string message, Notification notification)
+        {
+            this.Succeeded = false;
+            this.Message = message;
+            this.Notifications = new[] { notification };
+            return this;
+        }
+
+        public new IResult<T> Fail(Notification notification)
+        {
+            this.Succeeded = false;
+            this.Notifications = new[] { notification };
             return this;
         }
 

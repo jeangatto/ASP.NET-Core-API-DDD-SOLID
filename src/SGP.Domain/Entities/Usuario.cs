@@ -1,4 +1,5 @@
 ﻿using SGP.Domain.Validators.UsuarioRequires;
+using SGP.Domain.ValueObjects;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 using System;
@@ -7,7 +8,7 @@ namespace SGP.Domain.Entities
 {
     public class Usuario : BaseEntity, IAggregateRoot
     {
-        public Usuario(string nome, string email, string senha)
+        public Usuario(string nome, Email email, string senha)
         {
             Nome = nome;
             Email = email;
@@ -20,7 +21,7 @@ namespace SGP.Domain.Entities
         }
 
         public string Nome { get; private set; }
-        public string Email { get; private set; }
+        public Email Email { get; private set; }
         public string Senha { get; private set; }
         public DateTime? DataUltimoAcesso { get; private set; }
         public DateTime? DataBloqueio { get; private set; }
@@ -28,9 +29,14 @@ namespace SGP.Domain.Entities
         public short AcessosComFalha { get; private set; }
 
         /// <summary>
-        /// Indica que a conta do usuário está bloqueada.
+        /// Indica se a conta do usuário está bloqueada.
         /// </summary>
-        public bool ContaBloqueada => DataBloqueio > DateTime.Now;
+        /// <param name="dateTimeService"></param>
+        /// <returns>Verdadeiro se a conta estiver bloqueada; caso contrário, falso.</returns>
+        public bool ContaEstaBloqueada(IDateTimeService dateTimeService)
+        {
+            return DataBloqueio > dateTimeService.Now;
+        }
 
         public void AlterarNome(string nome)
         {
@@ -38,7 +44,7 @@ namespace SGP.Domain.Entities
             Validate(this, new AlterarNomeValidator());
         }
 
-        public void AlterarEmail(string email)
+        public void AlterarEmail(Email email)
         {
             Email = email;
             Validate(this, new AlterarEmailValidator());
@@ -50,9 +56,9 @@ namespace SGP.Domain.Entities
             Validate(this, new AlterarSenhaValidator());
         }
 
-        public void AtualizarDataUltimoAcesso()
+        public void AtualizarDataUltimoAcesso(IDateTimeService dateTimeService)
         {
-            DataUltimoAcesso = DateTime.Now;
+            DataUltimoAcesso = dateTimeService.Now;
         }
     }
 }

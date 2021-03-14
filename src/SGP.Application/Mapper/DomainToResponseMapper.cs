@@ -9,6 +9,8 @@ namespace SGP.Application.Mapper
         public DomainToResponseMapper()
         {
             CreateMap<Cidade, CidadeResponse>(MemberList.Destination);
+            CreateMap<Usuario, UsuarioResponse>(MemberList.Destination)
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email.Address));
         }
     }
 }

@@ -6,7 +6,6 @@ using SGP.Shared.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace SGP.Infrastructure.Repositories.Common
@@ -51,10 +50,9 @@ namespace SGP.Infrastructure.Repositories.Common
             DbSet.UpdateRange(entities);
         }
 
-        public virtual Task<TEntity> GetByIdAsync(Guid id, bool @readonly = true, CancellationToken cancellationToken = default)
+        public virtual Task<TEntity> GetByIdAsync(Guid id, bool @readonly = true)
         {
-            return GetQueryable(@readonly)
-                .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            return GetQueryable(@readonly).FirstOrDefaultAsync(e => e.Id == id);
         }
 
         protected IQueryable<TEntity> GetQueryable(bool @readonly)

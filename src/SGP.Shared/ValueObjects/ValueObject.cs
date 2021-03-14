@@ -1,11 +1,10 @@
-﻿using SGP.Shared.Notifications;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SGP.Shared.ValueObjects
 {
-    public abstract class ValueObject : Notifiable
+    public abstract class ValueObject
     {
         public override bool Equals(object obj)
         {

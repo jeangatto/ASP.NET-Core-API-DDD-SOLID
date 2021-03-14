@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
+using SGP.Application.Requests.UsuarioRequests;
 using SGP.Application.Responses;
 using SGP.Application.Services;
 using SGP.Domain.Repositories;
@@ -12,6 +13,7 @@ using SGP.Infrastructure.Context;
 using SGP.Infrastructure.Extensions;
 using SGP.Infrastructure.Repositories;
 using SGP.Infrastructure.Services;
+using SGP.Shared;
 using SGP.Shared.Interfaces;
 using SGP.Shared.UnitOfWork;
 using System;
@@ -49,17 +51,20 @@ namespace SGP.ConsoleApp
             // Entity Framework Core
             services.AddDbContext<SgpContext>(options => options.UseSqlServer(connectionString));
 
-            // UoW
+            // Shared
+            services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddScoped<IUnitOfWork, UnitOfWork<SgpContext>>();
 
             // Repositories
             services.AddScoped<ICidadeRepository, CidadeRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
             // InfraServices
             services.AddScoped<IHashService, HashService>();
 
             // AppServices
             services.AddScoped<ICidadeAppService, CidadeAppService>();
+            services.AddScoped<IUsuarioAppService, UsuarioAppService>();
 
             // AutoMapper
             services.AddAutoMapper(typeof(CidadeResponse).Assembly);
@@ -88,22 +93,36 @@ namespace SGP.ConsoleApp
                 // Cacheando os mapeamentos.
                 mapper.ConfigurationProvider.CompileMappings();
 
-                var appService = scope.ServiceProvider.GetRequiredService<ICidadeAppService>();
+                var cidadeAppService = scope.ServiceProvider.GetRequiredService<ICidadeAppService>();
 
-                var estados = await appService.GetAllEstadosAsync();
+                var estados = await cidadeAppService.GetAllEstadosAsync();
                 logger.LogInformation($"Total Estados: {estados.Count()}");
 
                 var req0 = new GetAllByEstadoRequest("sp");
-                var result0 = await appService.GetAllAsync(req0);
+                var result0 = await cidadeAppService.GetAllAsync(req0);
                 logger.LogInformation($"Total Cidades: {result0.Data.Count()}");
 
                 var req1 = new GetByIbgeRequest("3530607");
-                var result1 = await appService.GetByIbgeAsync(req1);
+                var result1 = await cidadeAppService.GetByIbgeAsync(req1);
                 logger.LogInformation(result1.ToJson());
 
                 var req2 = new GetByIbgeRequest("blá");
-                var result2 = await appService.GetByIbgeAsync(req2);
+                var result2 = await cidadeAppService.GetByIbgeAsync(req2);
                 logger.LogInformation(result2.ToJson());
+
+                var usuarioAppService = scope.ServiceProvider.GetRequiredService<IUsuarioAppService>();
+
+                var req3 = new AddUsuarioRequest
+                {
+                    Nome = "Gatto",
+                    Email = "jean_gatto@hotmail.com",
+                    Senha = "ab12345"
+                };
+                var result3 = await usuarioAppService.AddAsync(req3);
+                logger.LogInformation(result3.ToJson());
+
+                var usuario = await usuarioAppService.GetByIdAsync(result3.Data.Id);
+                logger.LogInformation(usuario.ToJson());
             }
 
             Console.WriteLine();
