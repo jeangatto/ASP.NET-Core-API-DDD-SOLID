@@ -13,17 +13,17 @@ namespace SGP.Shared.Messages
         /// Valida a requisição.
         /// </summary>
         public abstract void Validate();
+    }
 
-        /// <summary>
-        /// Valida a entidade e se existirem erros os mesmos serão adicionandos na notificação.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
-        protected static void ValidateAndAddToNotifiable<T>(T entity) where T : Notifiable
+    /// <inheritdoc/>
+    public abstract class BaseRequest<T> : BaseRequest where T : Notifiable
+    {
+        public override void Validate()
         {
             var validator = FluentValidationUtils.GetValidatorInstance<T>();
             if (validator != null)
             {
+                var entity = this as T;
                 validator.Validate(entity).AddToNotifiable(entity);
             }
         }

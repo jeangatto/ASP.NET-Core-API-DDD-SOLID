@@ -6,9 +6,12 @@ using System.Reflection;
 
 namespace SGP.Shared.Utils
 {
+    /// <summary>
+    /// Utilitários para a biblioteca <see cref="FluentValidation"/>.
+    /// </summary>
     public static class FluentValidationUtils
     {
-        private static readonly ConcurrentDictionary<string, IValidator> _cacheValidatorTypes = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, IValidator> _cachedValidatorInstances = new(StringComparer.OrdinalIgnoreCase);
         private static readonly Type AbstractValidatorType = typeof(AbstractValidator<>);
 
         /// <summary>
@@ -21,9 +24,9 @@ namespace SGP.Shared.Utils
             var entityType = typeof(T);
             var cacheKey = entityType.FullName;
 
-            if (_cacheValidatorTypes.ContainsKey(cacheKey))
+            if (_cachedValidatorInstances.ContainsKey(cacheKey))
             {
-                return _cacheValidatorTypes[cacheKey] as IValidator<T>;
+                return _cachedValidatorInstances[cacheKey] as IValidator<T>;
             }
 
             var genericType = AbstractValidatorType.MakeGenericType(entityType);
@@ -32,7 +35,7 @@ namespace SGP.Shared.Utils
             var validatorInstance = Activator.CreateInstance(validatorType) as IValidator<T>;
             if (validatorInstance != null)
             {
-                _cacheValidatorTypes.TryAdd(cacheKey, validatorInstance);
+                _cachedValidatorInstances.TryAdd(cacheKey, validatorInstance);
             }
 
             return validatorInstance;

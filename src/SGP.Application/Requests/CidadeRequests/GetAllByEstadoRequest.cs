@@ -2,7 +2,7 @@
 
 namespace SGP.Application.Requests.CidadeRequests
 {
-    public class GetAllByEstadoRequest : BaseRequest
+    public class GetAllByEstadoRequest : BaseRequest<GetAllByEstadoRequest>
     {
         public GetAllByEstadoRequest(string estado)
         {
@@ -10,7 +10,5 @@ namespace SGP.Application.Requests.CidadeRequests
         }
 
         public string Estado { get; }
-
-        public override void Validate() => ValidateAndAddToNotifiable(this);
     }
 }

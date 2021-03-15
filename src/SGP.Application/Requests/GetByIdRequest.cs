@@ -3,7 +3,7 @@ using System;
 
 namespace SGP.Application.Requests
 {
-    public class GetByIdRequest : BaseRequest
+    public sealed class GetByIdRequest : BaseRequest<GetByIdRequest>
     {
         public GetByIdRequest(Guid id)
         {
@@ -11,7 +11,5 @@ namespace SGP.Application.Requests
         }
 
         public Guid Id { get; }
-
-        public override void Validate() => ValidateAndAddToNotifiable(this);
     }
 }
