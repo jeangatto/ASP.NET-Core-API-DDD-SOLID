@@ -6,10 +6,10 @@ namespace SGP.Shared.UnitOfWork
     public interface IUnitOfWork
     {
         /// <summary>
-        /// Salva todas as alterações feitas no contexto do banco de dados.
+        /// Salva todas as alteraÃ§Ãµes feitas no contexto do banco de dados.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns>O número de entradas gravadas no banco de dados.</returns>
+        /// <returns>O nÃºmero de entradas gravadas no banco de dados.</returns>
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
