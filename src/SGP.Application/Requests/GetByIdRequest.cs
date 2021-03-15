@@ -1,5 +1,4 @@
-﻿using SGP.Shared.Extensions;
-using SGP.Shared.Messages;
+﻿using SGP.Shared.Messages;
 using System;
 
 namespace SGP.Application.Requests
@@ -13,11 +12,6 @@ namespace SGP.Application.Requests
 
         public Guid Id { get; }
 
-        public override void Validate()
-        {
-            new GetByIdRequestValidator()
-                .Validate(this)
-                .AddToNotifiable(this);
-        }
+        public override void Validate() => ValidateAndAddToNotifiable(this);
     }
 }

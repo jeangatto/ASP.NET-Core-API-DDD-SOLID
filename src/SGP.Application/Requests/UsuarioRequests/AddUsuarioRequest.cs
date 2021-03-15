@@ -1,5 +1,4 @@
-﻿using SGP.Shared.Extensions;
-using SGP.Shared.Messages;
+﻿using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.UsuarioRequests
 {
@@ -9,11 +8,6 @@ namespace SGP.Application.Requests.UsuarioRequests
         public string Email { get; set; }
         public string Senha { get; set; }
 
-        public override void Validate()
-        {
-            new AddUsuarioRequestValidator()
-                .Validate(this)
-                .AddToNotifiable(this);
-        }
+        public override void Validate() => ValidateAndAddToNotifiable(this);
     }
 }

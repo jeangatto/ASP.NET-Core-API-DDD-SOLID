@@ -123,8 +123,12 @@ namespace SGP.ConsoleApp
                 logger.LogInformation(result3.ToJson());
 
                 var req4 = new GetByIdRequest(result3.Data.Id);
-                var usuario = await usuarioAppService.GetByIdAsync(req4);
-                logger.LogInformation(usuario.ToJson());
+                var usuario0 = await usuarioAppService.GetByIdAsync(req4);
+                logger.LogInformation(usuario0.ToJson());
+
+                var req5 = new GetByIdRequest(Guid.Empty);
+                var usuario1 = await usuarioAppService.GetByIdAsync(req5);
+                logger.LogInformation(usuario1.ToJson());
             }
 
             Console.WriteLine();
