@@ -1,6 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using FluentValidation;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using SGP.Shared.Notifications;
 
 namespace SGP.Shared.Extensions
@@ -10,15 +8,13 @@ namespace SGP.Shared.Extensions
         /// <summary>
         /// Adiciona nas notificações a coleções de erros de uma validação.
         /// </summary>
-        /// <param name="result">O resultado de uma validação.</param>
+        /// <param name="validationResult">O resultado de uma validação.</param>
         /// <param name="notifiable"></param>
-        public static void AddToNotifiable(this ValidationResult result, Notifiable notifiable)
+        public static void AddToNotifiable(this ValidationResult validationResult, Notifiable notifiable)
         {
-            Guard.Against.Null(notifiable, nameof(notifiable));
-
-            if (result?.IsValid == false)
+            if (notifiable != null && validationResult?.IsValid == false)
             {
-                foreach (var failure in result.Errors)
+                foreach (var failure in validationResult.Errors)
                 {
                     notifiable.AddNotification(failure.PropertyName, failure.ErrorMessage);
                 }

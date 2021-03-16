@@ -21,12 +21,12 @@ namespace SGP.Shared.Notifications
         public bool IsValid => _notifications.Count == 0;
 
         /// <summary>
-        /// A coleção de notificaçãos (erros).
+        /// A coleção de notificaçãos.
         /// </summary>
         public IReadOnlyList<Notification> Notifications => _notifications;
 
         /// <summary>
-        /// Adiciona uma notificação (erro) na coleação de notificações.
+        /// Adiciona uma notificação na coleação de notificações.
         /// </summary>
         /// <param name="key">Chave da notificação.</param>
         /// <param name="message">Mensagem da notificação.</param>
@@ -59,7 +59,7 @@ namespace SGP.Shared.Notifications
         }
 
         /// <summary>
-        /// Limpa a coleção de notificaçãos (erros).
+        /// Limpa a coleção de notificaçãos.
         /// </summary>
         public void Clear()
         {

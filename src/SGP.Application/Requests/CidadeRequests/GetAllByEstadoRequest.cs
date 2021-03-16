@@ -1,23 +1,14 @@
-﻿using SGP.Shared.Extensions;
-using SGP.Shared.Messages;
-using SGP.Shared.Utils;
+﻿using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.CidadeRequests
 {
-    public class GetAllByEstadoRequest : BaseRequest
+    public class GetAllByEstadoRequest : BaseRequestWithValidator<GetAllByEstadoRequest>
     {
-        public GetAllByEstadoRequest(string estado)
+        public GetAllByEstadoRequest(string estadoSigla) : base(true)
         {
-            Estado = estado;
+            EstadoSigla = estadoSigla;
         }
 
-        public string Estado { get; }
-
-        public override void Validate()
-        {
-            FluentValidationUtils.GetValidatorInstance<GetAllByEstadoRequest>(true)?
-                .Validate(this)
-                .AddToNotifiable(this);
-        }
+        public string EstadoSigla { get; }
     }
 }

@@ -89,10 +89,8 @@ namespace SGP.ConsoleApp
                 var logger = loggerFactory.CreateLogger(nameof(Program));
 
                 var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
-                // Validando os mapeamentos
-                mapper.ConfigurationProvider.AssertConfigurationIsValid();
-                // Cacheando os mapeamentos.
-                mapper.ConfigurationProvider.CompileMappings();
+                mapper.ConfigurationProvider.AssertConfigurationIsValid();  // Validando os mapeamentos
+                mapper.ConfigurationProvider.CompileMappings();             // Cacheando os mapeamentos
 
                 var cidadeAppService = scope.ServiceProvider.GetRequiredService<ICidadeAppService>();
 

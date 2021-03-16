@@ -25,13 +25,18 @@ namespace SGP.Application.Services
         {
             var result = new Result<IEnumerable<CidadeResponse>>();
 
+            // Validando a requisição.
             req.Validate();
             if (!req.IsValid)
             {
+                // Retornando os erros.
                 return result.Fail(req.Notifications);
             }
 
-            var cidades = await _repository.GetAllAsync(req.Estado);
+            // Obtendo as cidades por estado (UF)
+            var cidades = await _repository.GetAllAsync(req.EstadoSigla);
+
+            // Mapeando domínio para resposta (DTO).
             var response = _mapper.Map<IEnumerable<CidadeResponse>>(cidades);
             return result.Success(response);
         }
@@ -45,18 +50,23 @@ namespace SGP.Application.Services
         {
             var result = new Result<CidadeResponse>();
 
+            // Validando a requisição.
             req.Validate();
             if (!req.IsValid)
             {
+                // Retornando os erros.
                 return result.Fail(req.Notifications);
             }
 
+            // Obtendo a cidade por IBGE.
             var cidade = await _repository.GetByIbgeAsync(req.Ibge);
             if (cidade == null)
             {
+                // Retornando erro de não encontrada.
                 return result.Fail(new Notification(nameof(req.Ibge), $"Nenhuma cidade encontrada pelo IBGE: '{req.Ibge}'"));
             }
 
+            // Mapeando domínio para resposta (DTO).
             var response = _mapper.Map<CidadeResponse>(cidade);
             return result.Success(response);
         }
