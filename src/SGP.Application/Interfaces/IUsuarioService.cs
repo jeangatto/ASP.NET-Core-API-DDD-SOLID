@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SGP.Application.Interfaces
 {
-    public interface IUsuarioAppService
+    public interface IUsuarioService
     {
         Task<IResult<CreatedResponse>> AddAsync(AddUsuarioRequest req);
         Task<IResult<UsuarioResponse>> GetByIdAsync(GetByIdRequest req);

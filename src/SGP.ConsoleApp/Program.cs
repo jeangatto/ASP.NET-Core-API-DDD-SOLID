@@ -64,8 +64,8 @@ namespace SGP.ConsoleApp
             services.AddScoped<IHashService, HashService>();
 
             // AppServices
-            services.AddScoped<ICidadeAppService, CidadeAppService>();
-            services.AddScoped<IUsuarioAppService, UsuarioAppService>();
+            services.AddScoped<ICidadeService, CidadeService>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
 
             // AutoMapper
             services.AddAutoMapper(typeof(CidadeResponse).Assembly);
@@ -92,7 +92,7 @@ namespace SGP.ConsoleApp
                 mapper.ConfigurationProvider.AssertConfigurationIsValid();  // Validando os mapeamentos
                 mapper.ConfigurationProvider.CompileMappings();             // Cacheando os mapeamentos
 
-                var cidadeAppService = scope.ServiceProvider.GetRequiredService<ICidadeAppService>();
+                var cidadeAppService = scope.ServiceProvider.GetRequiredService<ICidadeService>();
 
                 var estados = await cidadeAppService.GetAllEstadosAsync();
                 logger.LogInformation($"Total Estados: {estados.Count()}");
@@ -109,7 +109,7 @@ namespace SGP.ConsoleApp
                 var result2 = await cidadeAppService.GetByIbgeAsync(req2);
                 logger.LogInformation(result2.ToJson());
 
-                var usuarioAppService = scope.ServiceProvider.GetRequiredService<IUsuarioAppService>();
+                var usuarioAppService = scope.ServiceProvider.GetRequiredService<IUsuarioService>();
 
                 var req3 = new AddUsuarioRequest
                 {

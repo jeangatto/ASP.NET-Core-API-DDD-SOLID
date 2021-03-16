@@ -15,14 +15,14 @@ using System.Threading.Tasks;
 
 namespace SGP.Application.Services
 {
-    public class UsuarioAppService : IUsuarioAppService
+    public class UsuarioService : IUsuarioService
     {
         private readonly IHashService _hashService;
         private readonly IMapper _mapper;
         private readonly IUsuarioRepository _repository;
         private readonly IUnitOfWork _uow;
 
-        public UsuarioAppService
+        public UsuarioService
         (
             IHashService hashService,
             IMapper mapper,

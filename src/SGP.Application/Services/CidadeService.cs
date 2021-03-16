@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace SGP.Application.Services
 {
-    public class CidadeAppService : ICidadeAppService
+    public class CidadeService : ICidadeService
     {
         private readonly IMapper _mapper;
         private readonly ICidadeRepository _repository;
 
-        public CidadeAppService(IMapper mapper, ICidadeRepository repository)
+        public CidadeService(IMapper mapper, ICidadeRepository repository)
         {
             _mapper = mapper;
             _repository = repository;
