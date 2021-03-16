@@ -1,6 +1,4 @@
-﻿using SGP.Shared.Extensions;
-using SGP.Shared.Notifications;
-using SGP.Shared.Utils;
+﻿using SGP.Shared.Notifications;
 
 namespace SGP.Shared.Messages
 {
@@ -13,19 +11,5 @@ namespace SGP.Shared.Messages
         /// Valida a requisição.
         /// </summary>
         public abstract void Validate();
-    }
-
-    /// <inheritdoc/>
-    public abstract class BaseRequest<T> : BaseRequest where T : Notifiable
-    {
-        public override void Validate()
-        {
-            var validator = FluentValidationUtils.GetValidatorInstance<T>();
-            if (validator != null)
-            {
-                var entity = this as T;
-                validator.Validate(entity).AddToNotifiable(entity);
-            }
-        }
     }
 }
