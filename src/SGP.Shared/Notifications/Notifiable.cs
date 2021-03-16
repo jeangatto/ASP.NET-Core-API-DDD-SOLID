@@ -2,10 +2,6 @@
 
 namespace SGP.Shared.Notifications
 {
-    /// <summary>
-    /// Padrão de Notificação.
-    /// REF: https://martinfowler.com/eaaDev/Notification.html
-    /// </summary>
     public abstract class Notifiable
     {
         private readonly List<Notification> _notifications;
@@ -15,21 +11,10 @@ namespace SGP.Shared.Notifications
             _notifications = new List<Notification>();
         }
 
-        /// <summary>
-        /// Se a validação foi bem-sucedida.
-        /// </summary>
         public bool IsValid => _notifications.Count == 0;
 
-        /// <summary>
-        /// A coleção de notificaçãos.
-        /// </summary>
         public IReadOnlyList<Notification> Notifications => _notifications;
 
-        /// <summary>
-        /// Adiciona uma notificação na coleação de notificações.
-        /// </summary>
-        /// <param name="key">Chave da notificação.</param>
-        /// <param name="message">Mensagem da notificação.</param>
         public void AddNotification(string key, string message)
         {
             _notifications.Add(new Notification(key, message));
@@ -58,9 +43,6 @@ namespace SGP.Shared.Notifications
             }
         }
 
-        /// <summary>
-        /// Limpa a coleção de notificaçãos.
-        /// </summary>
         public void Clear()
         {
             _notifications.Clear();

@@ -48,8 +48,9 @@ namespace SGP.Application.Services
                 return result.Fail(req.Notifications);
             }
 
+            var senhaCriptografada = _hashService.Hash(req.Senha);
             var email = new Email(req.Email);
-            var usuario = new Usuario(req.Nome, email, _hashService.Hash(req.Senha));
+            var usuario = new Usuario(req.Nome, email, senhaCriptografada);
 
             // Validando a entidade de domínio.
             if (!usuario.IsValid)
