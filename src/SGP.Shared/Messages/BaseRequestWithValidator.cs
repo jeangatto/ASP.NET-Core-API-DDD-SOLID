@@ -7,13 +7,9 @@ namespace SGP.Shared.Messages
     {
         private readonly bool _cacheValidator;
 
-        protected BaseRequestWithValidator(bool cacheValidator)
+        protected BaseRequestWithValidator(bool cacheValidator = false)
         {
             _cacheValidator = cacheValidator;
-        }
-
-        protected BaseRequestWithValidator()
-        {
         }
 
         public override void Validate()
