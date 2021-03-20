@@ -25,7 +25,7 @@ namespace SGP.Shared.Utils
             var entityType = typeof(T);
             var cacheKey = entityType.FullName;
 
-            if (cacheValidator && _cachedValidatorInstances.ContainsKey(cacheKey))
+            if (_cachedValidatorInstances.ContainsKey(cacheKey))
             {
                 return _cachedValidatorInstances[cacheKey] as IValidator<T>;
             }

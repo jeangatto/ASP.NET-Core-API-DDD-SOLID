@@ -5,7 +5,7 @@ using SGP.Infrastructure.Extensions;
 using SGP.Shared.Notifications;
 using System.Reflection;
 
-namespace SGP.Infrastructure.Context
+namespace SGP.Infrastructure.Data.Context
 {
     public class SgpContext : DbContext
     {

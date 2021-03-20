@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SGP.Infrastructure.Context
+namespace SGP.Infrastructure.Data.Context
 {
     /// <summary>
     /// Responsável por popular a base de dados.

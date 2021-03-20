@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
-using SGP.Infrastructure.Context;
+using SGP.Infrastructure.Data.Context;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SGP.Infrastructure.Repositories
+namespace SGP.Infrastructure.Data.Repositories
 {
     public class CidadeRepository : ICidadeRepository
     {

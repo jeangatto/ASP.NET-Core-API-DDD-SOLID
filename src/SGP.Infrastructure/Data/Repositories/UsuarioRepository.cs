@@ -2,12 +2,12 @@
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
-using SGP.Infrastructure.Context;
-using SGP.Infrastructure.Repositories.Common;
+using SGP.Infrastructure.Data.Context;
+using SGP.Infrastructure.Data.Repositories.Common;
 using System;
 using System.Threading.Tasks;
 
-namespace SGP.Infrastructure.Repositories
+namespace SGP.Infrastructure.Data.Repositories
 {
     public class UsuarioRepository : EfRepository<Usuario>, IUsuarioRepository
     {
@@ -28,10 +28,10 @@ namespace SGP.Infrastructure.Repositories
                 .AnyAsync(u => u.Email.Address == email.Address && u.Id != existingId);
         }
 
-        public Task<Usuario> GetByEmailAsync(Email email, string senha)
+        public Task<Usuario> GetByEmailAsync(Email email)
         {
             return GetQueryable(false)
-                .FirstOrDefaultAsync(u => u.Email.Address == email.Address && u.Senha == senha);
+                .FirstOrDefaultAsync(u => u.Email.Address == email.Address);
         }
     }
 }

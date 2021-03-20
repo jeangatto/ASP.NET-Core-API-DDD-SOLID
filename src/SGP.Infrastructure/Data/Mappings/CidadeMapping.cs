@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Domain.Entities;
 
-namespace SGP.Infrastructure.Mappings
+namespace SGP.Infrastructure.Data.Mappings
 {
     public class CidadeMapping : IEntityTypeConfiguration<Cidade>
     {

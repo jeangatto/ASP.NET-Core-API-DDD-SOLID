@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SGP.Infrastructure.Context;
+using SGP.Infrastructure.Data.Context;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 using SGP.Shared.Repositories;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SGP.Infrastructure.Repositories.Common
+namespace SGP.Infrastructure.Data.Repositories.Common
 {
     public abstract class EfRepository<TEntity> : IAsyncRepository<TEntity>
         where TEntity : BaseEntity, IAggregateRoot

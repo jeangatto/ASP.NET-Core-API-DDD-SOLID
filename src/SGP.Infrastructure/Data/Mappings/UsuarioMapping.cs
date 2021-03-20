@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Extensions;
 
-namespace SGP.Infrastructure.Mappings
+namespace SGP.Infrastructure.Data.Mappings
 {
     public class UsuarioMapping : IEntityTypeConfiguration<Usuario>
     {
