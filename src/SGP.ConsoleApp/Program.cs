@@ -10,7 +10,6 @@ using SGP.Domain.Repositories;
 using SGP.Infrastructure.Data.Context;
 using SGP.Infrastructure.Data.Repositories;
 using SGP.Infrastructure.Services;
-using SGP.Shared;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
@@ -55,7 +54,7 @@ namespace SGP.ConsoleApp
             });
 
             // Domain - Shared
-            services.AddScoped<IDateTimeService, DateTimeService>();
+            services.AddScoped<IDateTimeService, LocalDateTimeService>();
             services.AddScoped<IUnitOfWork, UnitOfWork<SgpContext>>();
 
             // Infrastructure - EF Core Context

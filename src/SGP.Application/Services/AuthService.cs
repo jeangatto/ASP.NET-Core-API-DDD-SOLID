@@ -25,9 +25,9 @@ namespace SGP.Application.Services
         #region Constructor
 
         private readonly AuthConfig _authConfig;
-        private readonly JwtConfig _jwtConfig;
         private readonly IDateTimeService _dateTimeService;
         private readonly IHashService _hashService;
+        private readonly JwtConfig _jwtConfig;
         private readonly IUsuarioRepository _repository;
         private readonly IUnitOfWork _uow;
 
@@ -79,14 +79,15 @@ namespace SGP.Application.Services
             // Verificando se a senha corresponde a senha gravada na base de dados.
             if (_hashService.Compare(request.Senha, usuario.Senha))
             {
-                usuario.IncrementarAcessoComSucceso();
-                _repository.Update(usuario);
-                await _uow.SaveChangesAsync();
-
                 var createdAt = _dateTimeService.Now;
                 var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);
                 var accessToken = GenerateJwtToken(usuario, createdAt, expiresAt);
                 var refreshToken = GenerateRefreshToken();
+
+                usuario.IncrementarAcessoComSucceso();
+                usuario.AdicionarToken(new UsuarioToken(refreshToken, createdAt, expiresAt));
+                _repository.Update(usuario);
+                await _uow.SaveChangesAsync();
 
                 var token = new TokenResponse(
                     true,
@@ -109,6 +110,31 @@ namespace SGP.Application.Services
                 await _uow.SaveChangesAsync();
 
                 return result.Fail("O e-mail ou senha está incorreta.");
+            }
+        }
+
+        public async Task<IResult<TokenResponse>> RefreshTokenAsync(RefreshTokenRequest request)
+        {
+            var result = new Result<TokenResponse>();
+
+            // Validando a requisição.
+            request.Validate();
+            if (!request.IsValid)
+            {
+                // Retornando os erros.
+                return result.Fail(request.Notifications);
+            }
+
+            throw new NotImplementedException();
+        }
+
+        private static string GenerateRefreshToken()
+        {
+            using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
+            {
+                var randomBytes = new byte[64];
+                cryptoServiceProvider.GetBytes(randomBytes);
+                return Convert.ToBase64String(randomBytes);
             }
         }
 
@@ -142,16 +168,6 @@ namespace SGP.Application.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
-        }
-
-        private static string GenerateRefreshToken()
-        {
-            using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
-            {
-                var randomBytes = new byte[64];
-                cryptoServiceProvider.GetBytes(randomBytes);
-                return Convert.ToBase64String(randomBytes);
-            }
         }
     }
 }

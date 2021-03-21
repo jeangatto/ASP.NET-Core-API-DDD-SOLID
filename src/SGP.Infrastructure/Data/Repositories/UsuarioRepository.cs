@@ -31,6 +31,7 @@ namespace SGP.Infrastructure.Data.Repositories
         public Task<Usuario> GetByEmailAsync(Email email)
         {
             return GetQueryable(false)
+                .Include(u => u.Tokens)
                 .FirstOrDefaultAsync(u => u.Email.Address == email.Address);
         }
     }

@@ -1,9 +1,9 @@
 ﻿using SGP.Shared.Interfaces;
 using System;
 
-namespace SGP.Shared
+namespace SGP.Infrastructure.Services
 {
-    public class DateTimeService : IDateTimeService
+    public class LocalDateTimeService : IDateTimeService
     {
         public DateTime Now => DateTime.Now;
     }

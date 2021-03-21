@@ -3,11 +3,14 @@ using SGP.Domain.ValueObjects;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace SGP.Domain.Entities
 {
     public class Usuario : BaseEntity, IAggregateRoot
     {
+        private readonly List<UsuarioToken> _tokens = new();
+
         public Usuario(string nome, Email email, string senha)
         {
             Nome = nome;
@@ -27,6 +30,13 @@ namespace SGP.Domain.Entities
         public DateTime? DataBloqueio { get; private set; }
         public short AcessosComSucesso { get; private set; }
         public short AcessosComFalha { get; private set; }
+
+        public IReadOnlyList<UsuarioToken> Tokens => _tokens.AsReadOnly();
+
+        public void AdicionarToken(UsuarioToken token)
+        {
+            _tokens.Add(token);
+        }
 
         /// <summary>
         /// Indica se a conta do usuário está bloqueada.
@@ -64,11 +74,7 @@ namespace SGP.Domain.Entities
         /// <summary>
         /// Incrementa o número de acessos efetuado com sucesso.
         /// </summary>
-        public void IncrementarAcessoComSucceso()
-        {
-            AcessosComSucesso++;
-            AcessosComFalha = 0;
-        }
+        public void IncrementarAcessoComSucceso() => AcessosComSucesso++;
 
         /// <summary>
         /// Incremenenta o número de acessos efetuado com falha.

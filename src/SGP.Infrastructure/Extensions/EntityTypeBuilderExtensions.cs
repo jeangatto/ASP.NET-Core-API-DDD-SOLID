@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Shared.Entities;
 
 namespace SGP.Infrastructure.Extensions
@@ -6,7 +7,7 @@ namespace SGP.Infrastructure.Extensions
     public static class EntityTypeBuilderExtensions
     {
         /// <summary>
-        /// Configuração da Entidade Base <see cref="BaseEntity" />.
+        /// Configuração da entidade base <see cref="BaseEntity" />.
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="builder"></param>
@@ -18,6 +19,17 @@ namespace SGP.Infrastructure.Extensions
             builder.Property(e => e.Id)
                 .IsRequired()
                 .ValueGeneratedNever();
+        }
+
+        /// <summary>
+        /// Configura o nome da tabela para ser gerado no singular com base no nome da entidade.
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="builder"></param>
+        public static void ConfigureSingularTableName<TEntity>(this EntityTypeBuilder<TEntity> builder)
+            where TEntity : class
+        {
+            builder.ToTable(typeof(TEntity).Name);
         }
     }
 }

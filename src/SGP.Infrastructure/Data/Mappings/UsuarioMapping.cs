@@ -9,6 +9,7 @@ namespace SGP.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {
+            builder.ConfigureSingularTableName();
             builder.ConfigureBaseEntity();
 
             builder.Property(usuario => usuario.Nome)
@@ -45,6 +46,9 @@ namespace SGP.Infrastructure.Data.Mappings
 
             builder.Property(usuario => usuario.AcessosComFalha)
                 .IsRequired();
+
+            builder.Navigation(usuario => usuario.Tokens)
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

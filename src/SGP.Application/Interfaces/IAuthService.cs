@@ -8,5 +8,6 @@ namespace SGP.Application.Interfaces
     public interface IAuthService
     {
         Task<IResult<TokenResponse>> AuthenticateAsync(AuthRequest request);
+        Task<IResult<TokenResponse>> RefreshTokenAsync(RefreshTokenRequest request);
     }
 }
