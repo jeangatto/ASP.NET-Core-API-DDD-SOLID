@@ -8,8 +8,8 @@ namespace SGP.Application.Interfaces
 {
     public interface ICidadeService
     {
-        Task<IResult<IEnumerable<CidadeResponse>>> GetAllAsync(GetAllByEstadoRequest req);
+        Task<IResult<IEnumerable<CidadeResponse>>> GetAllAsync(GetAllByEstadoRequest request);
         Task<IEnumerable<string>> GetAllEstadosAsync();
-        Task<IResult<CidadeResponse>> GetByIbgeAsync(GetByIbgeRequest req);
+        Task<IResult<CidadeResponse>> GetByIbgeAsync(GetByIbgeRequest request);
     }
 }

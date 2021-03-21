@@ -5,7 +5,7 @@ namespace SGP.Application.Requests
 {
     public sealed class GetByIdRequest : BaseRequestWithValidator<GetByIdRequest>
     {
-        public GetByIdRequest(Guid id) : base(true)
+        public GetByIdRequest(Guid id)
         {
             Id = id;
         }

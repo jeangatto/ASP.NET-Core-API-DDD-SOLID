@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
-		<NoWarn>1701;1702;RCS1090;</NoWarn>
+		<NoWarn>1701;1702;IDE0063;RCS1090;</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Data\Seeds\Cidades.json">
+		<None Update="Seeds\Cidades.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

@@ -4,7 +4,7 @@ namespace SGP.Application.Requests.CidadeRequests
 {
     public class GetAllByEstadoRequest : BaseRequestWithValidator<GetAllByEstadoRequest>
     {
-        public GetAllByEstadoRequest(string estadoSigla) : base(true)
+        public GetAllByEstadoRequest(string estadoSigla)
         {
             EstadoSigla = estadoSigla;
         }

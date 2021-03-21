@@ -21,20 +21,20 @@ namespace SGP.Application.Services
             _repository = repository;
         }
 
-        public async Task<IResult<IEnumerable<CidadeResponse>>> GetAllAsync(GetAllByEstadoRequest req)
+        public async Task<IResult<IEnumerable<CidadeResponse>>> GetAllAsync(GetAllByEstadoRequest request)
         {
             var result = new Result<IEnumerable<CidadeResponse>>();
 
             // Validando a requisição.
-            req.Validate();
-            if (!req.IsValid)
+            request.Validate();
+            if (!request.IsValid)
             {
                 // Retornando os erros.
-                return result.Fail(req.Notifications);
+                return result.Fail(request.Notifications);
             }
 
             // Obtendo as cidades por estado (UF)
-            var cidades = await _repository.GetAllAsync(req.EstadoSigla);
+            var cidades = await _repository.GetAllAsync(request.EstadoSigla);
 
             // Mapeando domínio para resposta (DTO).
             var response = _mapper.Map<IEnumerable<CidadeResponse>>(cidades);
@@ -46,24 +46,24 @@ namespace SGP.Application.Services
             return await _repository.GetAllEstadosAsync();
         }
 
-        public async Task<IResult<CidadeResponse>> GetByIbgeAsync(GetByIbgeRequest req)
+        public async Task<IResult<CidadeResponse>> GetByIbgeAsync(GetByIbgeRequest request)
         {
             var result = new Result<CidadeResponse>();
 
             // Validando a requisição.
-            req.Validate();
-            if (!req.IsValid)
+            request.Validate();
+            if (!request.IsValid)
             {
                 // Retornando os erros.
-                return result.Fail(req.Notifications);
+                return result.Fail(request.Notifications);
             }
 
             // Obtendo a cidade por IBGE.
-            var cidade = await _repository.GetByIbgeAsync(req.Ibge);
+            var cidade = await _repository.GetByIbgeAsync(request.Ibge);
             if (cidade == null)
             {
                 // Retornando erro de não encontrada.
-                return result.Fail(new Notification(nameof(req.Ibge), $"Nenhuma cidade encontrada pelo IBGE: '{req.Ibge}'"));
+                return result.Fail(new Notification(nameof(request.Ibge), $"Nenhuma cidade encontrada pelo IBGE: '{request.Ibge}'"));
             }
 
             // Mapeando domínio para resposta (DTO).

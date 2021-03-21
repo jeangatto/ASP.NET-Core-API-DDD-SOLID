@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SGP.Application.Interfaces;
+using SGP.Application.Requests.AuthRequests;
 using SGP.Application.Responses;
 using SGP.Application.Services;
 using SGP.Domain.Repositories;
@@ -10,6 +11,8 @@ using SGP.Infrastructure.Data.Context;
 using SGP.Infrastructure.Data.Repositories;
 using SGP.Infrastructure.Services;
 using SGP.Shared;
+using SGP.Shared.AppSettings;
+using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Shared.UnitOfWork;
 using System;
@@ -38,6 +41,12 @@ namespace SGP.ConsoleApp
 
             services.AddSingleton<IConfiguration>(configuration);
 
+            // AppSettings
+            static void configureBinder(BinderOptions options) => options.BindNonPublicProperties = true;
+            services.Configure<AuthConfig>(configuration.GetSection(nameof(AuthConfig)), configureBinder);
+            services.Configure<JwtConfig>(configuration.GetSection(nameof(JwtConfig)), configureBinder);
+            services.Configure<ConnectionStrings>(configuration.GetSection(nameof(ConnectionStrings)), configureBinder);
+
             // Logging
             services.AddLogging(builder =>
             {
@@ -45,21 +54,22 @@ namespace SGP.ConsoleApp
                 builder.AddConsole();
             });
 
-            // Entity Framework Core
-            services.AddDbContext<SgpContext>(options => options.UseSqlServer(connectionString));
-
-            // Shared
+            // Domain - Shared
             services.AddScoped<IDateTimeService, DateTimeService>();
             services.AddScoped<IUnitOfWork, UnitOfWork<SgpContext>>();
 
-            // Repositories
+            // Infrastructure - EF Core Context
+            services.AddDbContext<SgpContext>(options => options.UseSqlServer(connectionString));
+
+            // Infrastructure - Repositories
             services.AddScoped<ICidadeRepository, CidadeRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
-            // InfraServices
+            // Infrastructure - Services
             services.AddScoped<IHashService, HashService>();
 
-            // AppServices
+            // Application - Services
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICidadeService, CidadeService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
 
@@ -82,6 +92,10 @@ namespace SGP.ConsoleApp
 
                 var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                 await context.EnsureSeedDataAsync(loggerFactory);
+
+                var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
+                var result = await authService.AuthenticateAsync(new AuthRequest("adm@hotmail.com", "1234"));
+                Console.WriteLine(result.ToJson());
             }
 
             Console.WriteLine();

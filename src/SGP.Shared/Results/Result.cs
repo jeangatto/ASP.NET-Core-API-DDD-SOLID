@@ -17,57 +17,57 @@ namespace SGP.Shared.Results
 
         public IResult Fail()
         {
-            this.Succeeded = false;
+            Succeeded = false;
             return this;
         }
 
         public IResult Fail(string message)
         {
-            this.Succeeded = false;
-            this.Message = message;
+            Succeeded = false;
+            Message = message;
             return this;
         }
 
         public IResult Fail(string message, IEnumerable<Notification> notifications)
         {
-            this.Succeeded = false;
-            this.Message = message;
-            this.Notifications = notifications;
+            Succeeded = false;
+            Message = message;
+            Notifications = notifications;
             return this;
         }
 
         public IResult Fail(IEnumerable<Notification> notifications)
         {
-            this.Succeeded = false;
-            this.Notifications = notifications;
+            Succeeded = false;
+            Notifications = notifications;
             return this;
         }
 
         public IResult Fail(string message, Notification notification)
         {
-            this.Succeeded = false;
-            this.Message = message;
-            this.Notifications = new[] { notification };
+            Succeeded = false;
+            Message = message;
+            Notifications = new[] { notification };
             return this;
         }
 
         public IResult Fail(Notification notification)
         {
-            this.Succeeded = false;
-            this.Notifications = new[] { notification };
+            Succeeded = false;
+            Notifications = new[] { notification };
             return this;
         }
 
         public IResult Success()
         {
-            this.Succeeded = true;
+            Succeeded = true;
             return this;
         }
 
         public IResult Success(string message)
         {
-            this.Succeeded = true;
-            this.Message = message;
+            Succeeded = true;
+            Message = message;
             return this;
         }
     }
@@ -78,72 +78,72 @@ namespace SGP.Shared.Results
 
         public new IResult<T> Fail()
         {
-            this.Succeeded = false;
+            Succeeded = false;
             return this;
         }
 
         public new IResult<T> Fail(string message)
         {
-            this.Succeeded = false;
-            this.Message = message;
+            Succeeded = false;
+            Message = message;
             return this;
         }
 
         public new IResult<T> Fail(string message, IEnumerable<Notification> notifications)
         {
-            this.Succeeded = false;
-            this.Message = message;
-            this.Notifications = notifications;
+            Succeeded = false;
+            Message = message;
+            Notifications = notifications;
             return this;
         }
 
         public new IResult<T> Fail(IEnumerable<Notification> notifications)
         {
-            this.Succeeded = false;
-            this.Notifications = notifications;
+            Succeeded = false;
+            Notifications = notifications;
             return this;
         }
 
         public new IResult<T> Fail(string message, Notification notification)
         {
-            this.Succeeded = false;
-            this.Message = message;
-            this.Notifications = new[] { notification };
+            Succeeded = false;
+            Message = message;
+            Notifications = new[] { notification };
             return this;
         }
 
         public new IResult<T> Fail(Notification notification)
         {
-            this.Succeeded = false;
-            this.Notifications = new[] { notification };
+            Succeeded = false;
+            Notifications = new[] { notification };
             return this;
         }
 
         public new IResult<T> Success()
         {
-            this.Succeeded = true;
+            Succeeded = true;
             return this;
         }
 
         public new IResult<T> Success(string message)
         {
-            this.Succeeded = true;
-            this.Message = message;
+            Succeeded = true;
+            Message = message;
             return this;
         }
 
         public IResult<T> Success(T data)
         {
-            this.Succeeded = true;
-            this.Data = data;
+            Succeeded = true;
+            Data = data;
             return this;
         }
 
         public IResult<T> Success(T data, string message)
         {
-            this.Succeeded = true;
-            this.Message = message;
-            this.Data = data;
+            Succeeded = true;
+            Message = message;
+            Data = data;
             return this;
         }
     }

@@ -9,7 +9,7 @@ namespace SGP.Shared.UnitOfWork
         /// Salva todas as alterações feitas no contexto do banco de dados.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns>O número de entradas gravadas no banco de dados.</returns>
+        /// <returns>O número de linhas afetadas no banco de dados.</returns>
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

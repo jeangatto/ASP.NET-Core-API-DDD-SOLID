@@ -60,5 +60,37 @@ namespace SGP.Domain.Entities
         {
             DataUltimoAcesso = dateTimeService.Now;
         }
+
+        /// <summary>
+        /// Incrementa o número de acessos efetuado com sucesso.
+        /// </summary>
+        public void IncrementarAcessoComSucceso()
+        {
+            AcessosComSucesso++;
+            AcessosComFalha = 0;
+        }
+
+        /// <summary>
+        /// Incremenenta o número de acessos efetuado com falha.
+        /// Quando é atingido o limite de acessos a conta será bloqueada por um tempo.
+        /// </summary>
+        /// <param name="dateTimeService"></param>
+        /// <param name="numeroMaximoTentativas">Número máximo de tentativas até a conta ser bloqueada.</param>
+        /// <param name="segundosBloqueado">Segundos em que a conta ficará bloqueada.</param>
+        public void IncrementarAcessoComFalha(IDateTimeService dateTimeService, short numeroMaximoTentativas, short segundosBloqueado)
+        {
+            if (ContaEstaBloqueada(dateTimeService))
+            {
+                return;
+            }
+
+            AcessosComFalha++;
+
+            if (AcessosComFalha == numeroMaximoTentativas)
+            {
+                AcessosComFalha = 0;
+                DataBloqueio = dateTimeService.Now.AddSeconds(segundosBloqueado);
+            }
+        }
     }
 }

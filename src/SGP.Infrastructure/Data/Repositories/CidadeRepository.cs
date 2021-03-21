@@ -21,8 +21,8 @@ namespace SGP.Infrastructure.Data.Repositories
         {
             return await _context.Cidades
                 .AsNoTracking()
-                .Where(cidade => cidade.Estado == estado)
-                .OrderBy(cidade => cidade.Nome)
+                .Where(c => c.Estado == estado)
+                .OrderBy(c => c.Nome)
                 .ToListAsync();
         }
 
@@ -40,7 +40,7 @@ namespace SGP.Infrastructure.Data.Repositories
         {
             return _context.Cidades
                 .AsNoTracking()
-                .FirstOrDefaultAsync(cidade => cidade.Ibge == ibge);
+                .FirstOrDefaultAsync(c => c.Ibge == ibge);
         }
     }
 }

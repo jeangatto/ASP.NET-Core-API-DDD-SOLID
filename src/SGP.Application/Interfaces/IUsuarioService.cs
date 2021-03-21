@@ -9,7 +9,7 @@ namespace SGP.Application.Interfaces
 {
     public interface IUsuarioService
     {
-        Task<IResult<CreatedResponse>> AddAsync(AddUsuarioRequest req);
-        Task<IResult<UsuarioResponse>> GetByIdAsync(GetByIdRequest req);
+        Task<IResult<CreatedResponse>> AddAsync(AddUsuarioRequest request);
+        Task<IResult<UsuarioResponse>> GetByIdAsync(GetByIdRequest request);
     }
 }
