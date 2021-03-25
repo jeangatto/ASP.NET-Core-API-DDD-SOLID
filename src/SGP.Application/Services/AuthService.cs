@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthRequests;
@@ -7,12 +8,14 @@ using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.AppSettings;
+using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Shared.Results;
 using SGP.Shared.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -22,14 +25,13 @@ namespace SGP.Application.Services
 {
     public class AuthService : IAuthService
     {
-        #region Constructor
-
         private readonly AuthConfig _authConfig;
+        private readonly JwtConfig _jwtConfig;
         private readonly IDateTimeService _dateTimeService;
         private readonly IHashService _hashService;
-        private readonly JwtConfig _jwtConfig;
         private readonly IUsuarioRepository _repository;
         private readonly IUnitOfWork _uow;
+        private readonly ILogger<AuthService> _logger;
 
         public AuthService
         (
@@ -38,18 +40,22 @@ namespace SGP.Application.Services
             IDateTimeService dateTimeService,
             IHashService hashService,
             IUsuarioRepository repository,
-            IUnitOfWork uow
+            IUnitOfWork uow,
+            ILogger<AuthService> logger
         )
         {
-            _authConfig = authOptions?.Value ?? throw new ArgumentNullException(nameof(authOptions), $"A seção '{nameof(AuthConfig)}' não está configurada no appsettings.json");
-            _jwtConfig = jwtOptions?.Value ?? throw new ArgumentNullException(nameof(jwtOptions), $"A seção '{nameof(JwtConfig)}' não está configurada no appsettings.json");
+            _authConfig = authOptions?.Value ?? throw new ArgumentNullException(nameof(authOptions),
+                $"A seção '{nameof(AuthConfig)}' não está configurada no appsettings.json");
+
+            _jwtConfig = jwtOptions?.Value ?? throw new ArgumentNullException(nameof(jwtOptions),
+                $"A seção '{nameof(JwtConfig)}' não está configurada no appsettings.json");
+
             _dateTimeService = dateTimeService;
             _hashService = hashService;
             _repository = repository;
             _uow = uow;
+            _logger = logger;
         }
-
-        #endregion
 
         public async Task<IResult<TokenResponse>> AuthenticateAsync(AuthRequest request)
         {
@@ -79,23 +85,30 @@ namespace SGP.Application.Services
             // Verificando se a senha corresponde a senha gravada na base de dados.
             if (_hashService.Compare(request.Senha, usuario.Senha))
             {
+                var secondsToExpire = _jwtConfig.Seconds;
                 var createdAt = _dateTimeService.Now;
-                var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);
-                var accessToken = GenerateJwtToken(usuario, createdAt, expiresAt);
+                var expiresAt = createdAt.AddSeconds(secondsToExpire);
                 var refreshToken = GenerateRefreshToken();
 
                 usuario.IncrementarAcessoComSucceso();
-                usuario.AdicionarToken(new UsuarioToken(refreshToken, createdAt, expiresAt));
+                usuario.AdicionarRefreshToken(new RefreshToken(refreshToken, createdAt, expiresAt));
+
+                if (!usuario.IsValid)
+                {
+                    usuario.ToLog(_logger);
+                    return result.Fail("Não foi possível efetuar a autorização, tente novamente.");
+                }
+
                 _repository.Update(usuario);
                 await _uow.SaveChangesAsync();
 
                 var token = new TokenResponse(
                     true,
-                    accessToken,
+                    GenerateJwtToken(usuario, createdAt, expiresAt),
                     createdAt,
                     expiresAt,
                     refreshToken,
-                    _jwtConfig.Seconds);
+                    secondsToExpire);
 
                 return result.Success(token, "Autenticado efetuada com sucesso.");
             }
@@ -125,17 +138,48 @@ namespace SGP.Application.Services
                 return result.Fail(request.Notifications);
             }
 
-            throw new NotImplementedException();
-        }
-
-        private static string GenerateRefreshToken()
-        {
-            using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
+            // Obtendo o usuário e seus tokens pelo RefreshToken.
+            var usuario = await _repository.GetByTokenAsync(request.Token);
+            if (usuario == null)
             {
-                var randomBytes = new byte[64];
-                cryptoServiceProvider.GetBytes(randomBytes);
-                return Convert.ToBase64String(randomBytes);
+                return result.Fail("Nenhum token encontrado.");
             }
+
+            var refreshToken = usuario.RefreshTokens.FirstOrDefault(t => t.Token == request.Token);
+            if (refreshToken.IsExpired(_dateTimeService))
+            {
+                return result.Fail("O token inválido ou expirado.");
+            }
+
+            var secondsToExpire = _jwtConfig.Seconds;
+            var createdAt = _dateTimeService.Now;
+            var expiresAt = createdAt.AddSeconds(secondsToExpire);
+            var newRefreshToken = GenerateRefreshToken();
+
+            // Substituindo o token de atualização atual por um novo.
+            refreshToken.Revoke(newRefreshToken, _dateTimeService.Now);
+
+            // Adicionando o novo.
+            usuario.AdicionarRefreshToken(new RefreshToken(newRefreshToken, createdAt, expiresAt));
+
+            if (!usuario.IsValid)
+            {
+                usuario.ToLog(_logger);
+                return result.Fail("Não foi possível efetuar a atualização do acesso, tente novamente.");
+            }
+
+            _repository.Update(usuario);
+            await _uow.SaveChangesAsync();
+
+            var token = new TokenResponse(
+                true,
+                GenerateJwtToken(usuario, createdAt, expiresAt),
+                createdAt,
+                expiresAt,
+                newRefreshToken,
+                secondsToExpire);
+
+            return result.Success(token, "Atualização efetuada com sucesso.");
         }
 
         private string GenerateJwtToken(Usuario usuario, DateTime createdAt, DateTime expiresAt)
@@ -149,25 +193,31 @@ namespace SGP.Application.Services
 
             var identity = new ClaimsIdentity(claims);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-
             var secretKey = Encoding.UTF8.GetBytes(_jwtConfig.Secret);
-
-            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey),
-                SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Audience = _jwtConfig.Audience,
                 Issuer = _jwtConfig.Issuer,
-                SigningCredentials = signingCredentials,
                 Subject = identity,
                 NotBefore = createdAt,
-                Expires = expiresAt
+                Expires = expiresAt,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature)
             };
 
+            var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        private static string GenerateRefreshToken()
+        {
+            using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
+            {
+                var randomBytes = new byte[64];
+                cryptoServiceProvider.GetBytes(randomBytes);
+                return Convert.ToBase64String(randomBytes).RemoveIlegalCharactersFromURL();
+            }
         }
     }
 }

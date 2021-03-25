@@ -5,9 +5,9 @@ using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Data.Mappings
 {
-    public class UsuarioTokenMapping : IEntityTypeConfiguration<UsuarioToken>
+    public class RefreshTokenMapping : IEntityTypeConfiguration<RefreshToken>
     {
-        public void Configure(EntityTypeBuilder<UsuarioToken> builder)
+        public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
             builder.ConfigureSingularTableName();
             builder.ConfigureBaseEntity();
@@ -35,7 +35,7 @@ namespace SGP.Infrastructure.Data.Mappings
                 .HasMaxLength(2048);
 
             builder.HasOne(token => token.Usuario)
-                .WithMany(usuario => usuario.Tokens)
+                .WithMany(usuario => usuario.RefreshTokens)
                 .HasForeignKey(token => token.UsuarioId);
         }
     }

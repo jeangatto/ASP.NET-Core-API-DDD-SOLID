@@ -1,4 +1,4 @@
-﻿using SGP.Domain.Validators.UsuarioRequires;
+﻿using SGP.Domain.Validators.UsuarioValidators;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
@@ -9,7 +9,7 @@ namespace SGP.Domain.Entities
 {
     public class Usuario : BaseEntity, IAggregateRoot
     {
-        private readonly List<UsuarioToken> _tokens = new();
+        private readonly List<RefreshToken> _refreshTokens = new();
 
         public Usuario(string nome, Email email, string senha)
         {
@@ -31,12 +31,7 @@ namespace SGP.Domain.Entities
         public short AcessosComSucesso { get; private set; }
         public short AcessosComFalha { get; private set; }
 
-        public IReadOnlyList<UsuarioToken> Tokens => _tokens.AsReadOnly();
-
-        public void AdicionarToken(UsuarioToken token)
-        {
-            _tokens.Add(token);
-        }
+        public IReadOnlyList<RefreshToken> RefreshTokens => _refreshTokens.AsReadOnly();
 
         /// <summary>
         /// Indica se a conta do usuário está bloqueada.
@@ -46,6 +41,22 @@ namespace SGP.Domain.Entities
         public bool ContaEstaBloqueada(IDateTimeService dateTimeService)
         {
             return DataBloqueio > dateTimeService.Now;
+        }
+
+        /// <summary>
+        /// Adiciona um novo token de acesso para o usuário.
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        public void AdicionarRefreshToken(RefreshToken refreshToken)
+        {
+            if (!refreshToken.IsValid)
+            {
+                AddNotifications(refreshToken.Notifications);
+            }
+            else
+            {
+                _refreshTokens.Add(refreshToken);
+            }
         }
 
         public void AlterarNome(string nome)

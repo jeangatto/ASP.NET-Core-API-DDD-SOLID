@@ -36,21 +36,21 @@ namespace SGP.Application.Services
             _uow = uow;
         }
 
-        public async Task<IResult<CreatedResponse>> AddAsync(AddUsuarioRequest req)
+        public async Task<IResult<CreatedResponse>> AddAsync(AddUsuarioRequest request)
         {
             var result = new Result<CreatedResponse>();
 
             // Validando a requisição.
-            req.Validate();
-            if (!req.IsValid)
+            request.Validate();
+            if (!request.IsValid)
             {
                 // Retornando os erros.
-                return result.Fail(req.Notifications);
+                return result.Fail(request.Notifications);
             }
 
-            var senhaCriptografada = _hashService.Hash(req.Senha);
-            var email = new Email(req.Email);
-            var usuario = new Usuario(req.Nome, email, senhaCriptografada);
+            var senhaCriptografada = _hashService.Hash(request.Senha);
+            var email = new Email(request.Email);
+            var usuario = new Usuario(request.Nome, email, senhaCriptografada);
 
             // Validando a entidade de domínio.
             if (!usuario.IsValid)
@@ -62,7 +62,7 @@ namespace SGP.Application.Services
             // Verificando se o e-mail já existe na base de dados.
             if (await _repository.EmailAlreadyExistsAsync(email))
             {
-                return result.Fail(new Notification(nameof(req.Email), "O endereço de e-mail informado não está disponivel."));
+                return result.Fail(new Notification(nameof(request.Email), "O endereço de e-mail informado não está disponivel."));
             }
 
             // Adicionando no repositório.
@@ -75,24 +75,24 @@ namespace SGP.Application.Services
             return result.Success(new CreatedResponse(usuario.Id));
         }
 
-        public async Task<IResult<UsuarioResponse>> GetByIdAsync(GetByIdRequest req)
+        public async Task<IResult<UsuarioResponse>> GetByIdAsync(GetByIdRequest request)
         {
             var result = new Result<UsuarioResponse>();
 
             // Validando a requisição.
-            req.Validate();
-            if (!req.IsValid)
+            request.Validate();
+            if (!request.IsValid)
             {
                 // Retornando os erros.
-                return result.Fail(req.Notifications);
+                return result.Fail(request.Notifications);
             }
 
             // Obtendo a entidade do repositório.
-            var usuario = await _repository.GetByIdAsync(req.Id);
+            var usuario = await _repository.GetByIdAsync(request.Id);
             if (usuario == null)
             {
                 // Retornando erro não encontrado.
-                return result.Fail(new Notification(nameof(req.Id), $"Registro não encontrado: {req.Id}."));
+                return result.Fail(new Notification(nameof(request.Id), $"Registro não encontrado: {request.Id}."));
             }
 
             // Mapeando domínio para resposta (DTO).

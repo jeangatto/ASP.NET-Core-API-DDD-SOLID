@@ -7,8 +7,7 @@ namespace SGP.Application.Requests.AuthRequests
         public RefreshTokenRequestValidator()
         {
             RuleFor(x => x.Token)
-                .NotEmpty()
-                .Length(64);
+                .NotEmpty();
         }
     }
 }

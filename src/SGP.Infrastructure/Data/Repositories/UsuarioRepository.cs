@@ -5,6 +5,7 @@ using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Data.Context;
 using SGP.Infrastructure.Data.Repositories.Common;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SGP.Infrastructure.Data.Repositories
@@ -31,8 +32,15 @@ namespace SGP.Infrastructure.Data.Repositories
         public Task<Usuario> GetByEmailAsync(Email email)
         {
             return GetQueryable(false)
-                .Include(u => u.Tokens)
+                .Include(u => u.RefreshTokens)
                 .FirstOrDefaultAsync(u => u.Email.Address == email.Address);
+        }
+
+        public Task<Usuario> GetByTokenAsync(string refreshToken)
+        {
+            return GetQueryable()
+                .Include(u => u.RefreshTokens.Any(t => t.Token == refreshToken))
+                .FirstOrDefaultAsync();
         }
     }
 }

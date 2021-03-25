@@ -11,5 +11,6 @@ namespace SGP.Domain.Repositories
         Task<bool> EmailAlreadyExistsAsync(Email email);
         Task<bool> EmailAlreadyExistsAsync(Email email, Guid existingId);
         Task<Usuario> GetByEmailAsync(Email email);
+        Task<Usuario> GetByTokenAsync(string refreshToken);
     }
 }

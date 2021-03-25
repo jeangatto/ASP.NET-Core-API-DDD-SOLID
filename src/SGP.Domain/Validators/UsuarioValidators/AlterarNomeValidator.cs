@@ -1,4 +1,4 @@
-﻿namespace SGP.Domain.Validators.UsuarioRequires
+﻿namespace SGP.Domain.Validators.UsuarioValidators
 {
     public class AlterarNomeValidator : BaseUsuarioValidator
     {

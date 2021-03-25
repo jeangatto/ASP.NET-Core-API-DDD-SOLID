@@ -47,7 +47,7 @@ namespace SGP.Infrastructure.Data.Mappings
             builder.Property(usuario => usuario.AcessosComFalha)
                 .IsRequired();
 
-            builder.Navigation(usuario => usuario.Tokens)
+            builder.Navigation(usuario => usuario.RefreshTokens)
                 .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }

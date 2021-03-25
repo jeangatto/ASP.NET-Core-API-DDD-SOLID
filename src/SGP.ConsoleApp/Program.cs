@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthRequests;
+using SGP.Application.Requests.UsuarioRequests;
 using SGP.Application.Responses;
 using SGP.Application.Services;
 using SGP.Domain.Repositories;
@@ -92,8 +93,16 @@ namespace SGP.ConsoleApp
                 var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                 await context.EnsureSeedDataAsync(loggerFactory);
 
+                var usuarioService = scope.ServiceProvider.GetService<IUsuarioService>();
+                await usuarioService.AddAsync(new AddUsuarioRequest
+                {
+                    Nome = "Gerência",
+                    Email = "gerencia@hotmail.com",
+                    Senha = "1234"
+                });
+
                 var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
-                var result = await authService.AuthenticateAsync(new AuthRequest("adm@hotmail.com", "1234"));
+                var result = await authService.AuthenticateAsync(new AuthRequest("gerencia@hotmail.com", "1234"));
                 Console.WriteLine(result.ToJson());
             }
 
