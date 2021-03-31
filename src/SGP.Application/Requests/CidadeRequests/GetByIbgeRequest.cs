@@ -2,7 +2,7 @@
 
 namespace SGP.Application.Requests.CidadeRequests
 {
-    public class GetByIbgeRequest : BaseRequestWithValidator<GetByIbgeRequest>
+    public class GetByIbgeRequest : BaseRequest
     {
         public GetByIbgeRequest(string ibge)
         {
@@ -10,5 +10,10 @@ namespace SGP.Application.Requests.CidadeRequests
         }
 
         public string Ibge { get; }
+
+        public override void Validate()
+        {
+            AddNotifications(new GetByIbgeRequestValidator().Validate(this));
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using SGP.Domain.Entities;
 using SGP.Domain.ValueObjects;
-using SGP.Shared.Repositories;
+using SGP.Shared.Interfaces;
 using System;
 using System.Threading.Tasks;
 

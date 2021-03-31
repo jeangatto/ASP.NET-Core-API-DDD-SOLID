@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using SGP.Shared.Extensions;
-using SGP.Shared.Interfaces;
+﻿using SGP.Shared.Interfaces;
 using SGP.Shared.Notifications;
 using System;
 
@@ -17,17 +15,5 @@ namespace SGP.Shared.Entities
         }
 
         public Guid Id { get; private set; }
-
-        /// <summary>
-        /// Valida a entidade e se no resultado da validação existirem erros, eles serão adicionados nas notificações.
-        /// </summary>
-        /// <typeparam name="TEntity">O tipo de entidade que será validado.</typeparam>
-        /// <param name="instance">A instância da entidade.</param>
-        /// <param name="validator">O validador da entidade.</param>
-        public void Validate<TEntity>(TEntity instance, IValidator<TEntity> validator)
-            where TEntity : class
-        {
-            validator.Validate(instance).AddToNotifiable(this);
-        }
     }
 }

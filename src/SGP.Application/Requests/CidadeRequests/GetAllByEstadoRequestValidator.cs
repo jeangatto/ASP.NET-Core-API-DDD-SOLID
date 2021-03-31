@@ -6,7 +6,7 @@ namespace SGP.Application.Requests.CidadeRequests
     {
         public GetAllByEstadoRequestValidator()
         {
-            RuleFor(x => x.EstadoSigla)
+            RuleFor(request => request.EstadoSigla)
                 .NotEmpty()
                 .Length(2);
         }

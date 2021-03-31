@@ -2,8 +2,13 @@
 
 namespace SGP.Application.Requests.AuthRequests
 {
-    public class RefreshTokenRequest : BaseRequestWithValidator<RefreshTokenRequest>
+    public class RefreshTokenRequest : BaseRequest
     {
         public string Token { get; set; }
+
+        public override void Validate()
+        {
+            AddNotifications(new RefreshTokenRequestValidator().Validate(this));
+        }
     }
 }

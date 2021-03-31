@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using SGP.Shared.ContractResolvers;
 
 namespace SGP.Shared.Extensions
 {
@@ -11,14 +12,16 @@ namespace SGP.Shared.Extensions
         /// Configuração padrão do serializador em JSON.
         /// Otimizado para gerar um JSON menor, resultando numa melhor performance.
         /// </summary>
-        public static readonly JsonSerializerSettings JsonOptions = new()
+        private static readonly JsonSerializerSettings JsonOptions = new()
         {
             // Formatando o JSON em uma única linha.
             Formatting = Formatting.None,
             // Removendo as referências circulares.
             PreserveReferencesHandling = PreserveReferencesHandling.None,
             // Ignorando as propriedades que estão com valores nulo.
-            NullValueHandling = NullValueHandling.Ignore
+            NullValueHandling = NullValueHandling.Ignore,
+            // Resolvedor de setter privados.
+            ContractResolver = new PrivateSetterContractResolver()
         };
 
         /// <summary>

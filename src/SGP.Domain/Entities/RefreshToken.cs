@@ -1,5 +1,4 @@
-﻿using SGP.Domain.Validators.RefreshTokenValidators;
-using SGP.Shared.Entities;
+﻿using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 using System;
 
@@ -17,7 +16,6 @@ namespace SGP.Domain.Entities
             Token = token;
             CreatedAt = createdAt;
             ExpireAt = expireAt;
-            Validate(this, new NovoRefreshTokenValidator());
         }
 
         private RefreshToken()
@@ -36,18 +34,17 @@ namespace SGP.Domain.Entities
         /// <summary>
         /// Indica se o token está expirado.
         /// </summary>
-        /// <param name="dataTimeService"></param>
+        /// <param name="dataTime"></param>
         /// <returns>Verdadeiro se o token estiver expirado; caso contrário, falso.</returns>
-        public bool IsExpired(IDateTimeService dataTimeService)
+        public bool IsExpired(IDateTime dataTime)
         {
-            return dataTimeService.Now >= ExpireAt || RevokedAt.HasValue;
+            return dataTime.Now >= ExpireAt || RevokedAt.HasValue;
         }
 
         public void Revoke(string newToken, DateTime revokedAt)
         {
             ReplacedByToken = newToken;
             RevokedAt = revokedAt;
-            Validate(this, new AlterarRefreshTokenValidator());
         }
     }
 }

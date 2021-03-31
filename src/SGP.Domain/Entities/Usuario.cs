@@ -1,5 +1,4 @@
-﻿using SGP.Domain.Validators.UsuarioValidators;
-using SGP.Domain.ValueObjects;
+﻿using SGP.Domain.ValueObjects;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 using System;
@@ -16,7 +15,6 @@ namespace SGP.Domain.Entities
             Nome = nome;
             Email = email;
             Senha = senha;
-            Validate(this, new NovoUsuarioValidator());
         }
 
         private Usuario()
@@ -36,11 +34,11 @@ namespace SGP.Domain.Entities
         /// <summary>
         /// Indica se a conta do usuário está bloqueada.
         /// </summary>
-        /// <param name="dateTimeService"></param>
+        /// <param name="dateTime"></param>
         /// <returns>Verdadeiro se a conta estiver bloqueada; caso contrário, falso.</returns>
-        public bool ContaEstaBloqueada(IDateTimeService dateTimeService)
+        public bool ContaEstaBloqueada(IDateTime dateTime)
         {
-            return DataBloqueio > dateTimeService.Now;
+            return DataBloqueio > dateTime.Now;
         }
 
         /// <summary>
@@ -49,37 +47,27 @@ namespace SGP.Domain.Entities
         /// <param name="refreshToken"></param>
         public void AdicionarRefreshToken(RefreshToken refreshToken)
         {
-            if (!refreshToken.IsValid)
-            {
-                AddNotifications(refreshToken.Notifications);
-            }
-            else
-            {
-                _refreshTokens.Add(refreshToken);
-            }
+            _refreshTokens.Add(refreshToken);
         }
 
         public void AlterarNome(string nome)
         {
             Nome = nome;
-            Validate(this, new AlterarNomeValidator());
         }
 
         public void AlterarEmail(Email email)
         {
             Email = email;
-            Validate(this, new AlterarEmailValidator());
         }
 
         public void AlterarSenha(string senha)
         {
             Senha = senha;
-            Validate(this, new AlterarSenhaValidator());
         }
 
-        public void AtualizarDataUltimoAcesso(IDateTimeService dateTimeService)
+        public void AtualizarDataUltimoAcesso(IDateTime dateTime)
         {
-            DataUltimoAcesso = dateTimeService.Now;
+            DataUltimoAcesso = dateTime.Now;
         }
 
         /// <summary>
@@ -91,12 +79,12 @@ namespace SGP.Domain.Entities
         /// Incremenenta o número de acessos efetuado com falha.
         /// Quando é atingido o limite de acessos a conta será bloqueada por um tempo.
         /// </summary>
-        /// <param name="dateTimeService"></param>
+        /// <param name="dateTime"></param>
         /// <param name="numeroMaximoTentativas">Número máximo de tentativas até a conta ser bloqueada.</param>
         /// <param name="segundosBloqueado">Segundos em que a conta ficará bloqueada.</param>
-        public void IncrementarAcessoComFalha(IDateTimeService dateTimeService, short numeroMaximoTentativas, short segundosBloqueado)
+        public void IncrementarAcessoComFalha(IDateTime dateTime, short numeroMaximoTentativas, short segundosBloqueado)
         {
-            if (ContaEstaBloqueada(dateTimeService))
+            if (ContaEstaBloqueada(dateTime))
             {
                 return;
             }
@@ -106,7 +94,7 @@ namespace SGP.Domain.Entities
             if (AcessosComFalha == numeroMaximoTentativas)
             {
                 AcessosComFalha = 0;
-                DataBloqueio = dateTimeService.Now.AddSeconds(segundosBloqueado);
+                DataBloqueio = dateTime.Now.AddSeconds(segundosBloqueado);
             }
         }
     }

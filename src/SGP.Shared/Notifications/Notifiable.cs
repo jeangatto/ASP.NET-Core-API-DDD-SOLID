@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FluentValidation.Results;
+using System.Collections.Generic;
 
 namespace SGP.Shared.Notifications
 {
@@ -28,6 +29,17 @@ namespace SGP.Shared.Notifications
         public void AddNotifications(IEnumerable<Notification> notifications)
         {
             _notifications.AddRange(notifications);
+        }
+
+        public void AddNotifications(ValidationResult validationResult)
+        {
+            if (validationResult?.IsValid == false)
+            {
+                foreach (var failure in validationResult.Errors)
+                {
+                    AddNotification(failure.PropertyName, failure.ErrorMessage);
+                }
+            }
         }
 
         public void AddNotifications(Notifiable notifiable)
