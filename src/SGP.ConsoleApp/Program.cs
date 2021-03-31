@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SGP.Application;
 using SGP.Infrastructure;
 using SGP.Infrastructure.Context;
 using System;

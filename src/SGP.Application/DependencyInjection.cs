@@ -3,7 +3,7 @@ using SGP.Application.Interfaces;
 using SGP.Application.Services;
 using System.Reflection;
 
-namespace SGP.Infrastructure
+namespace SGP.Application
 {
     public static class DependencyInjection
     {

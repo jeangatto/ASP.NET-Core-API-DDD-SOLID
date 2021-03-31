@@ -47,9 +47,10 @@ namespace SGP.Infrastructure.Context
                 }
                 else
                 {
-                    var cidadesAsJson = await File.ReadAllTextAsync(path, Encoding.UTF8);
-                    var cidadesAsDomain = cidadesAsJson.FromJson<IEnumerable<Cidade>>();
-                    context.AddRange(cidadesAsDomain);
+                    var cidadesJson = await File.ReadAllTextAsync(path, Encoding.UTF8);
+                    var cidades = cidadesJson.FromJson<IEnumerable<Cidade>>();
+                    context.AddRange(cidades);
+
                     var rowsAffected = await context.SaveChangesAsync();
                     logger.LogInformation($"Total de cidades inseridas: {rowsAffected}");
                 }

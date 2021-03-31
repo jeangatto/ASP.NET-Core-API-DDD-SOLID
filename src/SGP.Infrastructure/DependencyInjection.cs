@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Ardalis.GuardClauses;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
@@ -31,6 +32,8 @@ namespace SGP.Infrastructure
 
         public static IServiceCollection ConfigureAppSettings(this IServiceCollection services, IConfiguration configuration)
         {
+            Guard.Against.Null(configuration, nameof(configuration));
+
             services.Configure<AuthConfig>(configuration.GetSection(nameof(AuthConfig)), BinderOptions());
             services.Configure<JwtConfig>(configuration.GetSection(nameof(JwtConfig)), BinderOptions());
             services.Configure<ConnectionStrings>(configuration.GetSection(nameof(ConnectionStrings)), BinderOptions());
