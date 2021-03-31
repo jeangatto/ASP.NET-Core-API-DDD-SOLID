@@ -19,7 +19,7 @@ namespace SGP.Infrastructure.Tests.Services
         public void Compare_HashNullOrWhiteSpace_ThrowsArgumentException(string hash)
         {
             // Arrange
-            IHashService hashService = CreateBCryptHashService();
+            var hashService = CreateBCryptHashService();
             const string PASSWORD = "12345abc";
 
             // Act
@@ -34,12 +34,12 @@ namespace SGP.Infrastructure.Tests.Services
         public void Compare_Text_And_PreviouslyHashedText_ReturnsTrue()
         {
             // Arrange
-            IHashService hashService = CreateBCryptHashService();
+            var hashService = CreateBCryptHashService();
             const string PASSWORD = "12345abc";
             const string HASH = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
 
             // Act
-            bool act = hashService.Compare(PASSWORD, HASH);
+            var act = hashService.Compare(PASSWORD, HASH);
 
             // Assert
             act.Should().BeTrue();
@@ -50,12 +50,12 @@ namespace SGP.Infrastructure.Tests.Services
         public void Compare_Text_Diff_PreviouslyHashedText_ReturnsFalse()
         {
             // Arrange
-            IHashService hashService = CreateBCryptHashService();
+            var hashService = CreateBCryptHashService();
             const string PASSWORD = "abc12345";
             const string HASH = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
 
             // Act
-            bool act = hashService.Compare(PASSWORD, HASH);
+            var act = hashService.Compare(PASSWORD, HASH);
 
             // Assert
             act.Should().BeFalse();
@@ -69,7 +69,7 @@ namespace SGP.Infrastructure.Tests.Services
         public void Compare_TextNullOrWhiteSpace_ThrowsArgumentException(string text)
         {
             // Arrange
-            IHashService hashService = CreateBCryptHashService();
+            var hashService = CreateBCryptHashService();
             const string HASH = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
 
             // Act
@@ -87,7 +87,7 @@ namespace SGP.Infrastructure.Tests.Services
         public void Encrypt_InputNullOrWhiteSpace_ThrowsArgumentException(string input)
         {
             // Arrange
-            IHashService hashService = CreateBCryptHashService();
+            var hashService = CreateBCryptHashService();
 
             // Act
             Action act = () => hashService.Hash(input);
@@ -104,10 +104,10 @@ namespace SGP.Infrastructure.Tests.Services
         public void Encrypt_Text_ReturnsHashedString(string textToEncrypt)
         {
             // Arrange
-            IHashService hashService = CreateBCryptHashService();
+            var hashService = CreateBCryptHashService();
 
             // Act
-            string act = hashService.Hash(textToEncrypt);
+            var act = hashService.Hash(textToEncrypt);
 
             // Assert
             act.Should().NotBeNullOrEmpty().And.Should().NotBeSameAs(textToEncrypt);
@@ -115,15 +115,16 @@ namespace SGP.Infrastructure.Tests.Services
 
         private static IHashService CreateBCryptHashService()
         {
-            var services = new ServiceCollection();
-
-            services.AddLogging(options => options.ClearProviders());
-
-            var serviceProvider = services.BuildServiceProvider(true);
-
+            var serviceProvider = CreateServiceProvider();
             var logger = serviceProvider.GetRequiredService<ILogger<BCryptHashService>>();
-
             return new BCryptHashService(logger);
+        }
+
+        private static ServiceProvider CreateServiceProvider()
+        {
+            return new ServiceCollection()
+                .AddLogging(options => options.ClearProviders())
+                .BuildServiceProvider(true);
         }
     }
 }

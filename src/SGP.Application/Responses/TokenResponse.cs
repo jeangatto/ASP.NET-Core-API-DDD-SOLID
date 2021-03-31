@@ -5,7 +5,13 @@ namespace SGP.Application.Responses
 {
     public sealed class TokenResponse : BaseResponse
     {
-        public TokenResponse(bool authenticated, string accessToken, DateTime created, DateTime expiration, string refreshToken, short seconds)
+        public TokenResponse(
+            bool authenticated,
+            string accessToken,
+            DateTime created,
+            DateTime expiration,
+            string refreshToken,
+            short seconds)
         {
             Authenticated = authenticated;
             AccessToken = accessToken;

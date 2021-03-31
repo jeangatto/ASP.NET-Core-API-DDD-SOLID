@@ -13,7 +13,6 @@ namespace SGP.Shared.Notifications
         }
 
         public bool IsValid => _notifications.Count == 0;
-
         public IReadOnlyList<Notification> Notifications => _notifications;
 
         public void AddNotification(string key, string message)

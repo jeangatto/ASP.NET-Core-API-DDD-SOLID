@@ -25,7 +25,7 @@ namespace SGP.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, $"Ocorreu uma exceção ao verificar o HASH com BCrypt, " +
+                _logger.LogCritical(ex, "Ocorreu uma exceção ao verificar o HASH com BCrypt, " +
                     $"text: '{text}', hash: '{hash}', exceção: {ex.Message}");
                 throw;
             }
@@ -41,7 +41,7 @@ namespace SGP.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, $"Ocorreu uma exceção ao gerar o HASH com BCrypt, " +
+                _logger.LogCritical(ex, "Ocorreu uma exceção ao gerar o HASH com BCrypt, " +
                     $"text: '{text}', exceção: {ex.Message}");
                 throw;
             }
