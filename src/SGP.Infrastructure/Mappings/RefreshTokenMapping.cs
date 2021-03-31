@@ -18,7 +18,7 @@ namespace SGP.Infrastructure.Mappings
             builder.Property(token => token.Token)
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(2048);
+                .HasMaxLength(RefreshToken.MAX_TOKEN_SIZE);
 
             builder.Property(token => token.CreatedAt)
                 .IsRequired();
@@ -32,7 +32,7 @@ namespace SGP.Infrastructure.Mappings
             builder.Property(token => token.ReplacedByToken)
                 .IsRequired(false)
                 .IsUnicode(false)
-                .HasMaxLength(2048);
+                .HasMaxLength(RefreshToken.MAX_TOKEN_SIZE);
 
             builder.HasOne(token => token.Usuario)
                 .WithMany(usuario => usuario.RefreshTokens)
