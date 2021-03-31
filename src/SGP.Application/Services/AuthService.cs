@@ -77,6 +77,7 @@ namespace SGP.Application.Services
             // Verificando se a senha corresponde a senha gravada na base de dados.
             if (_hashService.Compare(request.Senha, usuario.Senha))
             {
+                // Gerando Json Web Token
                 var token = _tokenService.GenerateToken(GenerateClaims(usuario));
 
                 usuario.AdicionarRefreshToken(new RefreshToken(token.RefreshToken, token.CreatedAt, token.ExpiresAt));
@@ -132,6 +133,7 @@ namespace SGP.Application.Services
                 return result.Fail("O token inválido ou expirado.");
             }
 
+            // Gerando Json Web Token
             var token = _tokenService.GenerateToken(GenerateClaims(usuario));
 
             // Substituindo o token de atualização atual por um novo.
