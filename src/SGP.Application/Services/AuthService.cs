@@ -42,8 +42,8 @@ namespace SGP.Application.Services
             IUnitOfWork uow
         )
         {
-            Guard.Against.Null(authOptions);
-            Guard.Against.Null(jwtOptions);
+            Guard.Against.Null(authOptions, nameof(authOptions));
+            Guard.Against.Null(jwtOptions, nameof(jwtOptions));
 
             _authConfig = authOptions.Value;
             _jwtConfig = jwtOptions.Value;
@@ -84,6 +84,8 @@ namespace SGP.Application.Services
                 var secondsToExpire = _jwtConfig.Seconds;
                 var createdAt = _dateTime.Now;
                 var expiresAt = createdAt.AddSeconds(secondsToExpire);
+                var claims = GenerateClaims(usuario);
+                var accessToken = GenerateJWToken(claims, createdAt, expiresAt);
                 var refreshToken = GenerateRefreshToken();
 
                 usuario.IncrementarAcessoComSucceso();
@@ -94,7 +96,7 @@ namespace SGP.Application.Services
 
                 var token = new TokenResponse(
                     true,
-                    GenerateJwtToken(usuario, createdAt, expiresAt),
+                    accessToken,
                     createdAt,
                     expiresAt,
                     refreshToken,
@@ -145,9 +147,11 @@ namespace SGP.Application.Services
             var createdAt = _dateTime.Now;
             var expiresAt = createdAt.AddSeconds(secondsToExpire);
             var newRefreshToken = GenerateRefreshToken();
+            var claims = GenerateClaims(usuario);
+            var accessToken = GenerateJWToken(claims, createdAt, expiresAt);
 
             // Substituindo o token de atualização atual por um novo.
-            refreshToken.Revoke(newRefreshToken, _dateTime.Now);
+            refreshToken.Revoke(newRefreshToken, createdAt);
 
             // Adicionando o novo.
             usuario.AdicionarRefreshToken(new RefreshToken(newRefreshToken, createdAt, expiresAt));
@@ -157,7 +161,7 @@ namespace SGP.Application.Services
 
             var token = new TokenResponse(
                 true,
-                GenerateJwtToken(usuario, createdAt, expiresAt),
+                accessToken,
                 createdAt,
                 expiresAt,
                 newRefreshToken,
@@ -166,15 +170,18 @@ namespace SGP.Application.Services
             return result.Success(token, "Atualização efetuada com sucesso.");
         }
 
-        private string GenerateJwtToken(Usuario usuario, DateTime createdAt, DateTime expiresAt)
+        private static IEnumerable<Claim> GenerateClaims(Usuario usuario)
         {
-            var claims = new List<Claim>
+            return new[]
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Nome),
                 new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Id.ToString())
             };
+        }
 
+        private string GenerateJWToken(IEnumerable<Claim> claims, DateTime createdAt, DateTime expiresAt)
+        {
             var identity = new ClaimsIdentity(claims);
 
             var secretKey = Encoding.UTF8.GetBytes(_jwtConfig.Secret);
@@ -190,8 +197,8 @@ namespace SGP.Application.Services
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(securityToken);
         }
 
         private static string GenerateRefreshToken()

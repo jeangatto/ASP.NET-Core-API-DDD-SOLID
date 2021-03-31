@@ -9,13 +9,12 @@ namespace SGP.Shared.Extensions
     {
         [SuppressMessage("Redundancy", "RCS1175:Unused this parameter.")]
         [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
-        public static void Null<TOptions>(this IGuardClause guardClause, IOptions<TOptions> options)
-            where TOptions : class
+        public static void Null<T>(this IGuardClause guardClause, IOptions<T> input, string parameterName) where T : class
         {
-            if (options == null || options.Value == null)
+            if (input == null || input.Value == null)
             {
-                throw new ArgumentNullException(nameof(options),
-                    $"A seção '{typeof(TOptions).Name}' não está configurada no appsettings.json");
+                throw new ArgumentNullException(parameterName,
+                    $"A seção '{parameterName}' não está configurada no appsettings.json");
             }
         }
     }
