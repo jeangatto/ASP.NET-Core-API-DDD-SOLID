@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthRequests;
 using SGP.Application.Responses;
@@ -16,6 +17,8 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SGP.Application.Services
@@ -23,28 +26,29 @@ namespace SGP.Application.Services
     public class AuthService : IAuthService
     {
         private readonly AuthConfig _authConfig;
+        private readonly JwtConfig _jwtConfig;
         private readonly IDateTime _dateTime;
         private readonly IHashService _hashService;
-        private readonly IJWTokenService _tokenService;
         private readonly IUsuarioRepository _repository;
         private readonly IUnitOfWork _uow;
 
         public AuthService
         (
             IOptions<AuthConfig> authOptions,
+            IOptions<JwtConfig> jwtOptions,
             IDateTime dateTime,
             IHashService hashService,
-            IJWTokenService tokenService,
             IUsuarioRepository repository,
             IUnitOfWork uow
         )
         {
             Guard.Against.Null(authOptions);
+            Guard.Against.Null(jwtOptions);
 
             _authConfig = authOptions.Value;
+            _jwtConfig = jwtOptions.Value;
             _dateTime = dateTime;
             _hashService = hashService;
-            _tokenService = tokenService;
             _repository = repository;
             _uow = uow;
         }
@@ -77,22 +81,26 @@ namespace SGP.Application.Services
             // Verificando se a senha corresponde a senha gravada na base de dados.
             if (_hashService.Compare(request.Senha, usuario.Senha))
             {
-                // Gerando Json Web Token
-                var token = _tokenService.GenerateToken(GenerateClaims(usuario));
+                var secondsToExpire = _jwtConfig.Seconds;
+                var createdAt = _dateTime.Now;
+                var expiresAt = createdAt.AddSeconds(secondsToExpire);
+                var refreshToken = GenerateRefreshToken();
 
-                usuario.AdicionarRefreshToken(new RefreshToken(token.RefreshToken, token.CreatedAt, token.ExpiresAt));
                 usuario.IncrementarAcessoComSucceso();
+                usuario.AdicionarRefreshToken(new RefreshToken(refreshToken, createdAt, expiresAt));
 
                 _repository.Update(usuario);
                 await _uow.SaveChangesAsync();
 
-                return result.Success(new TokenResponse(
+                var token = new TokenResponse(
                     true,
-                    token.AccessToken,
-                    token.CreatedAt,
-                    token.ExpiresAt,
-                    token.RefreshToken,
-                    token.SecondsToExpire), "Autenticado efetuada com sucesso.");
+                    GenerateJwtToken(usuario, createdAt, expiresAt),
+                    createdAt,
+                    expiresAt,
+                    refreshToken,
+                    secondsToExpire);
+
+                return result.Success(token, "Autenticado efetuada com sucesso.");
             }
             else
             {
@@ -133,35 +141,67 @@ namespace SGP.Application.Services
                 return result.Fail("O token inválido ou expirado.");
             }
 
-            // Gerando Json Web Token
-            var token = _tokenService.GenerateToken(GenerateClaims(usuario));
+            var secondsToExpire = _jwtConfig.Seconds;
+            var createdAt = _dateTime.Now;
+            var expiresAt = createdAt.AddSeconds(secondsToExpire);
+            var newRefreshToken = GenerateRefreshToken();
 
             // Substituindo o token de atualização atual por um novo.
-            refreshToken.Revoke(token.RefreshToken, _dateTime.Now);
+            refreshToken.Revoke(newRefreshToken, _dateTime.Now);
 
             // Adicionando o novo.
-            usuario.AdicionarRefreshToken(new RefreshToken(token.RefreshToken, token.CreatedAt, token.ExpiresAt));
+            usuario.AdicionarRefreshToken(new RefreshToken(newRefreshToken, createdAt, expiresAt));
 
             _repository.Update(usuario);
             await _uow.SaveChangesAsync();
 
-            return result.Success(new TokenResponse(
+            var token = new TokenResponse(
                 true,
-                token.AccessToken,
-                token.CreatedAt,
-                token.ExpiresAt,
-                token.RefreshToken,
-                token.SecondsToExpire), "Atualização efetuada com sucesso.");
+                GenerateJwtToken(usuario, createdAt, expiresAt),
+                createdAt,
+                expiresAt,
+                newRefreshToken,
+                secondsToExpire);
+
+            return result.Success(token, "Atualização efetuada com sucesso.");
         }
 
-        private static IEnumerable<Claim> GenerateClaims(Usuario usuario)
+        private string GenerateJwtToken(Usuario usuario, DateTime createdAt, DateTime expiresAt)
         {
-            return new List<Claim>
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Nome),
                 new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Id.ToString())
             };
+
+            var identity = new ClaimsIdentity(claims);
+
+            var secretKey = Encoding.UTF8.GetBytes(_jwtConfig.Secret);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Audience = _jwtConfig.Audience,
+                Issuer = _jwtConfig.Issuer,
+                Subject = identity,
+                NotBefore = createdAt,
+                Expires = expiresAt,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        private static string GenerateRefreshToken()
+        {
+            using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
+            {
+                var randomBytes = new byte[64];
+                cryptoServiceProvider.GetBytes(randomBytes);
+                return Convert.ToBase64String(randomBytes).RemoveIlegalCharactersFromURL();
+            }
         }
     }
 }

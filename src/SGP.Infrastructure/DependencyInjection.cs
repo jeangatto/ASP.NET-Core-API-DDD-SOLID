@@ -19,7 +19,6 @@ namespace SGP.Infrastructure
             // Services
             services.AddScoped<IDateTime, LocalDateTimeService>();
             services.AddScoped<IHashService, BCryptHashService>();
-            services.AddScoped<IJWTokenService, JWTokenService>();
 
             // Unit Of Work
             services.AddScoped<IUnitOfWork, UnitOfWork<SgpContext>>();
@@ -34,13 +33,14 @@ namespace SGP.Infrastructure
         {
             Guard.Against.Null(configuration, nameof(configuration));
 
-            services.Configure<AuthConfig>(configuration.GetSection(nameof(AuthConfig)), BinderOptions());
-            services.Configure<JwtConfig>(configuration.GetSection(nameof(JwtConfig)), BinderOptions());
-            services.Configure<ConnectionStrings>(configuration.GetSection(nameof(ConnectionStrings)), BinderOptions());
+            var configureBinder = ConfigureBinderOptions();
+            services.Configure<AuthConfig>(configuration.GetSection(nameof(AuthConfig)), configureBinder);
+            services.Configure<JwtConfig>(configuration.GetSection(nameof(JwtConfig)), configureBinder);
+            services.Configure<ConnectionStrings>(configuration.GetSection(nameof(ConnectionStrings)), configureBinder);
             return services;
         }
 
-        private static Action<BinderOptions> BinderOptions()
+        private static Action<BinderOptions> ConfigureBinderOptions()
         {
             return options => options.BindNonPublicProperties = true;
         }
