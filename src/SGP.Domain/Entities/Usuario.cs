@@ -17,7 +17,7 @@ namespace SGP.Domain.Entities
             Senha = senha;
         }
 
-        private Usuario()
+        private Usuario() // ORM
         {
         }
 

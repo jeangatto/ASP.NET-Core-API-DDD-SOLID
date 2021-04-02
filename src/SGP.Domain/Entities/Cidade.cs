@@ -9,7 +9,7 @@
             Nome = nome;
         }
 
-        private Cidade()
+        private Cidade() // ORM
         {
         }
 

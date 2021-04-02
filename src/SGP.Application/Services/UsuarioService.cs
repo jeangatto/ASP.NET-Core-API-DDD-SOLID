@@ -45,8 +45,13 @@ namespace SGP.Application.Services
                 return Result.Failure<CreatedResponse>(request.Notifications);
             }
 
+            // Criando o Objeto de Valor (VO).
+            var email = Email.Create(request.Email).Value;
+
+            // Criptografando a senha.
             var senhaCriptografada = _hashService.Hash(request.Senha);
-            var email = new Email(request.Email);
+
+            // Criando a instância do usuário.
             var usuario = new Usuario(request.Nome, email, senhaCriptografada);
 
             // Validando a entidade de domínio.

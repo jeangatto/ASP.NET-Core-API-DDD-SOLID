@@ -5,20 +5,15 @@ namespace SGP.Shared.Results
 {
     public class Result<T> : Result, IResult<T>
     {
-        internal Result(bool isSuccess)
+        internal Result(bool isSuccess, T value)
             : base(isSuccess)
         {
+            Value = value;
         }
 
         internal Result(bool isSuccess, string error)
             : base(isSuccess, error)
         {
-        }
-
-        internal Result(bool isSuccess, T value)
-            : base(isSuccess)
-        {
-            Value = value;
         }
 
         internal Result(bool isSuccess, IEnumerable<Notification> errors)

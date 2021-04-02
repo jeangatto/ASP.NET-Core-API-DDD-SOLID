@@ -8,10 +8,9 @@ namespace SGP.Shared.Extensions
     {
         public static void AddToNotifiable(this ValidationResult validationResult, Notifiable notifiable)
         {
-            Guard.Against.Null(validationResult, nameof(validationResult));
             Guard.Against.Null(notifiable, nameof(notifiable));
 
-            if (!validationResult.IsValid)
+            if (validationResult?.IsValid == false)
             {
                 foreach (var failure in validationResult.Errors)
                 {

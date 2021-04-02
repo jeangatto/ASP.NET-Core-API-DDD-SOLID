@@ -1,16 +1,34 @@
-﻿using SGP.Shared.ValueObjects;
+﻿using SGP.Shared.Results;
+using SGP.Shared.ValueObjects;
 using System.Collections.Generic;
+using System.Net.Mail;
 
 namespace SGP.Domain.ValueObjects
 {
-    public class Email : ValueObject
+    public sealed class Email : ValueObject
     {
-        public Email(string address)
+        private Email(string address)
         {
-            Address = address?.ToLowerInvariant();
+            Address = address.ToLowerInvariant();
+        }
+
+        private Email() // ORM
+        {
         }
 
         public string Address { get; private set; }
+
+        public static Result<Email> Create(string address)
+        {
+            if (MailAddress.TryCreate(address, out MailAddress mailAddress))
+            {
+                return Result.Success(new Email(mailAddress.Address));
+            }
+            else
+            {
+                return Result.Failure<Email>("Endereço de e-mail inválido.");
+            }
+        }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {

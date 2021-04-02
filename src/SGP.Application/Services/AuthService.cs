@@ -63,8 +63,11 @@ namespace SGP.Application.Services
                 return Result.Failure<TokenResponse>(request.Notifications);
             }
 
+            // Criando o Objeto de Valor (VO).
+            var email = Email.Create(request.Email).Value;
+
             // Obtendo o usuário pelo e-mail.
-            var usuario = await _repository.GetByEmailAsync(new Email(request.Email));
+            var usuario = await _repository.GetByEmailAsync(email);
             if (usuario == null)
             {
                 return Result.Failure<TokenResponse>("A conta informada não existe.");

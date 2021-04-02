@@ -18,7 +18,7 @@ namespace SGP.Domain.Entities
             ExpireAt = expireAt;
         }
 
-        private RefreshToken()
+        private RefreshToken() // ORM
         {
         }
 
