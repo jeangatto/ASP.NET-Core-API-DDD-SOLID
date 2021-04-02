@@ -15,8 +15,7 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
-		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.10.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />	</ItemGroup>
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />

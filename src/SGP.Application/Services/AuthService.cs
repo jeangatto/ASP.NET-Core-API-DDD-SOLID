@@ -55,27 +55,25 @@ namespace SGP.Application.Services
 
         public async Task<IResult<TokenResponse>> AuthenticateAsync(AuthRequest request)
         {
-            var result = new Result<TokenResponse>();
-
             // Validando a requisição.
             request.Validate();
             if (!request.IsValid)
             {
                 // Retornando os erros.
-                return result.Fail(request.Notifications);
+                return Result.Failure<TokenResponse>(request.Notifications);
             }
 
             // Obtendo o usuário pelo e-mail.
             var usuario = await _repository.GetByEmailAsync(new Email(request.Email));
             if (usuario == null)
             {
-                return result.Fail("A conta informada não existe.");
+                return Result.Failure<TokenResponse>("A conta informada não existe.");
             }
 
             // Verificando se a conta está bloqueada.
             if (usuario.ContaEstaBloqueada(_dateTime))
             {
-                return result.Fail("A sua conta está bloqueada, entre em contato com o nosso suporte.");
+                return Result.Failure<TokenResponse>("A sua conta está bloqueada, entre em contato com o nosso suporte.");
             }
 
             // Verificando se a senha corresponde a senha gravada na base de dados.
@@ -102,7 +100,7 @@ namespace SGP.Application.Services
                     refreshToken,
                     secondsToExpire);
 
-                return result.Success(token, "Autenticado efetuada com sucesso.");
+                return Result.Success(token);
             }
             else
             {
@@ -114,33 +112,31 @@ namespace SGP.Application.Services
                 _repository.Update(usuario);
                 await _uow.SaveChangesAsync();
 
-                return result.Fail("O e-mail ou senha está incorreta.");
+                return Result.Failure<TokenResponse>("O e-mail ou senha está incorreta.");
             }
         }
 
         public async Task<IResult<TokenResponse>> RefreshTokenAsync(RefreshTokenRequest request)
         {
-            var result = new Result<TokenResponse>();
-
             // Validando a requisição.
             request.Validate();
             if (!request.IsValid)
             {
                 // Retornando os erros.
-                return result.Fail(request.Notifications);
+                return Result.Failure<TokenResponse>(request.Notifications);
             }
 
             // Obtendo o usuário e seus tokens pelo RefreshToken.
             var usuario = await _repository.GetByTokenAsync(request.Token);
             if (usuario == null)
             {
-                return result.Fail("Nenhum token encontrado.");
+                return Result.Failure<TokenResponse>("Nenhum token encontrado.");
             }
 
             var refreshToken = usuario.RefreshTokens.FirstOrDefault(t => t.Token == request.Token);
             if (refreshToken.IsExpired(_dateTime))
             {
-                return result.Fail("O token inválido ou expirado.");
+                return Result.Failure<TokenResponse>("O token inválido ou expirado.");
             }
 
             var secondsToExpire = _jwtConfig.Seconds;
@@ -167,7 +163,7 @@ namespace SGP.Application.Services
                 newRefreshToken,
                 secondsToExpire);
 
-            return result.Success(token, "Atualização efetuada com sucesso.");
+            return Result.Success(token);
         }
 
         private static IEnumerable<Claim> GenerateClaims(Usuario usuario)

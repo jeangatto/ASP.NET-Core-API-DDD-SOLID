@@ -1,4 +1,5 @@
-﻿using SGP.Shared.Messages;
+﻿using SGP.Shared.Extensions;
+using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.CidadeRequests
 {
@@ -13,7 +14,9 @@ namespace SGP.Application.Requests.CidadeRequests
 
         public override void Validate()
         {
-            AddNotifications(new GetAllByEstadoRequestValidator().Validate(this));
+            new GetAllByEstadoRequestValidator()
+                .Validate(this)
+                .AddToNotifiable(this);
         }
     }
 }

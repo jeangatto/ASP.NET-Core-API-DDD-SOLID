@@ -5,13 +5,12 @@ namespace SGP.Shared.Results
 {
     public interface IResult
     {
-        string Message { get; }
-        bool Succeeded { get; }
-        IEnumerable<Notification> Notifications { get; }
+        bool IsSuccess { get; }
+        IEnumerable<Notification> Errors { get; }
     }
 
     public interface IResult<out T> : IResult
     {
-        T Data { get; }
+        T Value { get; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SGP.Shared.Messages;
+﻿using SGP.Shared.Extensions;
+using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.AuthRequests
 {
@@ -8,7 +9,9 @@ namespace SGP.Application.Requests.AuthRequests
 
         public override void Validate()
         {
-            AddNotifications(new RefreshTokenRequestValidator().Validate(this));
+            new RefreshTokenRequestValidator()
+                .Validate(this)
+                .AddToNotifiable(this);
         }
     }
 }

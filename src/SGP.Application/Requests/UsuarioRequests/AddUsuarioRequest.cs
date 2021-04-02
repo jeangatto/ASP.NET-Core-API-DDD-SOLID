@@ -1,4 +1,5 @@
-﻿using SGP.Shared.Messages;
+﻿using SGP.Shared.Extensions;
+using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.UsuarioRequests
 {
@@ -21,7 +22,9 @@ namespace SGP.Application.Requests.UsuarioRequests
 
         public override void Validate()
         {
-            AddNotifications(new AddUsuarioRequestValidator().Validate(this));
+            new AddUsuarioRequestValidator()
+                .Validate(this)
+                .AddToNotifiable(this);
         }
     }
 }

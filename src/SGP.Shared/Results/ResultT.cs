@@ -3,26 +3,29 @@ using System.Collections.Generic;
 
 namespace SGP.Shared.Results
 {
-    public partial class Result : IResult
+    public class Result<T> : Result, IResult<T>
     {
         internal Result(bool isSuccess)
+            : base(isSuccess)
         {
-            IsSuccess = isSuccess;
         }
 
         internal Result(bool isSuccess, string error)
+            : base(isSuccess, error)
         {
-            IsSuccess = isSuccess;
-            Errors = new[] { new Notification(default, error) };
+        }
+
+        internal Result(bool isSuccess, T value)
+            : base(isSuccess)
+        {
+            Value = value;
         }
 
         internal Result(bool isSuccess, IEnumerable<Notification> errors)
+            : base(isSuccess, errors)
         {
-            IsSuccess = isSuccess;
-            Errors = errors;
         }
 
-        public bool IsSuccess { get; }
-        public IEnumerable<Notification> Errors { get; }
+        public T Value { get; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SGP.Shared.Messages;
+﻿using SGP.Shared.Extensions;
+using SGP.Shared.Messages;
 using System;
 
 namespace SGP.Application.Requests
@@ -14,7 +15,7 @@ namespace SGP.Application.Requests
 
         public override void Validate()
         {
-            AddNotifications(new GetByIdRequestValidator().Validate(this));
+            new GetByIdRequestValidator().Validate(this).AddToNotifiable(this);
         }
     }
 }
