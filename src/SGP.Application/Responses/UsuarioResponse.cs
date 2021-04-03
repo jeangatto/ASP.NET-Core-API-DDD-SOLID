@@ -1,9 +1,8 @@
-﻿using SGP.Shared.Messages;
-using System;
+﻿using System;
 
 namespace SGP.Application.Responses
 {
-    public class UsuarioResponse : BaseResponse
+    public class UsuarioResponse
     {
         public Guid Id { get; set; }
         public string Nome { get; set; }

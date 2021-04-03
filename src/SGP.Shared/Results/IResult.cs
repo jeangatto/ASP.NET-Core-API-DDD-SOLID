@@ -1,12 +1,10 @@
-﻿using SGP.Shared.Notifications;
-using System.Collections.Generic;
-
-namespace SGP.Shared.Results
+﻿namespace SGP.Shared.Results
 {
     public interface IResult
     {
-        bool IsSuccess { get; }
-        IEnumerable<Notification> Errors { get; }
+        bool Failed { get; }
+        string Error { get; }
+        bool Succeeded { get; }
     }
 
     public interface IResult<out T> : IResult

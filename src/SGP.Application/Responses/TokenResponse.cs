@@ -1,9 +1,8 @@
-﻿using SGP.Shared.Messages;
-using System;
+﻿using System;
 
 namespace SGP.Application.Responses
 {
-    public sealed class TokenResponse : BaseResponse
+    public sealed class TokenResponse
     {
         public TokenResponse(
             bool authenticated,

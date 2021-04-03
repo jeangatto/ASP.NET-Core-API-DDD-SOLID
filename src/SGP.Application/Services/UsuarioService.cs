@@ -38,11 +38,11 @@ namespace SGP.Application.Services
         public async Task<IResult<CreatedResponse>> AddAsync(AddUsuarioRequest request)
         {
             // Validando a requisição.
-            request.Validate();
-            if (!request.IsValid)
+            var validation = await new AddUsuarioRequestValidator().ValidateAsync(request);
+            if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<CreatedResponse>(request.Notifications);
+                return Result.Failure<CreatedResponse>(validation.ToString());
             }
 
             // Criando o Objeto de Valor (VO).
@@ -53,13 +53,6 @@ namespace SGP.Application.Services
 
             // Criando a instância do usuário.
             var usuario = new Usuario(request.Nome, email, senhaCriptografada);
-
-            // Validando a entidade de domínio.
-            if (!usuario.IsValid)
-            {
-                // Retornando os erros.
-                return Result.Failure<CreatedResponse>(usuario.Notifications);
-            }
 
             // Verificando se o e-mail já existe na base de dados.
             if (await _repository.EmailAlreadyExistsAsync(email))
@@ -81,11 +74,11 @@ namespace SGP.Application.Services
         public async Task<IResult<UsuarioResponse>> GetByIdAsync(GetByIdRequest request)
         {
             // Validando a requisição.
-            request.Validate();
-            if (!request.IsValid)
+            var validation = await new GetByIdRequestValidator().ValidateAsync(request);
+            if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<UsuarioResponse>(request.Notifications);
+                return Result.Failure<UsuarioResponse>(validation.ToString());
             }
 
             // Obtendo a entidade do repositório.

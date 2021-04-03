@@ -1,9 +1,8 @@
-﻿using SGP.Shared.Messages;
-using System;
+﻿using System;
 
 namespace SGP.Application.Responses.Common
 {
-    public sealed class CreatedResponse : BaseResponse
+    public sealed class CreatedResponse
     {
         public CreatedResponse(Guid id)
         {

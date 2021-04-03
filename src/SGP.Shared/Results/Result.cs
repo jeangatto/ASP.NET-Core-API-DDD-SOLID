@@ -1,28 +1,20 @@
-﻿using SGP.Shared.Notifications;
-using System.Collections.Generic;
-
-namespace SGP.Shared.Results
+﻿namespace SGP.Shared.Results
 {
     public partial class Result : IResult
     {
-        internal Result(bool isSuccess)
+        internal Result(bool failed)
         {
-            IsSuccess = isSuccess;
+            Failed = failed;
         }
 
-        internal Result(bool isSuccess, string error)
+        internal Result(bool failed, string error)
         {
-            IsSuccess = isSuccess;
-            Errors = new[] { new Notification(default, error) };
+            Failed = failed;
+            Error = error;
         }
 
-        internal Result(bool isSuccess, IEnumerable<Notification> errors)
-        {
-            IsSuccess = isSuccess;
-            Errors = errors;
-        }
-
-        public bool IsSuccess { get; }
-        public IEnumerable<Notification> Errors { get; }
+        public bool Failed { get; }
+        public string Error { get; }
+        public bool Succeeded => !Failed;
     }
 }

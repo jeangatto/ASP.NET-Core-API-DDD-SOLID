@@ -1,9 +1,6 @@
-﻿using SGP.Shared.Extensions;
-using SGP.Shared.Messages;
-
-namespace SGP.Application.Requests.CidadeRequests
+﻿namespace SGP.Application.Requests.CidadeRequests
 {
-    public class GetByIbgeRequest : BaseRequest
+    public class GetByIbgeRequest
     {
         public GetByIbgeRequest(string ibge)
         {
@@ -11,12 +8,5 @@ namespace SGP.Application.Requests.CidadeRequests
         }
 
         public string Ibge { get; }
-
-        public override void Validate()
-        {
-            new GetByIbgeRequestValidator()
-                .Validate(this)
-                .AddToNotifiable(this);
-        }
     }
 }

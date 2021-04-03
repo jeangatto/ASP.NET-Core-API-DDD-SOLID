@@ -1,8 +1,6 @@
-﻿using SGP.Shared.Messages;
-
-namespace SGP.Application.Responses
+﻿namespace SGP.Application.Responses
 {
-    public class CidadeResponse : BaseResponse
+    public class CidadeResponse
     {
         public string Ibge { get; set; }
         public string Estado { get; set; }

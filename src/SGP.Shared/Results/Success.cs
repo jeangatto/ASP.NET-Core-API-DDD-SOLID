@@ -2,8 +2,16 @@
 {
     public partial class Result
     {
-        public static Result Success() => new(true);
+        /// <summary>
+        /// Cria um resultado de sucesso.
+        /// </summary>
+        public static Result Success() => new(false);
 
-        public static Result<T> Success<T>(T value) => new(true, value);
+        /// <summary>
+        /// Cria um resultado de sucesso contendo o valor fornecido.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value">O valor do resultado.</param>
+        public static Result<T> Success<T>(T value) => new(false, value);
     }
 }

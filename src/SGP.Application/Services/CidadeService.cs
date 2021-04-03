@@ -23,11 +23,11 @@ namespace SGP.Application.Services
         public async Task<IResult<IEnumerable<CidadeResponse>>> GetAllAsync(GetAllByEstadoRequest request)
         {
             // Validando a requisição.
-            request.Validate();
-            if (!request.IsValid)
+            var validation = await new GetAllByEstadoRequestValidator().ValidateAsync(request);
+            if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<IEnumerable<CidadeResponse>>(request.Notifications);
+                return Result.Failure<IEnumerable<CidadeResponse>>(validation.ToString());
             }
 
             // Obtendo as cidades por estado (UF)
@@ -46,11 +46,11 @@ namespace SGP.Application.Services
         public async Task<IResult<CidadeResponse>> GetByIbgeAsync(GetByIbgeRequest request)
         {
             // Validando a requisição.
-            request.Validate();
-            if (!request.IsValid)
+            var validation = await new GetByIbgeRequestValidator().ValidateAsync(request);
+            if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<CidadeResponse>(request.Notifications);
+                return Result.Failure<CidadeResponse>(validation.ToString());
             }
 
             // Obtendo a cidade por IBGE.

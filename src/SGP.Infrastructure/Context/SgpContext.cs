@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Extensions;
-using SGP.Shared.Notifications;
 using System.Reflection;
 
 namespace SGP.Infrastructure.Context
@@ -33,10 +32,6 @@ namespace SGP.Infrastructure.Context
             modelBuilder.UseCollation("Latin1_General_CI_AI");
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.RemoveCascadeDeleteConvention();
-
-            // Ignorados globalmente
-            modelBuilder.Ignore<Notifiable>();
-            modelBuilder.Ignore<Notification>();
         }
     }
 }

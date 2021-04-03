@@ -56,11 +56,11 @@ namespace SGP.Application.Services
         public async Task<IResult<TokenResponse>> AuthenticateAsync(AuthRequest request)
         {
             // Validando a requisição.
-            request.Validate();
-            if (!request.IsValid)
+            var validation = await new AuthRequestValidator().ValidateAsync(request);
+            if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<TokenResponse>(request.Notifications);
+                return Result.Failure<TokenResponse>(validation.ToString());
             }
 
             // Criando o Objeto de Valor (VO).
@@ -122,11 +122,11 @@ namespace SGP.Application.Services
         public async Task<IResult<TokenResponse>> RefreshTokenAsync(RefreshTokenRequest request)
         {
             // Validando a requisição.
-            request.Validate();
-            if (!request.IsValid)
+            var validation = await new RefreshTokenRequestValidator().ValidateAsync(request);
+            if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<TokenResponse>(request.Notifications);
+                return Result.Failure<TokenResponse>(validation.ToString());
             }
 
             // Obtendo o usuário e seus tokens pelo RefreshToken.

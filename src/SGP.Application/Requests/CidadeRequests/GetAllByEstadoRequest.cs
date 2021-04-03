@@ -1,9 +1,6 @@
-﻿using SGP.Shared.Extensions;
-using SGP.Shared.Messages;
-
-namespace SGP.Application.Requests.CidadeRequests
+﻿namespace SGP.Application.Requests.CidadeRequests
 {
-    public class GetAllByEstadoRequest : BaseRequest
+    public class GetAllByEstadoRequest
     {
         public GetAllByEstadoRequest(string estadoSigla)
         {
@@ -11,12 +8,5 @@ namespace SGP.Application.Requests.CidadeRequests
         }
 
         public string EstadoSigla { get; }
-
-        public override void Validate()
-        {
-            new GetAllByEstadoRequestValidator()
-                .Validate(this)
-                .AddToNotifiable(this);
-        }
     }
 }
