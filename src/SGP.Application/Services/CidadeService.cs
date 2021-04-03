@@ -3,6 +3,7 @@ using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
 using SGP.Domain.Repositories;
+using SGP.Shared.Extensions;
 using SGP.Shared.Results;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace SGP.Application.Services
             if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<IEnumerable<CidadeResponse>>(validation.ToString());
+                return validation.ToResult<IEnumerable<CidadeResponse>>();
             }
 
             // Obtendo as cidades por estado (UF)
@@ -50,7 +51,7 @@ namespace SGP.Application.Services
             if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<CidadeResponse>(validation.ToString());
+                return validation.ToResult<CidadeResponse>();
             }
 
             // Obtendo a cidade por IBGE.

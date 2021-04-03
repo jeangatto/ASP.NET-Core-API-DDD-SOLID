@@ -7,6 +7,7 @@ using SGP.Application.Responses.Common;
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
+using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Shared.Results;
 using SGP.Shared.UnitOfWork;
@@ -42,7 +43,7 @@ namespace SGP.Application.Services
             if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<CreatedResponse>(validation.ToString());
+                return validation.ToResult<CreatedResponse>();
             }
 
             // Criando o Objeto de Valor (VO).
@@ -78,7 +79,7 @@ namespace SGP.Application.Services
             if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<UsuarioResponse>(validation.ToString());
+                return validation.ToResult<UsuarioResponse>();
             }
 
             // Obtendo a entidade do repositório.

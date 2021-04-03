@@ -60,7 +60,7 @@ namespace SGP.Application.Services
             if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<TokenResponse>(validation.ToString());
+                return validation.ToResult<TokenResponse>();
             }
 
             // Criando o Objeto de Valor (VO).
@@ -126,7 +126,7 @@ namespace SGP.Application.Services
             if (!validation.IsValid)
             {
                 // Retornando os erros.
-                return Result.Failure<TokenResponse>(validation.ToString());
+                return validation.ToResult<TokenResponse>();
             }
 
             // Obtendo o usuário e seus tokens pelo RefreshToken.
