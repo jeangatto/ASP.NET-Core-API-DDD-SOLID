@@ -2,7 +2,7 @@
 using SGP.Shared.Interfaces;
 using System;
 
-namespace SGP.Domain.Entities
+namespace SGP.Domain.Entities.UsuarioAggregate
 {
     public class RefreshToken : BaseEntity
     {

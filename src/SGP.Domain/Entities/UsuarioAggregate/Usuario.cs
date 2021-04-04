@@ -4,7 +4,7 @@ using SGP.Shared.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace SGP.Domain.Entities
+namespace SGP.Domain.Entities.UsuarioAggregate
 {
     public class Usuario : BaseEntity, IAggregateRoot
     {

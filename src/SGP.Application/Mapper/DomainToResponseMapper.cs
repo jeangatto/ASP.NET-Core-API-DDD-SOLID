@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SGP.Application.Responses;
 using SGP.Domain.Entities;
+using SGP.Domain.Entities.UsuarioAggregate;
 
 namespace SGP.Application.Mapper
 {

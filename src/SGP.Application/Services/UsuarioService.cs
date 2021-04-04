@@ -4,7 +4,7 @@ using SGP.Application.Requests;
 using SGP.Application.Requests.UsuarioRequests;
 using SGP.Application.Responses;
 using SGP.Application.Responses.Common;
-using SGP.Domain.Entities;
+using SGP.Domain.Entities.UsuarioAggregate;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Extensions;
@@ -47,7 +47,7 @@ namespace SGP.Application.Services
             }
 
             // Criando o Objeto de Valor (VO).
-            var email = Email.Create(request.Email).Value;
+            var email = new Email(request.Email);
 
             // Criptografando a senha.
             var senhaCriptografada = _hashService.Hash(request.Senha);

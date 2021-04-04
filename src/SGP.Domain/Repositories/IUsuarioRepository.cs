@@ -1,4 +1,4 @@
-﻿using SGP.Domain.Entities;
+﻿using SGP.Domain.Entities.UsuarioAggregate;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Interfaces;
 using System;

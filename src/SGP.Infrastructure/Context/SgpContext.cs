@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SGP.Domain.Entities;
+using SGP.Domain.Entities.UsuarioAggregate;
 using SGP.Infrastructure.Extensions;
 using System.Reflection;
 

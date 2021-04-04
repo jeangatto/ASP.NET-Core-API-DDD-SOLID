@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SGP.Domain.Entities;
+using SGP.Domain.Entities.UsuarioAggregate;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Context;

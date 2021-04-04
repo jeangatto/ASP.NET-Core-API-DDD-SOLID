@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SGP.Domain.Entities;
+using SGP.Domain.Entities.UsuarioAggregate;
 using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings

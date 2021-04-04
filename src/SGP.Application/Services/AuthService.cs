@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthRequests;
 using SGP.Application.Responses;
-using SGP.Domain.Entities;
+using SGP.Domain.Entities.UsuarioAggregate;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.AppSettings;
@@ -64,7 +64,7 @@ namespace SGP.Application.Services
             }
 
             // Criando o Objeto de Valor (VO).
-            var email = Email.Create(request.Email).Value;
+            var email = new Email(request.Email);
 
             // Obtendo o usuário pelo e-mail.
             var usuario = await _repository.GetByEmailAsync(email);
@@ -95,15 +95,13 @@ namespace SGP.Application.Services
                 _repository.Update(usuario);
                 await _uow.SaveChangesAsync();
 
-                var token = new TokenResponse(
+                return Result.Success(new TokenResponse(
                     true,
                     accessToken,
                     createdAt,
                     expiresAt,
                     refreshToken,
-                    secondsToExpire);
-
-                return Result.Success(token);
+                    secondsToExpire));
             }
             else
             {
@@ -158,15 +156,13 @@ namespace SGP.Application.Services
             _repository.Update(usuario);
             await _uow.SaveChangesAsync();
 
-            var token = new TokenResponse(
+            return Result.Success(new TokenResponse(
                 true,
                 accessToken,
                 createdAt,
                 expiresAt,
                 newRefreshToken,
-                secondsToExpire);
-
-            return Result.Success(token);
+                secondsToExpire));
         }
 
         private static IEnumerable<Claim> GenerateClaims(Usuario usuario)
