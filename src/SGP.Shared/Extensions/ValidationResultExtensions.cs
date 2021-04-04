@@ -15,15 +15,14 @@ namespace SGP.Shared.Extensions
             return Result.Success();
         }
 
-        public static IResult<TResponse> ToResult<TResponse>(this ValidationResult validationResult)
-            where TResponse : class
+        public static IResult<T> ToResult<T>(this ValidationResult validationResult) where T : class
         {
             if (validationResult?.IsValid == false)
             {
-                return Result.Failure<TResponse>(validationResult.ToString());
+                return Result.Failure<T>(validationResult.ToString());
             }
 
-            return Result.Success<TResponse>();
+            return Result.Success<T>();
         }
     }
 }
