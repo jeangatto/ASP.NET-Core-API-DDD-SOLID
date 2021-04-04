@@ -1,6 +1,8 @@
-﻿namespace SGP.Application.Requests.AuthRequests
+﻿using SGP.Application.Requests.Common;
+
+namespace SGP.Application.Requests.AuthRequests
 {
-    public class AuthRequest
+    public class AuthRequest : BaseRequest
     {
         public AuthRequest(string email, string senha)
         {

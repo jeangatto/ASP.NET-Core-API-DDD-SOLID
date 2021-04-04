@@ -1,6 +1,8 @@
-﻿namespace SGP.Application.Requests.CidadeRequests
+﻿using SGP.Application.Requests.Common;
+
+namespace SGP.Application.Requests.CidadeRequests
 {
-    public class GetAllByEstadoRequest
+    public class GetAllByEstadoRequest : BaseRequest
     {
         public GetAllByEstadoRequest(string estadoSigla)
         {

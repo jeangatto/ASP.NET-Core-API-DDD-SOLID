@@ -1,6 +1,8 @@
-﻿namespace SGP.Application.Requests.CidadeRequests
+﻿using SGP.Application.Requests.Common;
+
+namespace SGP.Application.Requests.CidadeRequests
 {
-    public class GetByIbgeRequest
+    public class GetByIbgeRequest : BaseRequest
     {
         public GetByIbgeRequest(string ibge)
         {

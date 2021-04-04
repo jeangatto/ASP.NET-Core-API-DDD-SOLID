@@ -1,8 +1,9 @@
-﻿using System;
+﻿using SGP.Application.Requests.Common;
+using System;
 
 namespace SGP.Application.Requests
 {
-    public sealed class GetByIdRequest
+    public sealed class GetByIdRequest : BaseRequest
     {
         public GetByIdRequest(Guid id)
         {

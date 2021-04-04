@@ -1,6 +1,8 @@
-﻿namespace SGP.Application.Requests.UsuarioRequests
+﻿using SGP.Application.Requests.Common;
+
+namespace SGP.Application.Requests.UsuarioRequests
 {
-    public class AddUsuarioRequest
+    public class AddUsuarioRequest : BaseRequest
     {
         public AddUsuarioRequest(string nome, string email, string senha)
         {
