@@ -16,6 +16,8 @@ namespace SGP.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            Guard.Against.Null(services, nameof(services));
+
             // Services
             services.AddScoped<IDateTime, LocalDateTimeService>();
             services.AddScoped<IHashService, BCryptHashService>();
@@ -31,6 +33,7 @@ namespace SGP.Infrastructure
 
         public static IServiceCollection ConfigureAppSettings(this IServiceCollection services, IConfiguration configuration)
         {
+            Guard.Against.Null(services, nameof(services));
             Guard.Against.Null(configuration, nameof(configuration));
 
             var configureBinder = ConfigureBinderOptions();

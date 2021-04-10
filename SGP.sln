@@ -38,6 +38,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Infrastructure", "5 - I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Infrastructure.Tests", "src\SGP.Infrastructure.Tests\SGP.Infrastructure.Tests.csproj", "{BAF55D30-70AE-4A5F-8F0B-4BAD1769CDE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.PublicApi", "src\SGP.PublicApi\SGP.PublicApi.csproj", "{983B3337-9FEA-4AAC-AD2F-EDC60AD221C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.Infrastructure.Migrations", "src\SGP.Infrastructure.Migrations\SGP.Infrastructure.Migrations.csproj", "{D3C2F192-60E3-4EC8-879A-9C79FDD49962}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +72,14 @@ Global
 		{BAF55D30-70AE-4A5F-8F0B-4BAD1769CDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAF55D30-70AE-4A5F-8F0B-4BAD1769CDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAF55D30-70AE-4A5F-8F0B-4BAD1769CDE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{983B3337-9FEA-4AAC-AD2F-EDC60AD221C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{983B3337-9FEA-4AAC-AD2F-EDC60AD221C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{983B3337-9FEA-4AAC-AD2F-EDC60AD221C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{983B3337-9FEA-4AAC-AD2F-EDC60AD221C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3C2F192-60E3-4EC8-879A-9C79FDD49962}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3C2F192-60E3-4EC8-879A-9C79FDD49962}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3C2F192-60E3-4EC8-879A-9C79FDD49962}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3C2F192-60E3-4EC8-879A-9C79FDD49962}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +96,8 @@ Global
 		{CC09C2B7-9AE0-48C3-A917-002F0C477C53} = {1A7E254F-9AE3-4A7C-8EAE-D478A87D6592}
 		{7D64A989-8021-4E54-BD72-C517677370DE} = {1A7E254F-9AE3-4A7C-8EAE-D478A87D6592}
 		{BAF55D30-70AE-4A5F-8F0B-4BAD1769CDE2} = {C3E53C44-C421-44E4-834C-AB622D660DF5}
+		{983B3337-9FEA-4AAC-AD2F-EDC60AD221C7} = {A8EF6B26-C567-488A-9F6E-5200FDEB64B6}
+		{D3C2F192-60E3-4EC8-879A-9C79FDD49962} = {7D64A989-8021-4E54-BD72-C517677370DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF8C8DEB-5FA2-4E59-9A6A-A6CE89524075}
