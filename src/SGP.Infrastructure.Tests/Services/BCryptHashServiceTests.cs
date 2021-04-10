@@ -20,10 +20,10 @@ namespace SGP.Infrastructure.Tests.Services
         {
             // Arrange
             var hashService = CreateBCryptHashService();
-            const string PASSWORD = "12345abc";
+            const string password = "12345abc";
 
             // Act
-            Action act = () => hashService.Compare(PASSWORD, hash);
+            Action act = () => hashService.Compare(password, hash);
 
             // Assert
             act.Should().Throw<ArgumentException>().And.ParamName.Should().Be("hash");
