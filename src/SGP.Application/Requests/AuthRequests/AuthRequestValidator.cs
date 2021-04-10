@@ -6,12 +6,12 @@ namespace SGP.Application.Requests.AuthRequests
     {
         public AuthRequestValidator()
         {
-            RuleFor(req => req.Email)
+            RuleFor(x => x.Email)
                 .NotEmpty()
                 .EmailAddress()
                 .MaximumLength(100);
 
-            RuleFor(req => req.Senha)
+            RuleFor(x => x.Senha)
                 .NotEmpty();
         }
     }

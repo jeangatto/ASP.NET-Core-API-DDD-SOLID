@@ -6,7 +6,7 @@ namespace SGP.Application.Requests.AuthRequests
     {
         public RefreshTokenRequestValidator()
         {
-            RuleFor(req => req.Token)
+            RuleFor(x => x.Token)
                 .NotEmpty();
         }
     }

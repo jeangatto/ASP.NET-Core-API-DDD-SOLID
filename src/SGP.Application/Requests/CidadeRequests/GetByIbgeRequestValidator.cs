@@ -6,7 +6,7 @@ namespace SGP.Application.Requests.CidadeRequests
     {
         public GetByIbgeRequestValidator()
         {
-            RuleFor(req => req.Ibge)
+            RuleFor(x => x.Ibge)
                 .NotEmpty()
                 .MaximumLength(8);
         }

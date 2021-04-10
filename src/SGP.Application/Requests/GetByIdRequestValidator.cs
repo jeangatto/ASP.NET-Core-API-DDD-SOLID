@@ -7,7 +7,7 @@ namespace SGP.Application.Requests
     {
         public GetByIdRequestValidator()
         {
-            RuleFor(req => req.Id)
+            RuleFor(x => x.Id)
                 .NotNull()
                 .NotEmpty()
                 .NotEqual(Guid.Empty);

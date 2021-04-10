@@ -35,11 +35,11 @@ namespace SGP.Infrastructure.Tests.Services
         {
             // Arrange
             var hashService = CreateBCryptHashService();
-            const string PASSWORD = "12345abc";
-            const string HASH = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
+            const string password = "12345abc";
+            const string hash = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
 
             // Act
-            var act = hashService.Compare(PASSWORD, HASH);
+            var act = hashService.Compare(password, hash);
 
             // Assert
             act.Should().BeTrue();
@@ -51,11 +51,11 @@ namespace SGP.Infrastructure.Tests.Services
         {
             // Arrange
             var hashService = CreateBCryptHashService();
-            const string PASSWORD = "abc12345";
-            const string HASH = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
+            const string password = "abc12345";
+            const string hash = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
 
             // Act
-            var act = hashService.Compare(PASSWORD, HASH);
+            var act = hashService.Compare(password, hash);
 
             // Assert
             act.Should().BeFalse();
@@ -70,10 +70,10 @@ namespace SGP.Infrastructure.Tests.Services
         {
             // Arrange
             var hashService = CreateBCryptHashService();
-            const string HASH = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
+            const string hash = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
 
             // Act
-            Action act = () => hashService.Compare(text, HASH);
+            Action act = () => hashService.Compare(text, hash);
 
             // Assert
             act.Should().Throw<ArgumentException>().And.ParamName.Should().Be("text");

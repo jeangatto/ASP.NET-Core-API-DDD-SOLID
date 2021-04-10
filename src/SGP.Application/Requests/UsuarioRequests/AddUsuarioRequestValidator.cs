@@ -6,17 +6,17 @@ namespace SGP.Application.Requests.UsuarioRequests
     {
         public AddUsuarioRequestValidator()
         {
-            RuleFor(req => req.Nome)
+            RuleFor(x => x.Nome)
                 .NotEmpty()
                 .MinimumLength(3)
                 .MaximumLength(30);
 
-            RuleFor(req => req.Email)
+            RuleFor(x => x.Email)
                 .NotEmpty()
                 .EmailAddress()
                 .MaximumLength(100);
 
-            RuleFor(req => req.Senha)
+            RuleFor(x => x.Senha)
                 .NotEmpty()
                 .MinimumLength(4)
                 .MaximumLength(16);
