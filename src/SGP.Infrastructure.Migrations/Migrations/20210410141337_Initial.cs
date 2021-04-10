@@ -15,10 +15,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                     Estado = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     Nome = table.Column<string>(type: "varchar(70)", unicode: false, maxLength: 70, nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cidade", x => x.Ibge);
-                });
+                constraints: table => table.PrimaryKey("PK_Cidade", x => x.Ibge));
 
             migrationBuilder.CreateTable(
                 name: "Usuario",
@@ -33,10 +30,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                     AcessosComSucesso = table.Column<short>(type: "smallint", nullable: false),
                     AcessosComFalha = table.Column<short>(type: "smallint", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Usuario", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Usuario", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "RefreshToken",

@@ -2,16 +2,16 @@
 {
     public class Result<T> : Result, IResult<T>
     {
-        internal Result(bool failed) : base(failed)
+        internal Result(bool isFailed) : base(isFailed)
         {
         }
 
-        internal Result(bool failed, T value) : base(failed)
+        internal Result(bool isFailed, T value) : base(isFailed)
         {
             Value = value;
         }
 
-        internal Result(bool failed, string error) : base(failed, error)
+        internal Result(bool isFailed, string error) : base(isFailed, error)
         {
         }
 

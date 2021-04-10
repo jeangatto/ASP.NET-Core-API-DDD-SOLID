@@ -2,19 +2,19 @@
 {
     public partial class Result : IResult
     {
-        internal Result(bool failed)
+        internal Result(bool isFailed)
         {
-            Failed = failed;
+            IsFailed = isFailed;
         }
 
-        internal Result(bool failed, string error)
+        internal Result(bool isFailed, string error)
         {
-            Failed = failed;
+            IsFailed = isFailed;
             Error = error;
         }
 
-        public bool Failed { get; }
+        public bool IsFailed { get; }
         public string Error { get; }
-        public bool Succeeded => !Failed;
+        public bool IsSuccess => !IsFailed;
     }
 }

@@ -2,9 +2,9 @@
 {
     public interface IResult
     {
-        bool Failed { get; }
+        bool IsFailed { get; }
         string Error { get; }
-        bool Succeeded { get; }
+        bool IsSuccess { get; }
     }
 
     public interface IResult<out T> : IResult

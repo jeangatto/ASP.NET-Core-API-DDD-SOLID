@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SGP.Infrastructure.Context;
@@ -12,9 +11,6 @@ namespace SGP.Infrastructure.Migrations
     {
         public static IServiceCollection AddContextWithMigrations(this IServiceCollection services, IConfiguration configuration)
         {
-            Guard.Against.Null(services, nameof(services));
-            Guard.Against.Null(configuration, nameof(configuration));
-
             const string connectionName = nameof(ConnectionStrings.DefaultConnection);
             var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 

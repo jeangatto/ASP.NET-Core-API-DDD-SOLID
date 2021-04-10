@@ -30,7 +30,7 @@ namespace SGP.Infrastructure.Repositories
         {
             return await _context.Cidades
                 .AsNoTracking()
-                .GroupBy(cidade => cidade.Estado)
+                .GroupBy(c => c.Estado)
                 .Select(grouping => grouping.Key)
                 .OrderBy(estado => estado)
                 .ToListAsync();

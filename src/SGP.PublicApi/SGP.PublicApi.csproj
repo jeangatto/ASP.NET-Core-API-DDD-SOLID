@@ -15,9 +15,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.2" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Controllers\" />
-	</ItemGroup>
-	<ItemGroup>
 		<ProjectReference Include="..\SGP.Application\SGP.Application.csproj" />
 		<ProjectReference Include="..\SGP.Infrastructure.Migrations\SGP.Infrastructure.Migrations.csproj" />
 		<ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj" />
