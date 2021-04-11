@@ -61,14 +61,7 @@ namespace SGP.PublicApi
                     jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter(namingStrategy));
                 });
 
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "SGP",
-                    Version = "v1"
-                });
-            });
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "SGP", Version = "v1" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,11 +71,7 @@ namespace SGP.PublicApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    options.DisplayRequestDuration();
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "SGP v1");
-                });
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SGP v1"));
             }
 
             app.UseHttpsRedirection();

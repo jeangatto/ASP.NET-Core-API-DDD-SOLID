@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
-using SGP.Application.Responses;
-using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
@@ -23,15 +21,15 @@ namespace SGP.PublicApi.Controllers
         [HttpGet("{uf}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<CidadeResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Listar([FromRoute] string uf)
         {
             var result = await _service.GetAllAsync(new GetAllByEstadoRequest(uf));
             if (result.IsFailed)
             {
-                return BadRequest(result.Error);
+                return BadRequest(result.Errors);
             }
 
             return Ok(result.Value);

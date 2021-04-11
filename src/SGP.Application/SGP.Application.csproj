@@ -5,15 +5,16 @@
 		<NoWarn>1701;1702;IDE0063;RCS1090;</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="10.1.1"/>
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1"/>
-		<PackageReference Include="FluentValidation" Version="10.0.2"/>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1"/>
-		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.10.0"/>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0"/>
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+		<PackageReference Include="FluentResults" Version="2.3.0" />
+		<PackageReference Include="FluentValidation" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.10.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj"/>
+		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using FluentResults;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
 using SGP.Domain.Repositories;
 using SGP.Shared.Extensions;
-using SGP.Shared.Results;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,14 +21,14 @@ namespace SGP.Application.Services
             _repository = repository;
         }
 
-        public async Task<IResult<IEnumerable<CidadeResponse>>> GetAllAsync(GetAllByEstadoRequest request)
+        public async Task<Result<IEnumerable<CidadeResponse>>> GetAllAsync(GetAllByEstadoRequest request)
         {
             // Validando a requisição.
-            var validation = await new GetAllByEstadoRequestValidator().ValidateAsync(request);
-            if (!validation.IsValid)
+            var result = await new GetAllByEstadoRequestValidator().ValidateAsync(request);
+            if (!result.IsValid)
             {
                 // Retornando os erros.
-                return validation.ToResult<IEnumerable<CidadeResponse>>();
+                return result.ToFail<IEnumerable<CidadeResponse>>();
             }
 
             // Obtendo as cidades por estado (UF)
@@ -36,7 +36,7 @@ namespace SGP.Application.Services
 
             // Mapeando domínio para resposta (DTO).
             var response = _mapper.Map<IEnumerable<CidadeResponse>>(cidades);
-            return Result.Success(response);
+            return Result.Ok(response);
         }
 
         public async Task<IEnumerable<string>> GetAllEstadosAsync()
@@ -44,14 +44,14 @@ namespace SGP.Application.Services
             return await _repository.GetAllEstadosAsync();
         }
 
-        public async Task<IResult<CidadeResponse>> GetByIbgeAsync(GetByIbgeRequest request)
+        public async Task<Result<CidadeResponse>> GetByIbgeAsync(GetByIbgeRequest request)
         {
             // Validando a requisição.
-            var validation = await new GetByIbgeRequestValidator().ValidateAsync(request);
-            if (!validation.IsValid)
+            var result = await new GetByIbgeRequestValidator().ValidateAsync(request);
+            if (!result.IsValid)
             {
                 // Retornando os erros.
-                return validation.ToResult<CidadeResponse>();
+                return result.ToFail<CidadeResponse>();
             }
 
             // Obtendo a cidade por IBGE.
@@ -59,12 +59,12 @@ namespace SGP.Application.Services
             if (cidade == null)
             {
                 // Não encontrado.
-                return Result.Failure<CidadeResponse>($"Nenhuma cidade encontrada pelo IBGE: '{request.Ibge}'");
+                return Result.Fail<CidadeResponse>($"Nenhuma cidade encontrada pelo IBGE: '{request.Ibge}'");
             }
 
             // Mapeando domínio para resposta (DTO).
             var response = _mapper.Map<CidadeResponse>(cidade);
-            return Result.Success(response);
+            return Result.Ok(response);
         }
     }
 }

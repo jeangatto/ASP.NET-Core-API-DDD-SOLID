@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentResults;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests;
 using SGP.Application.Requests.UsuarioRequests;
@@ -8,7 +9,6 @@ using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
-using SGP.Shared.Results;
 using SGP.Shared.UnitOfWork;
 using System.Threading.Tasks;
 
@@ -35,14 +35,14 @@ namespace SGP.Application.Services
             _uow = uow;
         }
 
-        public async Task<IResult<CreatedResponse>> AddAsync(AddUsuarioRequest request)
+        public async Task<Result<CreatedResponse>> AddAsync(AddUsuarioRequest request)
         {
             // Validando a requisição.
-            var validation = await new AddUsuarioRequestValidator().ValidateAsync(request);
-            if (!validation.IsValid)
+            var result = await new AddUsuarioRequestValidator().ValidateAsync(request);
+            if (!result.IsValid)
             {
                 // Retornando os erros.
-                return validation.ToResult<CreatedResponse>();
+                return result.ToFail<CreatedResponse>();
             }
 
             // Criando o Objeto de Valor (VO).
@@ -57,7 +57,7 @@ namespace SGP.Application.Services
             // Verificando se o e-mail já existe na base de dados.
             if (await _repository.EmailAlreadyExistsAsync(email))
             {
-                return Result.Failure<CreatedResponse>("O endereço de e-mail informado não está disponivel.");
+                return Result.Fail<CreatedResponse>("O endereço de e-mail informado não está disponivel.");
             }
 
             // Adicionando no repositório.
@@ -68,17 +68,17 @@ namespace SGP.Application.Services
 
             // Retornando o resultado.
             var response = new CreatedResponse(usuario.Id);
-            return Result.Success(response);
+            return Result.Ok(response);
         }
 
-        public async Task<IResult<UsuarioResponse>> GetByIdAsync(GetByIdRequest request)
+        public async Task<Result<UsuarioResponse>> GetByIdAsync(GetByIdRequest request)
         {
             // Validando a requisição.
-            var validation = await new GetByIdRequestValidator().ValidateAsync(request);
-            if (!validation.IsValid)
+            var result = await new GetByIdRequestValidator().ValidateAsync(request);
+            if (!result.IsValid)
             {
                 // Retornando os erros.
-                return validation.ToResult<UsuarioResponse>();
+                return result.ToFail<UsuarioResponse>();
             }
 
             // Obtendo a entidade do repositório.
@@ -86,12 +86,12 @@ namespace SGP.Application.Services
             if (usuario == null)
             {
                 // Retornando erro não encontrado.
-                return Result.Failure<UsuarioResponse>($"Registro não encontrado: {request.Id}.");
+                return Result.Fail<UsuarioResponse>($"Registro não encontrado: {request.Id}.");
             }
 
             // Mapeando domínio para resposta (DTO).
             var response = _mapper.Map<UsuarioResponse>(usuario);
-            return Result.Success(response);
+            return Result.Ok(response);
         }
     }
 }

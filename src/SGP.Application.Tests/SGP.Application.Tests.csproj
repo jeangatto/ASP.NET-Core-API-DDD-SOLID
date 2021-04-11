@@ -20,6 +20,6 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\SGP.Application\SGP.Application.csproj" />
+		<ProjectReference Include="..\SGP.Application\SGP.Application.csproj" />
 	</ItemGroup>
 </Project>
