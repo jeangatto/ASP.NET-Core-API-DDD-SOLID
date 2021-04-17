@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -13,6 +14,10 @@ using SGP.Application;
 using SGP.Infrastructure;
 using SGP.Infrastructure.Migrations;
 using SGP.PublicApi.Extensions;
+using SGP.PublicApi.Models;
+using SGP.Shared.Extensions;
+using System.Linq;
+using System.Net.Mime;
 
 namespace SGP.PublicApi
 {
@@ -28,21 +33,23 @@ namespace SGP.PublicApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplication();
-
-            services.AddInfrastructure();
-
-            services.AddContextWithMigrations(Configuration);
-
-            services.ConfigureAppSettings(Configuration);
-
-            services.AddOpenApi();
-
             services.AddCors();
 
             services.AddHttpContextAccessor();
 
             services.AddResponseCompression();
+
+            services.AddOpenApi();
+
+            services.AddApplication();
+
+            services.AddInfrastructure();
+
+            var healthChecksBuilder = services.AddHealthChecks();
+
+            services.AddConfiguredDbContext(Configuration, healthChecksBuilder);
+
+            services.ConfigureAppSettings(Configuration);
 
             services.Configure<RouteOptions>(routeOptions =>
             {
@@ -78,6 +85,28 @@ namespace SGP.PublicApi
             }
 
             app.UseOpenApi();
+
+            app.UseHealthChecks("/health", new HealthCheckOptions
+            {
+                ResponseWriter = async (context, report) =>
+                {
+                    context.Response.ContentType = MediaTypeNames.Application.Json;
+
+                    var healthCheckReponse = new HealthCheckReponse
+                    {
+                        Status = report.Status.ToString(),
+                        HealthCheckDuration = report.TotalDuration,
+                        HealthChecks = report.Entries.Select(entry => new IndividualHealthCheckResponse
+                        {
+                            Components = entry.Key,
+                            Status = entry.Value.Status.ToString(),
+                            Description = entry.Value.Description
+                        })
+                    };
+
+                    await context.Response.WriteAsync(healthCheckReponse.ToJson());
+                }
+            });
 
             app.UseHttpsRedirection();
 

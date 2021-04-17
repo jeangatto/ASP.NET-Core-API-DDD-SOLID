@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ardalis.GuardClauses;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SGP.Infrastructure.Context;
@@ -9,14 +10,27 @@ namespace SGP.Infrastructure.Migrations
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddContextWithMigrations(this IServiceCollection services, IConfiguration configuration)
+        private static readonly string AssymbleName = Assembly.GetExecutingAssembly().GetName().Name;
+
+        public static IServiceCollection AddConfiguredDbContext(this IServiceCollection services,
+            IConfiguration configuration, IHealthChecksBuilder healthChecksBuilder)
         {
-            const string connectionName = nameof(ConnectionStrings.DefaultConnection);
-            var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+            Guard.Against.Null(services, nameof(services));
+            Guard.Against.Null(configuration, nameof(configuration));
+            Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
+
+            var connectionString = configuration.GetConnectionString(
+                nameof(ConnectionStrings.DefaultConnection));
 
             services.AddDbContext<SgpContext>(options
-                => options.UseSqlServer(configuration.GetConnectionString(connectionName),
-                       sqlServer => sqlServer.MigrationsAssembly(assemblyName)));
+                => options.UseSqlServer(connectionString,
+                       sqlServer => sqlServer.MigrationsAssembly(AssymbleName)));
+
+            // Verificador da saúde da base de dados.
+            healthChecksBuilder.AddDbContextCheck<SgpContext>(
+                tags: new[] { "database" },
+                customTestQuery: (context, cancellationToken)
+                    => context.Cidades.AsNoTracking().AnyAsync(cancellationToken));
 
             return services;
         }

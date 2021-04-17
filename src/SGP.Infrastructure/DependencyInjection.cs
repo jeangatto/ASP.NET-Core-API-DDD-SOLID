@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Ardalis.GuardClauses;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
@@ -15,6 +16,8 @@ namespace SGP.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            Guard.Against.Null(services, nameof(services));
+
             // Services
             services.AddScoped<IDateTime, LocalDateTimeService>();
             services.AddScoped<IHashService, BCryptHashService>();
@@ -28,18 +31,20 @@ namespace SGP.Infrastructure
             return services;
         }
 
-        public static IServiceCollection ConfigureAppSettings(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ConfigureAppSettings(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            var configureBinder = ConfigureBinderOptions();
-            services.Configure<AuthConfig>(configuration.GetSection(nameof(AuthConfig)), configureBinder);
-            services.Configure<JwtConfig>(configuration.GetSection(nameof(JwtConfig)), configureBinder);
-            services.Configure<ConnectionStrings>(configuration.GetSection(nameof(ConnectionStrings)), configureBinder);
+            Guard.Against.Null(services, nameof(services));
+            Guard.Against.Null(configuration, nameof(configuration));
+
+            var binderOptions = ConfigureBinderOptions();
+            services.Configure<AuthConfig>(configuration.GetSection(nameof(AuthConfig)), binderOptions);
+            services.Configure<JwtConfig>(configuration.GetSection(nameof(JwtConfig)), binderOptions);
+            services.Configure<ConnectionStrings>(configuration.GetSection(nameof(ConnectionStrings)), binderOptions);
             return services;
         }
 
         private static Action<BinderOptions> ConfigureBinderOptions()
-        {
-            return options => options.BindNonPublicProperties = true;
-        }
+            => binderOptions => binderOptions.BindNonPublicProperties = true;
     }
 }

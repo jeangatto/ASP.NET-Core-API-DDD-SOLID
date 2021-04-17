@@ -1,4 +1,6 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using SGP.Shared.ContractResolvers;
 
 namespace SGP.Shared.Extensions
@@ -14,15 +16,17 @@ namespace SGP.Shared.Extensions
         /// </summary>
         private static readonly JsonSerializerSettings JsonOptions = new()
         {
-            // Formatando o JSON em uma única linha.
             Formatting = Formatting.None,
-            // Removendo as referências circulares.
             PreserveReferencesHandling = PreserveReferencesHandling.None,
-            // Ignorando as propriedades que estão com valores nulo.
-            NullValueHandling = NullValueHandling.Ignore,
-            // Resolvedor de setter privados.
-            ContractResolver = new PrivateSetterContractResolver()
+            NullValueHandling = NullValueHandling.Ignore
         };
+
+        static JsonExtensions()
+        {
+            var namingStrategy = new CamelCaseNamingStrategy();
+            JsonOptions.ContractResolver = new PrivateSetterContractResolver(namingStrategy);
+            JsonOptions.Converters.Add(new StringEnumConverter(namingStrategy));
+        }
 
         /// <summary>
         /// Desserializa o JSON para o tipo especificado.
@@ -38,7 +42,7 @@ namespace SGP.Shared.Extensions
         /// </summary>
         /// <param name="value">O objeto a ser serializado.</param>
         /// <returns>Uma representação de string JSON do objeto.</returns>
-        public static string ToJson(this object value)
+        public static string ToJson<T>(this T value)
             => JsonConvert.SerializeObject(value, JsonOptions);
     }
 }
