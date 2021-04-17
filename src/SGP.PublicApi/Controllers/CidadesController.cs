@@ -18,12 +18,18 @@ namespace SGP.PublicApi.Controllers
             _service = service;
         }
 
+        /// <summary>
+        /// Obtém a lista de municípios do brasil a partir da UF informada.
+        /// </summary>
+        /// <param name="uf">Sigla da unidade federativa.</param>
+        /// <response code="200">Retorna a lista de municípios.</response>
+        /// <response code="400">Se a requisição for inválida.</response>
+        /// <returns>Retorna a lista de municípios.</returns>
         [HttpGet("{uf}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
         public async Task<IActionResult> Listar([FromRoute] string uf)
         {
             var result = await _service.GetAllAsync(new GetAllByEstadoRequest(uf));

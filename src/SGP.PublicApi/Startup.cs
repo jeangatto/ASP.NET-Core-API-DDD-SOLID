@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,7 @@ using Newtonsoft.Json.Serialization;
 using SGP.Application;
 using SGP.Infrastructure;
 using SGP.Infrastructure.Migrations;
+using SGP.PublicApi.Extensions;
 
 namespace SGP.PublicApi
 {
@@ -34,6 +36,8 @@ namespace SGP.PublicApi
 
             services.ConfigureAppSettings(Configuration);
 
+            services.AddOpenApi();
+
             services.AddCors();
 
             services.AddHttpContextAccessor();
@@ -45,6 +49,9 @@ namespace SGP.PublicApi
                 routeOptions.LowercaseUrls = true;
                 routeOptions.LowercaseQueryStrings = true;
             });
+
+            services.Configure<KestrelServerOptions>(
+                kestrelServerOptions => kestrelServerOptions.AddServerHeader = false);
 
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(apiBehaviorOptions =>
@@ -60,8 +67,6 @@ namespace SGP.PublicApi
                     jsonOptions.SerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = namingStrategy };
                     jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter(namingStrategy));
                 });
-
-            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "SGP", Version = "v1" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,9 +75,9 @@ namespace SGP.PublicApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SGP v1"));
             }
+
+            app.UseOpenApi();
 
             app.UseHttpsRedirection();
 
