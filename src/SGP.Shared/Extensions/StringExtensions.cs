@@ -13,20 +13,20 @@ namespace SGP.Shared.Extensions
         /// Remove da string caracteres reservados e ilegais para URL.
         /// REF: https://stackoverflow.com/a/13500078/4494758
         /// </summary>
-        /// <param name="url">String que representa a URL.</param>
+        /// <param name="uriString">String que representa a URL.</param>
         /// <returns>A URL com caracteres válidos.</returns>
-        /// <exception cref="System.ArgumentNullException">Lançado quando o valor <paramref name="url"/> for nulo.</exception>
-        /// <exception cref="System.ArgumentException">Lançado quando o valor <paramref name="url"/> for uma string vazia ou de espaço em branco.</exception>
-        public static string RemoveIlegalCharactersFromURL(this string url)
+        /// <exception cref="System.ArgumentNullException">Lançado quando o valor <paramref name="uriString"/> for nulo.</exception>
+        /// <exception cref="System.ArgumentException">Lançado quando o valor <paramref name="uriString"/> for uma string vazia ou de espaço em branco.</exception>
+        public static string RemoveIlegalCharactersFromURL(this string uriString)
         {
-            Guard.Against.NullOrWhiteSpace(url, nameof(url));
+            Guard.Against.NullOrWhiteSpace(uriString, nameof(uriString));
 
             foreach (var invalidChar in UrlInvalidChars)
             {
-                url = url.Replace(invalidChar, string.Empty);
+                uriString = uriString.Replace(invalidChar, string.Empty);
             }
 
-            return url;
+            return uriString;
         }
     }
 }

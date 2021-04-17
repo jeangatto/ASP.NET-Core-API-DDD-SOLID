@@ -88,6 +88,7 @@ namespace SGP.PublicApi
 
             app.UseHealthChecks("/health", new HealthCheckOptions
             {
+                AllowCachingResponses = true,
                 ResponseWriter = async (context, report) =>
                 {
                     context.Response.ContentType = MediaTypeNames.Application.Json;

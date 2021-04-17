@@ -32,10 +32,10 @@ namespace SGP.Shared.Extensions
         /// Desserializa o JSON para o tipo especificado.
         /// </summary>
         /// <typeparam name="T">O tipo de objeto para o qual desserializar.</typeparam>
-        /// <param name="value">O objeto a ser desserializado.</param>
+        /// <param name="jsonString">O objeto a ser desserializado.</param>
         /// <returns>O objeto desserializado da string JSON.</returns>
-        public static T FromJson<T>(this string value)
-            => JsonConvert.DeserializeObject<T>(value, JsonOptions);
+        public static T FromJson<T>(this string jsonString)
+            => JsonConvert.DeserializeObject<T>(jsonString, JsonOptions);
 
         /// <summary>
         /// Serializa o objeto especificado em uma string JSON.

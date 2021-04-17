@@ -10,8 +10,8 @@ namespace SGP.PublicApi.Extensions
 {
     public static class SwaggerExtensions
     {
-        private const string AppName = "SGP";
-        private const string CurrentVersion = "v1";
+        private const string Title = "SGP";
+        private const string Version = "v1";
 
         public static IServiceCollection AddOpenApi(this IServiceCollection services)
         {
@@ -19,10 +19,10 @@ namespace SGP.PublicApi.Extensions
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc(CurrentVersion, new OpenApiInfo
+                options.SwaggerDoc(Version, new OpenApiInfo
                 {
-                    Version = CurrentVersion,
-                    Title = AppName,
+                    Version = Version,
+                    Title = Title,
                     Description = "Sistema Gerenciador de Pedidos Online",
                     Contact = new OpenApiContact
                     {
@@ -49,7 +49,7 @@ namespace SGP.PublicApi.Extensions
             app.UseSwaggerUI(options =>
             {
                 options.DisplayRequestDuration();
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", $"{AppName} {CurrentVersion}");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", $"{Title} {Version}");
             });
 
             return app;
