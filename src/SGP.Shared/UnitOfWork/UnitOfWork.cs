@@ -25,17 +25,17 @@ namespace SGP.Shared.UnitOfWork
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                _logger.LogCritical(ex, $"Ocorreu uma exceção (concorrência) ao salvar as informações na base de dados, erro: {ex.Message}");
+                _logger.LogError(ex, "Ocorreu um erro (concorrÃªncia) ao salvar as informaÃ§Ãµes na base de dados.");
                 throw;
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogCritical(ex, $"Ocorreu uma exceção ao salvar as informações na base de dados, erro: {ex.Message}");
+                _logger.LogError(ex, "Ocorreu um erro ao salvar as informaÃ§Ãµes na base de dados.");
                 throw;
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, $"Ocorreu uma exceção ao confirmar a transação na base de dados, erro: {ex.Message}");
+                _logger.LogError(ex, "Ocorreu um erro ao salvar as informaÃ§Ãµes na base de dados.");
                 throw;
             }
         }
