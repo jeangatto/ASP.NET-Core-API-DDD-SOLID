@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using SGP.PublicApi.OperationFilters;
+using SGP.PublicApi.Filters;
 using SGP.PublicApi.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
