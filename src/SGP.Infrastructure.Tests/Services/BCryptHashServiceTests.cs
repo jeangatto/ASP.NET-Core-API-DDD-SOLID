@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Moq;
 using SGP.Infrastructure.Services;
 using SGP.Shared.Interfaces;
 using System;
@@ -114,17 +114,6 @@ namespace SGP.Infrastructure.Tests.Services
         }
 
         private static IHashService CreateBCryptHashService()
-        {
-            var serviceProvider = CreateServiceProvider();
-            var logger = serviceProvider.GetRequiredService<ILogger<BCryptHashService>>();
-            return new BCryptHashService(logger);
-        }
-
-        private static ServiceProvider CreateServiceProvider()
-        {
-            return new ServiceCollection()
-                .AddLogging(options => options.ClearProviders())
-                .BuildServiceProvider(true);
-        }
+            => new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
     }
 }
