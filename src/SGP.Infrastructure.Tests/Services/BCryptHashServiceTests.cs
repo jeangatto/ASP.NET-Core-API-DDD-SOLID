@@ -84,13 +84,13 @@ namespace SGP.Infrastructure.Tests.Services
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void Encrypt_InputNullOrWhiteSpace_ThrowsArgumentException(string input)
+        public void Encrypt_InputNullOrWhiteSpace_ThrowsArgumentException(string text)
         {
             // Arrange
             var hashService = CreateBCryptHashService();
 
             // Act
-            Action act = () => hashService.Hash(input);
+            Action act = () => hashService.Hash(text);
 
             // Assert
             act.Should().Throw<ArgumentException>().And.ParamName.Should().Be("text");
@@ -101,16 +101,16 @@ namespace SGP.Infrastructure.Tests.Services
         [InlineData("a1b2c3d4")]
         [InlineData("MinhaSenha")]
         [InlineData("12345@__$Ááeeeiiooouu")]
-        public void Encrypt_Text_ReturnsHashedString(string textToEncrypt)
+        public void Encrypt_Text_ReturnsHashedString(string text)
         {
             // Arrange
             var hashService = CreateBCryptHashService();
 
             // Act
-            var act = hashService.Hash(textToEncrypt);
+            var act = hashService.Hash(text);
 
             // Assert
-            act.Should().NotBeNullOrEmpty().And.Should().NotBeSameAs(textToEncrypt);
+            act.Should().NotBeNullOrEmpty().And.Should().NotBeSameAs(text);
         }
 
         private static IHashService CreateBCryptHashService()
