@@ -12,7 +12,7 @@ namespace SGP.Infrastructure.Migrations
     {
         private static readonly string AssymbleName = Assembly.GetExecutingAssembly().GetName().Name;
 
-        public static IServiceCollection AddConfiguredDbContext(this IServiceCollection services,
+        public static IServiceCollection AddDbContext(this IServiceCollection services,
             IConfiguration configuration, IHealthChecksBuilder healthChecksBuilder)
         {
             Guard.Against.Null(services, nameof(services));

@@ -1,7 +1,11 @@
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Options;
+using SGP.PublicApi.OperationFilters;
+using SGP.PublicApi.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.IO;
 using System.Reflection;
@@ -10,27 +14,15 @@ namespace SGP.PublicApi.Extensions
 {
     public static class SwaggerExtensions
     {
-        private const string Title = "SGP";
-        private const string Version = "v1";
-
         public static IServiceCollection AddOpenApi(this IServiceCollection services)
         {
             Guard.Against.Null(services, nameof(services));
 
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc(Version, new OpenApiInfo
-                {
-                    Version = Version,
-                    Title = Title,
-                    Description = "Sistema Gerenciador de Pedidos Online",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Jean Gatto",
-                        Email = "jean_gatto@hotmail.com",
-                        Url = new Uri("https://www.linkedin.com/in/jeangatto/")
-                    }
-                });
+                options.OperationFilter<SwaggerDefaultValues>();
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -38,15 +30,27 @@ namespace SGP.PublicApi.Extensions
                 options.IncludeXmlComments(xmlPath);
             });
 
+            services.AddSwaggerGenNewtonsoftSupport();
+
             return services;
         }
 
-        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app)
+        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app,
+            IApiVersionDescriptionProvider provider)
         {
             Guard.Against.Null(app, nameof(app));
+            Guard.Against.Null(provider, nameof(provider));
 
             app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", $"{Title} {Version}"));
+            app.UseSwaggerUI(options =>
+            {
+                // build a swagger endpoint for each discovered API version
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                        description.GroupName.ToUpperInvariant());
+                }
+            });
 
             return app;
         }

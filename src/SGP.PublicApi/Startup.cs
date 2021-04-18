@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +34,8 @@ namespace SGP.PublicApi
 
             services.AddResponseCompression();
 
+            services.AddApiVersioningAndApiExplorer();
+
             services.AddOpenApi();
 
             services.AddApplication();
@@ -41,7 +44,7 @@ namespace SGP.PublicApi
 
             var healthChecksBuilder = services.AddHealthChecks();
 
-            services.AddConfiguredDbContext(Configuration, healthChecksBuilder);
+            services.AddDbContext(Configuration, healthChecksBuilder);
 
             services.ConfigureAppSettings(Configuration);
 
@@ -71,14 +74,15 @@ namespace SGP.PublicApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseOpenApi();
+            app.UseOpenApi(provider);
 
             app.UseHealthChecks();
 

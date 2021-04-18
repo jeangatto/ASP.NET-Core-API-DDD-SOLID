@@ -45,6 +45,8 @@ namespace SGP.Infrastructure
         }
 
         private static Action<BinderOptions> ConfigureBinderOptions()
-            => binderOptions => binderOptions.BindNonPublicProperties = true;
+        {
+            return binderOptions => binderOptions.BindNonPublicProperties = true;
+        }
     }
 }

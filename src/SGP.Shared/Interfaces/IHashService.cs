@@ -1,7 +1,8 @@
 ﻿namespace SGP.Shared.Interfaces
 {
     /// <summary>
-    /// Criptografia de via única.
+    /// O hash é uma função unilateral que embaralha o texto simples para produzir um resumo da mensagem exclusivo.
+    /// Com um algoritmo projetado corretamente, não há como reverter o processo de hashing para revelar a senha original.
     /// </summary>
     public interface IHashService
     {
