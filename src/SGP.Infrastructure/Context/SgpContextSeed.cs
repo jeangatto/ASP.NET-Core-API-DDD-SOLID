@@ -37,7 +37,11 @@ namespace SGP.Infrastructure.Context
             Guard.Against.Null(loggerFactory, nameof(loggerFactory));
 
             var logger = loggerFactory.CreateLogger(nameof(SgpContextSeed));
+            await PopularCidadesAsync(context, logger);
+        }
 
+        private static async Task PopularCidadesAsync(SgpContext context, ILogger logger)
+        {
             if (!await context.Cidades.AsNoTracking().AnyAsync())
             {
                 var path = Path.Combine(RootFolderPath, SeedFolderName, "Cidades.json");

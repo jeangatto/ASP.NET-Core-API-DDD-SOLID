@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
@@ -14,10 +12,6 @@ using SGP.Application;
 using SGP.Infrastructure;
 using SGP.Infrastructure.Migrations;
 using SGP.PublicApi.Extensions;
-using SGP.PublicApi.Models;
-using SGP.Shared.Extensions;
-using System.Linq;
-using System.Net.Mime;
 
 namespace SGP.PublicApi
 {
@@ -86,28 +80,7 @@ namespace SGP.PublicApi
 
             app.UseOpenApi();
 
-            app.UseHealthChecks("/health", new HealthCheckOptions
-            {
-                AllowCachingResponses = true,
-                ResponseWriter = async (context, report) =>
-                {
-                    context.Response.ContentType = MediaTypeNames.Application.Json;
-
-                    var healthCheckReponse = new HealthCheckReponse
-                    {
-                        Status = report.Status.ToString(),
-                        HealthCheckDuration = report.TotalDuration,
-                        HealthChecks = report.Entries.Select(entry => new IndividualHealthCheckResponse
-                        {
-                            Components = entry.Key,
-                            Status = entry.Value.Status.ToString(),
-                            Description = entry.Value.Description
-                        })
-                    };
-
-                    await context.Response.WriteAsync(healthCheckReponse.ToJson());
-                }
-            });
+            app.UseHealthChecks();
 
             app.UseHttpsRedirection();
 

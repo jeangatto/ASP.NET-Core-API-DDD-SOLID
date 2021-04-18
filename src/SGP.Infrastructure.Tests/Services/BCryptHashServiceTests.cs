@@ -114,6 +114,8 @@ namespace SGP.Infrastructure.Tests.Services
         }
 
         private static IHashService CreateBCryptHashService()
-            => new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
+        {
+            return new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
+        }
     }
 }

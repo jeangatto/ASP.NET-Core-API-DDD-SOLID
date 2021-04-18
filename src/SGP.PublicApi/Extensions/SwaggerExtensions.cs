@@ -46,11 +46,7 @@ namespace SGP.PublicApi.Extensions
             Guard.Against.Null(app, nameof(app));
 
             app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.DisplayRequestDuration();
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", $"{Title} {Version}");
-            });
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", $"{Title} {Version}"));
 
             return app;
         }
