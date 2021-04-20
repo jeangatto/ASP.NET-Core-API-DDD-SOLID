@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using SGP.Application;
 using SGP.Infrastructure;
 using SGP.Infrastructure.Context;
+using SGP.Shared.AppSettings;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -24,7 +25,8 @@ namespace SGP.ConsoleApp
                 .AddEnvironmentVariables()
                 .Build();
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString(
+                nameof(ConnectionStrings.DefaultConnection));
 
             //-----------------------IoC------------------------
             var services = new ServiceCollection();
