@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SGP.Application.Interfaces
 {
-    public interface ICidadeService : IService
+    public interface ICidadeAppService : IAppService
     {
         Task<Result<IEnumerable<CidadeResponse>>> GetAllAsync(GetAllByEstadoRequest request);
         Task<IEnumerable<string>> GetAllEstadosAsync();

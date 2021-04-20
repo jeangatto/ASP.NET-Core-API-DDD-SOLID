@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace SGP.Application.Services
 {
-    public class AuthService : IAuthService
+    public class AuthAppService : IAuthAppService
     {
         private readonly AuthConfig _authConfig;
         private readonly IDateTime _dateTime;
@@ -29,7 +29,7 @@ namespace SGP.Application.Services
         private readonly IUnitOfWork _uow;
         private readonly ITokenClaimsService _tokenClaimsService;
 
-        public AuthService
+        public AuthAppService
         (
             IOptions<AuthConfig> authOptions,
             IDateTime dateTime,

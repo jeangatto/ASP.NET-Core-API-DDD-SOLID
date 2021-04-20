@@ -13,9 +13,9 @@ namespace SGP.PublicApi.Controllers
     [ApiController]
     public class CidadesController : ControllerBase
     {
-        private readonly ICidadeService _service;
+        private readonly ICidadeAppService _service;
 
-        public CidadesController(ICidadeService service)
+        public CidadesController(ICidadeAppService service)
         {
             _service = service;
         }

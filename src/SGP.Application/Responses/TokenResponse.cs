@@ -24,6 +24,6 @@ namespace SGP.Application.Responses
         public DateTime Created { get; private init; }
         public DateTime Expiration { get; private init; }
         public string RefreshToken { get; private init; }
-        public int SecondsToExpire => (int)Expiration.Subtract(Created).TotalSeconds;
+        public int SecondsToExpire => (int)Created.Subtract(Expiration).TotalSeconds;
     }
 }

@@ -10,9 +10,9 @@ namespace SGP.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<ICidadeService, CidadeService>();
-            services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IAuthAppService, AuthAppService>();
+            services.AddScoped<ICidadeAppService, CidadeAppService>();
+            services.AddScoped<IUsuarioAppService, UsuarioAppService>();
             return services;
         }
     }
