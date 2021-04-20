@@ -10,22 +10,20 @@ namespace SGP.Application.Responses
             string accessToken,
             DateTime created,
             DateTime expiration,
-            string refreshToken,
-            short seconds)
+            string refreshToken)
         {
             Authenticated = authenticated;
             AccessToken = accessToken;
             Created = created;
             Expiration = expiration;
             RefreshToken = refreshToken;
-            Seconds = seconds;
         }
 
-        public bool Authenticated { get; }
-        public string AccessToken { get; }
-        public DateTime Created { get; }
-        public DateTime Expiration { get; }
-        public string RefreshToken { get; }
-        public short Seconds { get; }
+        public bool Authenticated { get; private init; }
+        public string AccessToken { get; private init; }
+        public DateTime Created { get; private init; }
+        public DateTime Expiration { get; private init; }
+        public string RefreshToken { get; private init; }
+        public int SecondsToExpire => (int)Expiration.Subtract(Created).TotalSeconds;
     }
 }

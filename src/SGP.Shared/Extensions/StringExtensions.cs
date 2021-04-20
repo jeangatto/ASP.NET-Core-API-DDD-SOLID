@@ -11,7 +11,9 @@ namespace SGP.Shared.Extensions
 
         /// <summary>
         /// Remove da string caracteres reservados e ilegais para URL.
+        /// <para>
         /// REF: https://stackoverflow.com/a/13500078/4494758
+        /// </para>
         /// </summary>
         /// <param name="uriString">String que representa a URL.</param>
         /// <returns>A URL com caracteres válidos.</returns>

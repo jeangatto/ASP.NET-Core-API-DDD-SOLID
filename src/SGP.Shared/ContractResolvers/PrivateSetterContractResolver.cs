@@ -19,17 +19,9 @@ namespace SGP.Shared.ContractResolvers
                 return jProperty;
             }
 
-            jProperty.Writable = member.IsPropertyWithSetter();
-            return jProperty;
-        }
-    }
-
-    internal static class MemberInfoExtensions
-    {
-        internal static bool IsPropertyWithSetter(this MemberInfo member)
-        {
             var property = member as PropertyInfo;
-            return property?.SetMethod != null;
+            jProperty.Writable = property?.SetMethod != null;
+            return jProperty;
         }
     }
 }

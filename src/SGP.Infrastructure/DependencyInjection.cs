@@ -21,6 +21,7 @@ namespace SGP.Infrastructure
             // Services
             services.AddScoped<IDateTime, LocalDateTimeService>();
             services.AddScoped<IHashService, BCryptHashService>();
+            services.AddScoped<ITokenClaimsService, IdentityTokenClaimService>();
 
             // Unit Of Work
             services.AddScoped<IUnitOfWork, UnitOfWork<SgpContext>>();

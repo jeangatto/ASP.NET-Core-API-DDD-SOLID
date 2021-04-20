@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
+using SGP.Application.Responses;
+using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
@@ -23,12 +25,12 @@ namespace SGP.PublicApi.Controllers
         /// </summary>
         /// <param name="uf">Sigla da unidade federativa.</param>
         /// <response code="200">Retorna a lista de municípios.</response>
-        /// <response code="400">Se a requisição for inválida.</response>
+        /// <response code="400">Retorna lista de erross, se a requisição for inválida.</response>
         /// <returns>Retorna a lista de municípios.</returns>
         [HttpGet("{uf}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<CidadeResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Listar([FromRoute] string uf)
         {

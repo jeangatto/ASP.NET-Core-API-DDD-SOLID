@@ -10,6 +10,8 @@ namespace SGP.Shared.Extensions
     /// </summary>
     public static class JsonExtensions
     {
+        private static readonly NamingStrategy DefaultNamingStrategy = new CamelCaseNamingStrategy();
+
         /// <summary>
         /// Configuração padrão do serializador em JSON.
         /// Otimizado para gerar um JSON menor, resultando numa melhor performance.
@@ -18,15 +20,10 @@ namespace SGP.Shared.Extensions
         {
             Formatting = Formatting.None,
             PreserveReferencesHandling = PreserveReferencesHandling.None,
-            NullValueHandling = NullValueHandling.Ignore
+            NullValueHandling = NullValueHandling.Ignore,
+            ContractResolver = new PrivateSetterContractResolver(DefaultNamingStrategy),
+            Converters = new[] { new StringEnumConverter(DefaultNamingStrategy) }
         };
-
-        static JsonExtensions()
-        {
-            var namingStrategy = new CamelCaseNamingStrategy();
-            JsonOptions.ContractResolver = new PrivateSetterContractResolver(namingStrategy);
-            JsonOptions.Converters.Add(new StringEnumConverter(namingStrategy));
-        }
 
         /// <summary>
         /// Desserializa o JSON para o tipo especificado.

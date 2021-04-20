@@ -19,7 +19,7 @@ namespace SGP.Infrastructure.Context
         /// <summary>
         /// Nome da pasta que contém os arquivos físicos do seed.
         /// </summary>
-        public const string SeedFolderName = "Seeds";
+        private const string SeedFolderName = "Seeds";
 
         /// <summary>
         /// Caminho da pasta raiz da aplicação.
