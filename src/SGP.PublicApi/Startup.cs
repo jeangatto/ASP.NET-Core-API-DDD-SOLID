@@ -39,7 +39,7 @@ namespace SGP.PublicApi
 
             services.AddOpenApi();
 
-            services.AddApplication();
+            services.AddApplicationServices();
 
             services.AddInfrastructure();
 

@@ -44,7 +44,7 @@ namespace SGP.ConsoleApp
             services.AddDbContext<SgpContext>(options => options.UseSqlServer(connectionString));
             services.ConfigureAppSettings(configuration);
             services.AddInfrastructure();
-            services.AddApplication();
+            services.AddApplicationServices();
 
             //-------------------------------------------------
 
