@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SGP.PublicApi
@@ -23,7 +24,11 @@ namespace SGP.PublicApi
 
                 try
                 {
-                    await context.Database.MigrateAsync();
+                    if ((await context.Database.GetPendingMigrationsAsync()).Any())
+                    {
+                        await context.Database.MigrateAsync();
+                    }
+
                     await context.EnsureSeedDataAsync(loggerFactory);
                 }
                 catch (Exception ex)
