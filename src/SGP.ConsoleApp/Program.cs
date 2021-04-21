@@ -8,6 +8,7 @@ using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SGP.ConsoleApp
@@ -19,7 +20,7 @@ namespace SGP.ConsoleApp
             Console.WriteLine("----------- INICIOU -----------");
             Console.WriteLine();
 
-            IConfiguration configuration = new ConfigurationBuilder()
+            var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables()
@@ -30,8 +31,7 @@ namespace SGP.ConsoleApp
 
             //-----------------------IoC------------------------
             var services = new ServiceCollection();
-
-            services.AddSingleton(configuration);
+            services.AddSingleton<IConfiguration>(configuration);
 
             // Logging
             services.AddLogging(builder =>
@@ -57,8 +57,10 @@ namespace SGP.ConsoleApp
             using (var scope = serviceProvider.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
-                await context.Database.EnsureDeletedAsync();
-                await context.Database.EnsureCreatedAsync();
+                if ((await context.Database.GetPendingMigrationsAsync()).Any())
+                {
+                    await context.Database.MigrateAsync();
+                }
 
                 var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                 await context.EnsureSeedDataAsync(loggerFactory);

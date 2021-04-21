@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
 using SGP.Infrastructure.Repositories;
@@ -39,8 +40,8 @@ namespace SGP.Infrastructure
             Guard.Against.Null(configuration, nameof(configuration));
 
             var binderOptions = ConfigureBinderOptions();
-            services.Configure<AuthConfig>(configuration.GetSection(nameof(AuthConfig)), binderOptions);
             services.Configure<JwtConfig>(configuration.GetSection(nameof(JwtConfig)), binderOptions);
+            services.Configure<AuthConfig>(configuration.GetSection(nameof(AuthConfig)), binderOptions);
             services.Configure<ConnectionStrings>(configuration.GetSection(nameof(ConnectionStrings)), binderOptions);
             return services;
         }

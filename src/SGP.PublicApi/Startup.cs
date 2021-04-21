@@ -39,6 +39,8 @@ namespace SGP.PublicApi
 
             services.AddOpenApi();
 
+            services.AddJwtBearer(Configuration);
+
             services.AddAppServices();
 
             services.AddInfrastructure();
@@ -100,6 +102,8 @@ namespace SGP.PublicApi
             app.UseRouting();
 
             app.UseResponseCompression();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
