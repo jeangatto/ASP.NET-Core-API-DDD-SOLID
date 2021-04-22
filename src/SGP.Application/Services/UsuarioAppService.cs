@@ -46,7 +46,7 @@ namespace SGP.Application.Services
             }
 
             // Criando o Objeto de Valor (VO).
-            var email = new Email(request.Email);
+            var email = Email.Create(request.Email).Value;
 
             // Criptografando a senha.
             var senhaCriptografada = _hashService.Hash(request.Senha);

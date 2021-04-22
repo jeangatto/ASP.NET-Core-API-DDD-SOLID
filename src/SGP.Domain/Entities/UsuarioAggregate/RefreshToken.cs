@@ -29,7 +29,7 @@ namespace SGP.Domain.Entities.UsuarioAggregate
         public DateTime? RevokedAt { get; private set; }
         public string ReplacedByToken { get; private set; }
 
-        public Usuario Usuario { get; protected set; }
+        public Usuario Usuario { get; private set; }
 
         /// <summary>
         /// Indica se o token está expirado.

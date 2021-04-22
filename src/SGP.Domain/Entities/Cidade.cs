@@ -13,8 +13,8 @@
         {
         }
 
-        public string Ibge { get; }
-        public string Estado { get; }
-        public string Nome { get; }
+        public string Ibge { get; private init; }
+        public string Estado { get; private init; }
+        public string Nome { get; private init; }
     }
 }

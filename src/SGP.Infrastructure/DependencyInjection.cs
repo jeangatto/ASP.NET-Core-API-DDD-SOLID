@@ -1,7 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
 using SGP.Infrastructure.Repositories;

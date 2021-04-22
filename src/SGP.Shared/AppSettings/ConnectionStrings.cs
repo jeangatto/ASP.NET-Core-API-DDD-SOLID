@@ -2,6 +2,6 @@
 {
     public sealed class ConnectionStrings
     {
-        public string DefaultConnection { get; private set; }
+        public string DefaultConnection { get; private init; }
     }
 }

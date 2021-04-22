@@ -7,8 +7,9 @@ using System;
 using Xunit;
 using Xunit.Categories;
 
-namespace SGP.Infrastructure.Tests.Services
+namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
+    [Category(TestCategories.Infrastructure)]
     public class BCryptHashServiceTests
     {
         [Theory]
@@ -16,7 +17,7 @@ namespace SGP.Infrastructure.Tests.Services
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void Compare_HashNullOrWhiteSpace_ThrowsArgumentException(string hash)
+        public void Should_ThrowsArgumentException_WhenCompareHashIsInvalid(string hash)
         {
             // Arrange
             var hashService = CreateBCryptHashService();
@@ -31,7 +32,7 @@ namespace SGP.Infrastructure.Tests.Services
 
         [Fact]
         [UnitTest]
-        public void Compare_Text_And_PreviouslyHashedText_ReturnsTrue()
+        public void Should_ReturnsTrue_WhenCompareTextAndPreviouslyHashedText()
         {
             // Arrange
             var hashService = CreateBCryptHashService();
@@ -47,7 +48,7 @@ namespace SGP.Infrastructure.Tests.Services
 
         [Fact]
         [UnitTest]
-        public void Compare_Text_Diff_PreviouslyHashedText_ReturnsFalse()
+        public void Should_ReturnsFalse_WhenCompareTextDiffPreviouslyHashedText()
         {
             // Arrange
             var hashService = CreateBCryptHashService();
@@ -66,7 +67,7 @@ namespace SGP.Infrastructure.Tests.Services
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void Compare_TextNullOrWhiteSpace_ThrowsArgumentException(string text)
+        public void Should_ThrowsArgumentException_WhenCompareTextIsInvalid(string text)
         {
             // Arrange
             var hashService = CreateBCryptHashService();
@@ -84,7 +85,7 @@ namespace SGP.Infrastructure.Tests.Services
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void Encrypt_InputNullOrWhiteSpace_ThrowsArgumentException(string text)
+        public void Should_ThrowsArgumentException_WhenHashTextIsInvalid(string text)
         {
             // Arrange
             var hashService = CreateBCryptHashService();
@@ -98,10 +99,11 @@ namespace SGP.Infrastructure.Tests.Services
 
         [Theory]
         [UnitTest]
+        [Category(TestCategories.Infrastructure)]
         [InlineData("a1b2c3d4")]
         [InlineData("MinhaSenha")]
         [InlineData("12345@__$Ááeeeiiooouu")]
-        public void Encrypt_Text_ReturnsHashedString(string text)
+        public void Should_ReturnsHashedString_WhenHashTextIsValid(string text)
         {
             // Arrange
             var hashService = CreateBCryptHashService();

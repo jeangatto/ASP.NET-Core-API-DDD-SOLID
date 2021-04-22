@@ -51,8 +51,8 @@ namespace SGP.Infrastructure.Context
                 }
                 else
                 {
-                    var cidadesJson = await File.ReadAllTextAsync(path, Encoding.UTF8);
-                    var cidades = cidadesJson.FromJson<IEnumerable<Cidade>>();
+                    var json = await File.ReadAllTextAsync(path, Encoding.UTF8);
+                    var cidades = json.FromJson<IEnumerable<Cidade>>();
                     context.AddRange(cidades);
 
                     var rowsAffected = await context.SaveChangesAsync();

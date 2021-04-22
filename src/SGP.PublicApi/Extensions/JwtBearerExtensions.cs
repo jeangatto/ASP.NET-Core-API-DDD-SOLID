@@ -18,10 +18,9 @@ namespace SGP.PublicApi.Extensions
             Guard.Against.Null(services, nameof(services));
             Guard.Against.Null(configuration, nameof(configuration));
 
-            var jwtConfig = new JwtConfig();
-
-            configuration.GetSection(nameof(JwtConfig)).Bind(jwtConfig,
-                binderOptions => binderOptions.BindNonPublicProperties = true);
+            var jwtConfig = configuration
+                .GetSection(nameof(JwtConfig))
+                .Get<JwtConfig>(binderOptions => binderOptions.BindNonPublicProperties = true);
 
             var secretKey = Encoding.ASCII.GetBytes(jwtConfig.Secret);
 
@@ -35,8 +34,8 @@ namespace SGP.PublicApi.Extensions
                 bearerOptions.SaveToken = true;
                 bearerOptions.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = jwtConfig.ValidateIssuer,
+                    ValidateAudience = jwtConfig.ValidateAudience,
                     ValidIssuer = jwtConfig.Issuer,
                     ValidAudience = jwtConfig.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(secretKey),
