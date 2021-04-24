@@ -101,6 +101,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         [UnitTest]
         [Category(TestCategories.Infrastructure)]
         [InlineData("a1b2c3d4")]
+        [InlineData("AB12345")]
         [InlineData("MinhaSenha")]
         [InlineData("12345@__$Ááeeeiiooouu")]
         public void Should_ReturnsHashedString_WhenHashTextIsValid(string text)

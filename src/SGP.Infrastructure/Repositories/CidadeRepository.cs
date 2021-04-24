@@ -23,6 +23,7 @@ namespace SGP.Infrastructure.Repositories
                 .AsNoTracking()
                 .Where(c => c.Estado == estado)
                 .OrderBy(c => c.Nome)
+                .ThenBy(c => c.Ibge)
                 .ToListAsync();
         }
 
