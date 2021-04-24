@@ -1,10 +1,7 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Moq;
 using SGP.Infrastructure.Context;
 using System;
-using System.Threading.Tasks;
 
 namespace SGP.Tests.Fixtures
 {
@@ -23,22 +20,9 @@ namespace SGP.Tests.Fixtures
             Context = new SgpContext(builder.Options);
             Context.Database.EnsureDeleted();
             Context.Database.EnsureCreated();
-
-            Task.Run(() => PopularAsync()).Wait();
         }
 
         public SgpContext Context { get; }
-
-        private async Task PopularAsync()
-        {
-            var loggerFactoryMock = new Mock<ILoggerFactory>();
-
-            loggerFactoryMock
-                .Setup(s => s.CreateLogger(It.IsAny<string>()))
-                .Returns(Mock.Of<ILogger>());
-
-            await Context.EnsureSeedDataAsync(loggerFactoryMock.Object);
-        }
 
         #region Dispose
 

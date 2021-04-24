@@ -1,8 +1,10 @@
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
+using Moq;
 using SGP.Domain.Entities;
+using SGP.Infrastructure.Context;
 using SGP.Infrastructure.Repositories;
 using SGP.Tests.Fixtures;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
@@ -17,6 +19,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public CidadeRepositoryTests(EfFixture fixture)
         {
             _fixture = fixture;
+            Task.Run(() => SeedAsync()).Wait();
         }
 
         [Theory]
@@ -27,10 +30,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsCities_WhenGetByExistingState(string state, int expectedCount)
         {
             // Arrange
-            var cidadeRepository = new CidadeRepository(_fixture.Context);
+            var repository = new CidadeRepository(_fixture.Context);
 
             // Act
-            var act = await cidadeRepository.GetAllAsync(state);
+            var act = await repository.GetAllAsync(state);
 
             // Assert
             act.Should().NotBeNullOrEmpty()
@@ -43,10 +46,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsAllStates_WhenGetAllStates()
         {
             // Arrange
-            var cidadeRepository = new CidadeRepository(_fixture.Context);
+            var repository = new CidadeRepository(_fixture.Context);
 
             // Act
-            var act = await cidadeRepository.GetAllEstadosAsync();
+            var act = await repository.GetAllEstadosAsync();
 
             // Assert
             act.Should().NotBeNullOrEmpty()
@@ -61,10 +64,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         {
             // Arrange
             var expected = new Cidade("3557105", "SP", "Votuporanga");
-            var cidadeRepository = new CidadeRepository(_fixture.Context);
+            var repository = new CidadeRepository(_fixture.Context);
 
             // Act
-            var act = await cidadeRepository.GetByIbgeAsync(expected.Ibge);
+            var act = await repository.GetByIbgeAsync(expected.Ibge);
 
             // Assert
             act.Should().NotBeNull().And.BeEquivalentTo(expected);
@@ -79,13 +82,24 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsNull_WhenGetByInexistingIbge(string ibge)
         {
             // Arrange
-            var cidadeRepository = new CidadeRepository(_fixture.Context);
+            var repository = new CidadeRepository(_fixture.Context);
 
             // Act
-            var act = await cidadeRepository.GetByIbgeAsync(ibge);
+            var act = await repository.GetByIbgeAsync(ibge);
 
             // Assert
             act.Should().BeNull();
+        }
+
+        private async Task SeedAsync()
+        {
+            var loggerFactoryMock = new Mock<ILoggerFactory>();
+
+            loggerFactoryMock
+                .Setup(s => s.CreateLogger(It.IsAny<string>()))
+                .Returns(Mock.Of<ILogger>());
+
+            await _fixture.Context.EnsureSeedDataAsync(loggerFactoryMock.Object);
         }
     }
 }

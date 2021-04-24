@@ -22,14 +22,17 @@ namespace SGP.Domain.ValueObjects
 
         public static Result<Email> Create(string address)
         {
-            if (!string.IsNullOrWhiteSpace(address) && IsValidEmailRegex.IsMatch(address))
+            if (string.IsNullOrWhiteSpace(address))
             {
-                return Result.Ok(new Email(address));
+                return Result.Fail<Email>(new Error("Endereço de e-mail não deverá ser nulo ou vazio."));
             }
-            else
+
+            if (!IsValidEmailRegex.IsMatch(address))
             {
                 return Result.Fail<Email>(new Error("Endereço de e-mail inválido."));
             }
+
+            return Result.Ok(new Email(address));
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
