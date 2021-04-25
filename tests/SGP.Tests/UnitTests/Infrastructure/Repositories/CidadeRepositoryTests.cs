@@ -2,6 +2,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using SGP.Domain.Entities;
+using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
 using SGP.Infrastructure.Repositories;
 using SGP.Tests.Fixtures;
@@ -30,7 +31,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsCities_WhenGetByExistingState(string state, int expectedCount)
         {
             // Arrange
-            var repository = new CidadeRepository(_fixture.Context);
+            var repository = CreateRepository();
 
             // Act
             var act = await repository.GetAllAsync(state);
@@ -46,7 +47,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsAllStates_WhenGetAllStates()
         {
             // Arrange
-            var repository = new CidadeRepository(_fixture.Context);
+            var repository = CreateRepository();
 
             // Act
             var act = await repository.GetAllEstadosAsync();
@@ -63,14 +64,14 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsCity_WhenGetByExistingIbge()
         {
             // Arrange
-            var expected = new Cidade("3557105", "SP", "Votuporanga");
-            var repository = new CidadeRepository(_fixture.Context);
+            var repository = CreateRepository();
+            const string ibge = "3557105";
 
             // Act
-            var act = await repository.GetByIbgeAsync(expected.Ibge);
+            var act = await repository.GetByIbgeAsync(ibge);
 
             // Assert
-            act.Should().NotBeNull().And.BeEquivalentTo(expected);
+            act.Should().NotBeNull().And.BeEquivalentTo(new Cidade(ibge, "SP", "Votuporanga"));
         }
 
         [Theory]
@@ -82,13 +83,18 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsNull_WhenGetByInexistingIbge(string ibge)
         {
             // Arrange
-            var repository = new CidadeRepository(_fixture.Context);
+            var repository = CreateRepository();
 
             // Act
             var act = await repository.GetByIbgeAsync(ibge);
 
             // Assert
             act.Should().BeNull();
+        }
+
+        private ICidadeRepository CreateRepository()
+        {
+            return new CidadeRepository(_fixture.Context);
         }
 
         private async Task SeedAsync()

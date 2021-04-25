@@ -1,38 +1,38 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
-        <NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;</NoWarn>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="coverlet.collector" Version="3.0.3">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="coverlet.msbuild" Version="3.0.3">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-        <PackageReference Include="FluentAssertions" Version="5.10.3" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.5" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
-        <PackageReference Include="Moq" Version="4.16.1" />
-        <PackageReference Include="xunit" Version="2.4.1" />
-        <PackageReference Include="xunit.analyzers" Version="0.10.0" />
-        <PackageReference Include="xunit.categories" Version="2.0.4" />
-        <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\SGP.Application\SGP.Application.csproj" />
-        <ProjectReference Include="..\..\src\SGP.Domain\SGP.Domain.csproj" />
-        <ProjectReference Include="..\..\src\SGP.Infrastructure\SGP.Infrastructure.csproj" />
-        <ProjectReference Include="..\..\src\SGP.PublicApi\SGP.PublicApi.csproj" />
-        <ProjectReference Include="..\..\src\SGP.Shared\SGP.Shared.csproj" />
-    </ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<IsPackable>false</IsPackable>
+		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;</NoWarn>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="coverlet.collector" Version="3.0.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="coverlet.msbuild" Version="3.0.3">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="FluentAssertions" Version="5.10.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.5" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+		<PackageReference Include="Moq" Version="4.16.1" />
+		<PackageReference Include="xunit" Version="2.4.1" />
+		<PackageReference Include="xunit.analyzers" Version="0.10.0" />
+		<PackageReference Include="xunit.categories" Version="2.0.4" />
+		<PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\SGP.Application\SGP.Application.csproj" />
+		<ProjectReference Include="..\..\src\SGP.Domain\SGP.Domain.csproj" />
+		<ProjectReference Include="..\..\src\SGP.Infrastructure\SGP.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\src\SGP.PublicApi\SGP.PublicApi.csproj" />
+		<ProjectReference Include="..\..\src\SGP.Shared\SGP.Shared.csproj" />
+	</ItemGroup>
 </Project>

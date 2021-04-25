@@ -1,4 +1,4 @@
-﻿using SGP.Shared.Entities;
+using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 using System;
 
@@ -9,7 +9,7 @@ namespace SGP.Domain.Entities.UsuarioAggregate
         /// <summary>
         /// Comprimento do refreh token.
         /// </summary>
-        public const int MAX_TOKEN_SIZE = 2048;
+        public const int MaxTokenSize = 2048;
 
         public RefreshToken(string token, DateTime createdAt, DateTime expireAt)
         {

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FluentResults;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests;
@@ -86,7 +86,7 @@ namespace SGP.Application.Services
             if (usuario == null)
             {
                 // Retornando erro não encontrado.
-                return Result.Fail<UsuarioResponse>($"Registro não encontrado: {request.Id}.");
+                return Result.Fail<UsuarioResponse>($"Registro não encontrado: {request.Id}");
             }
 
             // Mapeando domínio para resposta (DTO).

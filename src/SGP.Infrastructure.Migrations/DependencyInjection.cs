@@ -1,4 +1,4 @@
-﻿using Ardalis.GuardClauses;
+using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

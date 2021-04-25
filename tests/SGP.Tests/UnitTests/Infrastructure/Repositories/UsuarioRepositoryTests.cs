@@ -1,5 +1,6 @@
 using FluentAssertions;
 using SGP.Domain.Entities.UsuarioAggregate;
+using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Repositories;
 using SGP.Tests.Fixtures;
@@ -25,7 +26,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsUser_WhenEmailExists()
         {
             // Arrange
-            var repository = new UsuarioRepository(_fixture.Context);
+            var repository = CreateRepository();
             var email = Email.Create("john_doe@hotmail.com").Value;
 
             // Act
@@ -34,6 +35,11 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             // Assert
             act.Should().NotBeNull().And.Match<Usuario>((u)
                 => u.Nome == "John Doe" && u.Senha == "a1b2c3d4");
+        }
+
+        private IUsuarioRepository CreateRepository()
+        {
+            return new UsuarioRepository(_fixture.Context);
         }
 
         private async Task SeedAsync()

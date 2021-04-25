@@ -27,7 +27,6 @@ namespace SGP.Tests.UnitTests.Domain.ValueObjects
         [InlineData("ma@jjf.")]             // nothing after `.`
         public void Should_WhenEmailIsInvalid_ReturnsError(string address)
         {
-            // Arrange
             // Act
             var act = Email.Create(address);
 
@@ -53,7 +52,6 @@ namespace SGP.Tests.UnitTests.Domain.ValueObjects
         [InlineData("12@hostname.com")]
         public void Should_ReturnsSuccess_WhenEmailIsValid(string address)
         {
-            // Arrange
             // Act
             var act = Email.Create(address);
 
