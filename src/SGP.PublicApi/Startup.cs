@@ -45,11 +45,11 @@ namespace SGP.PublicApi
 
             services.AddInfrastructure();
 
+            services.ConfigureAppSettings(Configuration);
+
             var healthChecksBuilder = services.AddHealthChecks();
 
             services.AddDbContext(Configuration, healthChecksBuilder);
-
-            services.ConfigureAppSettings(Configuration);
 
             services.Configure<RouteOptions>(routeOptions =>
             {

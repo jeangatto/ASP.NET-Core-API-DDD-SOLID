@@ -1,11 +1,14 @@
 using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using Moq;
+using Microsoft.EntityFrameworkCore;
 using SGP.Domain.Entities;
-using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
 using SGP.Infrastructure.Repositories;
+using SGP.Shared.Extensions;
 using SGP.Tests.Fixtures;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
@@ -20,7 +23,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public CidadeRepositoryTests(EfFixture fixture)
         {
             _fixture = fixture;
-            Task.Run(() => SeedAsync()).Wait();
+            SeedCities(_fixture.Context);
         }
 
         [Theory]
@@ -31,7 +34,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsCities_WhenGetByExistingState(string state, int expectedCount)
         {
             // Arrange
-            var repository = CreateRepository();
+            var repository = new CidadeRepository(_fixture.Context);
 
             // Act
             var act = await repository.GetAllAsync(state);
@@ -47,7 +50,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsAllStates_WhenGetAllStates()
         {
             // Arrange
-            var repository = CreateRepository();
+            var repository = new CidadeRepository(_fixture.Context);
 
             // Act
             var act = await repository.GetAllEstadosAsync();
@@ -64,8 +67,8 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsCity_WhenGetByExistingIbge()
         {
             // Arrange
-            var repository = CreateRepository();
             const string ibge = "3557105";
+            var repository = new CidadeRepository(_fixture.Context);
 
             // Act
             var act = await repository.GetByIbgeAsync(ibge);
@@ -83,7 +86,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsNull_WhenGetByInexistingIbge(string ibge)
         {
             // Arrange
-            var repository = CreateRepository();
+            var repository = new CidadeRepository(_fixture.Context);
 
             // Act
             var act = await repository.GetByIbgeAsync(ibge);
@@ -92,20 +95,15 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             act.Should().BeNull();
         }
 
-        private ICidadeRepository CreateRepository()
+        private static void SeedCities(SgpContext context)
         {
-            return new CidadeRepository(_fixture.Context);
-        }
-
-        private async Task SeedAsync()
-        {
-            var loggerFactoryMock = new Mock<ILoggerFactory>();
-
-            loggerFactoryMock
-                .Setup(s => s.CreateLogger(It.IsAny<string>()))
-                .Returns(Mock.Of<ILogger>());
-
-            await _fixture.Context.EnsureSeedDataAsync(loggerFactoryMock.Object);
+            if (!context.Cidades.AsNoTracking().Any())
+            {
+                var path = Path.Combine(SgpContextSeed.RootFolderPath, SgpContextSeed.SeedFolderName, "Cidades.json");
+                var cidadesJson = File.ReadAllText(path, Encoding.UTF8);
+                context.Cidades.AddRange(cidadesJson.FromJson<IEnumerable<Cidade>>());
+                context.SaveChanges();
+            }
         }
     }
 }

@@ -26,7 +26,7 @@ namespace SGP.Infrastructure.Migrations
                 => options.UseSqlServer(connectionString,
                        sqlServer => sqlServer.MigrationsAssembly(AssymbleName)));
 
-            // Verificador da saúde da base de dados.
+            // Verificador de saúde da base de dados.
             healthChecksBuilder.AddDbContextCheck<SgpContext>(
                 tags: new[] { "database" },
                 customTestQuery: (context, cancellationToken)

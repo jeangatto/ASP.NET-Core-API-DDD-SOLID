@@ -1,4 +1,4 @@
-﻿using Ardalis.GuardClauses;
+using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SGP.Domain.Entities;
@@ -19,12 +19,12 @@ namespace SGP.Infrastructure.Context
         /// <summary>
         /// Nome da pasta que contém os arquivos físicos do seed.
         /// </summary>
-        private const string SeedFolderName = "Seeds";
+        public const string SeedFolderName = "Seeds";
 
         /// <summary>
         /// Caminho da pasta raiz da aplicação.
         /// </summary>
-        private static readonly string RootFolderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        public static readonly string RootFolderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         /// <summary>
         /// Popula a base de dados.
@@ -37,10 +37,10 @@ namespace SGP.Infrastructure.Context
             Guard.Against.Null(loggerFactory, nameof(loggerFactory));
 
             var logger = loggerFactory.CreateLogger(nameof(SgpContextSeed));
-            await PopularCidadesAsync(context, logger);
+            await SeedCitiesAsync(context, logger);
         }
 
-        private static async Task PopularCidadesAsync(SgpContext context, ILogger logger)
+        private static async Task SeedCitiesAsync(SgpContext context, ILogger logger)
         {
             if (!await context.Cidades.AsNoTracking().AnyAsync())
             {
@@ -51,9 +51,8 @@ namespace SGP.Infrastructure.Context
                 }
                 else
                 {
-                    var json = await File.ReadAllTextAsync(path, Encoding.UTF8);
-                    var cidades = json.FromJson<IEnumerable<Cidade>>();
-                    context.AddRange(cidades);
+                    var cidadesjson = await File.ReadAllTextAsync(path, Encoding.UTF8);
+                    context.Cidades.AddRange(cidadesjson.FromJson<IEnumerable<Cidade>>());
 
                     var rowsAffected = await context.SaveChangesAsync();
                     logger.LogInformation($"Total de cidades inseridas: {rowsAffected}");

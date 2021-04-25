@@ -15,16 +15,19 @@ namespace SGP.Tests.Fixtures
             _connection = new SqliteConnection(_connectionString);
             _connection.Open();
 
-            var builder = new DbContextOptionsBuilder<SgpContext>().UseSqlite(_connection);
+            var options = new DbContextOptionsBuilder<SgpContext>()
+                .UseSqlite(_connection)
+                .EnableDetailedErrors()
+                .Options;
 
-            Context = new SgpContext(builder.Options);
+            Context = new SgpContext(options);
             Context.Database.EnsureDeleted();
             Context.Database.EnsureCreated();
         }
 
         public SgpContext Context { get; }
 
-        #region Dispose
+        #region Disposable
 
         // REF: https://docs.microsoft.com/pt-br/dotnet/standard/garbage-collection/implementing-dispose
         // To detect redundant calls.

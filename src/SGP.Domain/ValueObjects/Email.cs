@@ -1,4 +1,4 @@
-﻿using FluentResults;
+using FluentResults;
 using SGP.Shared.ValueObjects;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -35,14 +35,14 @@ namespace SGP.Domain.ValueObjects
             return Result.Ok(new Email(address));
         }
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Address;
-        }
-
         public override string ToString()
         {
             return Address;
+        }
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Address;
         }
     }
 }
