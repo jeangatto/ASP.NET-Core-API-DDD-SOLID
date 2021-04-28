@@ -17,8 +17,8 @@
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.2" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
-      <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
+        <ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
+        <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="Seeds\Cidades.json">
