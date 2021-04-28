@@ -1,4 +1,4 @@
-﻿using SGP.Shared.Interfaces;
+using SGP.Shared.Interfaces;
 using System;
 
 namespace SGP.Shared.Entities

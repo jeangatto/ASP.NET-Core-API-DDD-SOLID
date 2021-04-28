@@ -31,6 +31,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\SGP.Application\SGP.Application.csproj" />
 		<ProjectReference Include="..\..\src\SGP.Domain\SGP.Domain.csproj" />
+		<ProjectReference Include="..\..\src\SGP.Infrastructure.Migrations\SGP.Infrastructure.Migrations.csproj" />
 		<ProjectReference Include="..\..\src\SGP.Infrastructure\SGP.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\src\SGP.PublicApi\SGP.PublicApi.csproj" />
 		<ProjectReference Include="..\..\src\SGP.Shared\SGP.Shared.csproj" />
