@@ -24,7 +24,7 @@ namespace SGP.Domain.ValueObjects
         {
             if (string.IsNullOrWhiteSpace(address))
             {
-                return Result.Fail<Email>(new Error("Endereço de e-mail não deverá ser nulo ou vazio."));
+                return Result.Fail<Email>(new Error("É necessário informar o endereço de e-mail."));
             }
 
             if (!IsValidEmailRegex.IsMatch(address))

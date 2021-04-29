@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FluentResults.Extensions.FluentAssertions;
 using SGP.Domain.ValueObjects;
 using Xunit;
 using Xunit.Categories;
@@ -31,9 +32,9 @@ namespace SGP.Tests.UnitTests.Domain.ValueObjects
             var act = Email.Create(address);
 
             // Assert
-            act.Should().NotBeNull();
-            act.IsSuccess.Should().BeFalse();
-            act.Errors.Should().NotBeEmpty().And.OnlyHaveUniqueItems();
+            act.Should().NotBeNull()
+                .And.BeFailure()
+                .And.Satisfy(r => r.Errors.Should().NotBeEmpty().And.OnlyHaveUniqueItems());
         }
 
         [Theory]
@@ -56,10 +57,8 @@ namespace SGP.Tests.UnitTests.Domain.ValueObjects
             var act = Email.Create(address);
 
             // Assert
-            act.Should().NotBeNull();
-            act.IsSuccess.Should().BeTrue();
-            act.Value.Should().NotBeNull();
-            act.Value.Address.Should().NotBeNullOrWhiteSpace().And.Be(address.ToLowerInvariant());
+            act.Should().NotBeNull().And.BeSuccess();
+            act.Value.Address.Should().Be(address.ToLowerInvariant());
         }
     }
 }
