@@ -2,7 +2,6 @@ using Ardalis.GuardClauses;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
-using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Shared.Records;
 using System;
