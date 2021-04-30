@@ -2,16 +2,15 @@ using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
-using System.Reflection;
+using System;
 
 namespace SGP.Infrastructure.Migrations
 {
     public static class DependencyInjection
     {
-        private static readonly string AssymbleName = Assembly.GetExecutingAssembly().GetName().Name;
-
         public static IServiceCollection AddDbContext(this IServiceCollection services,
             IConfiguration configuration, IHealthChecksBuilder healthChecksBuilder)
         {
@@ -19,12 +18,25 @@ namespace SGP.Infrastructure.Migrations
             Guard.Against.Null(configuration, nameof(configuration));
             Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
 
+            // Obtendo o tipo de ambiente.
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            // Obtendo a string de conexão.
             var connectionString = configuration.GetConnectionString(
                 nameof(ConnectionStrings.DefaultConnection));
 
-            services.AddDbContext<SgpContext>(options
-                => options.UseSqlServer(connectionString,
-                       sqlServer => sqlServer.MigrationsAssembly(AssymbleName)));
+            services.AddDbContext<SgpContext>(optionsBuilder =>
+            {
+                optionsBuilder.UseSqlServer(connectionString, sqlServerBuilder
+                    => sqlServerBuilder.MigrationsAssembly(MigrationsAssembly.Name));
+
+                // Configurando para exibir os errados mais detalhados.
+                if (environment == Environments.Development)
+                {
+                    optionsBuilder.EnableDetailedErrors();
+                    optionsBuilder.EnableSensitiveDataLogging();
+                }
+            });
 
             // Verificador de saúde da base de dados.
             healthChecksBuilder.AddDbContextCheck<SgpContext>(

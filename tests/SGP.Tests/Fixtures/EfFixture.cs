@@ -18,6 +18,7 @@ namespace SGP.Tests.Fixtures
             var options = new DbContextOptionsBuilder<SgpContext>()
                 .UseSqlite(_connection)
                 .EnableDetailedErrors()
+                .EnableSensitiveDataLogging()
                 .Options;
 
             Context = new SgpContext(options);

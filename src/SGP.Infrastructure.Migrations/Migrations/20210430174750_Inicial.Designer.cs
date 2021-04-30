@@ -9,8 +9,8 @@ using System;
 namespace SGP.Infrastructure.Migrations.Migrations
 {
     [DbContext(typeof(SgpContext))]
-    [Migration("20210410141337_Initial")]
-    partial class Initial
+    [Migration("20210430174750_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -137,9 +137,9 @@ namespace SGP.Infrastructure.Migrations.Migrations
 
                             b1.Property<string>("Address")
                                 .IsRequired()
-                                .HasMaxLength(100)
+                                .HasMaxLength(320)
                                 .IsUnicode(false)
-                                .HasColumnType("varchar(100)")
+                                .HasColumnType("varchar(320)")
                                 .HasColumnName("Email");
 
                             b1.HasKey("UsuarioId");

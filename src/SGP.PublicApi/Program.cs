@@ -21,10 +21,13 @@ namespace SGP.PublicApi
             {
                 var serviceProvider = scope.ServiceProvider;
                 var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+                var logger = loggerFactory.CreateLogger(nameof(Program));
                 var context = serviceProvider.GetRequiredService<SgpContext>();
 
                 try
                 {
+                    logger.LogInformation($"GetConnectionString={context.Database.GetConnectionString()}");
+
                     if ((await context.Database.GetPendingMigrationsAsync()).Any())
                     {
                         await context.Database.MigrateAsync();
@@ -34,7 +37,6 @@ namespace SGP.PublicApi
                 }
                 catch (Exception ex)
                 {
-                    var logger = loggerFactory.CreateLogger(nameof(Program));
                     logger.LogError(ex, "Ocorreu um erro na propagação do banco de dados.");
                     throw;
                 }

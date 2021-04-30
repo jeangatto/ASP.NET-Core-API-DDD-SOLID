@@ -7,7 +7,12 @@ namespace SGP.Domain.ValueObjects
 {
     public sealed class Email : ValueObject
     {
-        private static readonly Regex IsValidEmailRegex = new(@"^([0-9a-zA-Z]([\+\-_\.][0-9a-zA-Z]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,17})$", RegexOptions.CultureInvariant | RegexOptions.Compiled);
+        /// <summary>
+        /// 320 characters
+        /// REF: https://tools.ietf.org/html/rfc3696
+        /// </summary>
+        public const int MaxLength = 320;
+        private static readonly Regex IsValidEmailRegex = new(@"^([0-9a-zA-Z]([\+\-_\.][0-9a-zA-Z]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,17})$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private Email(string address)
         {
@@ -24,7 +29,13 @@ namespace SGP.Domain.ValueObjects
         {
             if (string.IsNullOrWhiteSpace(address))
             {
-                return Result.Fail<Email>(new Error("É necessário informar o endereço de e-mail."));
+                return Result.Fail<Email>(new Error("Endereço de e-mail deve ser informado."));
+            }
+
+            var length = address.Length;
+            if (length > MaxLength)
+            {
+                return Result.Fail<Email>(new Error($"Endereço de e-mail deve ser menor ou igual a {MaxLength} caracteres. Você digitou {length} caracteres."));
             }
 
             if (!IsValidEmailRegex.IsMatch(address))

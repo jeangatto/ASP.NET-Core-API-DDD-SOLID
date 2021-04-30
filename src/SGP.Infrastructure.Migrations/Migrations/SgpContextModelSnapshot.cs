@@ -135,9 +135,9 @@ namespace SGP.Infrastructure.Migrations.Migrations
 
                             b1.Property<string>("Address")
                                 .IsRequired()
-                                .HasMaxLength(100)
+                                .HasMaxLength(320)
                                 .IsUnicode(false)
-                                .HasColumnType("varchar(100)")
+                                .HasColumnType("varchar(320)")
                                 .HasColumnName("Email");
 
                             b1.HasKey("UsuarioId");

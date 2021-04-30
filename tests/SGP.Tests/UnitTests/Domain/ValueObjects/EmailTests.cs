@@ -32,8 +32,7 @@ namespace SGP.Tests.UnitTests.Domain.ValueObjects
             var act = Email.Create(address);
 
             // Assert
-            act.Should().NotBeNull()
-                .And.BeFailure()
+            act.Should().NotBeNull().And.BeFailure()
                 .And.Satisfy(r => r.Errors.Should().NotBeEmpty().And.OnlyHaveUniqueItems());
         }
 
@@ -58,7 +57,8 @@ namespace SGP.Tests.UnitTests.Domain.ValueObjects
 
             // Assert
             act.Should().NotBeNull().And.BeSuccess();
-            act.Value.Address.Should().Be(address.ToLowerInvariant());
+            act.Value.Should().NotBeNull();
+            act.Value.Address.Should().NotBeNullOrWhiteSpace().And.Be(address.ToLowerInvariant());
         }
     }
 }

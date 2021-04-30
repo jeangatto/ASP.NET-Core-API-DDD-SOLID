@@ -3,7 +3,7 @@ using System;
 
 namespace SGP.Infrastructure.Migrations.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,7 +23,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "varchar(30)", unicode: false, maxLength: 30, nullable: false),
-                    Email = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+                    Email = table.Column<string>(type: "varchar(320)", unicode: false, maxLength: 320, nullable: true),
                     Senha = table.Column<string>(type: "varchar(60)", unicode: false, maxLength: 60, nullable: false),
                     DataUltimoAcesso = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DataBloqueio = table.Column<DateTime>(type: "datetime2", nullable: true),
