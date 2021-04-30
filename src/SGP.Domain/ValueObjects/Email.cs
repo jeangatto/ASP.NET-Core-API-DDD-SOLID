@@ -32,10 +32,9 @@ namespace SGP.Domain.ValueObjects
                 return Result.Fail<Email>(new Error("Endereço de e-mail deve ser informado."));
             }
 
-            var length = address.Length;
-            if (length > MaxLength)
+            if (address.Length > MaxLength)
             {
-                return Result.Fail<Email>(new Error($"Endereço de e-mail deve ser menor ou igual a {MaxLength} caracteres. Você digitou {length} caracteres."));
+                return Result.Fail<Email>(new Error($"Endereço de e-mail deve ser menor ou igual a {MaxLength} caracteres."));
             }
 
             if (!IsValidEmailRegex.IsMatch(address))

@@ -1,4 +1,4 @@
-﻿using Ardalis.GuardClauses;
+using Ardalis.GuardClauses;
 using FluentResults;
 using Microsoft.Extensions.Options;
 using SGP.Application.Interfaces;
@@ -59,7 +59,7 @@ namespace SGP.Application.Services
                 return result.ToFail<TokenResponse>();
             }
 
-            // Criando o Objeto de Valor (VO).
+            // Criando o ValueObject.
             var email = Email.Create(request.Email).Value;
 
             // Obtendo o usuário pelo e-mail.

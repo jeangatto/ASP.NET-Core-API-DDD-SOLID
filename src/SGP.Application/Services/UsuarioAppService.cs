@@ -45,7 +45,7 @@ namespace SGP.Application.Services
                 return result.ToFail<CreatedResponse>();
             }
 
-            // Criando o Objeto de Valor (VO).
+            // Criando o ValueObject.
             var email = Email.Create(request.Email).Value;
 
             // Criptografando a senha.

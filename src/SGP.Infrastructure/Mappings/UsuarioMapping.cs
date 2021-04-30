@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Domain.Entities.UsuarioAggregate;
 using SGP.Domain.ValueObjects;
@@ -18,7 +18,7 @@ namespace SGP.Infrastructure.Mappings
                 .IsUnicode(false)
                 .HasMaxLength(30);
 
-            // Mapeamento Value Objects
+            // Mapeamento ValueObject
             builder.OwnsOne(usuario => usuario.Email, ownedNav =>
             {
                 ownedNav.Property(email => email.Address)

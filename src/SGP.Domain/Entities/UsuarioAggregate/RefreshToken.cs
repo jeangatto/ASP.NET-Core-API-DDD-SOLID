@@ -6,10 +6,7 @@ namespace SGP.Domain.Entities.UsuarioAggregate
 {
     public class RefreshToken : BaseEntity
     {
-        /// <summary>
-        /// Comprimento do refreh token.
-        /// </summary>
-        public const int MaxTokenSize = 2048;
+        public const int TokenMaxLength = 2048;
 
         public RefreshToken(string token, DateTime createdAt, DateTime expireAt)
         {
