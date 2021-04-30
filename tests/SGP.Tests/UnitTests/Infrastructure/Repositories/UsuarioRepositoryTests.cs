@@ -13,11 +13,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [Category(TestCategories.Infrastructure)]
-    public class UsuarioRepositoryTests : IClassFixture<EfFixture>
+    public class UsuarioRepositoryTests : IClassFixture<EfSqliteFixture>
     {
-        private readonly EfFixture _fixture;
+        private readonly EfSqliteFixture _fixture;
 
-        public UsuarioRepositoryTests(EfFixture fixture)
+        public UsuarioRepositoryTests(EfSqliteFixture fixture)
         {
             _fixture = fixture;
             SeedUsers(_fixture.Context);
@@ -29,10 +29,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         {
             // Arrange
             var repository = new UsuarioRepository(_fixture.Context);
-            var emailResult = Email.Create("john_doe@hotmail.com");
+            var email = new Email("john_doe@hotmail.com");
 
             // Act
-            var act = await repository.GetByEmailAsync(emailResult.Value);
+            var act = await repository.GetByEmailAsync(email);
 
             // Assert
             act.Should().NotBeNull()
@@ -45,9 +45,9 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             {
                 context.Usuarios.AddRange(new[]
                 {
-                    new Usuario("John Doe", Email.Create("john_doe@hotmail.com").Value, "a1b2c3d4"),
-                    new Usuario("Mary Doe", Email.Create("mary.doe@gmail.com").Value, "4d3c2b1a"),
-                    new Usuario("Alan Doe", Email.Create("alan.doe@outlook.com").Value, "a1d4c3b2")
+                    new Usuario("John Doe", new Email("john_doe@hotmail.com"), "a1b2c3d4"),
+                    new Usuario("Mary Doe", new Email("mary.doe@gmail.com"), "4d3c2b1a"),
+                    new Usuario("Alan Doe", new Email("alan.doe@outlook.com"), "a1d4c3b2")
                 });
                 context.SaveChanges();
             }

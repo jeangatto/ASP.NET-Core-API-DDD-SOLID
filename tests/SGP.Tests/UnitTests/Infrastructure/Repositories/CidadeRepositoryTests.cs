@@ -16,11 +16,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [Category(TestCategories.Infrastructure)]
-    public class CidadeRepositoryTests : IClassFixture<EfFixture>
+    public class CidadeRepositoryTests : IClassFixture<EfSqliteFixture>
     {
-        private readonly EfFixture _fixture;
+        private readonly EfSqliteFixture _fixture;
 
-        public CidadeRepositoryTests(EfFixture fixture)
+        public CidadeRepositoryTests(EfSqliteFixture fixture)
         {
             _fixture = fixture;
             SeedCities(_fixture.Context);

@@ -5,12 +5,12 @@ using System;
 
 namespace SGP.Tests.Fixtures
 {
-    public class EfFixture : IDisposable
+    public class EfSqliteFixture : IDisposable
     {
         private readonly SqliteConnection _connection;
         private readonly string _connectionString = "DataSource=:memory:";
 
-        public EfFixture()
+        public EfSqliteFixture()
         {
             _connection = new SqliteConnection(_connectionString);
             _connection.Open();
@@ -35,7 +35,7 @@ namespace SGP.Tests.Fixtures
         private bool _disposed;
 
         // Public implementation of Dispose pattern callable by consumers.
-        ~EfFixture()
+        ~EfSqliteFixture()
         {
             Dispose(false);
         }

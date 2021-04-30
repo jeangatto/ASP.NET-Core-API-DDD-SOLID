@@ -60,7 +60,7 @@ namespace SGP.Application.Services
             }
 
             // Criando o ValueObject.
-            var email = Email.Create(request.Email).Value;
+            var email = new Email(request.Email);
 
             // Obtendo o usuário pelo e-mail.
             var usuario = await _repository.GetByEmailAsync(email);

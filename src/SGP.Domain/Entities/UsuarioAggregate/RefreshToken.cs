@@ -6,8 +6,6 @@ namespace SGP.Domain.Entities.UsuarioAggregate
 {
     public class RefreshToken : BaseEntity
     {
-        public const int TokenMaxLength = 2048;
-
         public RefreshToken(string token, DateTime createdAt, DateTime expireAt)
         {
             Token = token;

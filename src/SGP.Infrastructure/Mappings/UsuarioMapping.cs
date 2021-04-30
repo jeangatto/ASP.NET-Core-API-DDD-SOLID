@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Domain.Entities.UsuarioAggregate;
-using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
@@ -24,7 +23,7 @@ namespace SGP.Infrastructure.Mappings
                 ownedNav.Property(email => email.Address)
                     .IsRequired()
                     .IsUnicode(false)
-                    .HasMaxLength(Email.MaxLength)
+                    .HasMaxLength(100)
                     .HasColumnName("Email");
 
                 ownedNav.HasIndex(email => email.Address)

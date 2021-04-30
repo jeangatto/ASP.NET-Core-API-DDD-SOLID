@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Domain.Entities.UsuarioAggregate;
 using SGP.Infrastructure.Extensions;
@@ -18,7 +18,7 @@ namespace SGP.Infrastructure.Mappings
             builder.Property(token => token.Token)
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(RefreshToken.TokenMaxLength);
+                .HasMaxLength(2048);
 
             builder.Property(token => token.CreatedAt)
                 .IsRequired();
@@ -32,7 +32,7 @@ namespace SGP.Infrastructure.Mappings
             builder.Property(token => token.ReplacedByToken)
                 .IsRequired(false)
                 .IsUnicode(false)
-                .HasMaxLength(RefreshToken.TokenMaxLength);
+                .HasMaxLength(2048);
 
             builder.HasOne(token => token.Usuario)
                 .WithMany(usuario => usuario.RefreshTokens)

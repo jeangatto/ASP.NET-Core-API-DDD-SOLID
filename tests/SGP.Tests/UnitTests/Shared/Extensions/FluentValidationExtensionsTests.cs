@@ -1,19 +1,18 @@
-﻿using FluentAssertions;
-using FluentResults.Extensions.FluentAssertions;
-using SGP.Domain.ValueObjects;
+using FluentValidation;
+using FluentValidation.TestHelper;
+using SGP.Shared.Extensions;
 using Xunit;
 using Xunit.Categories;
 
-namespace SGP.Tests.UnitTests.Domain.ValueObjects
+namespace SGP.Tests.UnitTests.Shared.Extensions
 {
-    [Category(TestCategories.Domain)]
-    public class EmailTests
+    [Category(TestCategories.Shared)]
+    public class FluentValidationExtensionsTests
     {
         [Theory]
         [UnitTest]
         [InlineData("")]
         [InlineData(" ")]
-        [InlineData(null)]
         [InlineData("Abc.example.com")]     // No `@`
         [InlineData("A@b@c@example.com")]   // multiple `@`
         [InlineData("ma...ma@jjf.co")]      // continuous multiple dots in name
@@ -28,12 +27,14 @@ namespace SGP.Tests.UnitTests.Domain.ValueObjects
         [InlineData("ma@jjf.")]             // nothing after `.`
         public void Should_WhenEmailIsInvalid_ReturnsError(string address)
         {
+            // Arrange
+            var validator = CreateValidator();
+
             // Act
-            var act = Email.Create(address);
+            var result = validator.TestValidate(address);
 
             // Assert
-            act.Should().NotBeNull().And.BeFailure()
-                .And.Satisfy(r => r.Errors.Should().NotBeEmpty().And.OnlyHaveUniqueItems());
+            result.ShouldHaveAnyValidationError();
         }
 
         [Theory]
@@ -52,13 +53,21 @@ namespace SGP.Tests.UnitTests.Domain.ValueObjects
         [InlineData("12@hostname.com")]
         public void Should_ReturnsSuccess_WhenEmailIsValid(string address)
         {
+            // Arrange
+            var validator = CreateValidator();
+
             // Act
-            var act = Email.Create(address);
+            var result = validator.TestValidate(address);
 
             // Assert
-            act.Should().NotBeNull().And.BeSuccess();
-            act.Value.Should().NotBeNull();
-            act.Value.Address.Should().NotBeNullOrWhiteSpace().And.Be(address.ToLowerInvariant());
+            result.ShouldNotHaveAnyValidationErrors();
+        }
+
+        private static InlineValidator<string> CreateValidator()
+        {
+            var validator = new InlineValidator<string>();
+            validator.RuleFor(address => address).IsValidEmailAddress();
+            return validator;
         }
     }
 }

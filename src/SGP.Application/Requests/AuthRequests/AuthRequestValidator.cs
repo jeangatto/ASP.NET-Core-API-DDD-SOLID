@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+using FluentValidation;
+using SGP.Shared.Extensions;
 
 namespace SGP.Application.Requests.AuthRequests
 {
@@ -8,7 +9,7 @@ namespace SGP.Application.Requests.AuthRequests
         {
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .EmailAddress()
+                .IsValidEmailAddress()
                 .MaximumLength(100);
 
             RuleFor(x => x.Senha)

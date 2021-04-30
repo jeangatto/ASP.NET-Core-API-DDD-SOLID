@@ -12,11 +12,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Context
 {
     [Category(TestCategories.Infrastructure)]
-    public class SgpContextSeedTests : IClassFixture<EfFixture>
+    public class SgpContextSeedTests : IClassFixture<EfSqliteFixture>
     {
-        private readonly EfFixture _fixture;
+        private readonly EfSqliteFixture _fixture;
 
-        public SgpContextSeedTests(EfFixture fixture)
+        public SgpContextSeedTests(EfSqliteFixture fixture)
         {
             _fixture = fixture;
         }
