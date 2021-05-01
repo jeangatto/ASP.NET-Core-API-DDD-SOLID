@@ -11,8 +11,8 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
     {
         [Theory]
         [UnitTest]
-        [InlineData("")]
-        [InlineData(" ")]
+        [InlineData("")]                    // Empty
+        [InlineData(" ")]                   // Whitespaces
         [InlineData("Abc.example.com")]     // No `@`
         [InlineData("A@b@c@example.com")]   // multiple `@`
         [InlineData("ma...ma@jjf.co")]      // continuous multiple dots in name

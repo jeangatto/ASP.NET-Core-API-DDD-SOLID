@@ -16,11 +16,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [Category(TestCategories.Infrastructure)]
-    public class CidadeRepositoryTests : IClassFixture<EfSqliteFixture>
+    public class CityRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public CidadeRepositoryTests(EfSqliteFixture fixture)
+        public CityRepositoryTests(EfSqliteFixture fixture)
         {
             _fixture = fixture;
             SeedCities(_fixture.Context);
@@ -34,10 +34,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsCities_WhenGetByExistingState(string state, int expectedCount)
         {
             // Arrange
-            var repository = new CidadeRepository(_fixture.Context);
+            var repository = new CityRepository(_fixture.Context);
 
             // Act
-            var act = await repository.GetAllAsync(state);
+            var act = await repository.GetAllCitiesAsync(state);
 
             // Assert
             act.Should().NotBeNullOrEmpty()
@@ -50,10 +50,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsAllStates_WhenGetAllStates()
         {
             // Arrange
-            var repository = new CidadeRepository(_fixture.Context);
+            var repository = new CityRepository(_fixture.Context);
 
             // Act
-            var act = await repository.GetAllEstadosAsync();
+            var act = await repository.GetAllStatesAsync();
 
             // Assert
             act.Should().NotBeNullOrEmpty()
@@ -68,13 +68,13 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         {
             // Arrange
             const string ibge = "3557105";
-            var repository = new CidadeRepository(_fixture.Context);
+            var repository = new CityRepository(_fixture.Context);
 
             // Act
             var act = await repository.GetByIbgeAsync(ibge);
 
             // Assert
-            act.Should().NotBeNull().And.BeEquivalentTo(new Cidade(ibge, "SP", "Votuporanga"));
+            act.Should().NotBeNull().And.BeEquivalentTo(new City(ibge, "SP", "Votuporanga"));
         }
 
         [Theory]
@@ -86,7 +86,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsNull_WhenGetByInexistingIbge(string ibge)
         {
             // Arrange
-            var repository = new CidadeRepository(_fixture.Context);
+            var repository = new CityRepository(_fixture.Context);
 
             // Act
             var act = await repository.GetByIbgeAsync(ibge);
@@ -97,11 +97,11 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 
         private static void SeedCities(SgpContext context)
         {
-            if (!context.Cidades.AsNoTracking().Any())
+            if (!context.Cities.AsNoTracking().Any())
             {
-                var path = Path.Combine(SgpContextSeed.RootFolderPath, SgpContextSeed.SeedFolderName, "Cidades.json");
-                var cidadesJson = File.ReadAllText(path, Encoding.UTF8);
-                context.Cidades.AddRange(cidadesJson.FromJson<IEnumerable<Cidade>>());
+                var path = Path.Combine(SgpContextSeed.RootFolderPath, SgpContextSeed.SeedFolderName, "cities.json");
+                var citiesJson = File.ReadAllText(path, Encoding.UTF8);
+                context.Cities.AddRange(citiesJson.FromJson<IEnumerable<City>>());
                 context.SaveChanges();
             }
         }

@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+using FluentValidation;
 
-namespace SGP.Application.Requests.CidadeRequests
+namespace SGP.Application.Requests.CityRequests
 {
     public class GetByIbgeRequestValidator : AbstractValidator<GetByIbgeRequest>
     {

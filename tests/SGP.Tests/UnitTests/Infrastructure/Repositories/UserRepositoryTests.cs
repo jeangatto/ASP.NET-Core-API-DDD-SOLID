@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using SGP.Domain.Entities.UsuarioAggregate;
+using SGP.Domain.Entities.UserAggregate;
 using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Context;
 using SGP.Infrastructure.Repositories;
@@ -13,11 +13,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [Category(TestCategories.Infrastructure)]
-    public class UsuarioRepositoryTests : IClassFixture<EfSqliteFixture>
+    public class UserRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public UsuarioRepositoryTests(EfSqliteFixture fixture)
+        public UserRepositoryTests(EfSqliteFixture fixture)
         {
             _fixture = fixture;
             SeedUsers(_fixture.Context);
@@ -28,7 +28,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Should_ReturnsUser_WhenEmailExists()
         {
             // Arrange
-            var repository = new UsuarioRepository(_fixture.Context);
+            var repository = new UserRepository(_fixture.Context);
             var email = new Email("john_doe@hotmail.com");
 
             // Act
@@ -36,18 +36,18 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 
             // Assert
             act.Should().NotBeNull()
-                .And.Match<Usuario>((u) => u.Nome == "John Doe" && u.Senha == "a1b2c3d4");
+                .And.Match<User>((u) => u.Name == "John Doe" && u.PasswordHash == "a1b2c3d4");
         }
 
         private static void SeedUsers(SgpContext context)
         {
-            if (!context.Usuarios.AsNoTracking().Any())
+            if (!context.Users.AsNoTracking().Any())
             {
-                context.Usuarios.AddRange(new[]
+                context.Users.AddRange(new[]
                 {
-                    new Usuario("John Doe", new Email("john_doe@hotmail.com"), "a1b2c3d4"),
-                    new Usuario("Mary Doe", new Email("mary.doe@gmail.com"), "4d3c2b1a"),
-                    new Usuario("Alan Doe", new Email("alan.doe@outlook.com"), "a1d4c3b2")
+                    new User("John Doe", new Email("john_doe@hotmail.com"), "a1b2c3d4"),
+                    new User("Mary Doe", new Email("mary.doe@gmail.com"), "4d3c2b1a"),
+                    new User("Alan Doe", new Email("alan.doe@outlook.com"), "a1d4c3b2")
                 });
                 context.SaveChanges();
             }

@@ -27,8 +27,8 @@ namespace SGP.Infrastructure
             services.AddScoped<IUnitOfWork, UnitOfWork<SgpContext>>();
 
             // Repositories
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<ICidadeRepository, CidadeRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
 

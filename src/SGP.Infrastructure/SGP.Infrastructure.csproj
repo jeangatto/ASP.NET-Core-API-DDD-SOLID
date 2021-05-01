@@ -1,28 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
-        <NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;</NoWarn>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Ardalis.GuardClauses" Version="3.1.0"/>
-        <PackageReference Include="BCrypt.Net-Next" Version="4.0.2"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.5"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0"/>
-        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.11.0"/>
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.0"/>
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj"/>
-        <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj"/>
-    </ItemGroup>
-    <ItemGroup>
-        <None Update="Seeds\Cidades.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;</NoWarn>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Ardalis.GuardClauses" Version="3.1.0" />
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.11.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
+		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>	
+		<None Update="Seeds\cities.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>

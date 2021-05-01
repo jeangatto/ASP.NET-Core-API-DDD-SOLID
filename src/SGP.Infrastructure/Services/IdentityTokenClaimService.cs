@@ -21,6 +21,7 @@ namespace SGP.Infrastructure.Services
         public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTime dateTime)
         {
             Guard.Against.Null(jwtOptions, nameof(jwtOptions));
+
             _jwtConfig = jwtOptions.Value;
             _dateTime = dateTime;
         }

@@ -42,7 +42,7 @@ namespace SGP.Infrastructure.Migrations
             healthChecksBuilder.AddDbContextCheck<SgpContext>(
                 tags: new[] { "database" },
                 customTestQuery: (context, cancellationToken)
-                    => context.Cidades.AsNoTracking().AnyAsync(cancellationToken));
+                    => context.Cities.AsNoTracking().AnyAsync(cancellationToken));
 
             return services;
         }

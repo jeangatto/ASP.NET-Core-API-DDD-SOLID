@@ -1,13 +1,13 @@
 using FluentValidation;
 using SGP.Shared.Extensions;
 
-namespace SGP.Application.Requests.UsuarioRequests
+namespace SGP.Application.Requests.UserRequests
 {
-    public class AddUsuarioRequestValidator : AbstractValidator<AddUsuarioRequest>
+    public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
     {
-        public AddUsuarioRequestValidator()
+        public CreateUserRequestValidator()
         {
-            RuleFor(x => x.Nome)
+            RuleFor(x => x.Name)
                 .NotEmpty()
                 .MinimumLength(3)
                 .MaximumLength(30);
@@ -17,7 +17,7 @@ namespace SGP.Application.Requests.UsuarioRequests
                 .IsValidEmailAddress()
                 .MaximumLength(100);
 
-            RuleFor(x => x.Senha)
+            RuleFor(x => x.Password)
                 .NotEmpty()
                 .MinimumLength(4)
                 .MaximumLength(16);

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SGP.Domain.Entities;
-using SGP.Domain.Entities.UsuarioAggregate;
+using SGP.Domain.Entities.UserAggregate;
 using SGP.Infrastructure.Extensions;
 using System.Reflection;
 
@@ -23,8 +23,8 @@ namespace SGP.Infrastructure.Context
             }
         }
 
-        public DbSet<Cidade> Cidades { get; set; }
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

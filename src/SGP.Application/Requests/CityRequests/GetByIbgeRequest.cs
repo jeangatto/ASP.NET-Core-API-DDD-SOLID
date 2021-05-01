@@ -1,6 +1,6 @@
-﻿using SGP.Application.Requests.Common;
+using SGP.Application.Requests.Common;
 
-namespace SGP.Application.Requests.CidadeRequests
+namespace SGP.Application.Requests.CityRequests
 {
     public class GetByIbgeRequest : BaseRequest
     {

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthRequests;
 using SGP.Application.Responses;
-using SGP.Domain.Entities.UsuarioAggregate;
+using SGP.Domain.Entities.UserAggregate;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.AppSettings;
@@ -25,7 +25,7 @@ namespace SGP.Application.Services
         private readonly AuthConfig _authConfig;
         private readonly IDateTime _dateTime;
         private readonly IHashService _hashService;
-        private readonly IUsuarioRepository _repository;
+        private readonly IUserRepository _repository;
         private readonly IUnitOfWork _uow;
         private readonly ITokenClaimsService _tokenClaimsService;
 
@@ -35,7 +35,7 @@ namespace SGP.Application.Services
             IDateTime dateTime,
             IHashService hashService,
             ITokenClaimsService tokenClaimsService,
-            IUsuarioRepository repository,
+            IUserRepository repository,
             IUnitOfWork uow
         )
         {
@@ -51,44 +51,35 @@ namespace SGP.Application.Services
 
         public async Task<Result<TokenResponse>> AuthenticateAsync(AuthRequest request)
         {
-            // Validando a requisição.
             var result = await new AuthRequestValidator().ValidateAsync(request);
             if (!result.IsValid)
             {
-                // Retornando os erros.
                 return result.ToFail<TokenResponse>();
             }
 
-            // Criando o ValueObject.
-            var email = new Email(request.Email);
-
-            // Obtendo o usuário pelo e-mail.
-            var usuario = await _repository.GetByEmailAsync(email);
-            if (usuario == null)
+            var user = await _repository.GetByEmailAsync(new Email(request.Email));
+            if (user == null)
             {
                 return Result.Fail<TokenResponse>("A conta informada não existe.");
             }
 
-            // Verificando se a conta está bloqueada.
-            if (usuario.ContaEstaBloqueada(_dateTime))
+            if (user.IsLocked(_dateTime))
             {
                 return Result.Fail<TokenResponse>("A sua conta está bloqueada, entre em contato com o nosso suporte.");
             }
 
-            // Verificando se a senha corresponde a senha gravada na base de dados.
-            if (_hashService.Compare(request.Senha, usuario.Senha))
+            if (_hashService.Compare(request.Password, user.PasswordHash))
             {
-                var claims = GenerateClaims(usuario);
+                var claims = GenerateClaims(user);
                 var accessToken = _tokenClaimsService.GenerateAccessToken(claims);
                 var refreshToken = _tokenClaimsService.GenerateRefreshToken();
 
-                usuario.IncrementarAcessoComSucceso();
-                usuario.AdicionarRefreshToken(new RefreshToken(
+                user.AddRefreshToken(new RefreshToken(
                     refreshToken.Token,
                     accessToken.CreatedAt,
                     accessToken.ExpiresAt));
 
-                _repository.Update(usuario);
+                _repository.Update(user);
                 await _uow.SaveChangesAsync();
 
                 return Result.Ok(new TokenResponse(
@@ -100,12 +91,12 @@ namespace SGP.Application.Services
             }
             else
             {
-                usuario.IncrementarAcessoComFalha(
+                user.IncrementFailuresNum(
                     _dateTime,
                     _authConfig.MaximumAttempts,
                     _authConfig.SecondsBlocked);
 
-                _repository.Update(usuario);
+                _repository.Update(user);
                 await _uow.SaveChangesAsync();
 
                 return Result.Fail<TokenResponse>("O e-mail ou senha está incorreta.");
@@ -114,41 +105,36 @@ namespace SGP.Application.Services
 
         public async Task<Result<TokenResponse>> RefreshTokenAsync(RefreshTokenRequest request)
         {
-            // Validando a requisição.
             var result = await new RefreshTokenRequestValidator().ValidateAsync(request);
             if (!result.IsValid)
             {
-                // Retornando os erros.
                 return result.ToFail<TokenResponse>();
             }
 
-            // Obtendo o usuário e seus tokens pelo RefreshToken.
-            var usuario = await _repository.GetByTokenAsync(request.Token);
-            if (usuario == null)
+            var user = await _repository.GetByTokenAsync(request.Token);
+            if (user == null)
             {
                 return Result.Fail<TokenResponse>("Nenhum token encontrado.");
             }
 
-            var refreshToken = usuario.RefreshTokens.FirstOrDefault(t => t.Token == request.Token);
+            var refreshToken = user.RefreshTokens.FirstOrDefault(t => t.Token == request.Token);
             if (refreshToken.IsExpired(_dateTime))
             {
                 return Result.Fail<TokenResponse>("O token inválido ou expirado.");
             }
 
-            var claims = GenerateClaims(usuario);
+            var claims = GenerateClaims(user);
             var accessToken = _tokenClaimsService.GenerateAccessToken(claims);
             var newRefreshToken = _tokenClaimsService.GenerateRefreshToken();
 
-            // Substituindo o token de atualização atual por um novo.
             refreshToken.Revoke(newRefreshToken.Token, accessToken.CreatedAt);
 
-            // Adicionando o novo.
-            usuario.AdicionarRefreshToken(new RefreshToken(
+            user.AddRefreshToken(new RefreshToken(
                 newRefreshToken.Token,
                 accessToken.CreatedAt,
                 accessToken.ExpiresAt));
 
-            _repository.Update(usuario);
+            _repository.Update(user);
             await _uow.SaveChangesAsync();
 
             return Result.Ok(new TokenResponse(
@@ -159,13 +145,13 @@ namespace SGP.Application.Services
                 newRefreshToken.Token));
         }
 
-        private static IEnumerable<Claim> GenerateClaims(Usuario usuario)
+        private static IEnumerable<Claim> GenerateClaims(User user)
         {
             return new[]
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.Nome),
-                new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Id.ToString())
+                new Claim(JwtRegisteredClaimNames.Sub, user.Name),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Id.ToString())
             };
         }
     }

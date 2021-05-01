@@ -5,28 +5,28 @@ using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class CidadeMapping : IEntityTypeConfiguration<Cidade>
+    public class CityMapping : IEntityTypeConfiguration<City>
     {
-        public void Configure(EntityTypeBuilder<Cidade> builder)
+        public void Configure(EntityTypeBuilder<City> builder)
         {
             builder.ConfigureSingularTableName();
 
-            builder.HasKey(cidade => cidade.Ibge);
+            builder.HasKey(city => city.Ibge);
 
-            builder.Property(cidade => cidade.Ibge)
+            builder.Property(city => city.Ibge)
                 .IsRequired()
                 .HasMaxLength(8)
                 .IsUnicode(false);
 
-            builder.Property(cidade => cidade.Estado)
+            builder.Property(city => city.StateAbbr)
                 .IsRequired()
                 .HasMaxLength(2)
                 .IsUnicode(false)
                 .IsFixedLength(true);
 
-            builder.HasIndex(cidade => cidade.Estado);
+            builder.HasIndex(city => city.StateAbbr);
 
-            builder.Property(cidade => cidade.Nome)
+            builder.Property(city => city.Name)
                 .IsRequired()
                 .HasMaxLength(70)
                 .IsUnicode(false);

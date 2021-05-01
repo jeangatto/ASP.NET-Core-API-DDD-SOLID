@@ -9,8 +9,8 @@ using System;
 namespace SGP.Infrastructure.Migrations.Migrations
 {
     [DbContext(typeof(SgpContext))]
-    [Migration("20210430174750_Inicial")]
-    partial class Inicial
+    [Migration("20210501135636_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,34 +21,34 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("SGP.Domain.Entities.Cidade", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.City", b =>
                 {
                     b.Property<string>("Ibge")
                         .HasMaxLength(8)
                         .IsUnicode(false)
                         .HasColumnType("varchar(8)");
 
-                    b.Property<string>("Estado")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(70)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(70)");
+
+                    b.Property<string>("StateAbbr")
                         .IsRequired()
                         .HasMaxLength(2)
                         .IsUnicode(false)
                         .HasColumnType("char(2)")
                         .IsFixedLength(true);
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(70)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(70)");
-
                     b.HasKey("Ibge");
 
-                    b.HasIndex("Estado");
+                    b.HasIndex("StateAbbr");
 
-                    b.ToTable("Cidade");
+                    b.ToTable("City");
                 });
 
-            modelBuilder.Entity("SGP.Domain.Entities.UsuarioAggregate.RefreshToken", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -73,40 +73,37 @@ namespace SGP.Infrastructure.Migrations.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(2048)");
 
-                    b.Property<Guid>("UsuarioId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RefreshToken");
                 });
 
-            modelBuilder.Entity("SGP.Domain.Entities.UsuarioAggregate.Usuario", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<short>("AcessosComFalha")
+                    b.Property<short>("FailuresNum")
                         .HasColumnType("smallint");
 
-                    b.Property<short>("AcessosComSucesso")
-                        .HasColumnType("smallint");
-
-                    b.Property<DateTime?>("DataBloqueio")
+                    b.Property<DateTime?>("LastAccessAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DataUltimoAcesso")
+                    b.Property<DateTime?>("LockExpires")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
                         .IsUnicode(false)
                         .HasColumnType("varchar(30)");
 
-                    b.Property<string>("Senha")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(60)
                         .IsUnicode(false)
@@ -114,50 +111,50 @@ namespace SGP.Infrastructure.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuario");
+                    b.ToTable("User");
                 });
 
-            modelBuilder.Entity("SGP.Domain.Entities.UsuarioAggregate.RefreshToken", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.RefreshToken", b =>
                 {
-                    b.HasOne("SGP.Domain.Entities.UsuarioAggregate.Usuario", "Usuario")
+                    b.HasOne("SGP.Domain.Entities.UserAggregate.User", "User")
                         .WithMany("RefreshTokens")
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Usuario");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SGP.Domain.Entities.UsuarioAggregate.Usuario", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.User", b =>
                 {
                     b.OwnsOne("SGP.Domain.ValueObjects.Email", "Email", b1 =>
                         {
-                            b1.Property<Guid>("UsuarioId")
+                            b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Address")
                                 .IsRequired()
-                                .HasMaxLength(320)
+                                .HasMaxLength(100)
                                 .IsUnicode(false)
-                                .HasColumnType("varchar(320)")
+                                .HasColumnType("varchar(100)")
                                 .HasColumnName("Email");
 
-                            b1.HasKey("UsuarioId");
+                            b1.HasKey("UserId");
 
                             b1.HasIndex("Address")
                                 .IsUnique()
                                 .HasFilter("[Email] IS NOT NULL");
 
-                            b1.ToTable("Usuario");
+                            b1.ToTable("User");
 
                             b1.WithOwner()
-                                .HasForeignKey("UsuarioId");
+                                .HasForeignKey("UserId");
                         });
 
                     b.Navigation("Email");
                 });
 
-            modelBuilder.Entity("SGP.Domain.Entities.UsuarioAggregate.Usuario", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.User", b =>
                 {
                     b.Navigation("RefreshTokens");
                 });

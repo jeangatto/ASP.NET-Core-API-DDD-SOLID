@@ -1,8 +1,9 @@
+using Ardalis.GuardClauses;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 using System;
 
-namespace SGP.Domain.Entities.UsuarioAggregate
+namespace SGP.Domain.Entities.UserAggregate
 {
     public class RefreshToken : BaseEntity
     {
@@ -17,27 +18,29 @@ namespace SGP.Domain.Entities.UsuarioAggregate
         {
         }
 
-        public Guid UsuarioId { get; private set; }
+        public Guid UserId { get; private set; }
         public string Token { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime ExpireAt { get; private set; }
         public DateTime? RevokedAt { get; private set; }
         public string ReplacedByToken { get; private set; }
 
-        public Usuario Usuario { get; private set; }
+        public User User { get; private set; }
 
         /// <summary>
         /// Indica se o token está expirado.
         /// </summary>
-        /// <param name="dataTime"></param>
+        /// <param name="dateTime"></param>
         /// <returns>Verdadeiro se o token estiver expirado; caso contrário, falso.</returns>
-        public bool IsExpired(IDateTime dataTime)
+        public bool IsExpired(IDateTime dateTime)
         {
-            return dataTime.Now >= ExpireAt || RevokedAt.HasValue;
+            Guard.Against.Null(dateTime, nameof(dateTime));
+            return dateTime.Now >= ExpireAt || RevokedAt.HasValue;
         }
 
         public void Revoke(string newToken, DateTime revokedAt)
         {
+            Guard.Against.NullOrWhiteSpace(newToken, nameof(newToken));
             ReplacedByToken = newToken;
             RevokedAt = revokedAt;
         }

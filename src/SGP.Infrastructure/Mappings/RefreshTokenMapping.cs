@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SGP.Domain.Entities.UsuarioAggregate;
+using SGP.Domain.Entities.UserAggregate;
 using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
@@ -12,7 +12,7 @@ namespace SGP.Infrastructure.Mappings
             builder.ConfigureSingularTableName();
             builder.ConfigureBaseEntity();
 
-            builder.Property(token => token.UsuarioId)
+            builder.Property(token => token.UserId)
                 .IsRequired();
 
             builder.Property(token => token.Token)
@@ -34,9 +34,9 @@ namespace SGP.Infrastructure.Mappings
                 .IsUnicode(false)
                 .HasMaxLength(2048);
 
-            builder.HasOne(token => token.Usuario)
-                .WithMany(usuario => usuario.RefreshTokens)
-                .HasForeignKey(token => token.UsuarioId);
+            builder.HasOne(token => token.User)
+                .WithMany(user => user.RefreshTokens)
+                .HasForeignKey(token => token.UserId);
         }
     }
 }

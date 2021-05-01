@@ -34,7 +34,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Context
             await _fixture.Context.EnsureSeedDataAsync(loggerFactoryMock.Object);
 
             // Assert
-            _fixture.Context.Cidades.AsNoTracking().Count().Should().Be(5570);
+            _fixture.Context.Cities.AsNoTracking().Count().Should().Be(5570);
         }
     }
 }

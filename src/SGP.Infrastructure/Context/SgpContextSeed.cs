@@ -42,17 +42,17 @@ namespace SGP.Infrastructure.Context
 
         private static async Task SeedCitiesAsync(SgpContext context, ILogger logger)
         {
-            if (!await context.Cidades.AsNoTracking().AnyAsync())
+            if (!await context.Cities.AsNoTracking().AnyAsync())
             {
-                var path = Path.Combine(RootFolderPath, SeedFolderName, "Cidades.json");
+                var path = Path.Combine(RootFolderPath, SeedFolderName, "cities.json");
                 if (!File.Exists(path))
                 {
                     logger.LogError($"O arquivo de seed '{path}' não foi encontradao.");
                 }
                 else
                 {
-                    var cidadesjson = await File.ReadAllTextAsync(path, Encoding.UTF8);
-                    context.Cidades.AddRange(cidadesjson.FromJson<IEnumerable<Cidade>>());
+                    var citiesJson = await File.ReadAllTextAsync(path, Encoding.UTF8);
+                    context.Cities.AddRange(citiesJson.FromJson<IEnumerable<City>>());
 
                     var rowsAffected = await context.SaveChangesAsync();
                     logger.LogInformation($"Total de cidades inseridas: {rowsAffected}");

@@ -11,8 +11,8 @@ namespace SGP.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<IAuthAppService, AuthAppService>();
-            services.AddScoped<ICidadeAppService, CidadeAppService>();
-            services.AddScoped<IUsuarioAppService, UsuarioAppService>();
+            services.AddScoped<ICityAppService, CityAppService>();
+            services.AddScoped<IUserAppService, UserAppService>();
             return services;
         }
     }

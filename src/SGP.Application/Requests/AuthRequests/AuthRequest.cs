@@ -1,13 +1,13 @@
-﻿using SGP.Application.Requests.Common;
+using SGP.Application.Requests.Common;
 
 namespace SGP.Application.Requests.AuthRequests
 {
     public class AuthRequest : BaseRequest
     {
-        public AuthRequest(string email, string senha)
+        public AuthRequest(string email, string password)
         {
             Email = email;
-            Senha = senha;
+            Password = password;
         }
 
         public AuthRequest()
@@ -15,6 +15,6 @@ namespace SGP.Application.Requests.AuthRequests
         }
 
         public string Email { get; set; }
-        public string Senha { get; set; }
+        public string Password { get; set; }
     }
 }

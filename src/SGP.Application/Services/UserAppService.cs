@@ -2,9 +2,9 @@ using AutoMapper;
 using FluentResults;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests;
-using SGP.Application.Requests.UsuarioRequests;
+using SGP.Application.Requests.UserRequests;
 using SGP.Application.Responses;
-using SGP.Domain.Entities.UsuarioAggregate;
+using SGP.Domain.Entities.UserAggregate;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Extensions;
@@ -14,18 +14,18 @@ using System.Threading.Tasks;
 
 namespace SGP.Application.Services
 {
-    public class UsuarioAppService : IUsuarioAppService
+    public class UserAppService : IUserAppService
     {
         private readonly IHashService _hashService;
         private readonly IMapper _mapper;
-        private readonly IUsuarioRepository _repository;
+        private readonly IUserRepository _repository;
         private readonly IUnitOfWork _uow;
 
-        public UsuarioAppService
+        public UserAppService
         (
             IHashService hashService,
             IMapper mapper,
-            IUsuarioRepository repository,
+            IUserRepository repository,
             IUnitOfWork uow
         )
         {
@@ -35,24 +35,18 @@ namespace SGP.Application.Services
             _uow = uow;
         }
 
-        public async Task<Result<CreatedResponse>> AddAsync(AddUsuarioRequest request)
+        public async Task<Result<CreatedResponse>> CreateAsync(CreateUserRequest request)
         {
             // Validando a requisição.
-            var result = await new AddUsuarioRequestValidator().ValidateAsync(request);
+            var result = await new CreateUserRequestValidator().ValidateAsync(request);
             if (!result.IsValid)
             {
                 // Retornando os erros.
                 return result.ToFail<CreatedResponse>();
             }
 
-            // Criando o ValueObject.
+            // Criando o Value Object.
             var email = new Email(request.Email);
-
-            // Criptografando a senha.
-            var senhaCriptografada = _hashService.Hash(request.Senha);
-
-            // Criando a instância do usuário.
-            var usuario = new Usuario(request.Nome, email, senhaCriptografada);
 
             // Verificando se o e-mail já existe na base de dados.
             if (await _repository.EmailAlreadyExistsAsync(email))
@@ -60,38 +54,42 @@ namespace SGP.Application.Services
                 return Result.Fail<CreatedResponse>("O endereço de e-mail informado não está disponivel.");
             }
 
+            // Criptografando a senha.
+            var passwordHash = _hashService.Hash(request.Password);
+
+            // Criando a instância do usuário.
+            var user = new User(request.Name, email, passwordHash);
+
             // Adicionando no repositório.
-            _repository.Add(usuario);
+            _repository.Add(user);
 
             // Confirmando a transação.
             await _uow.SaveChangesAsync();
 
             // Retornando o resultado.
-            var response = new CreatedResponse(usuario.Id);
-            return Result.Ok(response);
+            return Result.Ok(new CreatedResponse(user.Id));
         }
 
-        public async Task<Result<UsuarioResponse>> GetByIdAsync(GetByIdRequest request)
+        public async Task<Result<UserResponse>> GetByIdAsync(GetByIdRequest request)
         {
             // Validando a requisição.
             var result = await new GetByIdRequestValidator().ValidateAsync(request);
             if (!result.IsValid)
             {
                 // Retornando os erros.
-                return result.ToFail<UsuarioResponse>();
+                return result.ToFail<UserResponse>();
             }
 
             // Obtendo a entidade do repositório.
-            var usuario = await _repository.GetByIdAsync(request.Id);
-            if (usuario == null)
+            var user = await _repository.GetByIdAsync(request.Id);
+            if (user == null)
             {
                 // Retornando erro não encontrado.
-                return Result.Fail<UsuarioResponse>($"Registro não encontrado: {request.Id}");
+                return Result.Fail<UserResponse>($"Registro não encontrado: {request.Id}");
             }
 
             // Mapeando domínio para resposta (DTO).
-            var response = _mapper.Map<UsuarioResponse>(usuario);
-            return Result.Ok(response);
+            return Result.Ok(_mapper.Map<UserResponse>(user));
         }
     }
 }

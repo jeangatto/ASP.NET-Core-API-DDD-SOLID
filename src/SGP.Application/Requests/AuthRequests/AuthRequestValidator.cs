@@ -12,7 +12,7 @@ namespace SGP.Application.Requests.AuthRequests
                 .IsValidEmailAddress()
                 .MaximumLength(100);
 
-            RuleFor(x => x.Senha)
+            RuleFor(x => x.Password)
                 .NotEmpty();
         }
     }
