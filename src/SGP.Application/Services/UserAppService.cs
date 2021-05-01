@@ -7,6 +7,7 @@ using SGP.Application.Responses;
 using SGP.Domain.Entities.UserAggregate;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
+using SGP.Shared.Errors;
 using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Shared.UnitOfWork;
@@ -41,7 +42,7 @@ namespace SGP.Application.Services
             var result = await new CreateUserRequestValidator().ValidateAsync(request);
             if (!result.IsValid)
             {
-                // Retornando os erros.
+                // Retornando os erros da validação.
                 return result.ToFail<CreatedResponse>();
             }
 
@@ -76,7 +77,7 @@ namespace SGP.Application.Services
             var result = await new GetByIdRequestValidator().ValidateAsync(request);
             if (!result.IsValid)
             {
-                // Retornando os erros.
+                // Retornando os erros da validação.
                 return result.ToFail<UserResponse>();
             }
 
@@ -84,8 +85,9 @@ namespace SGP.Application.Services
             var user = await _repository.GetByIdAsync(request.Id);
             if (user == null)
             {
-                // Retornando erro não encontrado.
-                return Result.Fail<UserResponse>($"Registro não encontrado: {request.Id}");
+                // Retornando não encontrado.
+                return Result.Fail<UserResponse>(
+                    new NotFoundError($"Registro não encontrado: {request.Id}"));
             }
 
             // Mapeando domínio para resposta (DTO).

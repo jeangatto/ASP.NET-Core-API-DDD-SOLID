@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using SGP.Application.Interfaces;
 using SGP.Application.Services;
 using System.Reflection;

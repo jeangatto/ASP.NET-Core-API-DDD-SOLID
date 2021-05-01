@@ -8,6 +8,7 @@ using SGP.Domain.Entities.UserAggregate;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.AppSettings;
+using SGP.Shared.Errors;
 using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Shared.UnitOfWork;
@@ -60,26 +61,37 @@ namespace SGP.Application.Services
             var user = await _repository.GetByEmailAsync(new Email(request.Email));
             if (user == null)
             {
-                return Result.Fail<TokenResponse>("A conta informada não existe.");
+                return Result.Fail<TokenResponse>(new NotFoundError("A conta informada não existe."));
             }
 
+            // Verificando se a conta está bloqueada.
             if (user.IsLocked(_dateTime))
             {
                 return Result.Fail<TokenResponse>("A sua conta está bloqueada, entre em contato com o nosso suporte.");
             }
 
+            // Verificando se a senha corresponde a senha criptografada gravada na base de dados.
             if (_hashService.Compare(request.Password, user.PasswordHash))
             {
+                // Gerando as regras (ROLES).
                 var claims = GenerateClaims(user);
+
+                // Gerando o TOKEN de acesso.
                 var accessToken = _tokenClaimsService.GenerateAccessToken(claims);
+
+                // Gerando o TOKEN de atualização.
                 var refreshToken = _tokenClaimsService.GenerateRefreshToken();
 
+                // Adicionando o TOKEN atualização.
                 user.AddRefreshToken(new RefreshToken(
-                    refreshToken.Token,
+                    refreshToken,
                     accessToken.CreatedAt,
                     accessToken.ExpiresAt));
 
+                // Atualizando no repositório do usuário.
                 _repository.Update(user);
+
+                // Confirmando a transação.
                 await _uow.SaveChangesAsync();
 
                 return Result.Ok(new TokenResponse(
@@ -87,16 +99,21 @@ namespace SGP.Application.Services
                     accessToken.Token,
                     accessToken.CreatedAt,
                     accessToken.ExpiresAt,
-                    refreshToken.Token));
+                    refreshToken));
             }
             else
             {
+                // Se o LOGIN for inválido, será incrementado o número de falhas,
+                // se atingido o limite de tentativas de acesso a conta será bloqueada por um determinado tempo.
                 user.IncrementFailuresNum(
                     _dateTime,
                     _authConfig.MaximumAttempts,
                     _authConfig.SecondsBlocked);
 
+                // Atualizando no repositório do usuário.
                 _repository.Update(user);
+
+                // Confirmando a transação.
                 await _uow.SaveChangesAsync();
 
                 return Result.Fail<TokenResponse>("O e-mail ou senha está incorreta.");
@@ -114,27 +131,38 @@ namespace SGP.Application.Services
             var user = await _repository.GetByTokenAsync(request.Token);
             if (user == null)
             {
-                return Result.Fail<TokenResponse>("Nenhum token encontrado.");
+                return Result.Fail<TokenResponse>(new NotFoundError("Nenhum token encontrado."));
             }
 
+            // Verificando se o TOKEN de atualização está expirado.
             var refreshToken = user.RefreshTokens.FirstOrDefault(t => t.Token == request.Token);
             if (refreshToken.IsExpired(_dateTime))
             {
                 return Result.Fail<TokenResponse>("O token inválido ou expirado.");
             }
 
+            // Gerando as regras (ROLES).
             var claims = GenerateClaims(user);
+
+            // Gerando o TOKEN de acesso.
             var accessToken = _tokenClaimsService.GenerateAccessToken(claims);
+
+            // Gerando o TOKEN de atualização.
             var newRefreshToken = _tokenClaimsService.GenerateRefreshToken();
 
-            refreshToken.Revoke(newRefreshToken.Token, accessToken.CreatedAt);
+            // Substituindo o TOKEN de atualização atual pelo o novo.
+            refreshToken.Revoke(newRefreshToken, accessToken.CreatedAt);
 
+            // Adicionando o novo TOKEN atualização.
             user.AddRefreshToken(new RefreshToken(
-                newRefreshToken.Token,
+                newRefreshToken,
                 accessToken.CreatedAt,
                 accessToken.ExpiresAt));
 
+            // Atualizando no repositório do usuário.
             _repository.Update(user);
+
+            // Confirmando a transação.
             await _uow.SaveChangesAsync();
 
             return Result.Ok(new TokenResponse(
@@ -142,7 +170,7 @@ namespace SGP.Application.Services
                 accessToken.Token,
                 accessToken.CreatedAt,
                 accessToken.ExpiresAt,
-                newRefreshToken.Token));
+                newRefreshToken));
         }
 
         private static IEnumerable<Claim> GenerateClaims(User user)
@@ -150,8 +178,9 @@ namespace SGP.Application.Services
             return new[]
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Name),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.Id.ToString())
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Name, ClaimValueTypes.String),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email.ToString(), ClaimValueTypes.Email)
             };
         }
     }

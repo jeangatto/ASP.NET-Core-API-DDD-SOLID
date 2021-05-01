@@ -28,6 +28,8 @@ namespace SGP.Infrastructure.Services
 
         public AccessToken GenerateAccessToken(IEnumerable<Claim> claims)
         {
+            Guard.Against.NullOrEmpty(claims, nameof(claims));
+
             var createdAt = _dateTime.Now;
             var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);
             var secretKey = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
@@ -49,22 +51,22 @@ namespace SGP.Infrastructure.Services
             return new(token, createdAt, expiresAt);
         }
 
-        public RefreshToken GenerateRefreshToken()
+        public string GenerateRefreshToken()
         {
             using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
             {
                 var randomBytes = new byte[64];
                 cryptoServiceProvider.GetBytes(randomBytes);
                 var base64 = Convert.ToBase64String(randomBytes);
-                return new(SanitizeToken(base64));
+                return SanitizeToken(base64);
             }
         }
 
         private static string SanitizeToken(string token)
         {
-            foreach (var invalidChar in new[] { "{", "}", "|", @"\", "^", "[", "]", "`", ";", "/", "$", "+", "=", "&" })
+            foreach (var @char in new[] { "{", "}", "|", @"\", "^", "[", "]", "`", ";", "/", "$", "+", "=", "&" })
             {
-                token = token.Replace(invalidChar, string.Empty);
+                token = token.Replace(@char, string.Empty);
             }
 
             return token;

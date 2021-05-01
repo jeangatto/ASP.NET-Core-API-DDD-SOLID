@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CityRequests;
 using SGP.Application.Responses;
+using SGP.Shared.Errors;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -21,23 +22,25 @@ namespace SGP.PublicApi.Controllers
         }
 
         /// <summary>
-        /// Obtém a lista de municípios do brasil a partir da UF informada.
+        /// Obtém a lista de municípios do brasil a partir da UF fornecido.
         /// </summary>
-        /// <param name="stateAbbr">Sigla da unidade federativa.</param>
+        /// <param name="stateAbbr">Sigla UF (Unidade Federativa).</param>
         /// <response code="200">Retorna a lista de municípios.</response>
-        /// <response code="400">Retorna lista de erross, se a requisição for inválida.</response>
+        /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
+        /// <response code="404">Quando nenhuma cidade é encontrada pelo UF fornecido.</response>
         /// <returns>Retorna a lista de municípios.</returns>
-        [HttpGet("{uf}")]
+        [HttpGet("{stateAbbr}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<CityResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllCities([FromRoute] string stateAbbr)
         {
             var result = await _service.GetAllCitiesAsync(new GetAllByStateAbbrRequest(stateAbbr));
             if (result.IsFailed)
             {
-                return BadRequest(result.Errors);
+                return result.HasError<NotFoundError>() ? NotFound(result.Errors) : BadRequest(result.Errors);
             }
 
             return Ok(result.Value);

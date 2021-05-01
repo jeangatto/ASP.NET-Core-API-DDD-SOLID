@@ -7,6 +7,6 @@ namespace SGP.Shared.Interfaces
     public interface ITokenClaimsService
     {
         AccessToken GenerateAccessToken(IEnumerable<Claim> claims);
-        RefreshToken GenerateRefreshToken();
+        string GenerateRefreshToken();
     }
 }
