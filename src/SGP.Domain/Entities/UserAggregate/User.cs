@@ -82,12 +82,12 @@ namespace SGP.Domain.Entities.UserAggregate
         /// </summary>
         /// <param name="dateTime"></param>
         /// <param name="maximumAttempts">Número máximo de tentativas até a conta ser bloqueada.</param>
-        /// <param name="secondsBlocked">Segundos em que a conta ficará bloqueada.</param>
-        public void IncrementFailuresNum(IDateTime dateTime, short maximumAttempts, short secondsBlocked)
+        /// <param name="lockedTimeSpan">Determinado tempo em que a conta ficará bloqueada.</param>
+        public void IncrementFailuresNum(IDateTime dateTime, short maximumAttempts, TimeSpan lockedTimeSpan)
         {
             Guard.Against.Null(dateTime, nameof(dateTime));
             Guard.Against.NegativeOrZero(maximumAttempts, nameof(maximumAttempts));
-            Guard.Against.NegativeOrZero(secondsBlocked, nameof(secondsBlocked));
+            Guard.Against.Null(lockedTimeSpan, nameof(lockedTimeSpan));
 
             if (IsLocked(dateTime))
             {
@@ -99,7 +99,7 @@ namespace SGP.Domain.Entities.UserAggregate
             if (FailuresNum == maximumAttempts)
             {
                 FailuresNum = 0;
-                LockExpires = dateTime.Now.AddSeconds(secondsBlocked);
+                LockExpires = dateTime.Now.Add(lockedTimeSpan);
             }
         }
     }

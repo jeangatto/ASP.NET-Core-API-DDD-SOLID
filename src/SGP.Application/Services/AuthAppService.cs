@@ -105,10 +105,8 @@ namespace SGP.Application.Services
             {
                 // Se o LOGIN for inválido, será incrementado o número de falhas,
                 // se atingido o limite de tentativas de acesso a conta será bloqueada por um determinado tempo.
-                user.IncrementFailuresNum(
-                    _dateTime,
-                    _authConfig.MaximumAttempts,
-                    _authConfig.SecondsBlocked);
+                var lockedTimeSpan = TimeSpan.FromSeconds(_authConfig.SecondsBlocked);
+                user.IncrementFailuresNum(_dateTime, _authConfig.MaximumAttempts, lockedTimeSpan);
 
                 // Atualizando no repositório do usuário.
                 _repository.Update(user);
