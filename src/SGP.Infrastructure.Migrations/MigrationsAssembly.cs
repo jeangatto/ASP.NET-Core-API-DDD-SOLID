@@ -1,7 +1,11 @@
+using Microsoft.Extensions.Logging;
+using System.Reflection;
+
 namespace SGP.Infrastructure.Migrations
 {
-    public static class MigrationsAssembly
+    internal static class MigrationsAssembly
     {
-        public const string Name = "SGP.Infrastructure.Migrations";
+        public static readonly string Name = Assembly.GetExecutingAssembly().GetName().Name;
+        public static readonly ILoggerFactory LoggerDbFactory = LoggerFactory.Create(logging => logging.AddConsole());
     }
 }

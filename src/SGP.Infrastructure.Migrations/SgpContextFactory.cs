@@ -33,8 +33,10 @@ namespace SGP.Infrastructure.Migrations
                     => sqlServerBuilder.MigrationsAssembly(MigrationsAssembly.Name));
 
             // Configurando para exibir os errados mais detalhados.
+            // NOTE: recomendado o uso somente para ambiente de desenvolvimento.
             if (environment == Environments.Development)
             {
+                optionsBuilder.UseLoggerFactory(MigrationsAssembly.LoggerDbFactory);
                 optionsBuilder.EnableDetailedErrors();
                 optionsBuilder.EnableSensitiveDataLogging();
             }
