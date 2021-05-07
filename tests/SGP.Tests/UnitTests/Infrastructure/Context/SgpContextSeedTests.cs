@@ -28,7 +28,9 @@ namespace SGP.Tests.UnitTests.Infrastructure.Context
             // Arrange
             var loggerMock = new Mock<ILogger>();
             var loggerFactoryMock = new Mock<ILoggerFactory>();
-            loggerFactoryMock.Setup(s => s.CreateLogger(It.IsAny<string>())).Returns(loggerMock.Object);
+            loggerFactoryMock
+                .Setup(s => s.CreateLogger(It.IsAny<string>()))
+                .Returns(loggerMock.Object);
 
             // Act
             await _fixture.Context.EnsureSeedDataAsync(loggerFactoryMock.Object);

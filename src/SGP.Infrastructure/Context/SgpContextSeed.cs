@@ -55,7 +55,7 @@ namespace SGP.Infrastructure.Context
                     context.Cities.AddRange(citiesJson.FromJson<IEnumerable<City>>());
 
                     var rowsAffected = await context.SaveChangesAsync();
-                    logger.LogInformation($"Total de cidades inseridas: {rowsAffected}");
+                    logger.LogInformation($"Total de cidades inseridas: {rowsAffected}.");
                 }
             }
         }
