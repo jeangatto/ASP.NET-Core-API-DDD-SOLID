@@ -20,7 +20,7 @@
 		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
 		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
 	</ItemGroup>
-	<ItemGroup>	
+	<ItemGroup>
 		<None Update="Seeds\cities.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
