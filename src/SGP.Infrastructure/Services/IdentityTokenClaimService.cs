@@ -58,11 +58,11 @@ namespace SGP.Infrastructure.Services
                 var randomBytes = new byte[64];
                 cryptoServiceProvider.GetBytes(randomBytes);
                 var base64 = Convert.ToBase64String(randomBytes);
-                return SanitizeToken(base64);
+                return SanitizeRefreshToken(base64);
             }
         }
 
-        private static string SanitizeToken(string token)
+        private static string SanitizeRefreshToken(string token)
         {
             foreach (var @char in new[] { "{", "}", "|", @"\", "^", "[", "]", "`", ";", "/", "$", "+", "=", "&" })
             {
