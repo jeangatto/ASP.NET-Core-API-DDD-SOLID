@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using SGP.Application;
+using SGP.GraphQL;
 using SGP.Infrastructure;
 using SGP.Infrastructure.Migrations;
 using SGP.PublicApi.Extensions;
@@ -51,14 +52,19 @@ namespace SGP.PublicApi
 
             services.AddDbContext(Configuration, healthChecksBuilder);
 
+            services.AddConfiguredGraphQL();
+
             services.Configure<RouteOptions>(routeOptions =>
             {
                 routeOptions.LowercaseUrls = true;
                 routeOptions.LowercaseQueryStrings = true;
             });
 
-            services.Configure<KestrelServerOptions>(
-                kestrelServerOptions => kestrelServerOptions.AddServerHeader = false);
+            services.Configure<KestrelServerOptions>(kestrelServerOptions =>
+            {
+                kestrelServerOptions.AllowSynchronousIO = true;
+                kestrelServerOptions.AddServerHeader = false;
+            });
 
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(apiBehaviorOptions =>
@@ -96,6 +102,8 @@ namespace SGP.PublicApi
             app.UseHealthChecks();
 
             app.UseHttpsRedirection();
+
+            app.UseGraphQL();
 
             app.UseHsts();
 
