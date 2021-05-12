@@ -10,6 +10,8 @@ namespace SGP.Shared.Extensions
     /// </summary>
     public static class JsonExtensions
     {
+        #region Options
+
         private static readonly NamingStrategy DefaultNamingStrategy = new CamelCaseNamingStrategy();
 
         /// <summary>
@@ -24,6 +26,8 @@ namespace SGP.Shared.Extensions
             ContractResolver = new PrivateSetterContractResolver(DefaultNamingStrategy),
             Converters = new[] { new StringEnumConverter(DefaultNamingStrategy) }
         };
+
+        #endregion
 
         /// <summary>
         /// Desserializa o JSON para o tipo especificado.

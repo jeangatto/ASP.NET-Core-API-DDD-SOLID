@@ -2,9 +2,9 @@ using SGP.Application.Requests.Common;
 
 namespace SGP.Application.Requests.CityRequests
 {
-    public class GetAllByStateAbbrRequest : BaseRequest
+    public class GetAllByStateRequest : BaseRequest
     {
-        public GetAllByStateAbbrRequest(string stateAbbr)
+        public GetAllByStateRequest(string stateAbbr)
         {
             StateAbbr = stateAbbr;
         }

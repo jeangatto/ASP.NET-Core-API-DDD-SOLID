@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SGP.Application.Interfaces
 {
-    public interface ICityAppService : IAppService
+    public interface ICityService : IService
     {
-        Task<Result<IEnumerable<CityResponse>>> GetAllCitiesAsync(GetAllByStateAbbrRequest request);
+        Task<Result<IEnumerable<CityResponse>>> GetAllCitiesAsync(GetAllByStateRequest request);
         Task<IEnumerable<string>> GetAllStatesAsync();
         Task<Result<CityResponse>> GetByIbgeAsync(GetByIbgeRequest request);
     }

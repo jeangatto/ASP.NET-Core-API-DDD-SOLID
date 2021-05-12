@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace SGP.Application.Requests.CityRequests
 {
-    public class GetAllByStateAbbrRequestValidator : AbstractValidator<GetAllByStateAbbrRequest>
+    public class GetAllByStateRequestValidator : AbstractValidator<GetAllByStateRequest>
     {
-        public GetAllByStateAbbrRequestValidator()
+        public GetAllByStateRequestValidator()
         {
             RuleFor(x => x.StateAbbr)
                 .NotEmpty()

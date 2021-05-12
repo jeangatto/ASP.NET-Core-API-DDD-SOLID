@@ -1,15 +1,20 @@
 using GraphQL.Types;
-using SGP.Domain.Entities;
+using SGP.Application.Responses;
 
-namespace SGP.Infrastructure.GraphQL.Types
+namespace SGP.GraphQL.Types
 {
-    public class CityType : ObjectGraphType<City>
+    public class CityType : ObjectGraphType<CityResponse>
     {
         public CityType()
         {
-            Field(c => c.Ibge);
-            Field(c => c.Name).Description("Nome do município.");
-            Field(c => c.StateAbbr).Description("Sigla da unidade federativa (UF)");
+            Field(c => c.Ibge)
+                .Description("Código único do município");
+
+            Field(c => c.Name)
+                .Description("Nome do município.");
+
+            Field(c => c.StateAbbr)
+                .Description("Sigla da unidade federativa (UF)");
         }
     }
 }

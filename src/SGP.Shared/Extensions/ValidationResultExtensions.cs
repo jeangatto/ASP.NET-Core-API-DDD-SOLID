@@ -1,4 +1,4 @@
-﻿using FluentResults;
+using FluentResults;
 using FluentValidation.Results;
 
 namespace SGP.Shared.Extensions
@@ -7,16 +7,18 @@ namespace SGP.Shared.Extensions
     {
         public static Result ToFail(this ValidationResult validationResult)
         {
-            var reasons = validationResult.Errors.ConvertAll(f => new Error(f.ErrorMessage));
-            var error = new Error().CausedBy(reasons);
-            return Result.Fail(error);
+            var errors = validationResult.Errors.ConvertAll(f
+                => new Error(f.ErrorMessage));
+
+            return new Result().WithErrors(errors);
         }
 
         public static Result<T> ToFail<T>(this ValidationResult validationResult)
         {
-            var reasons = validationResult.Errors.ConvertAll(f => new Error(f.ErrorMessage));
-            var error = new Error().CausedBy(reasons);
-            return Result.Fail<T>(error);
+            var errors = validationResult.Errors.ConvertAll(f
+                => new Error(f.ErrorMessage));
+
+            return new Result<T>().WithErrors(errors);
         }
     }
 }

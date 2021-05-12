@@ -52,7 +52,7 @@ namespace SGP.PublicApi
 
             services.AddDbContext(Configuration, healthChecksBuilder);
 
-            services.AddConfiguredGraphQL();
+            services.AddGraphQLWithSchemas();
 
             services.Configure<RouteOptions>(routeOptions =>
             {

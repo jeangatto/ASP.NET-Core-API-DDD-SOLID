@@ -12,21 +12,21 @@ using System.Threading.Tasks;
 
 namespace SGP.Application.Services
 {
-    public class CityAppService : ICityAppService
+    public class CityService : ICityService
     {
         private readonly IMapper _mapper;
         private readonly ICityRepository _repository;
 
-        public CityAppService(IMapper mapper, ICityRepository repository)
+        public CityService(IMapper mapper, ICityRepository repository)
         {
             _mapper = mapper;
             _repository = repository;
         }
 
-        public async Task<Result<IEnumerable<CityResponse>>> GetAllCitiesAsync(GetAllByStateAbbrRequest request)
+        public async Task<Result<IEnumerable<CityResponse>>> GetAllCitiesAsync(GetAllByStateRequest request)
         {
             // Validando a requisição.
-            var result = await new GetAllByStateAbbrRequestValidator().ValidateAsync(request);
+            var result = await new GetAllByStateRequestValidator().ValidateAsync(request);
             if (!result.IsValid)
             {
                 // Retornando os erros da validação.

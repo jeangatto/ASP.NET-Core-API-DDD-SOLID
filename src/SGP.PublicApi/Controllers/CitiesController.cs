@@ -14,33 +14,36 @@ namespace SGP.PublicApi.Controllers
     [ApiController]
     public class CitiesController : ControllerBase
     {
-        private readonly ICityAppService _service;
+        private readonly ICityService _service;
 
-        public CitiesController(ICityAppService service)
+        public CitiesController(ICityService service)
         {
             _service = service;
         }
 
         /// <summary>
-        /// Obtém a lista de municípios do brasil a partir da UF fornecido.
+        /// Obtém a lista de municípios do brasil a partir da sigla do estado (UF) fornecido.
         /// </summary>
-        /// <param name="stateAbbr">Sigla UF (Unidade Federativa).</param>
+        /// <param name="state">Sigla UF (Unidade Federativa).</param>
         /// <response code="200">Retorna a lista de municípios.</response>
         /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
         /// <response code="404">Quando nenhuma cidade é encontrada pelo UF fornecido.</response>
         /// <returns>Retorna a lista de municípios.</returns>
-        [HttpGet("{stateAbbr}")]
+        [HttpGet("{state}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<CityResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllCities([FromRoute] string stateAbbr)
+        public async Task<IActionResult> GetAllCities([FromRoute] string state)
         {
-            var result = await _service.GetAllCitiesAsync(new GetAllByStateAbbrRequest(stateAbbr));
+            var request = new GetAllByStateRequest(state);
+
+            var result = await _service.GetAllCitiesAsync(request);
             if (result.IsFailed)
             {
-                return result.HasError<NotFoundError>() ? NotFound(result.Errors) : BadRequest(result.Errors);
+                return result.HasError<NotFoundError>() ?
+                    NotFound(result.Errors) : BadRequest(result.Errors);
             }
 
             return Ok(result.Value);

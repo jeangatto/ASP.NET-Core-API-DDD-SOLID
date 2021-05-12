@@ -15,14 +15,14 @@ using System.Threading.Tasks;
 
 namespace SGP.Application.Services
 {
-    public class UserAppService : IUserAppService
+    public class UserService : IUserService
     {
         private readonly IHashService _hashService;
         private readonly IMapper _mapper;
         private readonly IUserRepository _repository;
         private readonly IUnitOfWork _uow;
 
-        public UserAppService
+        public UserService
         (
             IHashService hashService,
             IMapper mapper,
@@ -36,14 +36,14 @@ namespace SGP.Application.Services
             _uow = uow;
         }
 
-        public async Task<Result<CreatedResponse>> CreateAsync(CreateUserRequest request)
+        public async Task<Result<UserResponse>> CreateAsync(CreateUserRequest request)
         {
             // Validando a requisição.
             var result = await new CreateUserRequestValidator().ValidateAsync(request);
             if (!result.IsValid)
             {
                 // Retornando os erros da validação.
-                return result.ToFail<CreatedResponse>();
+                return result.ToFail<UserResponse>();
             }
 
             // Criando o Value Object.
@@ -52,7 +52,7 @@ namespace SGP.Application.Services
             // Verificando se o e-mail já existe na base de dados.
             if (await _repository.EmailAlreadyExistsAsync(email))
             {
-                return Result.Fail<CreatedResponse>("O endereço de e-mail informado não está disponivel.");
+                return Result.Fail<UserResponse>("O endereço de e-mail informado não está disponivel.");
             }
 
             // Criptografando a senha.
@@ -68,7 +68,7 @@ namespace SGP.Application.Services
             await _uow.SaveChangesAsync();
 
             // Retornando o resultado.
-            return Result.Ok(new CreatedResponse(user.Id));
+            return Result.Ok(_mapper.Map<UserResponse>(user));
         }
 
         public async Task<Result<UserResponse>> GetByIdAsync(GetByIdRequest request)
