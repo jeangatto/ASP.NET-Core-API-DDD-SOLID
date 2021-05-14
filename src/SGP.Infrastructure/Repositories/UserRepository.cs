@@ -20,26 +20,26 @@ namespace SGP.Infrastructure.Repositories
         public Task<bool> EmailAlreadyExistsAsync(Email email)
         {
             return GetQueryable()
-                .AnyAsync(user => user.Email.Address == email.Address);
+                .AnyAsync(u => u.Email.Address == email.Address);
         }
 
         public Task<bool> EmailAlreadyExistsAsync(Email email, Guid existingId)
         {
             return GetQueryable()
-                .AnyAsync(user => user.Email.Address == email.Address && user.Id != existingId);
+                .AnyAsync(u => u.Email.Address == email.Address && u.Id != existingId);
         }
 
         public Task<User> GetByEmailAsync(Email email)
         {
             return GetQueryable(false)
-                .Include(user => user.RefreshTokens)
-                .FirstOrDefaultAsync(user => user.Email.Address == email.Address);
+                .Include(u => u.RefreshTokens)
+                .FirstOrDefaultAsync(u => u.Email.Address == email.Address);
         }
 
         public Task<User> GetByTokenAsync(string refreshToken)
         {
             return GetQueryable()
-                .Include(user => user.RefreshTokens.Any(t => t.Token == refreshToken))
+                .Include(u => u.RefreshTokens.Any(t => t.Token == refreshToken))
                 .FirstOrDefaultAsync();
         }
     }

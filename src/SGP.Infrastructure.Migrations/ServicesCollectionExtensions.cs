@@ -9,10 +9,11 @@ using System;
 
 namespace SGP.Infrastructure.Migrations
 {
-    public static class DependencyInjection
+    public static class ServicesCollectionExtensions
     {
         public static IServiceCollection AddDbContext(this IServiceCollection services,
-            IConfiguration configuration, IHealthChecksBuilder healthChecksBuilder)
+            IConfiguration configuration,
+            IHealthChecksBuilder healthChecksBuilder)
         {
             Guard.Against.Null(services, nameof(services));
             Guard.Against.Null(configuration, nameof(configuration));
@@ -28,13 +29,13 @@ namespace SGP.Infrastructure.Migrations
             services.AddDbContext<SgpContext>(optionsBuilder =>
             {
                 optionsBuilder.UseSqlServer(connectionString, sqlServerBuilder
-                    => sqlServerBuilder.MigrationsAssembly(MigrationsAssembly.Name));
+                    => sqlServerBuilder.MigrationsAssembly(MigrationsOptions.AssemblyName));
 
                 // Configurando para exibir os errados mais detalhados.
                 // NOTE: recomendado o uso somente para ambiente de desenvolvimento.
                 if (environment == Environments.Development)
                 {
-                    optionsBuilder.UseLoggerFactory(MigrationsAssembly.LoggerDbFactory);
+                    optionsBuilder.UseLoggerFactory(MigrationsOptions.LoggerDbFactory);
                     optionsBuilder.EnableDetailedErrors();
                     optionsBuilder.EnableSensitiveDataLogging();
                 }

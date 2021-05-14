@@ -40,7 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.PublicApi", "src\SGP.Pu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Tests", "tests\SGP.Tests\SGP.Tests.csproj", "{A1133DEB-7D57-4838-9D5B-C903FDBEBF89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.GraphQL", "src\SGP.GraphQL\SGP.GraphQL.csproj", "{2AB74E8C-CE94-4EA3-B63D-565B3B42563C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.GraphQL", "src\SGP.GraphQL\SGP.GraphQL.csproj", "{2AB74E8C-CE94-4EA3-B63D-565B3B42563C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

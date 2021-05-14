@@ -42,7 +42,7 @@ namespace SGP.PublicApi
 
             services.AddJwtBearer(Configuration);
 
-            services.AddAppServices();
+            services.AddServices();
 
             services.AddInfrastructure();
 
@@ -54,31 +54,34 @@ namespace SGP.PublicApi
 
             services.AddGraphQLWithSchemas();
 
-            services.Configure<RouteOptions>(routeOptions =>
+            services.Configure<RouteOptions>(options =>
             {
-                routeOptions.LowercaseUrls = true;
-                routeOptions.LowercaseQueryStrings = true;
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
             });
 
-            services.Configure<KestrelServerOptions>(kestrelServerOptions =>
+            services.Configure<KestrelServerOptions>(options =>
             {
-                kestrelServerOptions.AllowSynchronousIO = true;
-                kestrelServerOptions.AddServerHeader = false;
+                options.AllowSynchronousIO = true;
+                options.AddServerHeader = false;
             });
+
+            services.Configure<IISServerOptions>(options
+                => options.AllowSynchronousIO = true);
 
             services.AddControllers()
-                .ConfigureApiBehaviorOptions(apiBehaviorOptions =>
+                .ConfigureApiBehaviorOptions(options =>
                 {
-                    apiBehaviorOptions.SuppressMapClientErrors = true;
-                    apiBehaviorOptions.SuppressModelStateInvalidFilter = true;
+                    options.SuppressMapClientErrors = true;
+                    options.SuppressModelStateInvalidFilter = true;
                 })
-                .AddNewtonsoftJson(jsonOptions =>
+                .AddNewtonsoftJson(options =>
                 {
-                    var namingStrategy = new CamelCaseNamingStrategy();
-                    jsonOptions.SerializerSettings.Formatting = Formatting.None;
-                    jsonOptions.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    jsonOptions.SerializerSettings.ContractResolver = new DefaultContractResolver { NamingStrategy = namingStrategy };
-                    jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter(namingStrategy));
+                    options.SerializerSettings.Formatting = Formatting.None;
+                    options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.Converters = new[] { new StringEnumConverter(new CamelCaseNamingStrategy()) };
                 });
         }
 
@@ -87,7 +90,7 @@ namespace SGP.PublicApi
             IApplicationBuilder app,
             IWebHostEnvironment env,
             IMapper mapper,
-            IApiVersionDescriptionProvider provider)
+            IApiVersionDescriptionProvider apiVersionProvider)
         {
             if (env.IsDevelopment())
             {
@@ -97,7 +100,7 @@ namespace SGP.PublicApi
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
             mapper.ConfigurationProvider.CompileMappings();
 
-            app.UseOpenApi(provider);
+            app.UseOpenApi(apiVersionProvider);
 
             app.UseHealthChecks();
 

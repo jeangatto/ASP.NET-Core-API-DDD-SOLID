@@ -1,17 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SGP.Infrastructure.Context;
+using SGP.Shared.Interfaces;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SGP.Shared.UnitOfWork
+namespace SGP.Infrastructure.UoW
 {
-    public sealed class UnitOfWork<TDbContext> : IUnitOfWork where TDbContext : DbContext
+    public sealed class UnitOfWork : IUnitOfWork
     {
-        private readonly TDbContext _context;
-        private readonly ILogger<UnitOfWork<TDbContext>> _logger;
+        private readonly SgpContext _context;
+        private readonly ILogger<SgpContext> _logger;
 
-        public UnitOfWork(TDbContext context, ILogger<UnitOfWork<TDbContext>> logger)
+        public UnitOfWork(SgpContext context, ILogger<SgpContext> logger)
         {
             _context = context;
             _logger = logger;

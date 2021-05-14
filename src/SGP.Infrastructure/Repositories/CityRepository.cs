@@ -21,9 +21,9 @@ namespace SGP.Infrastructure.Repositories
         {
             return await _context.Cities
                 .AsNoTracking()
-                .Where(city => city.StateAbbr == stateAbbr)
-                .OrderBy(city => city.Name)
-                .ThenBy(city => city.Ibge)
+                .Where(c => c.StateAbbr == stateAbbr)
+                .OrderBy(c => c.Name)
+                .ThenBy(c => c.Ibge)
                 .ToListAsync();
         }
 
@@ -31,9 +31,9 @@ namespace SGP.Infrastructure.Repositories
         {
             return await _context.Cities
                 .AsNoTracking()
-                .GroupBy(city => city.StateAbbr)
-                .Select(grouping => grouping.Key)
-                .OrderBy(stateAbbr => stateAbbr)
+                .GroupBy(c => c.StateAbbr)
+                .Select(g => g.Key)
+                .OrderBy(key => key)
                 .ToListAsync();
         }
 
@@ -41,7 +41,7 @@ namespace SGP.Infrastructure.Repositories
         {
             return _context.Cities
                 .AsNoTracking()
-                .FirstOrDefaultAsync(city => city.Ibge == ibge);
+                .FirstOrDefaultAsync(c => c.Ibge == ibge);
         }
     }
 }

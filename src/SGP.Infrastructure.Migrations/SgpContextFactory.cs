@@ -30,13 +30,13 @@ namespace SGP.Infrastructure.Migrations
 
             var optionsBuilder = new DbContextOptionsBuilder<SgpContext>()
                 .UseSqlServer(connectionString, sqlServerBuilder
-                    => sqlServerBuilder.MigrationsAssembly(MigrationsAssembly.Name));
+                    => sqlServerBuilder.MigrationsAssembly(MigrationsOptions.AssemblyName));
 
             // Configurando para exibir os errados mais detalhados.
             // NOTE: recomendado o uso somente para ambiente de desenvolvimento.
             if (environment == Environments.Development)
             {
-                optionsBuilder.UseLoggerFactory(MigrationsAssembly.LoggerDbFactory);
+                optionsBuilder.UseLoggerFactory(MigrationsOptions.LoggerDbFactory);
                 optionsBuilder.EnableDetailedErrors();
                 optionsBuilder.EnableSensitiveDataLogging();
             }

@@ -11,7 +11,6 @@ using SGP.Shared.AppSettings;
 using SGP.Shared.Errors;
 using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
-using SGP.Shared.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

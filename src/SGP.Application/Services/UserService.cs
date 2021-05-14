@@ -10,7 +10,6 @@ using SGP.Domain.ValueObjects;
 using SGP.Shared.Errors;
 using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
-using SGP.Shared.UnitOfWork;
 using System.Threading.Tasks;
 
 namespace SGP.Application.Services

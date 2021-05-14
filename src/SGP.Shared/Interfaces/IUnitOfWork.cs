@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SGP.Shared.UnitOfWork
+namespace SGP.Shared.Interfaces
 {
     public interface IUnitOfWork
     {
