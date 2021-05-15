@@ -8,17 +8,17 @@ namespace SGP.Infrastructure.Migrations.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "City",
+                name: "Cities",
                 columns: table => new
                 {
                     Ibge = table.Column<string>(type: "varchar(8)", unicode: false, maxLength: 8, nullable: false),
                     StateAbbr = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     Name = table.Column<string>(type: "varchar(70)", unicode: false, maxLength: 70, nullable: false)
                 },
-                constraints: table => table.PrimaryKey("PK_City", x => x.Ibge));
+                constraints: table => table.PrimaryKey("PK_Cities", x => x.Ibge));
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -29,7 +29,10 @@ namespace SGP.Infrastructure.Migrations.Migrations
                     LockExpires = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FailuresNum = table.Column<short>(type: "smallint", nullable: false)
                 },
-                constraints: table => table.PrimaryKey("PK_User", x => x.Id));
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "RefreshToken",
@@ -47,16 +50,16 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 {
                     table.PrimaryKey("PK_RefreshToken", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RefreshToken_User_UserId",
+                        name: "FK_RefreshToken_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_City_StateAbbr",
-                table: "City",
+                name: "IX_Cities_StateAbbr",
+                table: "Cities",
                 column: "StateAbbr");
 
             migrationBuilder.CreateIndex(
@@ -65,8 +68,8 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_Email",
-                table: "User",
+                name: "IX_Users_Email",
+                table: "Users",
                 column: "Email",
                 unique: true,
                 filter: "[Email] IS NOT NULL");
@@ -75,13 +78,13 @@ namespace SGP.Infrastructure.Migrations.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "City");
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "RefreshToken");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
         }
     }
 }

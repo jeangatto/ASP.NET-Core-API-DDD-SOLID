@@ -9,7 +9,6 @@ namespace SGP.Infrastructure.Mappings
     {
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
-            builder.ConfigureSingularTableName();
             builder.ConfigureBaseEntity();
 
             builder.Property(token => token.UserId)

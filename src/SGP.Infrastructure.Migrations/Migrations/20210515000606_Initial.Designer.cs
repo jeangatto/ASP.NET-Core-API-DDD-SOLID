@@ -9,7 +9,7 @@ using System;
 namespace SGP.Infrastructure.Migrations.Migrations
 {
     [DbContext(typeof(SgpContext))]
-    [Migration("20210501135636_Initial")]
+    [Migration("20210515000606_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
             modelBuilder
                 .HasAnnotation("Relational:Collation", "Latin1_General_CI_AI")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("SGP.Domain.Entities.City", b =>
@@ -45,7 +45,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
 
                     b.HasIndex("StateAbbr");
 
-                    b.ToTable("City");
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.RefreshToken", b =>
@@ -111,7 +111,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.RefreshToken", b =>
@@ -145,7 +145,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                                 .IsUnique()
                                 .HasFilter("[Email] IS NOT NULL");
 
-                            b1.ToTable("User");
+                            b1.ToTable("Users");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");

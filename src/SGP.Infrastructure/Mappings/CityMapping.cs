@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SGP.Domain.Entities;
-using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
@@ -9,8 +8,6 @@ namespace SGP.Infrastructure.Mappings
     {
         public void Configure(EntityTypeBuilder<City> builder)
         {
-            builder.ConfigureSingularTableName();
-
             builder.HasKey(city => city.Ibge);
 
             builder.Property(city => city.Ibge)

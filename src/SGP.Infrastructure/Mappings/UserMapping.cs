@@ -9,7 +9,6 @@ namespace SGP.Infrastructure.Mappings
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ConfigureSingularTableName();
             builder.ConfigureBaseEntity();
 
             builder.Property(user => user.Name)

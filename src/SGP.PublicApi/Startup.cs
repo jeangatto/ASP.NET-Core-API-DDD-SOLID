@@ -42,15 +42,13 @@ namespace SGP.PublicApi
 
             services.AddJwtBearer(Configuration);
 
+            services.ConfigureAppSettings(Configuration);
+
             services.AddServices();
 
             services.AddInfrastructure();
 
-            services.ConfigureAppSettings(Configuration);
-
-            var healthChecksBuilder = services.AddHealthChecks();
-
-            services.AddDbContext(Configuration, healthChecksBuilder);
+            services.AddDbContext(services.AddHealthChecks());
 
             services.AddGraphQLWithSchemas();
 

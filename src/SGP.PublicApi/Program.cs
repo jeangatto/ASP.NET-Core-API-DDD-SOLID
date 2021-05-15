@@ -26,7 +26,7 @@ namespace SGP.PublicApi
 
                 try
                 {
-                    logger.LogInformation($"GetConnectionString={context.Database.GetConnectionString()}");
+                    logger.LogInformation($"ConnectionString={context.Database.GetConnectionString()}");
 
                     if ((await context.Database.GetPendingMigrationsAsync()).Any())
                     {

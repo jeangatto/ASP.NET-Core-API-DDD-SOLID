@@ -1,43 +1,39 @@
 using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
+using SGP.Shared.Extensions;
 using System;
+using System.Reflection;
 
 namespace SGP.Infrastructure.Migrations
 {
     public static class ServicesCollectionExtensions
     {
-        public static IServiceCollection AddDbContext(this IServiceCollection services,
-            IConfiguration configuration,
-            IHealthChecksBuilder healthChecksBuilder)
+        public static IServiceCollection AddDbContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
         {
             Guard.Against.Null(services, nameof(services));
-            Guard.Against.Null(configuration, nameof(configuration));
             Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
 
-            // Obtendo o tipo de ambiente.
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-            // Obtendo a string de conexão.
-            var connectionString = configuration.GetConnectionString(
-                nameof(ConnectionStrings.DefaultConnection));
-
-            services.AddDbContext<SgpContext>(optionsBuilder =>
+            services.AddDbContext<SgpContext>((serviceProvider, builder) =>
             {
-                optionsBuilder.UseSqlServer(connectionString, sqlServerBuilder
-                    => sqlServerBuilder.MigrationsAssembly(MigrationsOptions.AssemblyName));
+                var connectionString = serviceProvider.GetConnectionString();
+                var assemblyName = GetAssemblyName();
 
-                // Configurando para exibir os errados mais detalhados.
-                // NOTE: recomendado o uso somente para ambiente de desenvolvimento.
-                if (environment == Environments.Development)
+                builder.UseSqlServer(connectionString,
+                    options => options.MigrationsAssembly(assemblyName));
+
+                var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+                if (environment.IsDevelopment())
                 {
-                    optionsBuilder.UseLoggerFactory(MigrationsOptions.LoggerDbFactory);
-                    optionsBuilder.EnableDetailedErrors();
-                    optionsBuilder.EnableSensitiveDataLogging();
+                    var loggerFactory = LoggerFactory.Create(logging => logging.AddConsole());
+                    builder.UseLoggerFactory(loggerFactory);
+                    builder.EnableDetailedErrors();
+                    builder.EnableSensitiveDataLogging();
                 }
             });
 
@@ -48,6 +44,20 @@ namespace SGP.Infrastructure.Migrations
                     => context.Cities.AsNoTracking().AnyAsync(cancellationToken));
 
             return services;
+        }
+
+        private static string GetAssemblyName()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Name;
+        }
+
+        private static string GetConnectionString(this IServiceProvider serviceProvider)
+        {
+            var connectionStringsOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>();
+
+            Guard.Against.Null(connectionStringsOptions, nameof(connectionStringsOptions));
+
+            return connectionStringsOptions.Value.DefaultConnection;
         }
     }
 }
