@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace SGP.Tests.Factories
 {
-    public class WebApiApplicationFactory : WebApplicationFactory<Startup>
+    public class WebTestApplicationFactory : WebApplicationFactory<Startup>
     {
         private SqliteConnection _connection;
         private readonly string _connectionString = "DataSource=:memory:";
@@ -50,7 +50,7 @@ namespace SGP.Tests.Factories
                     }
                     catch (Exception ex)
                     {
-                        var logger = loggerFactory.CreateLogger<WebApiApplicationFactory>();
+                        var logger = loggerFactory.CreateLogger<WebTestApplicationFactory>();
                         logger.LogError(ex, "Ocorreu um erro na propagação do banco de dados.");
                         throw;
                     }

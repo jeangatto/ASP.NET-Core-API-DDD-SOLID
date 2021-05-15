@@ -18,16 +18,36 @@ using Xunit.Categories;
 namespace SGP.Tests.IntegrationTests.Controllers
 {
     [Category(TestCategories.ApiRESTful)]
-    public class CitiesControllerTests : IClassFixture<WebApiApplicationFactory>
+    public class CitiesControllerTests : IClassFixture<WebTestApplicationFactory>
     {
+        private const string EndPoint = "/api/cities";
         private readonly HttpClient _httpClient;
 
-        public CitiesControllerTests(WebApiApplicationFactory factory)
+        public CitiesControllerTests(WebTestApplicationFactory factory)
         {
             _httpClient = factory.CreateClient(new WebApplicationFactoryClientOptions
             {
                 BaseAddress = new Uri("https://localhost")
             });
+        }
+
+        [Fact]
+        public async Task Get_AllStates_ReturnsOkResult()
+        {
+            // Arrange
+            const int expectedCount = 27;
+
+            // Act
+            var response = await _httpClient.GetAsync($"{EndPoint}/states");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+
+            var states = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
+            states.Should().NotBeEmpty()
+                .And.OnlyHaveUniqueItems()
+                .And.BeInAscendingOrder()
+                .And.HaveCount(expectedCount);
         }
 
         [Fact]
@@ -38,7 +58,7 @@ namespace SGP.Tests.IntegrationTests.Controllers
             const string stateAbbr = "SP";
 
             // Act
-            var response = await _httpClient.GetAsync($"/api/cities/{stateAbbr}");
+            var response = await _httpClient.GetAsync($"{EndPoint}/{stateAbbr}");
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -56,7 +76,7 @@ namespace SGP.Tests.IntegrationTests.Controllers
         public async Task Get_NonExistingOrInvalidStateAbbr_Returns(string stateAbbr, HttpStatusCode statusCode)
         {
             // Act
-            var response = await _httpClient.GetAsync($"/api/cities/{stateAbbr}");
+            var response = await _httpClient.GetAsync($"{EndPoint}/{stateAbbr}");
 
             // Assert
             response.StatusCode.Should().Be(statusCode);
@@ -66,25 +86,6 @@ namespace SGP.Tests.IntegrationTests.Controllers
 
             var errors = content.FromJson<IEnumerable<Error>>();
             errors.Should().NotBeEmpty().And.OnlyHaveUniqueItems();
-        }
-
-        [Fact]
-        public async Task Get_AllStates_ReturnsOkResult()
-        {
-            // Arrange
-            const int expectedCount = 27;
-
-            // Act
-            var response = await _httpClient.GetAsync("/api/cities/states/");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-
-            var states = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
-            states.Should().NotBeEmpty()
-                .And.OnlyHaveUniqueItems()
-                .And.BeInAscendingOrder()
-                .And.HaveCount(expectedCount);
         }
     }
 }
