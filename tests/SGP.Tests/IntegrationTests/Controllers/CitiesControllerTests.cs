@@ -1,8 +1,14 @@
 using FluentAssertions;
+using FluentResults;
+using FluentResults.Extensions.FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using SGP.Application.Responses;
+using SGP.Shared.Extensions;
 using SGP.Tests.Factories;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -20,7 +26,7 @@ namespace SGP.Tests.IntegrationTests.Controllers
         {
             _httpClient = factory.CreateClient(new WebApplicationFactoryClientOptions
             {
-                AllowAutoRedirect = false
+                BaseAddress = new Uri("https://localhost")
             });
         }
 
@@ -36,10 +42,30 @@ namespace SGP.Tests.IntegrationTests.Controllers
 
             // Assert
             response.EnsureSuccessStatusCode();
+
             var cities = await response.Content.ReadFromJsonAsync<IEnumerable<CityResponse>>();
             cities.Should().NotBeEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(expectedCount);
+        }
+
+        [Theory]
+        [InlineData("AK", HttpStatusCode.NotFound)]     // AK: Alasca
+        [InlineData("WA", HttpStatusCode.NotFound)]     // WA: Washington
+        [InlineData("SantanaParnaiba", HttpStatusCode.BadRequest)]  // Máximo de 2 caracteres
+        public async Task Get_NonExistingOrInvalidStateAbbr_Returns(string stateAbbr, HttpStatusCode statusCode)
+        {
+            // Act
+            var response = await _httpClient.GetAsync($"/api/cities/{stateAbbr}");
+
+            // Assert
+            response.StatusCode.Should().Be(statusCode);
+
+            var content = await response.Content.ReadAsStringAsync();
+            content.Should().NotBeNullOrWhiteSpace();
+
+            var errors = content.FromJson<IEnumerable<Error>>();
+            errors.Should().NotBeEmpty().And.OnlyHaveUniqueItems();
         }
 
         [Fact]
@@ -53,6 +79,7 @@ namespace SGP.Tests.IntegrationTests.Controllers
 
             // Assert
             response.EnsureSuccessStatusCode();
+
             var states = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
             states.Should().NotBeEmpty()
                 .And.OnlyHaveUniqueItems()

@@ -58,6 +58,11 @@ namespace SGP.GraphQL.Queries
 
                     return result.Value;
                 });
+
+            FieldAsync<ListGraphType<StringGraphType>>(
+                name: "states",
+                arguments: null,
+                resolve: async _ => await service.GetAllStatesAsync());
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
 using SGP.PublicApi;
@@ -18,10 +19,11 @@ namespace SGP.Tests.Factories
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            builder.UseEnvironment(Environments.Development);
+
             builder.ConfigureServices(services =>
             {
-                var descriptor = services.FirstOrDefault(d
-                    => d.ServiceType == typeof(DbContextOptions<SgpContext>));
+                var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
                 if (descriptor != null)
                 {
                     services.Remove(descriptor);
@@ -30,14 +32,14 @@ namespace SGP.Tests.Factories
                 _connection = new SqliteConnection(_connectionString);
                 _connection.Open();
 
-                services.AddDbContext<SgpContext>(options => options
-                    .UseSqlite(_connection)
-                    .EnableDetailedErrors()
-                    .EnableSensitiveDataLogging());
+                services.AddDbContext<SgpContext>(options => options.UseSqlite(_connection));
 
-                using (var scope = services.BuildServiceProvider(true).CreateScope())
+                var serviceProvider = services.BuildServiceProvider(true);
+
+                using (var scope = serviceProvider.CreateScope())
                 {
                     var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
+
                     var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
 
                     try

@@ -27,7 +27,7 @@ namespace SGP.PublicApi.Controllers
         /// <param name="state">Sigla UF (Unidade Federativa).</param>
         /// <response code="200">Retorna a lista de municípios.</response>
         /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
-        /// <response code="404">Quando nenhuma cidade é encontrada pelo UF fornecido.</response>
+        /// <response code="404">Quando nenhum município é encontrado pelo UF fornecido.</response>
         /// <returns>Retorna a lista de municípios.</returns>
         [HttpGet("{state}")]
         [Consumes(MediaTypeNames.Application.Json)]

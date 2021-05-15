@@ -48,16 +48,16 @@ namespace SGP.GraphQL
         {
             Guard.Against.Null(app, nameof(app));
 
-            app.UseGraphQL<CitySchema>("/api/cities")
+            app.UseGraphQL<CitySchema>("/graphql/cities")
                 .UseGraphQLPlayground(new PlaygroundOptions
                 {
-                    GraphQLEndPoint = "/api/cities"
+                    GraphQLEndPoint = "/graphql/cities"
                 }, path: "/ui/cities/graphql");
 
-            app.UseGraphQL<UserSchema>("/api/users")
+            app.UseGraphQL<UserSchema>("/graphql/users")
                 .UseGraphQLPlayground(new PlaygroundOptions
                 {
-                    GraphQLEndPoint = "/api/users"
+                    GraphQLEndPoint = "/graphql/users"
                 }, path: "/ui/users/graphql");
 
             return app;

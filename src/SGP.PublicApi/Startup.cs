@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -52,6 +53,12 @@ namespace SGP.PublicApi
 
             services.AddGraphQLWithSchemas();
 
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
             services.Configure<RouteOptions>(options =>
             {
                 options.LowercaseUrls = true;
@@ -101,6 +108,8 @@ namespace SGP.PublicApi
             app.UseOpenApi(apiVersionProvider);
 
             app.UseHealthChecks();
+
+            app.UseForwardedHeaders();
 
             app.UseHttpsRedirection();
 
