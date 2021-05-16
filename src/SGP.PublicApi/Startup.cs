@@ -37,6 +37,8 @@ namespace SGP.PublicApi
 
             services.AddResponseCompression();
 
+            services.AddMemoryCache();
+
             services.AddApiVersioningAndApiExplorer();
 
             services.AddOpenApi();

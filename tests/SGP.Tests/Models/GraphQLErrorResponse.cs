@@ -2,6 +2,11 @@ namespace SGP.Tests.Models
 {
     public class GraphQLErrorResponse
     {
-        public string Message { get; set; }
+        public GraphQLErrorResponse(string message)
+        {
+            Message = message;
+        }
+
+        public string Message { get; }
     }
 }

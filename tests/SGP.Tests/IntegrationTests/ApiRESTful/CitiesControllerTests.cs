@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 
-namespace SGP.Tests.IntegrationTests.Controllers
+namespace SGP.Tests.IntegrationTests.ApiRESTful
 {
     [Category(TestCategories.ApiRESTful)]
     public class CitiesControllerTests : IClassFixture<WebTestApplicationFactory>

@@ -17,11 +17,10 @@ namespace SGP.Application.Requests
             }
         }
 
-        public GetByIdRequest(Guid id)
-        {
-            Id = id;
-        }
+        public GetByIdRequest(Guid id) => Id = id;
 
         public Guid Id { get; }
+
+        public override string ToString() => Id.ToString();
     }
 }

@@ -31,7 +31,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             const int expectedCount = 27;
-            const string query = "{ 'query' : 'query getAllStates { states }', 'operationName' : 'getAllStates' }";
+            const string query = @"{ ""query"" :
+                        ""query getAllStates { states }"",
+                        ""operationName"" : ""getAllStates""
+                    }";
 
             // Act
             var response = await _httpClient.PostAsync(GraphQLEndPoint, query.CreateHttpContent());
@@ -48,7 +51,12 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 
         internal class StatesResponse
         {
-            public IEnumerable<string> States { get; set; }
+            public StatesResponse(IEnumerable<string> states)
+            {
+                States = states;
+            }
+
+            public IEnumerable<string> States { get; }
         }
     }
 }

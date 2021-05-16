@@ -4,7 +4,13 @@ namespace SGP.Tests.Models
 {
     public class GraphQLResponse<T>
     {
-        public T Data { get; set; }
-        public IEnumerable<GraphQLErrorResponse> Errors { get; set; }
+        public GraphQLResponse(T data, IEnumerable<GraphQLErrorResponse> errors)
+        {
+            Data = data;
+            Errors = errors;
+        }
+
+        public T Data { get; }
+        public IEnumerable<GraphQLErrorResponse> Errors { get; }
     }
 }

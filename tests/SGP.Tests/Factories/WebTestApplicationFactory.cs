@@ -39,7 +39,6 @@ namespace SGP.Tests.Factories
                 using (var scope = serviceProvider.CreateScope())
                 {
                     var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
-
                     var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
 
                     try
