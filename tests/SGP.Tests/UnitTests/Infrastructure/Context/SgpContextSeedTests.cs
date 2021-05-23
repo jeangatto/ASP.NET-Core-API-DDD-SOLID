@@ -1,10 +1,8 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Moq;
 using SGP.Infrastructure.Context;
 using SGP.Tests.Fixtures;
-using System.Linq;
+using SGP.Tests.Mocks;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
@@ -12,31 +10,29 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Context
 {
     [Category(TestCategories.Infrastructure)]
-    public class SgpContextSeedTests : IClassFixture<EfSqliteFixture>
+    public class SgpContextSeedTests : UnitTestBase, IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public SgpContextSeedTests(EfSqliteFixture fixture)
-        {
-            _fixture = fixture;
-        }
+        public SgpContextSeedTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Fact]
-        [UnitTest]
-        public async Task Should_SeedDataBase()
+        public async Task Should_ReturnsRowsAffected_WhenEnsureSeedData()
         {
             // Arrange
-            var loggerMock = new Mock<ILogger>();
-            var loggerFactoryMock = new Mock<ILoggerFactory>();
-            loggerFactoryMock
-                .Setup(s => s.CreateLogger(It.IsAny<string>()))
-                .Returns(loggerMock.Object);
+            var context = _fixture.Context;
 
             // Act
-            await _fixture.Context.EnsureSeedDataAsync(loggerFactoryMock.Object);
+            var actual = await context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
+            var totalRegioes = await context.Regioes.AsNoTracking().LongCountAsync();
+            var totalEstados = await context.Estados.AsNoTracking().LongCountAsync();
+            var totalCidades = await context.Cidades.AsNoTracking().LongCountAsync();
 
             // Assert
-            _fixture.Context.Cities.AsNoTracking().Count().Should().Be(5570);
+            actual.Should().Be(totalRegioes + totalEstados + totalCidades);
+            totalRegioes.Should().Be(5);
+            totalEstados.Should().Be(27);
+            totalCidades.Should().Be(5570);
         }
     }
 }

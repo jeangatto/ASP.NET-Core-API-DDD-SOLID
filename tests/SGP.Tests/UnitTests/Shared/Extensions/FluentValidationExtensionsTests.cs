@@ -7,10 +7,34 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Shared.Extensions
 {
     [Category(TestCategories.Shared)]
-    public class FluentValidationExtensionsTests
+    public class FluentValidationExtensionsTests : UnitTestBase
     {
         [Theory]
-        [UnitTest]
+        [InlineData("ma@hostname.com")]
+        [InlineData("ma@hostname.comcom")]
+        [InlineData("MA@hostname.coMCom")]
+        [InlineData("MA@HOSTNAME.COM")]
+        [InlineData("m.a@hostname.co")]
+        [InlineData("m_a1a@hostname.com")]
+        [InlineData("ma-a@hostname.com")]
+        [InlineData("ma-a@hostname.com.edu")]
+        [InlineData("ma-a.aa@hostname.com.edu")]
+        [InlineData("ma.h.saraf.onemore@hostname.com.edu")]
+        [InlineData("ma12@hostname.com")]
+        [InlineData("12@hostname.com")]
+        public void Should_ReturnsSuccess_WhenEmailIsValid(string address)
+        {
+            // Arrange
+            var validator = CreateValidator();
+
+            // Act
+            var result = validator.TestValidate(address);
+
+            // Assert
+            result.ShouldNotHaveAnyValidationErrors();
+        }
+
+        [Theory]
         [InlineData("")]                    // Empty
         [InlineData(" ")]                   // Whitespaces
         [InlineData("Abc.example.com")]     // No `@`
@@ -37,33 +61,7 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
             result.ShouldHaveAnyValidationError();
         }
 
-        [Theory]
-        [UnitTest]
-        [InlineData("ma@hostname.com")]
-        [InlineData("ma@hostname.comcom")]
-        [InlineData("MA@hostname.coMCom")]
-        [InlineData("MA@HOSTNAME.COM")]
-        [InlineData("m.a@hostname.co")]
-        [InlineData("m_a1a@hostname.com")]
-        [InlineData("ma-a@hostname.com")]
-        [InlineData("ma-a@hostname.com.edu")]
-        [InlineData("ma-a.aa@hostname.com.edu")]
-        [InlineData("ma.h.saraf.onemore@hostname.com.edu")]
-        [InlineData("ma12@hostname.com")]
-        [InlineData("12@hostname.com")]
-        public void Should_ReturnsSuccess_WhenEmailIsValid(string address)
-        {
-            // Arrange
-            var validator = CreateValidator();
-
-            // Act
-            var result = validator.TestValidate(address);
-
-            // Assert
-            result.ShouldNotHaveAnyValidationErrors();
-        }
-
-        private static InlineValidator<string> CreateValidator()
+        private static IValidator<string> CreateValidator()
         {
             var validator = new InlineValidator<string>();
             validator.RuleFor(address => address).IsValidEmailAddress();

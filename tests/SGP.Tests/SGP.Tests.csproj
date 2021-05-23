@@ -3,8 +3,11 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 		<IsPackable>false</IsPackable>
-		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;</NoWarn>
+		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;S1144;</NoWarn>
 	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="UnitTests\Shared\Extensions\ValidationResultExtensionsTests.cs~RFedc7f3b.TMP" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="coverlet.collector" Version="3.0.3">
 			<PrivateAssets>all</PrivateAssets>
@@ -16,7 +19,7 @@
 		</PackageReference>
 		<PackageReference Include="FluentAssertions" Version="5.10.3" />
 		<PackageReference Include="FluentAssertions.Analyzers" Version="0.11.4" />
-		<PackageReference Include="FluentResults.Extensions.FluentAssertions" Version="0.5.0" />
+		<PackageReference Include="FluentResults.Extensions.FluentAssertions" Version="0.6.0" />
 		<PackageReference Include="FluentValidation" Version="10.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
@@ -33,11 +36,9 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\SGP.Application\SGP.Application.csproj" />
 		<ProjectReference Include="..\..\src\SGP.Domain\SGP.Domain.csproj" />
 		<ProjectReference Include="..\..\src\SGP.Infrastructure.Migrations\SGP.Infrastructure.Migrations.csproj" />
 		<ProjectReference Include="..\..\src\SGP.Infrastructure\SGP.Infrastructure.csproj" />
-		<ProjectReference Include="..\..\src\SGP.PublicApi\SGP.PublicApi.csproj" />
 		<ProjectReference Include="..\..\src\SGP.Shared\SGP.Shared.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,0 +1,22 @@
+[
+  {
+    "Id": "3CB9C525-CF31-469F-AEAB-9EF96C384DA5",
+    "Nome": "Norte"
+  },
+  {
+    "Id": "F188E544-4674-4783-BD1D-08203767A2E0",
+    "Nome": "Nordeste"
+  },
+  {
+    "Id": "F30D8845-D7E7-45D4-B766-C118CD0E825B",
+    "Nome": "Sudeste"
+  },
+  {
+    "Id": "9579CBC1-182F-4467-9B29-E3830ED4291C",
+    "Nome": "Sul"
+  },
+  {
+    "Id": "9D87F1C0-5BC7-4A93-A7E3-E1981B738F1F",
+    "Nome": "Centro-Oeste"
+  }
+]

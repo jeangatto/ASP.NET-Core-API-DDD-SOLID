@@ -1,14 +1,16 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using SGP.Infrastructure.Context;
+using SGP.Tests.Mocks;
 using System;
+using System.Threading.Tasks;
 
 namespace SGP.Tests.Fixtures
 {
     public class EfSqliteFixture : IDisposable
     {
+        private const string _connectionString = "DataSource=:memory:";
         private readonly SqliteConnection _connection;
-        private readonly string _connectionString = "DataSource=:memory:";
 
         public EfSqliteFixture()
         {
@@ -28,7 +30,11 @@ namespace SGP.Tests.Fixtures
 
         public SgpContext Context { get; }
 
-        #region Disposable
+        public void Popular() => Context.EnsureSeedDataAsync(LoggerFactoryMock.Create()).Wait();
+
+        public async Task PopularAsync() => await Context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
+
+        #region Dispose
 
         // REF: https://docs.microsoft.com/pt-br/dotnet/standard/garbage-collection/implementing-dispose
         // To detect redundant calls.

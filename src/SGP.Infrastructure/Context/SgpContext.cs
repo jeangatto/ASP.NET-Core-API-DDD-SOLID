@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SGP.Domain.Entities;
-using SGP.Domain.Entities.UserAggregate;
 using SGP.Infrastructure.Extensions;
 using System.Reflection;
 
@@ -19,17 +18,20 @@ namespace SGP.Infrastructure.Context
             {
                 // Desabilitando o JOIN automático.
                 base.ChangeTracker.LazyLoadingEnabled = false;
+                base.ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
+                base.ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
                 return base.ChangeTracker;
             }
         }
 
-        public DbSet<City> Cities { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<Cidade> Cidades { get; set; }
+        public DbSet<Estado> Estados { get; set; }
+        public DbSet<Regiao> Regioes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Collation: define o conjunto de regras que o servidor irá utilizar para ordenação e comparação entre textos.
-            // Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
+            // NOTE: Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
             modelBuilder.UseCollation("Latin1_General_CI_AI");
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.RemoveCascadeDeleteConvention();

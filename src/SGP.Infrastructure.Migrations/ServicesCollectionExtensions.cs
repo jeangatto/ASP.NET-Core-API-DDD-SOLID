@@ -8,7 +8,6 @@ using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
 using System;
-using System.Reflection;
 
 namespace SGP.Infrastructure.Migrations
 {
@@ -22,11 +21,11 @@ namespace SGP.Infrastructure.Migrations
             services.AddDbContext<SgpContext>((serviceProvider, builder) =>
             {
                 var connectionString = serviceProvider.GetConnectionString();
-                var assemblyName = GetAssemblyName();
 
                 builder.UseSqlServer(connectionString,
-                    options => options.MigrationsAssembly(assemblyName));
+                    options => options.MigrationsAssembly("SGP.Infrastructure.Migrations"));
 
+                // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
                 var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
                 if (environment.IsDevelopment())
                 {
@@ -41,23 +40,16 @@ namespace SGP.Infrastructure.Migrations
             healthChecksBuilder.AddDbContextCheck<SgpContext>(
                 tags: new[] { "database" },
                 customTestQuery: (context, cancellationToken)
-                    => context.Cities.AsNoTracking().AnyAsync(cancellationToken));
+                    => context.Estados.AsNoTracking().AnyAsync(cancellationToken));
 
             return services;
         }
 
-        private static string GetAssemblyName()
-        {
-            return Assembly.GetExecutingAssembly().GetName().Name;
-        }
-
         private static string GetConnectionString(this IServiceProvider serviceProvider)
         {
-            var connectionStringsOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>();
-
-            Guard.Against.Null(connectionStringsOptions, nameof(connectionStringsOptions));
-
-            return connectionStringsOptions.Value.DefaultConnection;
+            var options = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>();
+            Guard.Against.Null(options, nameof(ConnectionStrings));
+            return options.Value.Default;
         }
     }
 }

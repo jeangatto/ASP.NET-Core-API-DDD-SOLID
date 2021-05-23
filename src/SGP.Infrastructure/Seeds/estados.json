@@ -1,0 +1,164 @@
+[
+  {
+    "Id": "F65E70E4-2C49-42FF-A7F4-6B4996880643",
+    "Nome": "Acre",
+    "Uf": "AC",
+    "RegiaoId": "3CB9C525-CF31-469F-AEAB-9EF96C384DA5"
+  },
+  {
+    "Id": "26F6C96C-ECD4-47F3-8C80-3D82362372A1",
+    "Nome": "Alagoas",
+    "Uf": "AL",
+    "RegiaoId": "F188E544-4674-4783-BD1D-08203767A2E0"
+  },
+  {
+    "Id": "6571A975-BEE1-4DC0-8495-7623A7831589",
+    "Nome": "Amapá",
+    "Uf": "AP",
+    "RegiaoId": "3CB9C525-CF31-469F-AEAB-9EF96C384DA5"
+  },
+  {
+    "Id": "8DDEB13D-595A-4617-A48F-A92E3EF51FD2",
+    "Nome": "Amazonas",
+    "Uf": "AM",
+    "RegiaoId": "3CB9C525-CF31-469F-AEAB-9EF96C384DA5"
+  },
+  {
+    "Id": "EE967C9A-9146-4030-9BA9-0A442AEFFDDB",
+    "Nome": "Bahia",
+    "Uf": "BA",
+    "RegiaoId": "F188E544-4674-4783-BD1D-08203767A2E0"
+  },
+  {
+    "Id": "ECEE5CA1-7E8F-4EE5-9D42-4DE4F42FFF9C",
+    "Nome": "Ceará",
+    "Uf": "CE",
+    "RegiaoId": "F188E544-4674-4783-BD1D-08203767A2E0"
+  },
+  {
+    "Id": "20A0FA35-CEA9-41DD-9851-A83DCB3AA511",
+    "Nome": "Distrito Federal",
+    "Uf": "DF",
+    "RegiaoId": "9D87F1C0-5BC7-4A93-A7E3-E1981B738F1F"
+  },
+  {
+    "Id": "0C52DA3E-AB05-42B0-AD60-633E87079BCE",
+    "Nome": "Espírito Santo",
+    "Uf": "ES",
+    "RegiaoId": "F30D8845-D7E7-45D4-B766-C118CD0E825B"
+  },
+  {
+    "Id": "B9496259-A174-45AA-8428-EDCD63F9E29E",
+    "Nome": "Goiás",
+    "Uf": "GO",
+    "RegiaoId": "9D87F1C0-5BC7-4A93-A7E3-E1981B738F1F"
+  },
+  {
+    "Id": "D689F439-028A-4986-B913-D7D37E2D864D",
+    "Nome": "Maranhão",
+    "Uf": "MA",
+    "RegiaoId": "F188E544-4674-4783-BD1D-08203767A2E0"
+  },
+  {
+    "Id": "51A89ADE-2D6B-4F07-962D-C1E067874B48",
+    "Nome": "Mato Grosso",
+    "Uf": "MT",
+    "RegiaoId": "9D87F1C0-5BC7-4A93-A7E3-E1981B738F1F"
+  },
+  {
+    "Id": "04EA685B-41E8-45BD-8BA0-9D1CCF7C8056",
+    "Nome": "Mato Grosso do Sul",
+    "Uf": "MS",
+    "RegiaoId": "9D87F1C0-5BC7-4A93-A7E3-E1981B738F1F"
+  },
+  {
+    "Id": "F2D6FF09-F540-4AD4-9447-95469C661247",
+    "Nome": "Minas Gerais",
+    "Uf": "MG",
+    "RegiaoId": "F30D8845-D7E7-45D4-B766-C118CD0E825B"
+  },
+  {
+    "Id": "C0C43890-AA54-433E-B87A-6B9356BBD09E",
+    "Nome": "Pará",
+    "Uf": "PA",
+    "RegiaoId": "3CB9C525-CF31-469F-AEAB-9EF96C384DA5"
+  },
+  {
+    "Id": "6762FB13-3F5B-4C75-86FF-3382BAA10771",
+    "Nome": "Paraíba",
+    "Uf": "PB",
+    "RegiaoId": "F188E544-4674-4783-BD1D-08203767A2E0"
+  },
+  {
+    "Id": "1DCE21D2-6140-4085-9ABA-15F6FE3EA8EB",
+    "Nome": "Paraná",
+    "Uf": "PR",
+    "RegiaoId": "9579CBC1-182F-4467-9B29-E3830ED4291C"
+  },
+  {
+    "Id": "35E6E9F8-1849-4B65-8E77-3634B90D4DD2",
+    "Nome": "Pernambuco",
+    "Uf": "PE",
+    "RegiaoId": "F188E544-4674-4783-BD1D-08203767A2E0"
+  },
+  {
+    "Id": "3C0C6276-F259-4E44-B686-730162C90FCA",
+    "Nome": "Piauí",
+    "Uf": "PI",
+    "RegiaoId": "F188E544-4674-4783-BD1D-08203767A2E0"
+  },
+  {
+    "Id": "F420DCB0-CA08-4E76-AFF5-B25910136A91",
+    "Nome": "Rio de Janeiro",
+    "Uf": "RJ",
+    "RegiaoId": "F30D8845-D7E7-45D4-B766-C118CD0E825B"
+  },
+  {
+    "Id": "0E493AE6-9825-495C-922E-E8604F58C79F",
+    "Nome": "Rio Grande do Norte",
+    "Uf": "RN",
+    "RegiaoId": "F188E544-4674-4783-BD1D-08203767A2E0"
+  },
+  {
+    "Id": "72A73731-6E76-4BE3-8A32-1B133FACEEB4",
+    "Nome": "Rio Grande do Sul",
+    "Uf": "RS",
+    "RegiaoId": "9579CBC1-182F-4467-9B29-E3830ED4291C"
+  },
+  {
+    "Id": "667D009A-8276-4566-816F-84ECBA85CD9B",
+    "Nome": "Rondônia",
+    "Uf": "RO",
+    "RegiaoId": "3CB9C525-CF31-469F-AEAB-9EF96C384DA5"
+  },
+  {
+    "Id": "6D41A31F-17B8-418D-9B92-D90C93B53746",
+    "Nome": "Roraima",
+    "Uf": "RR",
+    "RegiaoId": "3CB9C525-CF31-469F-AEAB-9EF96C384DA5"
+  },
+  {
+    "Id": "557A12B3-157A-4D3A-B4BD-088C8905C607",
+    "Nome": "Santa Catarina",
+    "Uf": "SC",
+    "RegiaoId": "9579CBC1-182F-4467-9B29-E3830ED4291C"
+  },
+  {
+    "Id": "766565CF-8141-4B9B-82C3-F090ED239475",
+    "Nome": "São Paulo",
+    "Uf": "SP",
+    "RegiaoId": "F30D8845-D7E7-45D4-B766-C118CD0E825B"
+  },
+  {
+    "Id": "64D16545-5E56-4EC5-8D2B-46D75C8C1289",
+    "Nome": "Sergipe",
+    "Uf": "SE",
+    "RegiaoId": "F188E544-4674-4783-BD1D-08203767A2E0"
+  },
+  {
+    "Id": "D31115E4-A99C-4A98-BA45-162C19D0AC05",
+    "Nome": "Tocantins",
+    "Uf": "TO",
+    "RegiaoId": "3CB9C525-CF31-469F-AEAB-9EF96C384DA5"
+  }
+]

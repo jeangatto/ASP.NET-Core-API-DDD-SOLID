@@ -11,9 +11,9 @@ namespace SGP.Infrastructure.UoW
     public sealed class UnitOfWork : IUnitOfWork
     {
         private readonly SgpContext _context;
-        private readonly ILogger<SgpContext> _logger;
+        private readonly ILogger<UnitOfWork> _logger;
 
-        public UnitOfWork(SgpContext context, ILogger<SgpContext> logger)
+        public UnitOfWork(SgpContext context, ILogger<UnitOfWork> logger)
         {
             _context = context;
             _logger = logger;
@@ -28,11 +28,6 @@ namespace SGP.Infrastructure.UoW
             catch (DbUpdateConcurrencyException ex)
             {
                 _logger.LogError(ex, "Ocorreu um erro (concorrência) ao salvar as informações na base de dados.");
-                throw;
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados.");
                 throw;
             }
             catch (Exception ex)

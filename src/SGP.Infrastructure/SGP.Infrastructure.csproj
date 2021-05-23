@@ -14,16 +14,22 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
-		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.11.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.11.1" />
 		<PackageReference Include="Scrutor" Version="3.3.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
 		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="Seeds\cities.json">
+		<None Update="Seeds\cidades.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Seeds\estados.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Seeds\regioes.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

@@ -11,6 +11,10 @@ namespace SGP.Shared.ContractResolvers
             NamingStrategy = namingStrategy;
         }
 
+        public PrivateSetterContractResolver()
+        {
+        }
+
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var jProperty = base.CreateProperty(member, memberSerialization);
