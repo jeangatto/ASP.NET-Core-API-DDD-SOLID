@@ -27,6 +27,6 @@
 		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Migrations\" />
+		<Folder Include="Migrations\" />
 	</ItemGroup>
 </Project>
