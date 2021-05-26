@@ -6,9 +6,6 @@
 		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;S1144;</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Remove="UnitTests\Shared\Extensions\ValidationResultExtensionsTests.cs~RFedc7f3b.TMP" />
-	</ItemGroup>
-	<ItemGroup>
 		<PackageReference Include="coverlet.collector" Version="3.0.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,7 +21,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.6" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
 		<PackageReference Include="Moq" Version="4.16.1" />
 		<PackageReference Include="xunit" Version="2.4.1" />
 		<PackageReference Include="xunit.analyzers" Version="0.10.0" />

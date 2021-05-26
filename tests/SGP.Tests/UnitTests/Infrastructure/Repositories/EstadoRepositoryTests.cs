@@ -21,7 +21,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarEstados_QuandoObterPorRegiao(string regiao, int totalEsperado)
         {
             // Arrange
-            await _fixture.PopularAsync();
+            await _fixture.SeedAsync();
             var repository = CriarRepositorio();
 
             // Act
@@ -47,7 +47,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarEstados_QuandoObterTodos()
         {
             // Arrange
-            await _fixture.PopularAsync();
+            await _fixture.SeedAsync();
             var repository = CriarRepositorio();
 
             // Act
@@ -73,7 +73,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarListVazia_QuandoObterPorRegiaoInexistente()
         {
             // Arrange
-            await _fixture.PopularAsync();
+            await _fixture.SeedAsync();
             var repository = CriarRepositorio();
             const string regiao = "NaoExistente";
 

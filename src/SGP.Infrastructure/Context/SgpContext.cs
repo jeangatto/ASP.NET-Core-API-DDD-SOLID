@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SGP.Domain.Entities;
+using SGP.Domain.Entities.UsuarioAggregate;
 using SGP.Infrastructure.Extensions;
 using System.Reflection;
 
@@ -18,8 +19,6 @@ namespace SGP.Infrastructure.Context
             {
                 // Desabilitando o JOIN automático.
                 base.ChangeTracker.LazyLoadingEnabled = false;
-                base.ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
-                base.ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
                 return base.ChangeTracker;
             }
         }
@@ -27,6 +26,7 @@ namespace SGP.Infrastructure.Context
         public DbSet<Cidade> Cidades { get; set; }
         public DbSet<Estado> Estados { get; set; }
         public DbSet<Regiao> Regioes { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

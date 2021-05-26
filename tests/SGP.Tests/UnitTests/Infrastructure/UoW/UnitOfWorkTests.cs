@@ -2,6 +2,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using SGP.Domain.Entities;
+using SGP.Infrastructure.Context;
 using SGP.Infrastructure.UoW;
 using SGP.Shared.Interfaces;
 using SGP.Tests.Fixtures;
@@ -22,8 +23,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.UoW
         {
             // Arrange
             var uow = CreateUoW();
-            var context = _fixture.Context;
-            context.ChangeTracker.Clear();
+            var context = GetContext();
             context.Add(new Regiao("Norte"));
 
             // Act
@@ -38,8 +38,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.UoW
         {
             // Arrange
             var uow = CreateUoW();
-            var context = _fixture.Context;
-            context.ChangeTracker.Clear();
+            var context = GetContext();
             context.AddRange(new Regiao("Sul"), new Regiao("Sul")); // Duplicate Index
 
             // Act
@@ -51,5 +50,11 @@ namespace SGP.Tests.UnitTests.Infrastructure.UoW
 
         private IUnitOfWork CreateUoW()
             => new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
+
+        private SgpContext GetContext()
+        {
+            _fixture.Context.ChangeTracker.Clear();
+            return _fixture.Context;
+        }
     }
 }

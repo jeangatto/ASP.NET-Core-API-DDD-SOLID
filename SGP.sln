@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Infrastructure.Migratio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Tests", "tests\SGP.Tests\SGP.Tests.csproj", "{A1133DEB-7D57-4838-9D5B-C903FDBEBF89}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Application", "src\SGP.Application\SGP.Application.csproj", "{17236D75-2FC5-4D6A-9CD1-C3BFE13EB647}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{A1133DEB-7D57-4838-9D5B-C903FDBEBF89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1133DEB-7D57-4838-9D5B-C903FDBEBF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1133DEB-7D57-4838-9D5B-C903FDBEBF89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17236D75-2FC5-4D6A-9CD1-C3BFE13EB647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17236D75-2FC5-4D6A-9CD1-C3BFE13EB647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17236D75-2FC5-4D6A-9CD1-C3BFE13EB647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17236D75-2FC5-4D6A-9CD1-C3BFE13EB647}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{7EB4A0BB-98B6-4C54-A112-562A4E78D0B4} = {7D64A989-8021-4E54-BD72-C517677370DE}
 		{67BE41B7-DC81-41EC-B4A3-8836859589F0} = {7D64A989-8021-4E54-BD72-C517677370DE}
 		{A1133DEB-7D57-4838-9D5B-C903FDBEBF89} = {C3E53C44-C421-44E4-834C-AB622D660DF5}
+		{17236D75-2FC5-4D6A-9CD1-C3BFE13EB647} = {E9F7B0E6-914E-4568-BB2C-F403A99FCF4F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF8C8DEB-5FA2-4E59-9A6A-A6CE89524075}
