@@ -3,7 +3,7 @@ using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 using System;
 
-namespace SGP.Domain.Entities.UsuarioAggregate
+namespace SGP.Domain.Entities
 {
     public class TokenAcesso : BaseEntity
     {
@@ -43,7 +43,7 @@ namespace SGP.Domain.Entities.UsuarioAggregate
         }
 
         /// <summary>
-        /// Cancela o token.
+        /// Reveoga (cancela) o token.
         /// </summary>
         /// <param name="dataRevogacao"></param>
         public void RevogarToken(DateTime dataRevogacao)

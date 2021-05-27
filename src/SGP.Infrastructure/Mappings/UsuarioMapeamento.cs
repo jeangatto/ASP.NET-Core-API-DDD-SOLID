@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SGP.Domain.Entities.UsuarioAggregate;
+using SGP.Domain.Entities;
 using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class UsuarioMapping : IEntityTypeConfiguration<Usuario>
+    public class UsuarioMapeamento : IEntityTypeConfiguration<Usuario>
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {

@@ -6,6 +6,7 @@
 		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;S1144;</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="Bogus" Version="33.0.2" />
 		<PackageReference Include="coverlet.collector" Version="3.0.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -10,11 +10,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [Category(TestCategories.Infrastructure)]
-    public class EstadoRepositoryTests : UnitTestBase, IClassFixture<EfSqliteFixture>
+    public class EstadoRepositorioTests : UnitTestBase, IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public EstadoRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public EstadoRepositorioTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Theory]
         [ClassData(typeof(EstadoTestData))]
@@ -84,12 +84,9 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().BeEmpty().And.HaveCount(0);
         }
 
-        private IEstadoRepository CriarRepositorio()
-            => new EstadoRepository(_fixture.Context);
+        private IEstadoRepositorio CriarRepositorio()
+            => new EstadoRepositorio(_fixture.Context);
 
-        /// <summary>
-        /// REF: https://pt.wikipedia.org/wiki/Lista_de_estados_brasileiros_por_n%C3%BAmero_de_munic%C3%ADpios
-        /// </summary>
         private class EstadoTestData : TheoryData<string, int>
         {
             public EstadoTestData()

@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace SGP.Domain.Repositories
 {
-    public interface IRegiaoRepository : IRepository
+    public interface ICidadeRepositorio : IRepository
     {
-        Task<IEnumerable<Regiao>> ObterTodosAsync();
+        Task<IEnumerable<Cidade>> ObterTodosPorUfAsync(string uf);
+        Task<Cidade> ObterPorIbgeAsync(int ibge);
     }
 }

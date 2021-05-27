@@ -10,11 +10,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [Category(TestCategories.Infrastructure)]
-    public class CidadeRepositoryTests : UnitTestBase, IClassFixture<EfSqliteFixture>
+    public class CidadeRepositorioTests : UnitTestBase, IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public CidadeRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public CidadeRepositorioTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Fact]
         public async Task Devera_RetornarCidade_QuandoObterPorIbge()
@@ -106,12 +106,9 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().BeNull();
         }
 
-        private ICidadeRepository CriarRepositorio()
-            => new CidadeRepository(_fixture.Context);
+        private ICidadeRepositorio CriarRepositorio()
+            => new CidadeRepositorio(_fixture.Context);
 
-        /// <summary>
-        /// REF: https://pt.wikipedia.org/wiki/Lista_de_estados_brasileiros_por_n%C3%BAmero_de_munic%C3%ADpios
-        /// </summary>
         private class EstadosTestData : TheoryData<string, int>
         {
             public EstadosTestData()

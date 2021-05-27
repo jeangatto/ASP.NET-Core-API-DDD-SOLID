@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SGP.Infrastructure.Repositories
 {
-    public class CidadeRepository : ICidadeRepository
+    public class CidadeRepositorio : ICidadeRepositorio
     {
         private readonly DbSet<Cidade> _dbSet;
 
-        public CidadeRepository(SgpContext context) => _dbSet = context.Cidades;
+        public CidadeRepositorio(SgpContext context) => _dbSet = context.Cidades;
 
         public async Task<Cidade> ObterPorIbgeAsync(int ibge)
         {

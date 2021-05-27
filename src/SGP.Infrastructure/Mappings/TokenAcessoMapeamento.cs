@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SGP.Domain.Entities.UsuarioAggregate;
+using SGP.Domain.Entities;
 using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class TokenAcessoMapping : IEntityTypeConfiguration<TokenAcesso>
+    public class TokenAcessoMapeamento : IEntityTypeConfiguration<TokenAcesso>
     {
         public void Configure(EntityTypeBuilder<TokenAcesso> builder)
         {
