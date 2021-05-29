@@ -47,19 +47,8 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             var actual = await repositorio.ObterPorEmailAsync(usuario.Email);
 
             // Assert
-            actual.Should().NotBeNull();
-            actual.Id.Should().NotBeEmpty().And.Be(usuario.Id);
-            actual.Nome.Should().NotBeNullOrWhiteSpace().And.Be(usuario.Nome);
-            actual.Email.Should().NotBeNull().And.Be(usuario.Email);
-            actual.HashSenha.Should().NotBeNullOrWhiteSpace().And.Be(usuario.HashSenha);
-            actual.Tokens.Should().NotBeEmpty().And.HaveCount(usuario.Tokens.Count).And.Subject.ForEach(t =>
-            {
-                t.Id.Should().NotBeEmpty();
-                t.UsuarioId.Should().Be(usuario.Id);
-                t.Token.Should().NotBeNullOrWhiteSpace();
-                t.CriadoEm.Should().BeBefore(t.ExpiraEm);
-                t.ExpiraEm.Should().BeAfter(t.CriadoEm);
-            });
+            actual.Should().NotBeNull().And.BeEquivalentTo(usuario);
+            actual.Tokens.Should().NotBeEmpty().And.HaveCount(usuario.Tokens.Count);
         }
 
         [Fact]
@@ -91,25 +80,15 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_QuandoObterPorToken()
         {
             // Arrange
-            var (repositorio, usuario) = await InserirUsuario(3);
-            var token = usuario.Tokens[0];
+            const int quantidadeTokens = 3;
+            var (repositorio, usuario) = await InserirUsuario(quantidadeTokens);
 
             // Act
-            var actual = await repositorio.ObterPorTokenAsync(token.Token);
+            var actual = await repositorio.ObterPorTokenAsync(usuario.Tokens[0].Token);
 
             // Assert
-            actual.Should().NotBeNull();
-            actual.Id.Should().NotBeEmpty().And.Be(usuario.Id);
-            actual.Nome.Should().NotBeNullOrWhiteSpace().And.Be(usuario.Nome);
-            actual.Email.Should().NotBeNull().And.Be(usuario.Email);
-            actual.HashSenha.Should().NotBeNullOrWhiteSpace().And.Be(usuario.HashSenha);
-            actual.Tokens.Should().NotBeEmpty().And.HaveCount(1).And.Subject.ForEach(t =>
-            {
-                t.Id.Should().Be(token.Id);
-                t.Token.Should().Be(token.Token);
-                t.CriadoEm.Should().Be(token.CriadoEm);
-                t.ExpiraEm.Should().Be(token.ExpiraEm);
-            });
+            actual.Should().NotBeNull().And.BeEquivalentTo(usuario);
+            actual.Tokens.Should().NotBeEmpty().And.HaveCount(usuario.Tokens.Count).And.BeEquivalentTo(usuario.Tokens);
         }
 
         private static Usuario CriarUsuario(int quantidadeTokens)

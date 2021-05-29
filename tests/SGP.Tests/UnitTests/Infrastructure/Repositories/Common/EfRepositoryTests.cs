@@ -34,13 +34,16 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories.Common
             // Arrange
             var uow = CriarUoW();
             var repositorio = CriarRepositorio();
+            var novoUsuario = CriarUsuarioFaker().Generate();
 
             // Act
-            repositorio.Add(CriarUsuarioFaker().Generate());
-            var actual = await uow.SaveChangesAsync();
+            repositorio.Add(novoUsuario);
+            var linhasAfetadas = await uow.SaveChangesAsync();
+            var adicionado = await repositorio.GetByIdAsync(novoUsuario.Id);
 
             // Assert
-            actual.Should().Be(1);
+            linhasAfetadas.Should().Be(1);
+            adicionado.Should().NotBeNull().And.BeEquivalentTo(novoUsuario);
         }
 
         [Fact]
@@ -50,13 +53,17 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories.Common
             const int quantidade = 3;
             var uow = CriarUoW();
             var repositorio = CriarRepositorio();
+            var novosUsuarios = CriarUsuarioFaker().Generate(quantidade);
+            var ids = novosUsuarios.ConvertAll(u => u.Id);
 
             // Act
-            repositorio.AddRange(CriarUsuarioFaker().Generate(quantidade));
+            repositorio.AddRange(novosUsuarios);
             var actual = await uow.SaveChangesAsync();
+            var adicionados = (from id in ids select repositorio.GetByIdAsync(id).GetAwaiter().GetResult()).ToList();
 
             // Assert
             actual.Should().Be(quantidade);
+            adicionados.Should().NotBeEmpty().And.BeEquivalentTo(novosUsuarios);
         }
 
         [Fact]
