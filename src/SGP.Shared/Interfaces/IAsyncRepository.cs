@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SGP.Shared.Interfaces
@@ -6,8 +7,11 @@ namespace SGP.Shared.Interfaces
     public interface IAsyncRepository<TEntity> : IRepository where TEntity : IAggregateRoot
     {
         void Add(TEntity entity);
+        void AddRange(IEnumerable<TEntity> entities);
         void Update(TEntity entity);
+        void UpdateRange(IEnumerable<TEntity> entities);
         void Remove(TEntity entity);
+        void RemoveRange(IEnumerable<TEntity> entities);
 
         /// <summary>
         /// Encontra uma entidade pelo o valor da chave primária (id) fornecido.

@@ -18,7 +18,6 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [Category(TestCategories.Infrastructure)]
-    [CollectionDefinition("Non-Parallel Collection", DisableParallelization = true)]
     public class UsuarioRepositorioTests : UnitTestBase, IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
@@ -29,7 +28,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetonarVerdadeiro_QuandoVerificarSeEmailJaExiste()
         {
             // Arrange
-            var (repositorio, usuario) = await CriarRegistroBancoDados();
+            var (repositorio, usuario) = await InserirUsuario();
 
             // Act
             var actual = await repositorio.VerificaSeEmailExisteAsync(usuario.Email);
@@ -42,7 +41,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_QuandoObterPorEmail()
         {
             // Arrange
-            var (repositorio, usuario) = await CriarRegistroBancoDados();
+            var (repositorio, usuario) = await InserirUsuario();
 
             // Act
             var actual = await repositorio.ObterPorEmailAsync(usuario.Email);
@@ -67,7 +66,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_QuandoObterPorId()
         {
             // Arrange
-            var (repositorio, usuario) = await CriarRegistroBancoDados();
+            var (repositorio, usuario) = await InserirUsuario();
 
             // Act
             var actual = await repositorio.GetByIdAsync(usuario.Id);
@@ -92,7 +91,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_QuandoObterPorToken()
         {
             // Arrange
-            var (repositorio, usuario) = await CriarRegistroBancoDados(3);
+            var (repositorio, usuario) = await InserirUsuario(3);
             var token = usuario.Tokens[0];
 
             // Act
@@ -142,23 +141,23 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 .Generate();
         }
 
-        private async Task<(IUsuarioRepositorio, Usuario)> CriarRegistroBancoDados(int quantidadeTokens = 1)
-        {
-            var usuario = CriarUsuario(quantidadeTokens);
-
-            var repositorio = CriarRepositorio();
-            repositorio.Add(usuario);
-
-            var uow = CriarUoW();
-            await uow.SaveChangesAsync();
-
-            return (repositorio, usuario);
-        }
-
         private IUsuarioRepositorio CriarRepositorio()
             => new UsuarioRepositorio(_fixture.Context);
 
         private IUnitOfWork CriarUoW()
             => new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
+
+        private async Task<(IUsuarioRepositorio, Usuario)> InserirUsuario(int quantidadeTokens = 1)
+        {
+            var uow = CriarUoW();
+            var repositorio = CriarRepositorio();
+
+            var usuario = CriarUsuario(quantidadeTokens);
+
+            repositorio.Add(usuario);
+            await uow.SaveChangesAsync();
+
+            return (repositorio, usuario);
+        }
     }
 }

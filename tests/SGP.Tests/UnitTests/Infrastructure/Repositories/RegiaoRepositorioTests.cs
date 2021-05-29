@@ -37,7 +37,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 });
         }
 
-        private IRegiaoRepositorio CriarRepositorio()
-            => new RegiaoRepositorio(_fixture.Context);
+        private IRegiaoRepositorio CriarRepositorio() => new RegiaoRepositorio(_fixture.Context);
     }
 }

@@ -9,13 +9,13 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
     public class LocalDateTimeServiceTests : UnitTestBase
     {
         [Fact]
-        public void Sould_ReturnDateNow_WhenNowCalled()
+        public void Sould_ReturnDateNow()
         {
             // Arrange
-            var dateTime = CreateDateTime();
+            var dateTimeService = CreateDateTime();
 
             // Act
-            var actual = dateTime.Now;
+            var actual = dateTimeService.Now;
 
             // Assert
             actual.Should().BeSameDateAs(DateTime.Now);

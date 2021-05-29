@@ -84,8 +84,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().BeEmpty().And.HaveCount(0);
         }
 
-        private IEstadoRepositorio CriarRepositorio()
-            => new EstadoRepositorio(_fixture.Context);
+        private IEstadoRepositorio CriarRepositorio() => new EstadoRepositorio(_fixture.Context);
 
         private class EstadoTestData : TheoryData<string, int>
         {

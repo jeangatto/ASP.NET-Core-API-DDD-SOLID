@@ -29,9 +29,10 @@ namespace SGP.Infrastructure.Repositories
                 .Include(usuario => usuario.Tokens.OrderByDescending(t => t.ExpiraEm))
                 .FirstOrDefaultAsync(usuario => usuario.Email.Address == email.Address);
         }
+
         public async Task<Usuario> ObterPorTokenAsync(string token)
         {
-            return await Queryable()
+            return await Queryable(false)
                .Include(usuario => usuario.Tokens.Where(t => t.Token == token))
                .Where(usuario => usuario.Tokens.Any(t => t.Token == token))
                .FirstOrDefaultAsync();

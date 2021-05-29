@@ -106,8 +106,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().BeNull();
         }
 
-        private ICidadeRepositorio CriarRepositorio()
-            => new CidadeRepositorio(_fixture.Context);
+        private ICidadeRepositorio CriarRepositorio() => new CidadeRepositorio(_fixture.Context);
 
         private class EstadosTestData : TheoryData<string, int>
         {
