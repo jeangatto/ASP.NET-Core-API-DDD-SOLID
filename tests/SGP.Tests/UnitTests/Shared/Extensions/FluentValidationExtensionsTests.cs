@@ -6,8 +6,8 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Shared.Extensions
 {
-    [Category(TestCategories.Shared)]
-    public class FluentValidationExtensionsTests : UnitTestBase
+    [UnitTest(TestCategories.Shared)]
+    public class FluentValidationExtensionsTests
     {
         [Theory]
         [InlineData("ma@hostname.com")]

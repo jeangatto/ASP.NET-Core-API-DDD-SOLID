@@ -1,10 +1,12 @@
 using FluentAssertions;
 using SGP.Shared.Extensions;
 using Xunit;
+using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Shared.Extensions
 {
-    public class JsonExtensionsTests : UnitTestBase
+    [UnitTest(TestCategories.Shared)]
+    public class JsonExtensionsTests
     {
         [Fact]
         public void Should_ReturnJsonString_WhenSerializeWithPrivateSetters()

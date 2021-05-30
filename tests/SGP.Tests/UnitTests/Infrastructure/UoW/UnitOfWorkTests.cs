@@ -9,10 +9,12 @@ using SGP.Tests.Fixtures;
 using System;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.UoW
 {
-    public class UnitOfWorkTests : UnitTestBase, IClassFixture<EfSqliteFixture>
+    [UnitTest(TestCategories.Infrastructure)]
+    public class UnitOfWorkTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 

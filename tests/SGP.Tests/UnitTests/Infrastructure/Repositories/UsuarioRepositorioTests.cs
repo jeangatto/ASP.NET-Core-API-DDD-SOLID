@@ -18,7 +18,7 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [Category(TestCategories.Infrastructure)]
-    public class UsuarioRepositorioTests : UnitTestBase, IClassFixture<EfSqliteFixture>
+    public class UsuarioRepositorioTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
@@ -41,39 +41,52 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_QuandoObterPorEmail()
         {
             // Arrange
-            var (repositorio, usuario) = await InserirUsuario();
+            var (repositorio, usuarioInserido) = await InserirUsuario();
 
             // Act
-            var actual = await repositorio.ObterPorEmailAsync(usuario.Email);
+            var actual = await repositorio.ObterPorEmailAsync(usuarioInserido.Email);
 
             // Assert
-            actual.Should().NotBeNull().And.BeEquivalentTo(usuario);
-            actual.Tokens.Should().NotBeEmpty().And.HaveCount(usuario.Tokens.Count);
+            actual.Should().NotBeNull();
+            actual.Id.Should().NotBeEmpty().And.Be(usuarioInserido.Id);
+            actual.Nome.Should().NotBeNullOrWhiteSpace().And.Be(usuarioInserido.Nome);
+            actual.Email.Should().NotBeNull().And.Be(usuarioInserido.Email);
+            actual.HashSenha.Should().NotBeNullOrWhiteSpace().And.Be(usuarioInserido.HashSenha);
+            actual.Tokens.Should().NotBeEmpty().And.HaveCount(usuarioInserido.Tokens.Count)
+                .And.Subject.ForEach(t =>
+                {
+                    t.Id.Should().NotBeEmpty();
+                    t.UsuarioId.Should().Be(usuarioInserido.Id);
+                    t.Token.Should().NotBeNullOrWhiteSpace();
+                    t.CriadoEm.Should().BeBefore(t.ExpiraEm);
+                    t.ExpiraEm.Should().BeAfter(t.CriadoEm);
+                });
         }
 
         [Fact]
         public async Task Devera_RetornarUsuario_QuandoObterPorId()
         {
             // Arrange
-            var (repositorio, usuario) = await InserirUsuario();
+            var (repositorio, usuarioInserido) = await InserirUsuario();
 
             // Act
-            var actual = await repositorio.GetByIdAsync(usuario.Id);
+            var actual = await repositorio.GetByIdAsync(usuarioInserido.Id);
 
             // Assert
             actual.Should().NotBeNull();
-            actual.Id.Should().NotBeEmpty().And.Be(usuario.Id);
-            actual.Nome.Should().NotBeNullOrWhiteSpace().And.Be(usuario.Nome);
-            actual.Email.Should().NotBeNull().And.Be(usuario.Email);
-            actual.HashSenha.Should().NotBeNullOrWhiteSpace().And.Be(usuario.HashSenha);
-            actual.Tokens.Should().NotBeEmpty().And.HaveCount(usuario.Tokens.Count).And.Subject.ForEach(t =>
-            {
-                t.Id.Should().NotBeEmpty();
-                t.UsuarioId.Should().Be(usuario.Id);
-                t.Token.Should().NotBeNullOrWhiteSpace();
-                t.CriadoEm.Should().BeBefore(t.ExpiraEm);
-                t.ExpiraEm.Should().BeAfter(t.CriadoEm);
-            });
+            actual.Id.Should().NotBeEmpty().And.Be(usuarioInserido.Id);
+            actual.Nome.Should().NotBeNullOrWhiteSpace().And.Be(usuarioInserido.Nome);
+            actual.Email.Should().NotBeNull().And.Be(usuarioInserido.Email);
+            actual.HashSenha.Should().NotBeNullOrWhiteSpace().And.Be(usuarioInserido.HashSenha);
+            actual.Tokens.Should().NotBeEmpty().And.HaveCount(usuarioInserido.Tokens.Count)
+                .And.Subject.ForEach(t =>
+                {
+                    t.Id.Should().NotBeEmpty();
+                    t.UsuarioId.Should().Be(usuarioInserido.Id);
+                    t.Token.Should().NotBeNullOrWhiteSpace();
+                    t.CriadoEm.Should().BeBefore(t.ExpiraEm);
+                    t.ExpiraEm.Should().BeAfter(t.CriadoEm);
+                });
         }
 
         [Fact]
@@ -81,40 +94,43 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         {
             // Arrange
             const int quantidadeTokens = 3;
-            var (repositorio, usuario) = await InserirUsuario(quantidadeTokens);
+            var (repositorio, usuarioInserido) = await InserirUsuario(quantidadeTokens);
 
             // Act
-            var actual = await repositorio.ObterPorTokenAsync(usuario.Tokens[0].Token);
+            var actual = await repositorio.ObterPorTokenAsync(usuarioInserido.Tokens[0].Token);
 
             // Assert
-            actual.Should().NotBeNull().And.BeEquivalentTo(usuario);
-            actual.Tokens.Should().NotBeEmpty().And.HaveCount(usuario.Tokens.Count).And.BeEquivalentTo(usuario.Tokens);
+            actual.Should().NotBeNull();
+            actual.Id.Should().NotBeEmpty().And.Be(usuarioInserido.Id);
+            actual.Nome.Should().NotBeNullOrWhiteSpace().And.Be(usuarioInserido.Nome);
+            actual.Email.Should().NotBeNull().And.Be(usuarioInserido.Email);
+            actual.HashSenha.Should().NotBeNullOrWhiteSpace().And.Be(usuarioInserido.HashSenha);
+            actual.Tokens.Should().NotBeEmpty().And.HaveCount(usuarioInserido.Tokens.Count)
+                .And.Subject.ForEach(t =>
+                {
+                    t.Id.Should().NotBeEmpty();
+                    t.UsuarioId.Should().Be(usuarioInserido.Id);
+                    t.Token.Should().NotBeNullOrWhiteSpace();
+                    t.CriadoEm.Should().BeBefore(t.ExpiraEm);
+                    t.ExpiraEm.Should().BeAfter(t.CriadoEm);
+                });
         }
 
         private static Usuario CriarUsuario(int quantidadeTokens)
         {
-            var usuarioId = Guid.NewGuid();
-
-            var tokens = new Faker<TokenAcesso>()
-                .UsePrivateConstructor()
-                .RuleFor(t => t.Id, Guid.NewGuid())
-                .RuleFor(t => t.UsuarioId, usuarioId)
-                .RuleFor(t => t.Token, f => f.Internet.Password(2048))
-                .RuleFor(t => t.CriadoEm, f => f.Date.Soon())
-                .RuleFor(t => t.ExpiraEm, f => f.Date.Soon(1))
-                .Generate(quantidadeTokens);
-
             return new Faker<Usuario>()
                 .UsePrivateConstructor()
-                .RuleFor(u => u.Id, usuarioId)
+                .RuleFor(u => u.Id, Guid.NewGuid())
                 .RuleFor(u => u.Nome, f => f.Person.UserName)
                 .RuleFor(u => u.Email, f => new Email(f.Person.Email))
                 .RuleFor(u => u.HashSenha, f => f.Internet.Password(60))
-                .FinishWith((_, u) =>
+                .FinishWith((f, u) =>
                 {
-                    foreach (var token in tokens)
+                    for (int i = 0; i < quantidadeTokens; i++)
                     {
-                        u.AdicionarToken(token);
+                        var criadoEm = i == 0 ? DateTime.Now : DateTime.Now.AddDays(i + 1);
+                        var expiraEm = criadoEm.AddHours(8);
+                        u.AdicionarToken(new TokenAcesso(f.Internet.Password(2048), criadoEm, expiraEm));
                     }
                 })
                 .Generate();

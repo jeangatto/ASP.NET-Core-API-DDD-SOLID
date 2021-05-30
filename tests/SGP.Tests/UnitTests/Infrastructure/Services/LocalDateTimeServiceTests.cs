@@ -3,10 +3,12 @@ using SGP.Infrastructure.Services;
 using SGP.Shared.Interfaces;
 using System;
 using Xunit;
+using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
-    public class LocalDateTimeServiceTests : UnitTestBase
+    [UnitTest(TestCategories.Infrastructure)]
+    public class LocalDateTimeServiceTests
     {
         [Fact]
         public void Sould_ReturnDateNow()

@@ -9,8 +9,8 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
-    [Category(TestCategories.Infrastructure)]
-    public class BCryptHashServiceTests : UnitTestBase
+    [UnitTest(TestCategories.Infrastructure)]
+    public class BCryptHashServiceTests
     {
         [Fact]
         public void Should_ReturnsFalse_WhenCompareTextDiffPreviouslyHashedText()

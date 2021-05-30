@@ -9,8 +9,8 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Shared.Extensions
 {
-    [Category(TestCategories.Shared)]
-    public class ValidationResultExtensionsTests : UnitTestBase
+    [UnitTest(TestCategories.Shared)]
+    public class ValidationResultExtensionsTests
     {
         private static readonly string[] MetadataKeys = new[] { "PropertyName", "AttemptedValue", "ErrorCode" };
 

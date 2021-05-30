@@ -9,8 +9,8 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
-    [Category(TestCategories.Infrastructure)]
-    public class EstadoRepositorioTests : UnitTestBase, IClassFixture<EfSqliteFixture>
+    [UnitTest(TestCategories.Infrastructure)]
+    public class EstadoRepositorioTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
