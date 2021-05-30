@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace SGP.Infrastructure.Repositories
 {
-    public class UsuarioRepositorio : EfRepository<Usuario>, IUsuarioRepositorio
+    public class UsuarioRepository : EfRepository<Usuario>, IUsuarioRepository
     {
-        public UsuarioRepositorio(SgpContext context) : base(context)
+        public UsuarioRepository(SgpContext context) : base(context)
         {
         }
 

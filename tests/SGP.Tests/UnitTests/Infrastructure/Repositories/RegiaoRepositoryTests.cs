@@ -10,11 +10,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [UnitTest(TestCategories.Infrastructure)]
-    public class RegiaoRepositorioTests : IClassFixture<EfSqliteFixture>
+    public class RegiaoRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public RegiaoRepositorioTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public RegiaoRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Fact]
         public async Task Devera_ObterTodasRegioes_RetornaRegioes()
@@ -37,6 +37,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 });
         }
 
-        private IRegiaoRepositorio CriarRepositorio() => new RegiaoRepositorio(_fixture.Context);
+        private IRegiaoRepository CriarRepositorio() => new RegiaoRepository(_fixture.Context);
     }
 }

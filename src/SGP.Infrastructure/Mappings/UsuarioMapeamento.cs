@@ -40,7 +40,7 @@ namespace SGP.Infrastructure.Mappings
             builder.Property(usuario => usuario.BloqueioExpiraEm)
                 .IsRequired(false);
 
-            builder.Property(usuario => usuario.NumeroFalhasAcesso)
+            builder.Property(usuario => usuario.NumeroFalhasAoAcessar)
                 .IsRequired();
 
             builder.Navigation(usuario => usuario.Tokens)

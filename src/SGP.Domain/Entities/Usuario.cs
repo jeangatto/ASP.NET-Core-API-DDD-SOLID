@@ -27,7 +27,7 @@ namespace SGP.Domain.Entities
         public string HashSenha { get; private set; }
         public DateTime? UltimoAcessoEm { get; private set; }
         public DateTime? BloqueioExpiraEm { get; private set; }
-        public int NumeroFalhasAcesso { get; private set; }
+        public int NumeroFalhasAoAcessar { get; private set; }
 
         public IReadOnlyList<TokenAcesso> Tokens => _tokens.AsReadOnly();
 
@@ -79,7 +79,7 @@ namespace SGP.Domain.Entities
         /// <param name="dateTime"></param>
         /// <param name="numeroTentativas">Número máximo de tentativas até a conta ser bloqueada.</param>
         /// <param name="lockedTimeSpan">Determinado tempo em que a conta ficará bloqueada.</param>
-        public void IncrementarFalhasAcesso(IDateTime dateTime, short numeroTentativas, TimeSpan lockedTimeSpan)
+        public void IncrementarFalhas(IDateTime dateTime, short numeroTentativas, TimeSpan lockedTimeSpan)
         {
             Guard.Against.Null(dateTime, nameof(dateTime));
             Guard.Against.NegativeOrZero(numeroTentativas, nameof(numeroTentativas));
@@ -90,11 +90,11 @@ namespace SGP.Domain.Entities
                 return;
             }
 
-            NumeroFalhasAcesso++;
+            NumeroFalhasAoAcessar++;
 
-            if (NumeroFalhasAcesso == numeroTentativas)
+            if (NumeroFalhasAoAcessar == numeroTentativas)
             {
-                NumeroFalhasAcesso = 0;
+                NumeroFalhasAoAcessar = 0;
                 BloqueioExpiraEm = dateTime.Now.Add(lockedTimeSpan);
             }
         }

@@ -4,6 +4,7 @@
 		<LangVersion>latest</LangVersion>
 		<IsPackable>false</IsPackable>
 		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;S1144;</NoWarn>
+		<SonarQubeTestProject>True</SonarQubeTestProject>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="33.0.2" />

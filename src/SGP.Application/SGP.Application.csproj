@@ -4,4 +4,20 @@
 		<LangVersion>latest</LangVersion>
 		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;S1144;</NoWarn>
 	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+		<PackageReference Include="FluentResults" Version="2.5.0" />
+		<PackageReference Include="FluentValidation" Version="10.2.1" />
+		<PackageReference Include="MediatR" Version="9.0.0" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+		<PackageReference Include="Scrutor" Version="3.3.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
+		<ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj" />
+		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
+	</ItemGroup>
 </Project>

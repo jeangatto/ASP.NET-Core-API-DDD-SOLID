@@ -10,11 +10,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [UnitTest(TestCategories.Infrastructure)]
-    public class CidadeRepositorioTests : IClassFixture<EfSqliteFixture>
+    public class CidadeRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public CidadeRepositorioTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public CidadeRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Fact]
         public async Task Devera_RetornarCidade_QuandoObterPorIbge()
@@ -106,7 +106,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().BeNull();
         }
 
-        private ICidadeRepositorio CriarRepositorio() => new CidadeRepositorio(_fixture.Context);
+        private ICidadeRepository CriarRepositorio() => new CidadeRepository(_fixture.Context);
 
         private class EstadosTestData : TheoryData<string, int>
         {

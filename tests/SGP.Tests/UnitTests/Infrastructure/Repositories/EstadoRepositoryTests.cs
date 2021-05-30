@@ -10,11 +10,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [UnitTest(TestCategories.Infrastructure)]
-    public class EstadoRepositorioTests : IClassFixture<EfSqliteFixture>
+    public class EstadoRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public EstadoRepositorioTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public EstadoRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Theory]
         [ClassData(typeof(EstadoTestData))]
@@ -84,7 +84,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().BeEmpty().And.HaveCount(0);
         }
 
-        private IEstadoRepositorio CriarRepositorio() => new EstadoRepositorio(_fixture.Context);
+        private IEstadoRepository CriarRepositorio() => new EstadoRepository(_fixture.Context);
 
         private class EstadoTestData : TheoryData<string, int>
         {

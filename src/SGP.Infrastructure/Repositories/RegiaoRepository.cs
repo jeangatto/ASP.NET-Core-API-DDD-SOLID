@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SGP.Infrastructure.Repositories
 {
-    public class RegiaoRepositorio : IRegiaoRepositorio
+    public class RegiaoRepository : IRegiaoRepository
     {
         private readonly DbSet<Regiao> _dbSet;
 
-        public RegiaoRepositorio(SgpContext context) => _dbSet = context.Regioes;
+        public RegiaoRepository(SgpContext context) => _dbSet = context.Regioes;
 
         public async Task<IEnumerable<Regiao>> ObterTodosAsync()
         {

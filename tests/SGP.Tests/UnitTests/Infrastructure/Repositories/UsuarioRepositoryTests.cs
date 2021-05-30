@@ -18,11 +18,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [Category(TestCategories.Infrastructure)]
-    public class UsuarioRepositorioTests : IClassFixture<EfSqliteFixture>
+    public class UsuarioRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public UsuarioRepositorioTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public UsuarioRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Fact]
         public async Task Devera_RetonarVerdadeiro_QuandoVerificarSeEmailJaExiste()
@@ -136,13 +136,13 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 .Generate();
         }
 
-        private IUsuarioRepositorio CriarRepositorio()
-            => new UsuarioRepositorio(_fixture.Context);
+        private IUsuarioRepository CriarRepositorio()
+            => new UsuarioRepository(_fixture.Context);
 
         private IUnitOfWork CriarUoW()
             => new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
 
-        private async Task<(IUsuarioRepositorio, Usuario)> InserirUsuario(int quantidadeTokens = 1)
+        private async Task<(IUsuarioRepository, Usuario)> InserirUsuario(int quantidadeTokens = 1)
         {
             var uow = CriarUoW();
             var repositorio = CriarRepositorio();

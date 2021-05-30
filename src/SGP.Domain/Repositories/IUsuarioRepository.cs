@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SGP.Domain.Repositories
 {
-    public interface IUsuarioRepositorio : IAsyncRepository<Usuario>
+    public interface IUsuarioRepository : IAsyncRepository<Usuario>
     {
         Task<Usuario> ObterPorEmailAsync(Email email);
         Task<Usuario> ObterPorTokenAsync(string token);
