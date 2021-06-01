@@ -1,12 +1,16 @@
 using Ardalis.GuardClauses;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using SGP.Shared.ContractResolvers;
 
 namespace SGP.Shared.Extensions
 {
     public static class JsonSettingsExtensions
     {
+        private static readonly DefaultContractResolver DefaultContractResolver = new PrivateSetterContractResolver { NamingStrategy = new CamelCaseNamingStrategy() };
+        private static readonly JsonConverter DefaultEnumConverter = new StringEnumConverter(DefaultContractResolver.NamingStrategy);
+
         /// <summary>
         /// Configuração do serializador em JSON otimizado para gerar um JSON menor, resultando numa melhor performance.
         /// </summary>
@@ -19,8 +23,8 @@ namespace SGP.Shared.Extensions
             settings.PreserveReferencesHandling = PreserveReferencesHandling.None;
             settings.NullValueHandling = NullValueHandling.Ignore;
             settings.Formatting = Formatting.None;
-            settings.ContractResolver = new PrivateSetterContractResolver();
-            settings.Converters.Add(new StringEnumConverter());
+            settings.ContractResolver = DefaultContractResolver;
+            settings.Converters.Add(DefaultEnumConverter);
             return settings;
         }
     }
