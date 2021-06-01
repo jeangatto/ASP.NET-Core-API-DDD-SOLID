@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentResults;
 using Microsoft.Extensions.Caching.Memory;
+using SGP.Application.Extensions;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
@@ -29,7 +30,7 @@ namespace SGP.Application.Services
 
         public async Task<Result<CidadeResponse>> ObterPorIbgeAsync(ObterPorIbgeRequest request)
         {
-            var cacheKey = $"__CidadeService__GetByIbgeAsync__{request}__";
+            var cacheKey = $"{ nameof(CidadeService)}__{ nameof(CidadeService.ObterPorIbgeAsync)}__{ request.ToJson()}";
 
             return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
@@ -37,11 +38,11 @@ namespace SGP.Application.Services
                 cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
 
                 // Validando a requisição.
-                var result = await new ObterPorIbgeRequestValidator().ValidateAsync(request);
-                if (!result.IsValid)
+                request.Validate();
+                if (!request.IsValid)
                 {
                     // Retornando os erros da validação.
-                    return result.ToFail<CidadeResponse>();
+                    return request.ToFail<CidadeResponse>();
                 }
 
                 // Obtendo a cidade pelo IBGE.
@@ -60,7 +61,7 @@ namespace SGP.Application.Services
 
         public async Task<Result<IEnumerable<CidadeResponse>>> ObterTodosPorUfAsync(ObterTodosPorUfRequest request)
         {
-            var cacheKey = $"__CidadeService__ObterTodosPorUfAsync__{request}__";
+            var cacheKey = $"{nameof(CidadeService)}__{nameof(CidadeService.ObterTodosPorUfAsync)}__{request.ToJson()}";
 
             return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
@@ -68,11 +69,11 @@ namespace SGP.Application.Services
                 cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
 
                 // Validando a requisição.
-                var result = await new ObterTodosPorUfRequestValidator().ValidateAsync(request);
-                if (!result.IsValid)
+                request.Validate();
+                if (!request.IsValid)
                 {
                     // Retornando os erros da validação.
-                    return result.ToFail<IEnumerable<CidadeResponse>>();
+                    return request.ToFail<IEnumerable<CidadeResponse>>();
                 }
 
                 // Obtendo as cidades pelo UF.

@@ -29,7 +29,7 @@ namespace SGP.Tests.Fixtures
 
         public SgpContext Context { get; }
 
-        public async Task SeedAsync() => await Context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
+        public async Task PopularBaseDadosAsync() => await Context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
 
         #region Dispose
 

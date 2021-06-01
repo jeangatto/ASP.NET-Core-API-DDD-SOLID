@@ -20,7 +20,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarCidade_QuandoObterPorIbge()
         {
             // Arrange
-            await _fixture.SeedAsync();
+            await _fixture.PopularBaseDadosAsync();
             var repository = CriarRepositorio();
             const int ibge = 3557105;
 
@@ -48,7 +48,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarCidades_QuandoObterPorUf(string uf, int totalEsperado)
         {
             // Arrange
-            await _fixture.SeedAsync();
+            await _fixture.PopularBaseDadosAsync();
             var repository = CriarRepositorio();
 
             // Act
@@ -80,7 +80,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarListVazia_QuandoObterPorUfInexistente()
         {
             // Arrange
-            await _fixture.SeedAsync();
+            await _fixture.PopularBaseDadosAsync();
             var repository = CriarRepositorio();
             const string uf = "TX";
 
@@ -95,7 +95,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarNulo_QuandoObterPorIbgeInexistente()
         {
             // Arrange
-            await _fixture.SeedAsync();
+            await _fixture.PopularBaseDadosAsync();
             var repository = CriarRepositorio();
             const int ibge = 999999999;
 
