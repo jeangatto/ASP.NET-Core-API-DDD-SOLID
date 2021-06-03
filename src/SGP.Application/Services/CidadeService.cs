@@ -7,7 +7,6 @@ using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
 using SGP.Domain.Repositories;
 using SGP.Shared.Errors;
-using SGP.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +16,8 @@ namespace SGP.Application.Services
 {
     public class CidadeService : ICidadeService
     {
+        private const string ObterPorIbgeCacheKey = "CidadeService__ObterPorIbgeAsync__{0}";
+        private const string ObterTodosPorUfCacheKey = "CidadeService__ObterTodosPorUfAsync__{0}";
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         private readonly ICidadeRepository _repository;
@@ -30,12 +31,11 @@ namespace SGP.Application.Services
 
         public async Task<Result<CidadeResponse>> ObterPorIbgeAsync(ObterPorIbgeRequest request)
         {
-            var cacheKey = $"{ nameof(CidadeService)}__{ nameof(CidadeService.ObterPorIbgeAsync)}__{ request.ToJson()}";
+            var cacheKey = string.Format(ObterPorIbgeCacheKey, request.Ibge);
 
             return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
-                cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(60);
-                cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
+                ConfigureCacheEntry(cacheEntry);
 
                 // Validando a requisição.
                 request.Validate();
@@ -61,12 +61,11 @@ namespace SGP.Application.Services
 
         public async Task<Result<IEnumerable<CidadeResponse>>> ObterTodosPorUfAsync(ObterTodosPorUfRequest request)
         {
-            var cacheKey = $"{nameof(CidadeService)}__{nameof(CidadeService.ObterTodosPorUfAsync)}__{request.ToJson()}";
+            var cacheKey = string.Format(ObterTodosPorUfCacheKey, request.Uf);
 
             return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
-                cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(60);
-                cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
+                ConfigureCacheEntry(cacheEntry);
 
                 // Validando a requisição.
                 request.Validate();
@@ -88,6 +87,12 @@ namespace SGP.Application.Services
                 // Mapeando domínio para resposta (DTO).
                 return Result.Ok(_mapper.Map<IEnumerable<CidadeResponse>>(cidades));
             });
+        }
+
+        private static void ConfigureCacheEntry(ICacheEntry cacheEntry)
+        {
+            cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(60);
+            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
         }
     }
 }

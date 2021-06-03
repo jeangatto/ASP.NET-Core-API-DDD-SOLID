@@ -4,6 +4,7 @@ using FluentValidation;
 using SGP.Application.Extensions;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
+using SGP.Shared.Errors;
 using SGP.Tests.Extensions;
 using Xunit;
 using Xunit.Categories;
@@ -13,8 +14,6 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
     [UnitTest(TestCategories.Shared)]
     public class ValidationResultExtensionsTests
     {
-        private static readonly string[] MetadataKeys = new[] { "PropertyName", "AttemptedValue", "ErrorCode" };
-
         [Fact]
         public void Should_ReturnResultTypedWithErrors_WhenValidationFail()
         {
@@ -26,15 +25,10 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
             var actual = request.ToFail<CidadeResponse>();
 
             // Assert
+            actual.HasError<ValidationError>().Should().BeTrue();
             actual.Should().BeFailure()
                 .And.Subject.Errors.Should().HaveCountGreaterThan(0)
-                .And.Subject.ForEach(error =>
-                {
-                    error.Message.Should().NotBeNullOrEmpty();
-                    error.Metadata.Should().NotBeEmpty()
-                        .And.HaveCount(MetadataKeys.Length)
-                        .And.ContainKeys(MetadataKeys);
-                });
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
         }
 
         [Fact]
@@ -48,15 +42,10 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
             var actual = request.ToFail();
 
             // Assert
+            actual.HasError<ValidationError>().Should().BeTrue();
             actual.Should().BeFailure()
                 .And.Subject.Errors.Should().HaveCountGreaterThan(0)
-                .And.Subject.ForEach(error =>
-                {
-                    error.Message.Should().NotBeNullOrEmpty();
-                    error.Metadata.Should().NotBeEmpty()
-                        .And.HaveCount(MetadataKeys.Length)
-                        .And.ContainKeys(MetadataKeys);
-                });
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
         }
 
         [Fact]

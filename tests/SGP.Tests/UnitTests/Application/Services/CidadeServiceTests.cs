@@ -8,8 +8,10 @@ using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Services;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
+using SGP.Shared.Errors;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
+using SGP.Tests.TestDatas;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
@@ -23,13 +25,46 @@ namespace SGP.Tests.UnitTests.Application.Services
 
         public CidadeServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
 
-        [Fact]
-        public async Task Devera_RetornarResultadoSucessoComCidades_QuandoObterTodosPorUf()
+        [Theory]
+        [InlineData("São Paulo")] // Comprimento maior que 2 caracteres
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        public async Task Devera_RetornarErroValidacao_QuandoObterTodosPorUfInvalido(string uf)
         {
             // Arrange
-            await _fixture.PopularBaseDadosAsync();
             var service = CriarServico();
-            const string uf = "SP";
+            var request = new ObterTodosPorUfRequest(uf);
+
+            // Act
+            var actual = await service.ObterTodosPorUfAsync(request);
+
+            // Assert
+            actual.Should().BeFailure().And.Subject.HasError<ValidationError>().Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Devera_RetornarErroNaoEncontrado_QuandoObterTodosPorUfInexistente()
+        {
+            // Arrange
+            await _fixture.SeedDataAsync();
+            var service = CriarServico();
+            var request = new ObterTodosPorUfRequest("TX");
+
+            // Act
+            var actual = await service.ObterTodosPorUfAsync(request);
+
+            // Assert
+            actual.Should().BeFailure().And.Subject.HasError<NotFoundError>().Should().BeTrue();
+        }
+
+        [Theory]
+        [ClassData(typeof(FiltrarPorUfTestData))]
+        public async Task Devera_RetornarResultadoSucessoComCidades_QuandoObterTodosPorUf(string uf, int totalEsperado)
+        {
+            // Arrange
+            await _fixture.SeedDataAsync();
+            var service = CriarServico();
             var request = new ObterTodosPorUfRequest(uf);
 
             // Act
@@ -38,7 +73,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             // Assert
             actual.Should().BeSuccess()
                 .And.Subject.Value.Should().OnlyHaveUniqueItems()
-                .And.HaveCount(645)
+                .And.HaveCount(totalEsperado)
                 .And.Subject.ForEach(cidade =>
                 {
                     cidade.Regiao.Should().NotBeNullOrWhiteSpace();
@@ -49,13 +84,13 @@ namespace SGP.Tests.UnitTests.Application.Services
                 });
         }
 
-        [Fact]
-        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge()
+        [Theory]
+        [ClassData(typeof(FiltrarPorIbgeTestData))]
+        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada, string ufEsperada, string regiaoEsperada)
         {
             // Arrange
-            await _fixture.PopularBaseDadosAsync();
+            await _fixture.SeedDataAsync();
             var service = CriarServico();
-            const int ibge = 3557105;
             var request = new ObterPorIbgeRequest(ibge);
 
             // Act
@@ -63,11 +98,44 @@ namespace SGP.Tests.UnitTests.Application.Services
 
             // Assert
             actual.Should().BeSuccess();
-            actual.Value.Regiao.Should().NotBeNullOrWhiteSpace();
+            actual.Value.Regiao.Should().NotBeNullOrWhiteSpace().And.Be(regiaoEsperada);
             actual.Value.Estado.Should().NotBeNullOrWhiteSpace();
-            actual.Value.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
-            actual.Value.Nome.Should().NotBeNullOrWhiteSpace();
+            actual.Value.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(ufEsperada);
+            actual.Value.Nome.Should().NotBeNullOrWhiteSpace().And.Be(cidadeEsperada);
             actual.Value.Ibge.Should().BePositive().And.Be(ibge);
+        }
+
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(0)]
+        public async Task Devera_RetornarErroValidacao_QuandoObterPorIbgeInvalido(int ibge)
+        {
+            // Arrange
+            var service = CriarServico();
+            var request = new ObterPorIbgeRequest(ibge);
+
+            // Act
+            var actual = await service.ObterPorIbgeAsync(request);
+
+            // Assert
+            actual.Should().BeFailure()
+                .And.Subject.HasError<ValidationError>().Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Devera_RetornarErroValidacao_QuandoObterPorIbgeInexistente()
+        {
+            // Arrange
+            await _fixture.SeedDataAsync();
+            var service = CriarServico();
+            var request = new ObterPorIbgeRequest(int.MaxValue);
+
+            // Act
+            var actual = await service.ObterPorIbgeAsync(request);
+
+            // Assert
+            actual.Should().BeFailure()
+                .And.Subject.HasError<NotFoundError>().Should().BeTrue();
         }
 
         private static IMapper CriarMapper()

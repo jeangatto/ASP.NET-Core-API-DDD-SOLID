@@ -1,24 +1,21 @@
 using FluentValidation.Results;
-using System;
 
 namespace SGP.Application.Requests.Common
 {
     /// <summary>
-    /// Classe base usada por solicitações de API.
+    /// Classe base usada por solicitações da API.
     /// </summary>
     public abstract class BaseRequest
     {
         protected BaseRequest()
         {
-            Timestamp = DateTime.Now;
             ValidationResult = new ValidationResult();
         }
 
-        public DateTime Timestamp { get; }
         public ValidationResult ValidationResult { get; protected set; }
 
         /// <summary>
-        /// Se a requisição é valida.
+        /// Indica se a requisição é valida.
         /// </summary>
         public bool IsValid => ValidationResult.IsValid;
 
