@@ -3,7 +3,7 @@ using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
-using SGP.Tests.TestDatas;
+using SGP.Tests.UnitTests.Common;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
@@ -11,14 +11,14 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
     [UnitTest(TestCategories.Infrastructure)]
-    public class CidadeRepositoryTests : IClassFixture<EfSqliteFixture>
+    public class CidadeRepositoryTests : CidadeUnitTest, IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
         public CidadeRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Theory]
-        [ClassData(typeof(FiltrarPorIbgeTestData))]
+        [ClassData(typeof(FiltrarPorIbgeData))]
         public async Task Devera_RetornarCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada, string ufEsperada, string regiaoEsperada)
         {
             // Arrange
@@ -45,7 +45,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         }
 
         [Theory]
-        [ClassData(typeof(FiltrarPorUfTestData))]
+        [ClassData(typeof(FiltrarPorUfData))]
         public async Task Devera_RetornarCidades_QuandoObterPorUf(string uf, int totalEsperado)
         {
             // Arrange
@@ -77,6 +77,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 });
         }
 
-        private ICidadeRepository CriarRepositorio() => new CidadeRepository(_fixture.Context);
+        private ICidadeRepository CriarRepositorio()
+            => new CidadeRepository(_fixture.Context);
     }
 }

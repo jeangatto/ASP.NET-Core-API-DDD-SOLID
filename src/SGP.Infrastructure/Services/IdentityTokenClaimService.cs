@@ -2,6 +2,7 @@ using Ardalis.GuardClauses;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
+using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Shared.Records;
 using System;
@@ -15,12 +16,13 @@ namespace SGP.Infrastructure.Services
 {
     public class IdentityTokenClaimService : ITokenClaimsService
     {
+        private static readonly string[] InvalidRefreshTokenChars = new[] { "{", "}", "|", @"\", "^", "[", "]", "`", ";", "/", "$", "+", "=", "&" };
         private readonly JwtConfig _jwtConfig;
         private readonly IDateTime _dateTime;
 
         public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTime dateTime)
         {
-            Guard.Against.Null(jwtOptions, nameof(jwtOptions));
+            Guard.Against.NullOptions(jwtOptions, nameof(jwtOptions));
 
             _jwtConfig = jwtOptions.Value;
             _dateTime = dateTime;
@@ -64,9 +66,9 @@ namespace SGP.Infrastructure.Services
 
         private static string SanitizeRefreshToken(string token)
         {
-            foreach (var @char in new[] { "{", "}", "|", @"\", "^", "[", "]", "`", ";", "/", "$", "+", "=", "&" })
+            foreach (var invalidChar in InvalidRefreshTokenChars)
             {
-                token = token.Replace(@char, string.Empty);
+                token = token.Replace(invalidChar, string.Empty);
             }
 
             return token;

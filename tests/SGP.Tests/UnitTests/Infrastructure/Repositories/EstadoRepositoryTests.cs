@@ -17,7 +17,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public EstadoRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Theory]
-        [ClassData(typeof(EstadoTestData))]
+        [ClassData(typeof(FiltrarEstadoPorRegiaoData))]
         public async Task Devera_RetornarEstados_QuandoObterPorRegiao(string regiao, int totalEsperado)
         {
             // Arrange
@@ -84,11 +84,16 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().BeEmpty().And.HaveCount(0);
         }
 
-        private IEstadoRepository CriarRepositorio() => new EstadoRepository(_fixture.Context);
+        private IEstadoRepository CriarRepositorio()
+            => new EstadoRepository(_fixture.Context);
 
-        private class EstadoTestData : TheoryData<string, int>
+        /// <summary>
+        /// T1 = Nome da região
+        /// T2 = Total de estados da região
+        /// </summary>
+        private class FiltrarEstadoPorRegiaoData : TheoryData<string, int>
         {
-            public EstadoTestData()
+            public FiltrarEstadoPorRegiaoData()
             {
                 Add("Nordeste", 9);
                 Add("Sudeste", 4);

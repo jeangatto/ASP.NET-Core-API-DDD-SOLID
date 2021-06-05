@@ -1,8 +1,17 @@
-﻿namespace SGP.Shared.AppSettings
+namespace SGP.Shared.AppSettings
 {
     public sealed class AuthConfig
     {
-        public short MaximumAttempts { get; private init; }
-        public short SecondsBlocked { get; private init; }
+        public short MaximumAttempts { get; private set; }
+        public short SecondsBlocked { get; private set; }
+
+        public static AuthConfig Create(short maximumAttempts, short secondsBlocked)
+        {
+            return new AuthConfig
+            {
+                MaximumAttempts = maximumAttempts,
+                SecondsBlocked = secondsBlocked
+            };
+        }
     }
 }

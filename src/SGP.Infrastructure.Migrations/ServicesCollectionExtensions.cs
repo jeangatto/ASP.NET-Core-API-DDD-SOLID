@@ -26,8 +26,8 @@ namespace SGP.Infrastructure.Migrations
             {
                 var connectionString = serviceProvider.GetConnectionString();
 
-                builder.UseSqlServer(connectionString,
-                    options => options.MigrationsAssembly(AssemblyName));
+                builder.UseSqlServer(connectionString, options
+                    => options.MigrationsAssembly(AssemblyName));
 
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
                 var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
@@ -51,9 +51,9 @@ namespace SGP.Infrastructure.Migrations
 
         private static string GetConnectionString(this IServiceProvider serviceProvider)
         {
-            var options = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>();
-            Guard.Against.Null(options, nameof(ConnectionStrings));
-            return options.Value.DefaultConnection;
+            var connectionStrings = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>();
+            Guard.Against.NullOptions(connectionStrings, nameof(connectionStrings));
+            return connectionStrings.Value.DefaultConnection;
         }
     }
 }

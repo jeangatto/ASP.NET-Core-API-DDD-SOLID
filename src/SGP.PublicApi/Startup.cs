@@ -8,9 +8,6 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using SGP.Application;
 using SGP.Infrastructure;
 using SGP.Infrastructure.Migrations;
@@ -43,9 +40,9 @@ namespace SGP.PublicApi
 
             services.AddOpenApi();
 
-            services.AddJwtBearer(Configuration);
+            services.ConfigureAppSettings();
 
-            services.ConfigureAppSettings(Configuration);
+            services.AddJwtBearer(Configuration);
 
             services.AddServices();
 

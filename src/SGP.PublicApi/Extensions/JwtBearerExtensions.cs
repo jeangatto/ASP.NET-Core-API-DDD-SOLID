@@ -20,7 +20,7 @@ namespace SGP.PublicApi.Extensions
 
             var jwtConfig = configuration
                 .GetSection(nameof(JwtConfig))
-                .Get<JwtConfig>(binderOptions => binderOptions.BindNonPublicProperties = true);
+                .Get<JwtConfig>(options => options.BindNonPublicProperties = true);
 
             var secretKey = Encoding.ASCII.GetBytes(jwtConfig.Secret);
 

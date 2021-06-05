@@ -49,7 +49,7 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
         [InlineData("ma_@jjf")]             // no domain extension
         [InlineData("ma_@jjf.")]            // nothing after `_` and .
         [InlineData("ma@jjf.")]             // nothing after `.`
-        public void Should_WhenEmailIsInvalid_ReturnsError(string address)
+        public void Should_ReturnsValidationError_WhenEmailIsInvalid(string address)
         {
             // Arrange
             var validator = CreateValidator();

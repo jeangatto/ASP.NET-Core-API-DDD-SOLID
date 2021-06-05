@@ -11,7 +11,7 @@ using SGP.Infrastructure.Repositories;
 using SGP.Shared.Errors;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
-using SGP.Tests.TestDatas;
+using SGP.Tests.UnitTests.Common;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
@@ -19,7 +19,7 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Application.Services
 {
     [UnitTest(TestCategories.Application)]
-    public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
+    public class CidadeServiceTests : CidadeUnitTest, IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
@@ -59,7 +59,7 @@ namespace SGP.Tests.UnitTests.Application.Services
         }
 
         [Theory]
-        [ClassData(typeof(FiltrarPorUfTestData))]
+        [ClassData(typeof(FiltrarPorUfData))]
         public async Task Devera_RetornarResultadoSucessoComCidades_QuandoObterTodosPorUf(string uf, int totalEsperado)
         {
             // Arrange
@@ -85,7 +85,7 @@ namespace SGP.Tests.UnitTests.Application.Services
         }
 
         [Theory]
-        [ClassData(typeof(FiltrarPorIbgeTestData))]
+        [ClassData(typeof(FiltrarPorIbgeData))]
         public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada, string ufEsperada, string regiaoEsperada)
         {
             // Arrange
@@ -139,7 +139,8 @@ namespace SGP.Tests.UnitTests.Application.Services
         }
 
         private static IMapper CriarMapper()
-            => new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
+            => new Mapper(new MapperConfiguration(cfg
+                => cfg.AddProfile<DomainToResponseMapper>()));
 
         private static IMemoryCache CriarMemoryCache()
             => new MemoryCache(new MemoryCacheOptions());
@@ -148,6 +149,9 @@ namespace SGP.Tests.UnitTests.Application.Services
             => new CidadeRepository(_fixture.Context);
 
         private ICidadeService CriarServico()
-            => new CidadeService(CriarMapper(), CriarMemoryCache(), CriarRepositorio());
+            => new CidadeService(
+                CriarMapper(),
+                CriarMemoryCache(),
+                CriarRepositorio());
     }
 }

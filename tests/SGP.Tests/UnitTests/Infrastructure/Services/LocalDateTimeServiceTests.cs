@@ -23,6 +23,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             actual.Should().BeSameDateAs(DateTime.Now);
         }
 
-        private static IDateTime CreateDateTime() => new LocalDateTimeService();
+        private static IDateTime CreateDateTime()
+            => new LocalDateTimeService();
     }
 }
