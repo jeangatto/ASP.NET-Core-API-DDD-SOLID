@@ -41,7 +41,8 @@ namespace SGP.Infrastructure
             return services;
         }
 
-        public static IServiceCollection ConfigureAppSettings(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ConfigureAppSettings(this IServiceCollection services,
+            IConfiguration configuration)
         {
             Guard.Against.Null(services, nameof(services));
             Guard.Against.Null(configuration, nameof(configuration));

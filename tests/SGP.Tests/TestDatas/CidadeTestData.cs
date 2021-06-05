@@ -6,9 +6,9 @@ namespace SGP.Tests.TestDatas
     {
         public FiltrarPorIbgeTestData()
         {
-            Add(3557105, "Votuporanga", "SP", "Sudeste");
             Add(3550308, "São Paulo", "SP", "Sudeste");
             Add(3506003, "Bauru", "SP", "Sudeste");
+            Add(3557105, "Votuporanga", "SP", "Sudeste");
             Add(3304557, "Rio de Janeiro", "RJ", "Sudeste");
             Add(4205407, "Florianópolis", "SC", "Sul");
         }
