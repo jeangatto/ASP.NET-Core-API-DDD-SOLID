@@ -8,12 +8,16 @@ using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
 using System;
+using System.Reflection;
 
 namespace SGP.Infrastructure.Migrations
 {
     public static class ServicesCollectionExtensions
     {
-        public static IServiceCollection AddDbContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
+        private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+
+        public static IServiceCollection AddDbContext(this IServiceCollection services,
+            IHealthChecksBuilder healthChecksBuilder)
         {
             Guard.Against.Null(services, nameof(services));
             Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
@@ -23,7 +27,7 @@ namespace SGP.Infrastructure.Migrations
                 var connectionString = serviceProvider.GetConnectionString();
 
                 builder.UseSqlServer(connectionString,
-                    options => options.MigrationsAssembly("SGP.Infrastructure.Migrations"));
+                    options => options.MigrationsAssembly(AssemblyName));
 
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
                 var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
@@ -49,7 +53,7 @@ namespace SGP.Infrastructure.Migrations
         {
             var options = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>();
             Guard.Against.Null(options, nameof(ConnectionStrings));
-            return options.Value.Default;
+            return options.Value.DefaultConnection;
         }
     }
 }

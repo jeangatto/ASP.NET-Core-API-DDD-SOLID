@@ -5,6 +5,6 @@ namespace SGP.Shared.AppSettings
         /// <summary>
         /// String da conexão padrão.
         /// </summary>
-        public string Default { get; private init; }
+        public string DefaultConnection { get; private init; }
     }
 }

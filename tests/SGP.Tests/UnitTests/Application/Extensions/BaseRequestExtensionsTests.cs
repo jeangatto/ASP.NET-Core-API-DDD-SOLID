@@ -9,10 +9,10 @@ using SGP.Tests.Extensions;
 using Xunit;
 using Xunit.Categories;
 
-namespace SGP.Tests.UnitTests.Shared.Extensions
+namespace SGP.Tests.UnitTests.Application.Extensions
 {
     [UnitTest(TestCategories.Shared)]
-    public class ValidationResultExtensionsTests
+    public class BaseRequestExtensionsTests
     {
         [Fact]
         public void Should_ReturnResultTypedWithErrors_WhenValidationFail()
