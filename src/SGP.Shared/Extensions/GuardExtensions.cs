@@ -7,8 +7,8 @@ namespace SGP.Shared.Extensions
 {
     public static class GuardExtensions
     {
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
         [SuppressMessage("Redundancy", "RCS1175:Unused this parameter.")]
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
         public static void NullOptions<T>(this IGuardClause guardClause, IOptions<T> input, string paramName) where T : class
         {
             if (input == null || input.Value == null)

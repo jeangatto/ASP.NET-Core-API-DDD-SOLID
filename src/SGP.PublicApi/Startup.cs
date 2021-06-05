@@ -18,12 +18,9 @@ namespace SGP.PublicApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly IConfiguration _configuration;
 
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration) => _configuration = configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -42,7 +39,7 @@ namespace SGP.PublicApi
 
             services.ConfigureAppSettings();
 
-            services.AddJwtBearer(Configuration);
+            services.AddJwtBearer(_configuration);
 
             services.AddServices();
 
@@ -68,7 +65,8 @@ namespace SGP.PublicApi
                 options.AddServerHeader = false;
             });
 
-            services.Configure<IISServerOptions>(options => options.AllowSynchronousIO = true);
+            services.Configure<IISServerOptions>(options
+                => options.AllowSynchronousIO = true);
 
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
