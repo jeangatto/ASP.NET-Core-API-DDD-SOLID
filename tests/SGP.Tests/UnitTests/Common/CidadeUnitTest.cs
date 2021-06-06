@@ -5,9 +5,9 @@ namespace SGP.Tests.UnitTests.Common
     public abstract class CidadeUnitTest
     {
         /// <summary>
-        /// T1 = IBGE do município
-        /// T2 = Nome do município
-        /// T3 = Sigla do estado (UF)
+        /// T1 = IBGE do município,
+        /// T2 = Nome do município,
+        /// T3 = Sigla do estado (UF),
         /// T4 = Região
         /// </summary>
         public class FiltrarPorIbgeData : TheoryData<int, string, string, string>
@@ -23,7 +23,7 @@ namespace SGP.Tests.UnitTests.Common
         }
 
         /// <summary>
-        /// T1 = Sigla do estado (UF)
+        /// T1 = Sigla do estado (UF),
         /// T2 = Total de cidades pertencentes ao estado
         /// </summary>
         public class FiltrarPorUfData : TheoryData<string, int>

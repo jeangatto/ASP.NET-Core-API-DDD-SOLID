@@ -51,7 +51,7 @@ namespace SGP.Application.Services
                 {
                     // Retornando não encontrado.
                     return Result.Fail<CidadeResponse>(
-                        new NotFoundError($"Nenhuma cidade encontrada pelo IBGE: '{request.Ibge}'"));
+                        new NotFoundError($"Nenhuma cidade encontrada pelo IBGE: {request.Ibge}"));
                 }
 
                 // Mapeando domínio para resposta (DTO).
@@ -81,7 +81,7 @@ namespace SGP.Application.Services
                 {
                     // Retornando não encontrado.
                     return Result.Fail<IEnumerable<CidadeResponse>>(
-                        new NotFoundError($"Nenhuma cidade encontrada pelo UF: '{request.Uf}'"));
+                        new NotFoundError($"Nenhuma cidade encontrada pelo UF: {request.Uf}"));
                 }
 
                 // Mapeando domínio para resposta (DTO).

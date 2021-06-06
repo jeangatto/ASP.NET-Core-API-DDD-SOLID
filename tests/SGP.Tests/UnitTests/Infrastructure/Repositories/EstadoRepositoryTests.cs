@@ -88,7 +88,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             => new EstadoRepository(_fixture.Context);
 
         /// <summary>
-        /// T1 = Nome da região
+        /// T1 = Nome da região,
         /// T2 = Total de estados da região
         /// </summary>
         private class FiltrarEstadoPorRegiaoData : TheoryData<string, int>

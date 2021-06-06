@@ -48,6 +48,8 @@ namespace SGP.PublicApi
 
             services.AddDbContext(services.AddHealthChecks());
 
+            services.AddGraphQLWithSchemas();
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
@@ -99,6 +101,8 @@ namespace SGP.PublicApi
             app.UseHealthChecks();
 
             app.UseForwardedHeaders();
+
+            app.UseGraphQL();
 
             app.UseHttpsRedirection();
 

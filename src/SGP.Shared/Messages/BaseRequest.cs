@@ -7,10 +7,7 @@ namespace SGP.Shared.Messages
     /// </summary>
     public abstract class BaseRequest
     {
-        protected BaseRequest()
-        {
-            ValidationResult = new ValidationResult();
-        }
+        protected BaseRequest() => ValidationResult = new ValidationResult();
 
         public ValidationResult ValidationResult { get; protected set; }
 
