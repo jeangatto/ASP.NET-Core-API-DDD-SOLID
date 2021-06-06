@@ -1,11 +1,11 @@
 using FluentResults;
 using FluentValidation.Results;
-using SGP.Application.Requests.Common;
 using SGP.Shared.Errors;
+using SGP.Shared.Messages;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SGP.Application.Extensions
+namespace SGP.Shared.Extensions
 {
     public static class BaseRequestExtensions
     {

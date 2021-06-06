@@ -18,7 +18,6 @@ namespace SGP.Shared.Extensions
         public static JsonSerializerSettings Configure(this JsonSerializerSettings settings)
         {
             Guard.Against.Null(settings, nameof(settings));
-
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             settings.PreserveReferencesHandling = PreserveReferencesHandling.None;
             settings.NullValueHandling = NullValueHandling.Ignore;

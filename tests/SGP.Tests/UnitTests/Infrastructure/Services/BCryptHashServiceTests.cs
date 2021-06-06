@@ -61,7 +61,9 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         }
 
         [Theory]
-        [ClassData(typeof(InvalidHashTestData))]
+        [InlineData(null)]
+        [InlineData(" ")]
+        [InlineData("")]
         public void Should_ThrowsArgumentException_WhenCompareHashIsInvalid(string hash)
         {
             // Arrange
@@ -77,7 +79,9 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         }
 
         [Theory]
-        [ClassData(typeof(InvalidHashTestData))]
+        [InlineData(null)]
+        [InlineData(" ")]
+        [InlineData("")]
         public void Should_ThrowsArgumentException_WhenCompareTextIsInvalid(string text)
         {
             // Arrange
@@ -93,7 +97,9 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         }
 
         [Theory]
-        [ClassData(typeof(InvalidHashTestData))]
+        [InlineData(null)]
+        [InlineData(" ")]
+        [InlineData("")]
         public void Should_ThrowsArgumentException_WhenHashTextIsInvalid(string text)
         {
             // Arrange
@@ -103,20 +109,11 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             Action actual = () => hashService.Hash(text);
 
             // Assert
-            actual.Should().Throw<ArgumentException>().And.ParamName.Should().Be("text");
+            actual.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("text");
         }
 
         private static IHashService CreateHashService()
             => new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
-
-        private class InvalidHashTestData : TheoryData<string>
-        {
-            public InvalidHashTestData()
-            {
-                Add(null);
-                Add("");
-                Add(" ");
-            }
-        }
     }
 }

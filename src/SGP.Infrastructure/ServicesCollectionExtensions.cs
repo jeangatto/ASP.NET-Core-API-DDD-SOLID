@@ -1,10 +1,13 @@
 using Ardalis.GuardClauses;
+using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using SGP.Infrastructure.Services;
 using SGP.Infrastructure.UoW;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Interfaces;
+using System;
 
 namespace SGP.Infrastructure
 {
@@ -21,7 +24,6 @@ namespace SGP.Infrastructure
 
             // Automatically register services ASP.NET Core DI container
             // REF: https://github.com/khellang/Scrutor
-            // REF: https://andrewlock.net/using-scrutor-to-automatically-register-your-services-with-the-asp-net-core-di-container/
             services.Scan(scan => scan
                 .FromCallingAssembly()
                 .AddClasses(implementations => implementations.AssignableTo<IRepository>())
@@ -36,16 +38,21 @@ namespace SGP.Infrastructure
         {
             Guard.Against.Null(services, nameof(services));
 
-            services.AddOptions<AuthConfig>().BindConfiguration(nameof(AuthConfig),
-                options => options.BindNonPublicProperties = true);
+            services.AddOptions<AuthConfig>()
+                .BindConfiguration(nameof(AuthConfig), BinderNonPublicPropertiesOptions());
 
-            services.AddOptions<JwtConfig>().BindConfiguration(nameof(JwtConfig),
-                options => options.BindNonPublicProperties = true);
+            services.AddOptions<JwtConfig>()
+                .BindConfiguration(nameof(JwtConfig), BinderNonPublicPropertiesOptions());
 
-            services.AddOptions<ConnectionStrings>().BindConfiguration(nameof(ConnectionStrings),
-                options => options.BindNonPublicProperties = true);
+            services.AddOptions<ConnectionStrings>()
+                .BindConfiguration(nameof(ConnectionStrings), BinderNonPublicPropertiesOptions());
 
             return services;
+        }
+
+        private static Action<BinderOptions> BinderNonPublicPropertiesOptions()
+        {
+            return options => options.BindNonPublicProperties = true;
         }
     }
 }

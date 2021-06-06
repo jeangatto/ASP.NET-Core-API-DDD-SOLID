@@ -16,7 +16,6 @@ namespace SGP.Infrastructure.Services
 {
     public class IdentityTokenClaimService : ITokenClaimsService
     {
-        private static readonly string[] InvalidRefreshTokenChars = new[] { "{", "}", "|", @"\", "^", "[", "]", "`", ";", "/", "$", "+", "=", "&" };
         private readonly JwtConfig _jwtConfig;
         private readonly IDateTime _dateTime;
 
@@ -59,19 +58,8 @@ namespace SGP.Infrastructure.Services
             {
                 var randomBytes = new byte[64];
                 cryptoServiceProvider.GetBytes(randomBytes);
-                var base64 = Convert.ToBase64String(randomBytes);
-                return SanitizeRefreshToken(base64);
+                return Convert.ToBase64String(randomBytes);
             }
-        }
-
-        private static string SanitizeRefreshToken(string token)
-        {
-            foreach (var invalidChar in InvalidRefreshTokenChars)
-            {
-                token = token.Replace(invalidChar, string.Empty);
-            }
-
-            return token;
         }
     }
 }

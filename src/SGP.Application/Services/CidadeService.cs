@@ -1,12 +1,12 @@
 using AutoMapper;
 using FluentResults;
 using Microsoft.Extensions.Caching.Memory;
-using SGP.Application.Extensions;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
 using SGP.Domain.Repositories;
 using SGP.Shared.Errors;
+using SGP.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

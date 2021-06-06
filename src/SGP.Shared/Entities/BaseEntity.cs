@@ -11,5 +11,7 @@ namespace SGP.Shared.Entities
         protected BaseEntity() => Id = Guid.NewGuid();
 
         public Guid Id { get; private set; }
+
+        public override string ToString() => Id.ToString();
     }
 }

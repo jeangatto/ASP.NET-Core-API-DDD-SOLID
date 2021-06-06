@@ -1,10 +1,10 @@
 using FluentAssertions;
 using FluentResults.Extensions.FluentAssertions;
 using FluentValidation;
-using SGP.Application.Extensions;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
 using SGP.Shared.Errors;
+using SGP.Shared.Extensions;
 using SGP.Tests.Extensions;
 using Xunit;
 using Xunit.Categories;

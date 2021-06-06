@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace SGP.Shared.Extensions
 {
-    public static class FluentValidationExtensions
+    public static class RuleBuilderExtensions
     {
         private static readonly Regex IsValidEmailRegex = new(@"^([0-9a-zA-Z]([\+\-_\.][0-9a-zA-Z]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,17})$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 

@@ -1,6 +1,6 @@
 using FluentValidation.Results;
 
-namespace SGP.Application.Requests.Common
+namespace SGP.Shared.Messages
 {
     /// <summary>
     /// Classe base usada por solicitações da API.
