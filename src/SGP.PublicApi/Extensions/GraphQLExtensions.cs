@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Scrutor;
+using SGP.PublicApi.GraphQL.Constants;
 using SGP.PublicApi.GraphQL.Schemas;
 
 namespace SGP.PublicApi.Extensions
@@ -53,11 +54,11 @@ namespace SGP.PublicApi.Extensions
         {
             Guard.Against.Null(app, nameof(app));
 
-            app.UseGraphQL<CidadeSchema>("/graphql/cidades")
-                .UseGraphQLPlayground(new PlaygroundOptions
-                {
-                    GraphQLEndPoint = "/graphql/cidades"
-                }, path: "/ui/cidades/graphql");
+            app.UseGraphQL<CidadeSchema>(GraphQLApiEndpoints.Cidades);
+            app.UseGraphQLPlayground(new PlaygroundOptions
+            {
+                GraphQLEndPoint = GraphQLApiEndpoints.Cidades
+            }, path: GraphQLPlaygroundEndpoints.Cidades);
 
             return app;
         }

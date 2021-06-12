@@ -40,7 +40,8 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterTodosPorUfAsync(request);
 
             // Assert
-            actual.Should().BeFailure().And.Subject.HasError<ValidationError>().Should().BeTrue();
+            actual.Should().BeFailure()
+                .And.Subject.HasError<ValidationError>().Should().BeTrue();
         }
 
         [Fact]
@@ -55,7 +56,8 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterTodosPorUfAsync(request);
 
             // Assert
-            actual.Should().BeFailure().And.Subject.HasError<NotFoundError>().Should().BeTrue();
+            actual.Should().BeFailure()
+                .And.Subject.HasError<NotFoundError>().Should().BeTrue();
         }
 
         [Theory]
@@ -71,8 +73,9 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterTodosPorUfAsync(request);
 
             // Assert
-            actual.Should().BeSuccess()
-                .And.Subject.Value.Should().OnlyHaveUniqueItems()
+            actual.Should().BeSuccess();
+            actual.Value.Should().NotBeNullOrEmpty()
+                .And.OnlyHaveUniqueItems()
                 .And.HaveCount(totalEsperado)
                 .And.Subject.ForEach(cidade =>
                 {

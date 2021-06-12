@@ -3,6 +3,7 @@ using GraphQL.Types;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.PublicApi.Extensions;
+using SGP.PublicApi.GraphQL.Constants;
 using SGP.PublicApi.GraphQL.Types;
 using System.Linq;
 
@@ -13,7 +14,7 @@ namespace SGP.PublicApi.GraphQL.Queries
         public CidadeQuery(ICidadeService service)
         {
             FieldAsync<CidadeType>(
-                name: "cidadePorIBGE",
+                name: QueryNames.CidadePorIBGE,
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>>
                     {
@@ -35,7 +36,7 @@ namespace SGP.PublicApi.GraphQL.Queries
                 });
 
             FieldAsync<ListGraphType<CidadeType>>(
-                name: "cidadesPorEstado",
+                name: QueryNames.CidadesPorEstado,
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>>
                     {

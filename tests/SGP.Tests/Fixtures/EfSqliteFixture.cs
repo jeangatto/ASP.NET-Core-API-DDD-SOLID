@@ -10,10 +10,11 @@ namespace SGP.Tests.Fixtures
     public class EfSqliteFixture : IDisposable
     {
         private readonly SqliteConnection _connection;
+        private const string ConnectionString = "DataSource=:memory:";
 
         public EfSqliteFixture()
         {
-            _connection = new SqliteConnection("DataSource=:memory:");
+            _connection = new SqliteConnection(ConnectionString);
             _connection.Open();
 
             var options = new DbContextOptionsBuilder<SgpContext>()
