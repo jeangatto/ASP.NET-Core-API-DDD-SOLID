@@ -4,7 +4,7 @@ using GraphQL.Client.Abstractions;
 using SGP.Application.Responses;
 using SGP.PublicApi.GraphQL.Constants;
 using SGP.SharedTests;
-using SGP.SharedTests.Factories;
+using SGP.SharedTests.Fixtures;
 using SGP.SharedTests.GraphQL;
 using SGP.SharedTests.TestDatas;
 using System.Collections.Generic;

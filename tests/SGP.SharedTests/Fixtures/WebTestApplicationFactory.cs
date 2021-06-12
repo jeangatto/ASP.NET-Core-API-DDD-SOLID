@@ -10,7 +10,7 @@ using SGP.PublicApi;
 using System;
 using System.Linq;
 
-namespace SGP.SharedTests.Factories
+namespace SGP.SharedTests.Fixtures
 {
     public class WebTestApplicationFactory : WebApplicationFactory<Startup>
     {
