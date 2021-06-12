@@ -25,7 +25,8 @@ namespace SGP.SharedTests.Fixtures
 
             builder.ConfigureServices(services =>
             {
-                var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
+                var descriptor = services.FirstOrDefault(d =>
+                    d.ServiceType == typeof(DbContextOptions<SgpContext>));
                 if (descriptor != null)
                 {
                     services.Remove(descriptor);

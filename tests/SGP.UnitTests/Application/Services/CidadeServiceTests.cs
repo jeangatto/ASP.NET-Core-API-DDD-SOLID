@@ -102,9 +102,11 @@ namespace SGP.UnitTests.Application.Services
 
             // Assert
             actual.Should().BeSuccess();
-            actual.Value.Regiao.Should().NotBeNullOrWhiteSpace().And.Be(regiaoEsperada);
+            actual.Value.Regiao.Should().NotBeNullOrWhiteSpace()
+                .And.Be(regiaoEsperada);
             actual.Value.Estado.Should().NotBeNullOrWhiteSpace();
-            actual.Value.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(ufEsperada);
+            actual.Value.Uf.Should().NotBeNullOrWhiteSpace()
+                .And.HaveLength(2).And.Be(ufEsperada);
             actual.Value.Nome.Should().NotBeNullOrWhiteSpace().And.Be(cidadeEsperada);
             actual.Value.Ibge.Should().BePositive().And.Be(ibge);
         }

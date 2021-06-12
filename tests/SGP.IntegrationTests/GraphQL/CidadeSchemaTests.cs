@@ -4,6 +4,7 @@ using GraphQL.Client.Abstractions;
 using SGP.Application.Responses;
 using SGP.PublicApi.GraphQL.Constants;
 using SGP.SharedTests;
+using SGP.SharedTests.Extensions;
 using SGP.SharedTests.Fixtures;
 using SGP.SharedTests.GraphQL;
 using SGP.SharedTests.TestDatas;
@@ -41,19 +42,65 @@ namespace SGP.IntegrationTests.GraphQL
             var request = new GraphQLRequest { Query = "{" + query.Build() + "}" };
 
             // Act
-            var response = await _graphClient.SendQueryAsync<CidadeQueryResponse>(request);
+            var response = await _graphClient.SendQueryAsync<CidadesPorEstadoResponse>(request);
 
             // Assert
             response.Should().NotBeNull();
             response.Data.Should().NotBeNull();
             response.Data.CidadesPorEstado.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.HaveCount(totalEsperado);
+                .And.HaveCount(totalEsperado)
+                .And.Subject.ForEach(cidade =>
+                {
+                    cidade.Regiao.Should().NotBeNullOrWhiteSpace();
+                    cidade.Estado.Should().NotBeNullOrWhiteSpace();
+                    cidade.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
+                    cidade.Nome.Should().NotBeNullOrWhiteSpace();
+                    cidade.Ibge.Should().BePositive();
+                });
         }
 
-        private class CidadeQueryResponse
+        [Theory]
+        [ClassData(typeof(FiltrarPorIbgeData))]
+        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada, string ufEsperada, string regiaoEsperada)
         {
-            public CidadeQueryResponse(IEnumerable<CidadeResponse> cidadesPorEstado)
+            // Arrange
+            var query = new QueryCamelCase<CidadeResponse>(QueryNames.CidadePorIBGE)
+                .AddArguments(new { ibge })
+                .AddField(c => c.Regiao)
+                .AddField(c => c.Estado)
+                .AddField(c => c.Uf)
+                .AddField(c => c.Nome)
+                .AddField(c => c.Ibge);
+
+            var request = new GraphQLRequest { Query = "{" + query.Build() + "}" };
+
+            // Act
+            var response = await _graphClient.SendQueryAsync<CidadePorIbgeResponse>(request);
+
+            // Assert
+            response.Should().NotBeNull();
+            response.Data.Should().NotBeNull();
+            response.Data.CidadePorIBGE.Regiao.Should().NotBeNullOrWhiteSpace()
+                .And.Be(regiaoEsperada);
+            response.Data.CidadePorIBGE.Estado.Should().NotBeNullOrWhiteSpace();
+            response.Data.CidadePorIBGE.Uf.Should().NotBeNullOrWhiteSpace()
+                .And.HaveLength(2).And.Be(ufEsperada);
+            response.Data.CidadePorIBGE.Nome.Should().NotBeNullOrWhiteSpace().And.Be(cidadeEsperada);
+            response.Data.CidadePorIBGE.Ibge.Should().BePositive().And.Be(ibge);
+        }
+
+        private class CidadePorIbgeResponse
+        {
+            public CidadePorIbgeResponse(CidadeResponse cidadePorIBGE)
+                => CidadePorIBGE = cidadePorIBGE;
+
+            public CidadeResponse CidadePorIBGE { get; }
+        }
+
+        private class CidadesPorEstadoResponse
+        {
+            public CidadesPorEstadoResponse(IEnumerable<CidadeResponse> cidadesPorEstado)
                 => CidadesPorEstado = cidadesPorEstado;
 
             public IEnumerable<CidadeResponse> CidadesPorEstado { get; }
