@@ -14,7 +14,7 @@ namespace SGP.PublicApi.GraphQL.Queries
         public CidadeQuery(ICidadeService service)
         {
             FieldAsync<CidadeType>(
-                name: QueryNames.CidadePorIBGE,
+                name: QueryNames.CidadePorIbge,
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>>
                     {

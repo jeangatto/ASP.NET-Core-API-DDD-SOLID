@@ -8,6 +8,8 @@ namespace SGP.Shared.Extensions
 {
     public static class JsonSettingsExtensions
     {
+        private static readonly NamingStrategy DefaultNamingStrategy = new CamelCaseNamingStrategy();
+
         /// <summary>
         /// Configuração do serializador em JSON otimizado para gerar um JSON menor, resultando numa melhor performance.
         /// </summary>
@@ -20,14 +22,8 @@ namespace SGP.Shared.Extensions
             settings.PreserveReferencesHandling = PreserveReferencesHandling.None;
             settings.NullValueHandling = NullValueHandling.Ignore;
             settings.Formatting = Formatting.None;
-
-            var namingStrategy = new CamelCaseNamingStrategy();
-            settings.ContractResolver = new PrivateSetterContractResolver
-            {
-                NamingStrategy = namingStrategy
-            };
-            settings.Converters.Add(new StringEnumConverter(namingStrategy));
-
+            settings.ContractResolver = new PrivateSetterContractResolver(DefaultNamingStrategy);
+            settings.Converters.Add(new StringEnumConverter(DefaultNamingStrategy));
             return settings;
         }
     }

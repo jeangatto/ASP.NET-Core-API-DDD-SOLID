@@ -44,32 +44,32 @@ namespace SGP.Infrastructure.Context
             return rowsAffected;
         }
 
-        private static async Task<int> PopularAsync<T>(SgpContext context, ILogger logger, string jsonFileName) where T : class
+        private static async Task<long> PopularAsync<TEntity>(SgpContext context, ILogger logger, string jsonFileName) where TEntity : class
         {
             Guard.Against.Null(logger, nameof(logger));
-            Guard.Against.Null(jsonFileName, nameof(jsonFileName));
+            Guard.Against.NullOrWhiteSpace(jsonFileName, nameof(jsonFileName));
 
-            var rowsAffected = 0;
+            var dbSet = context.Set<TEntity>();
 
-            var dbSet = context.Set<T>();
-            if (!await dbSet.AsNoTracking().AnyAsync())
+            var totalRows = await dbSet.AsNoTracking().LongCountAsync();
+            if (totalRows == 0)
             {
                 var filePath = Path.Combine(FolderPath, jsonFileName);
                 if (!File.Exists(filePath))
                 {
-                    logger.LogError($"O arquivo '{filePath}' não foi encontradao.");
+                    throw new FileNotFoundException($"O arquivo '{filePath}' não foi encontrado.", jsonFileName);
                 }
                 else
                 {
                     var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
-                    dbSet.AddRange(entitiesJson.FromJson<IEnumerable<T>>());
+                    dbSet.AddRange(entitiesJson.FromJson<IEnumerable<TEntity>>());
 
-                    rowsAffected = await context.SaveChangesAsync();
-                    logger.LogInformation($"Total de '{rowsAffected}' registros inseridos em '{typeof(T).Name}'.");
+                    totalRows = await context.SaveChangesAsync();
+                    logger.LogInformation($"Total de '{totalRows}' registros inseridos em '{typeof(TEntity).Name}'.");
                 }
             }
 
-            return rowsAffected;
+            return totalRows;
         }
     }
 }
