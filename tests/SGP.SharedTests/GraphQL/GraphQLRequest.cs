@@ -1,4 +1,3 @@
-using GraphQL.Query.Builder;
 using System.Collections.Generic;
 
 namespace SGP.SharedTests.GraphQL
@@ -8,12 +7,6 @@ namespace SGP.SharedTests.GraphQL
         private const string OperationNameKey = "operationName";
         private const string QueryKey = "query";
         private const string VariablesKey = "variables";
-
-        public GraphQLRequest(IQuery query) => Query = "{" + query.Build() + "}";
-
-        public GraphQLRequest()
-        {
-        }
 
         public string OperationName
         {

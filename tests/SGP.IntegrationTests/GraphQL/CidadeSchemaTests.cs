@@ -27,15 +27,14 @@ namespace SGP.IntegrationTests.GraphQL
         public async Task Devera_RetornarCidades_QuandoObterPorUf(string uf, int totalEsperado)
         {
             // Arrange
-            var query = new QueryCamelCase<CidadeResponse>(QueryNames.CidadesPorEstado)
+            var request = new QueryCamelCase<CidadeResponse>(QueryNames.CidadesPorEstado)
                 .AddArguments(new { uf })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
                 .AddField(c => c.Nome)
-                .AddField(c => c.Ibge);
-
-            var request = new GraphQLRequest(query);
+                .AddField(c => c.Ibge)
+                .ToGraphQLRequest();
 
             // Act
             var response = await _client.SendAsync(GraphQLApiEndpoints.Cidades, request);
@@ -63,15 +62,14 @@ namespace SGP.IntegrationTests.GraphQL
             string cidadeEsperada, string ufEsperada, string regiaoEsperada)
         {
             // Arrange
-            var query = new QueryCamelCase<CidadeResponse>(QueryNames.CidadePorIbge)
+            var request = new QueryCamelCase<CidadeResponse>(QueryNames.CidadePorIbge)
                 .AddArguments(new { ibge })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
                 .AddField(c => c.Nome)
-                .AddField(c => c.Ibge);
-
-            var request = new GraphQLRequest { Query = "{" + query.Build() + "}" };
+                .AddField(c => c.Ibge)
+                .ToGraphQLRequest();
 
             // Act
             var response = await _client.SendAsync(GraphQLApiEndpoints.Cidades, request);
