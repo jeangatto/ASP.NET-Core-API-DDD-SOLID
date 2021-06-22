@@ -19,10 +19,6 @@ namespace SGP.Domain.Entities
 
         public Guid RegiaoId { get; private set; }
         public string Nome { get; private set; }
-
-        /// <summary>
-        /// Unidade Federativa.
-        /// </summary>
         public string Uf { get; private set; }
 
         public Regiao Regiao { get; private set; }

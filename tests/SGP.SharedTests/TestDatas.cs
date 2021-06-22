@@ -1,18 +1,34 @@
 using Xunit;
 
-namespace SGP.SharedTests.TestDatas
+namespace SGP.SharedTests
 {
-    public abstract class CidadeTestData
+    public static class TestDatas
     {
+        /// <summary>
+        /// T1 = Nome da região,
+        /// T2 = Total de estados da região
+        /// </summary>
+        public class FiltrarEstadoPorRegiao : TheoryData<string, int>
+        {
+            public FiltrarEstadoPorRegiao()
+            {
+                Add("Nordeste", 9);
+                Add("Sudeste", 4);
+                Add("Sul", 3);
+                Add("Centro-Oeste", 4);
+                Add("Norte", 7);
+            }
+        }
+
         /// <summary>
         /// T1 = IBGE do município,
         /// T2 = Nome do município,
         /// T3 = Sigla do estado (UF),
         /// T4 = Região
         /// </summary>
-        public class FiltrarPorIbgeData : TheoryData<int, string, string, string>
+        public class FiltrarPorIbge : TheoryData<int, string, string, string>
         {
-            public FiltrarPorIbgeData()
+            public FiltrarPorIbge()
             {
                 Add(3550308, "São Paulo", "SP", "Sudeste");
                 Add(3506003, "Bauru", "SP", "Sudeste");
@@ -26,9 +42,9 @@ namespace SGP.SharedTests.TestDatas
         /// T1 = Sigla do estado (UF),
         /// T2 = Total de cidades pertencentes ao estado
         /// </summary>
-        public class FiltrarPorUfData : TheoryData<string, int>
+        public class FiltrarPorUf : TheoryData<string, int>
         {
-            public FiltrarPorUfData()
+            public FiltrarPorUf()
             {
                 Add("AC", 22);  // Acre
                 Add("AL", 102); // Alagoas

@@ -4,7 +4,6 @@ using SGP.Infrastructure.Repositories;
 using SGP.SharedTests;
 using SGP.SharedTests.Extensions;
 using SGP.SharedTests.Fixtures;
-using SGP.SharedTests.TestDatas;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
@@ -12,15 +11,19 @@ using Xunit.Categories;
 namespace SGP.UnitTests.Infrastructure.Repositories
 {
     [UnitTest(TestCategories.Infrastructure)]
-    public class CidadeRepositoryTests : CidadeTestData, IClassFixture<EfSqliteFixture>
+    public class CidadeRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
         public CidadeRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Theory]
-        [ClassData(typeof(FiltrarPorIbgeData))]
-        public async Task Devera_RetornarCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada, string ufEsperada, string regiaoEsperada)
+        [ClassData(typeof(TestDatas.FiltrarPorIbge))]
+        public async Task Devera_RetornarCidade_QuandoObterPorIbge(
+            int ibge,
+            string cidadeEsperada,
+            string ufEsperada,
+            string regiaoEsperada)
         {
             // Arrange
             await _fixture.SeedDataAsync();
@@ -46,7 +49,7 @@ namespace SGP.UnitTests.Infrastructure.Repositories
         }
 
         [Theory]
-        [ClassData(typeof(FiltrarPorUfData))]
+        [ClassData(typeof(TestDatas.FiltrarPorUf))]
         public async Task Devera_RetornarCidades_QuandoObterPorUf(string uf, int totalEsperado)
         {
             // Arrange

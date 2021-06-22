@@ -4,7 +4,6 @@ using SGP.Infrastructure.Repositories;
 using SGP.SharedTests;
 using SGP.SharedTests.Extensions;
 using SGP.SharedTests.Fixtures;
-using SGP.SharedTests.TestDatas;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
@@ -12,14 +11,14 @@ using Xunit.Categories;
 namespace SGP.UnitTests.Infrastructure.Repositories
 {
     [UnitTest(TestCategories.Infrastructure)]
-    public class EstadoRepositoryTests : EstadoTestData, IClassFixture<EfSqliteFixture>
+    public class EstadoRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
         public EstadoRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Theory]
-        [ClassData(typeof(FiltrarEstadoPorRegiaoData))]
+        [ClassData(typeof(TestDatas.FiltrarEstadoPorRegiao))]
         public async Task Devera_RetornarEstados_QuandoObterPorRegiao(string regiao, int totalEsperado)
         {
             // Arrange

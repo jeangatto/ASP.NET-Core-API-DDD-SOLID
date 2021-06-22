@@ -12,7 +12,6 @@ using SGP.Shared.Errors;
 using SGP.SharedTests;
 using SGP.SharedTests.Extensions;
 using SGP.SharedTests.Fixtures;
-using SGP.SharedTests.TestDatas;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
@@ -20,7 +19,7 @@ using Xunit.Categories;
 namespace SGP.UnitTests.Application.Services
 {
     [UnitTest(TestCategories.Application)]
-    public class CidadeServiceTests : CidadeTestData, IClassFixture<EfSqliteFixture>
+    public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
@@ -62,8 +61,10 @@ namespace SGP.UnitTests.Application.Services
         }
 
         [Theory]
-        [ClassData(typeof(FiltrarPorUfData))]
-        public async Task Devera_RetornarResultadoSucessoComCidades_QuandoObterTodosPorUf(string uf, int totalEsperado)
+        [ClassData(typeof(TestDatas.FiltrarPorUf))]
+        public async Task Devera_RetornarResultadoSucessoComCidades_QuandoObterTodosPorUf(
+            string uf,
+            int totalEsperado)
         {
             // Arrange
             await _fixture.SeedDataAsync();
@@ -89,8 +90,12 @@ namespace SGP.UnitTests.Application.Services
         }
 
         [Theory]
-        [ClassData(typeof(FiltrarPorIbgeData))]
-        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada, string ufEsperada, string regiaoEsperada)
+        [ClassData(typeof(TestDatas.FiltrarPorIbge))]
+        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(
+            int ibge,
+            string cidadeEsperada,
+            string ufEsperada,
+            string regiaoEsperada)
         {
             // Arrange
             await _fixture.SeedDataAsync();

@@ -35,7 +35,10 @@ namespace SGP.SharedTests.Fixtures
                 _connection = new SqliteConnection(ConnectionString);
                 _connection.Open();
 
-                services.AddDbContext<SgpContext>(options => options.UseSqlite(_connection));
+                services.AddDbContext<SgpContext>(options => options
+                    .UseSqlite(_connection)
+                    .EnableDetailedErrors()
+                    .EnableSensitiveDataLogging());
 
                 var serviceProvider = services.BuildServiceProvider(true);
 
