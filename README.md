@@ -1,3 +1,5 @@
+[![CodeQL](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml)
+
 # SGP
 
 ###### Sistema Gerenciador de Pedidos (Online)
