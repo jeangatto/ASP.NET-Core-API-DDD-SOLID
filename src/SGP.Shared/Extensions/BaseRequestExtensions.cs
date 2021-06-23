@@ -11,12 +11,14 @@ namespace SGP.Shared.Extensions
     {
         public static Result ToFail(this BaseRequest request)
         {
-            return new Result().WithErrors(request.ValidationResult?.ToErrors());
+            return new Result()
+                .WithErrors(request.ValidationResult?.ToErrors());
         }
 
         public static Result<TResponse> ToFail<TResponse>(this BaseRequest request)
         {
-            return new Result<TResponse>().WithErrors(request.ValidationResult?.ToErrors());
+            return new Result<TResponse>()
+                .WithErrors(request.ValidationResult?.ToErrors());
         }
 
         private static IEnumerable<Error> ToErrors(this ValidationResult validationResult)

@@ -6,7 +6,7 @@ namespace SGP.Application.Requests.CidadeRequests
     {
         public ObterTodosPorUfRequestValidator()
         {
-            RuleFor(x => x.Uf)
+            RuleFor(m => m.Uf)
                 .NotEmpty()
                 .Length(2);
         }

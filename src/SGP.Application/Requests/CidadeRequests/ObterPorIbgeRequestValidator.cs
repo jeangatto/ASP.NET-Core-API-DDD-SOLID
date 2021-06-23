@@ -6,7 +6,7 @@ namespace SGP.Application.Requests.CidadeRequests
     {
         public ObterPorIbgeRequestValidator()
         {
-            RuleFor(x => x.Ibge)
+            RuleFor(m => m.Ibge)
                 .NotEmpty()
                 .GreaterThan(0);
         }

@@ -42,7 +42,7 @@ namespace SGP.Domain.Entities
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns>Verdadeiro se a conta estiver bloqueada; caso contrário, falso.</returns>
-        public bool EstaBloqueada(IDateTime dateTime)
+        public bool EstaBloqueado(IDateTime dateTime)
         {
             Guard.Against.Null(dateTime, nameof(dateTime));
             return BloqueioExpiraEm > dateTime.Now;
@@ -85,7 +85,7 @@ namespace SGP.Domain.Entities
             Guard.Against.NegativeOrZero(numeroTentativas, nameof(numeroTentativas));
             Guard.Against.Null(lockedTimeSpan, nameof(lockedTimeSpan));
 
-            if (EstaBloqueada(dateTime))
+            if (EstaBloqueado(dateTime))
             {
                 return;
             }

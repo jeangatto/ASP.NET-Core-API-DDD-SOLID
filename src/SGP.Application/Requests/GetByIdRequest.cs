@@ -18,5 +18,7 @@ namespace SGP.Application.Requests
         {
             ValidationResult = new GetByIdRequestValidator().Validate(this);
         }
+
+        public override string ToString() => Id.ToString();
     }
 }
