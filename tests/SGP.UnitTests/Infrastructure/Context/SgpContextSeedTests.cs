@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using SGP.Infrastructure.Context;
-using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using SGP.SharedTests.Fixtures;
 using SGP.SharedTests.Mocks;
 using System.Threading.Tasks;
@@ -34,9 +34,9 @@ namespace SGP.UnitTests.Infrastructure.Context
 
             // Assert
             actual.Should().Be(totalRegioes + totalEstados + totalCidades);
-            totalRegioes.Should().Be(5);
-            totalEstados.Should().Be(27);
-            totalCidades.Should().Be(5570);
+            totalRegioes.Should().Be(Totais.Regioes);
+            totalEstados.Should().Be(Totais.Estados);
+            totalCidades.Should().Be(Totais.Cidades);
         }
     }
 }

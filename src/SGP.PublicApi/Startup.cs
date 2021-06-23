@@ -72,12 +72,11 @@ namespace SGP.PublicApi
 
             services.Configure<KestrelServerOptions>(options =>
             {
-                options.AllowSynchronousIO = true;
                 options.AddServerHeader = false;
+                options.AllowSynchronousIO = true;
             });
 
-            services.Configure<IISServerOptions>(options
-                => options.AllowSynchronousIO = true);
+            services.Configure<IISServerOptions>(options => options.AllowSynchronousIO = true);
 
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
@@ -147,12 +146,7 @@ namespace SGP.PublicApi
 
             app.UseAuthorization();
 
-            app.UseCors(options =>
-            {
-                options.AllowAnyHeader();
-                options.AllowAnyMethod();
-                options.AllowAnyOrigin();
-            });
+            app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }

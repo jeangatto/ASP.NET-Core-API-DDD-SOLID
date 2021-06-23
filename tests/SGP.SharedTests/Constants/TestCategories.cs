@@ -1,4 +1,4 @@
-namespace SGP.SharedTests
+namespace SGP.SharedTests.Constants
 {
     public static class TestCategories
     {

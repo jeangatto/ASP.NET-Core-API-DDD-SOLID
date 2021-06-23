@@ -3,7 +3,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Options;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
-using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using System;
 using Xunit;
 using Xunit.Categories;

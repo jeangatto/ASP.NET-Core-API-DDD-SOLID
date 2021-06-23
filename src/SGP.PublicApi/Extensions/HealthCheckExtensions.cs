@@ -2,10 +2,7 @@ using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
-using SGP.PublicApi.Models;
 using SGP.Shared.Extensions;
-using System.Linq;
-using System.Net.Mime;
 
 namespace SGP.PublicApi.Extensions
 {
@@ -18,24 +15,7 @@ namespace SGP.PublicApi.Extensions
             app.UseHealthChecks("/health", new HealthCheckOptions
             {
                 AllowCachingResponses = true,
-                ResponseWriter = async (context, report) =>
-                {
-                    context.Response.ContentType = MediaTypeNames.Application.Json;
-
-                    var healthCheckReponse = new HealthCheckReponse
-                    {
-                        Status = report.Status.ToString(),
-                        HealthCheckDuration = report.TotalDuration,
-                        HealthChecks = report.Entries.Select(entry => new IndividualHealthCheckResponse
-                        {
-                            Components = entry.Key,
-                            Status = entry.Value.Status.ToString(),
-                            Description = entry.Value.Description
-                        })
-                    };
-
-                    await context.Response.WriteAsync(healthCheckReponse.ToJson());
-                }
+                ResponseWriter = (context, report) => context.Response.WriteAsync(report.ToJson())
             });
 
             return app;

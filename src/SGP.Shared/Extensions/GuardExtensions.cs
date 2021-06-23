@@ -16,6 +16,7 @@ namespace SGP.Shared.Extensions
         /// <param name="paramName"></param>
         /// <returns><paramref name="input"/> if the value is not null.</returns>
         [SuppressMessage("Redundancy", "RCS1175:Unused this parameter.")]
+        [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
         [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
         public static IOptions<T> NullOptions<T>(this IGuardClause guardClause, IOptions<T> input,
             string paramName) where T : class

@@ -1,7 +1,7 @@
 using FluentValidation;
 using FluentValidation.TestHelper;
 using SGP.Shared.Extensions;
-using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using Xunit;
 using Xunit.Categories;
 

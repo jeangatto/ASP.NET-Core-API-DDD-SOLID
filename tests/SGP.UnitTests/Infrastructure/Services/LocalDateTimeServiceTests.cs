@@ -1,7 +1,7 @@
 using FluentAssertions;
 using SGP.Infrastructure.Services;
 using SGP.Shared.Interfaces;
-using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using System;
 using Xunit;
 using Xunit.Categories;

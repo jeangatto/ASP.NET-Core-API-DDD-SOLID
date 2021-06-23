@@ -2,6 +2,7 @@ using FluentAssertions;
 using SGP.Application.Responses;
 using SGP.PublicApi.GraphQL.Constants;
 using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
 using SGP.SharedTests.Fixtures;
 using SGP.SharedTests.GraphQL;
@@ -62,9 +63,8 @@ namespace SGP.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroNaoEncontrado_QuandoObterTodosPorUfInexistente()
         {
             // Arrange
-            const string ufInexistente = "TX";
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
-                .AddArguments(new { uf = ufInexistente })
+                .AddArguments(new { uf = "XX" })
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
 
@@ -81,9 +81,8 @@ namespace SGP.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroValidacao_QuandoObterPorIbgeInexistente()
         {
             // Arrange
-            const int ibgeInexistente = int.MaxValue;
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
-                .AddArguments(new { ibge = ibgeInexistente })
+                .AddArguments(new { ibge = int.MaxValue })
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
@@ -100,9 +99,8 @@ namespace SGP.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroValidacao_QuandoObterPorIbgeInvalido()
         {
             // Arrange
-            const int ibgeInexistente = -1;
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
-                .AddArguments(new { ibge = ibgeInexistente })
+                .AddArguments(new { ibge = -1 })
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
@@ -119,9 +117,8 @@ namespace SGP.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroValidacao_QuandoObterTodosPorUfInvalido()
         {
             // Arrange
-            const string ufInvalido = "São José do Rio Preto";
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
-                .AddArguments(new { uf = ufInvalido })
+                .AddArguments(new { uf = "XXX XXX" })
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
 
@@ -136,11 +133,8 @@ namespace SGP.IntegrationTests.GraphQL
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(
-            int ibge,
-            string cidadeEsperada,
-            string ufEsperada,
-            string regiaoEsperada)
+        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge,
+            string cidadeEsperada, string ufEsperada, string regiaoEsperada)
         {
             // Arrange
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)

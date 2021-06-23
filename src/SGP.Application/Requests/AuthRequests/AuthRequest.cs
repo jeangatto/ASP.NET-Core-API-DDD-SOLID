@@ -13,11 +13,11 @@ namespace SGP.Application.Requests.AuthRequests
 
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; private init; }
+        public string Email { get; private set; }
 
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; private init; }
+        public string Password { get; private set; }
 
         public override void Validate()
         {

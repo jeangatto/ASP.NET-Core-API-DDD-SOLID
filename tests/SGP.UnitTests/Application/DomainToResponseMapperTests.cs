@@ -1,6 +1,6 @@
 using AutoMapper;
 using SGP.Application.Mapper;
-using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using Xunit;
 using Xunit.Categories;
 

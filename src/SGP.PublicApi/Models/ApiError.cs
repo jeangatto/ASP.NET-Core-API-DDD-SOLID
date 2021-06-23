@@ -7,6 +7,6 @@ namespace SGP.PublicApi.Models
             Message = message;
         }
 
-        public string Message { get; private init; }
+        public string Message { get; private set; }
     }
 }

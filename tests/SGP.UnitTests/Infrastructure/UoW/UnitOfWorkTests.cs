@@ -5,7 +5,7 @@ using SGP.Domain.Entities;
 using SGP.Infrastructure.Context;
 using SGP.Infrastructure.UoW;
 using SGP.Shared.Interfaces;
-using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using SGP.SharedTests.Fixtures;
 using System;
 using System.Threading.Tasks;

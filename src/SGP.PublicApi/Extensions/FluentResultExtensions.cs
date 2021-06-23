@@ -25,6 +25,7 @@ namespace SGP.PublicApi.Extensions
             if (result.IsFailed)
             {
                 var errors = result.Errors.ConvertAll(err => new ApiError(err.Message));
+
                 if (result.HasError<NotFoundError>())
                 {
                     return new NotFoundObjectResult(

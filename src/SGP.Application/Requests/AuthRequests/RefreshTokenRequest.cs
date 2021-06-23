@@ -11,7 +11,7 @@ namespace SGP.Application.Requests.AuthRequests
         }
 
         [Required]
-        public string Token { get; private init; }
+        public string Token { get; private set; }
 
         public override void Validate()
         {

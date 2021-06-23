@@ -2,6 +2,7 @@ using FluentAssertions;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
 using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
 using SGP.SharedTests.Fixtures;
 using System.Threading.Tasks;
@@ -22,11 +23,8 @@ namespace SGP.UnitTests.Infrastructure.Repositories
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarCidade_QuandoObterPorIbge(
-            int ibge,
-            string cidadeEsperada,
-            string ufEsperada,
-            string regiaoEsperada)
+        public async Task Devera_RetornarCidade_QuandoObterPorIbge(int ibge,
+            string cidadeEsperada, string ufEsperada, string regiaoEsperada)
         {
             // Arrange
             await _fixture.SeedDataAsync();

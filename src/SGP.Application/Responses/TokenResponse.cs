@@ -17,10 +17,10 @@ namespace SGP.Application.Responses
             RefreshToken = refreshToken;
         }
 
-        public string AccessToken { get; private init; }
-        public DateTime Created { get; private init; }
-        public DateTime Expiration { get; private init; }
-        public string RefreshToken { get; private init; }
+        public string AccessToken { get; private set; }
+        public DateTime Created { get; private set; }
+        public DateTime Expiration { get; private set; }
+        public string RefreshToken { get; private set; }
         public int ExpiresIn => (int)Created.Subtract(Expiration).TotalSeconds;
     }
 }

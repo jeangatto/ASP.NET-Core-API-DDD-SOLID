@@ -10,6 +10,7 @@ using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
 using SGP.Shared.Errors;
 using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
 using SGP.SharedTests.Fixtures;
 using System.Threading.Tasks;
@@ -28,23 +29,18 @@ namespace SGP.UnitTests.Application.Services
             _fixture = fixture;
         }
 
-        [Theory]
-        [InlineData("São Paulo")] // Comprimento maior que 2 caracteres
-        [InlineData("")]
-        [InlineData(" ")]
-        [InlineData(null)]
-        public async Task Devera_RetornarErroValidacao_QuandoObterTodosPorUfInvalido(string uf)
+        [Fact]
+        public async Task Devera_RetornarErroValidacao_QuandoObterTodosPorUfInvalido()
         {
             // Arrange
             var service = CriarServico();
-            var request = new ObterTodosPorUfRequest(uf);
+            var request = new ObterTodosPorUfRequest(string.Empty);
 
             // Act
             var actual = await service.ObterTodosPorUfAsync(request);
 
             // Assert
-            actual.Should().BeFailure()
-                .And.Subject.HasError<ValidationError>().Should().BeTrue();
+            actual.Should().BeFailure().And.Subject.HasError<ValidationError>().Should().BeTrue();
         }
 
         [Fact]
@@ -53,7 +49,7 @@ namespace SGP.UnitTests.Application.Services
             // Arrange
             await _fixture.SeedDataAsync();
             var service = CriarServico();
-            var request = new ObterTodosPorUfRequest("TX");
+            var request = new ObterTodosPorUfRequest("XX");
 
             // Act
             var actual = await service.ObterTodosPorUfAsync(request);
@@ -65,8 +61,7 @@ namespace SGP.UnitTests.Application.Services
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorUf))]
-        public async Task Devera_RetornarResultadoSucessoComCidades_QuandoObterTodosPorUf(
-            string uf,
+        public async Task Devera_RetornarResultadoSucessoComCidades_QuandoObterTodosPorUf(string uf,
             int totalEsperado)
         {
             // Arrange
@@ -94,11 +89,8 @@ namespace SGP.UnitTests.Application.Services
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(
-            int ibge,
-            string cidadeEsperada,
-            string ufEsperada,
-            string regiaoEsperada)
+        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge,
+            string cidadeEsperada, string ufEsperada, string regiaoEsperada)
         {
             // Arrange
             await _fixture.SeedDataAsync();
@@ -110,11 +102,9 @@ namespace SGP.UnitTests.Application.Services
 
             // Assert
             actual.Should().BeSuccess();
-            actual.Value.Regiao.Should().NotBeNullOrWhiteSpace()
-                .And.Be(regiaoEsperada);
+            actual.Value.Regiao.Should().NotBeNullOrWhiteSpace().And.Be(regiaoEsperada);
             actual.Value.Estado.Should().NotBeNullOrWhiteSpace();
-            actual.Value.Uf.Should().NotBeNullOrWhiteSpace()
-                .And.HaveLength(2).And.Be(ufEsperada);
+            actual.Value.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(ufEsperada);
             actual.Value.Nome.Should().NotBeNullOrWhiteSpace().And.Be(cidadeEsperada);
             actual.Value.Ibge.Should().BePositive().And.Be(ibge);
         }
@@ -132,8 +122,7 @@ namespace SGP.UnitTests.Application.Services
             var actual = await service.ObterPorIbgeAsync(request);
 
             // Assert
-            actual.Should().BeFailure()
-                .And.Subject.HasError<ValidationError>().Should().BeTrue();
+            actual.Should().BeFailure().And.Subject.HasError<ValidationError>().Should().BeTrue();
         }
 
         [Fact]
@@ -148,8 +137,7 @@ namespace SGP.UnitTests.Application.Services
             var actual = await service.ObterPorIbgeAsync(request);
 
             // Assert
-            actual.Should().BeFailure()
-                .And.Subject.HasError<NotFoundError>().Should().BeTrue();
+            actual.Should().BeFailure().And.Subject.HasError<NotFoundError>().Should().BeTrue();
         }
 
         private static IMapper CriarMapper()

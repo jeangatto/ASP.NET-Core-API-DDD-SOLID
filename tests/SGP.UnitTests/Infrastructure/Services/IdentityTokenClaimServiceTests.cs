@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Services;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Interfaces;
-using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using System;
 using System.Linq;
 using System.Security.Claims;

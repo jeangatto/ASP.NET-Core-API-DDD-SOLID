@@ -2,6 +2,7 @@ using FluentAssertions;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
 using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
 using SGP.SharedTests.Fixtures;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace SGP.UnitTests.Infrastructure.Repositories
             // Assert
             actual.Should().NotBeEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.HaveCount(27)
+                .And.HaveCount(Totais.Estados)
                 .And.Subject.ForEach(estado =>
                 {
                     estado.Id.Should().NotBeEmpty();
@@ -79,10 +80,9 @@ namespace SGP.UnitTests.Infrastructure.Repositories
             // Arrange
             await _fixture.SeedDataAsync();
             var repository = CriarRepositorio();
-            const string regiao = "NaoExistente";
 
             // Act
-            var actual = await repository.ObterTodosPorRegiaoAsync(regiao);
+            var actual = await repository.ObterTodosPorRegiaoAsync("XXX");
 
             // Assert
             actual.Should().BeEmpty().And.HaveCount(0);

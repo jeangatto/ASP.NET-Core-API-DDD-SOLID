@@ -24,10 +24,8 @@ namespace SGP.Infrastructure.Migrations
 
             services.AddDbContext<SgpContext>((serviceProvider, builder) =>
             {
-                var connectionString = serviceProvider.GetConnectionString();
-
-                builder.UseSqlServer(connectionString, options
-                    => options.MigrationsAssembly(AssemblyName));
+                builder.UseSqlServer(serviceProvider.GetConnectionString(),
+                    options => options.MigrationsAssembly(AssemblyName));
 
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
                 var environment = serviceProvider.GetRequiredService<IHostEnvironment>();

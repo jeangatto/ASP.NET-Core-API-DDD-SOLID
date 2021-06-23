@@ -1,7 +1,7 @@
 using FluentAssertions;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
-using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
 using SGP.SharedTests.Fixtures;
 using System.Threading.Tasks;
@@ -33,7 +33,7 @@ namespace SGP.UnitTests.Infrastructure.Repositories
             // Assert
             actual.Should().NotBeEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.HaveCount(5)
+                .And.HaveCount(Totais.Regioes)
                 .And.Subject.ForEach(regiao =>
                 {
                     regiao.Id.Should().NotBeEmpty();

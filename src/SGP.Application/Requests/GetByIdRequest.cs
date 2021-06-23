@@ -15,7 +15,7 @@ namespace SGP.Application.Requests
             Id = Guid.TryParse(id, out Guid result) ? result : Guid.Empty;
         }
 
-        public Guid Id { get; private init; }
+        public Guid Id { get; private set; }
 
         public override void Validate()
         {

@@ -5,7 +5,7 @@ using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
 using SGP.Shared.Errors;
 using SGP.Shared.Extensions;
-using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
 using Xunit;
 using Xunit.Categories;
@@ -19,7 +19,7 @@ namespace SGP.UnitTests.Application.Extensions
         public void Should_ReturnResultTypedWithErrors_WhenValidationFail()
         {
             // Arrange
-            var request = new ObterTodosPorUfRequest("");
+            var request = new ObterTodosPorUfRequest(string.Empty);
             request.Validate();
 
             // Act
@@ -36,7 +36,7 @@ namespace SGP.UnitTests.Application.Extensions
         public void Should_ReturnResultWithErrors_WhenValidationFail()
         {
             // Arrange
-            var request = new ObterTodosPorUfRequest("");
+            var request = new ObterTodosPorUfRequest(string.Empty);
             request.Validate();
 
             // Act

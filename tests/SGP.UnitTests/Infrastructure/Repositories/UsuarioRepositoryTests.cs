@@ -8,7 +8,7 @@ using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Repositories;
 using SGP.Infrastructure.UoW;
 using SGP.Shared.Interfaces;
-using SGP.SharedTests;
+using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
 using SGP.SharedTests.Fixtures;
 using System;
