@@ -1,7 +1,9 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Routing;
@@ -9,11 +11,14 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using SGP.Application;
 using SGP.Infrastructure;
 using SGP.Infrastructure.Migrations;
 using SGP.PublicApi.Extensions;
+using SGP.PublicApi.Models;
 using SGP.Shared.Extensions;
+using System.Net.Mime;
 
 namespace SGP.PublicApi
 {
@@ -87,6 +92,7 @@ namespace SGP.PublicApi
         public void Configure(
             IApplicationBuilder app,
             IWebHostEnvironment env,
+            ILoggerFactory loggerFactory,
             IMapper mapper,
             IApiVersionDescriptionProvider apiVersionProvider)
         {
@@ -98,6 +104,28 @@ namespace SGP.PublicApi
             ValidatorOptions.Global.Configure();
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
             mapper.ConfigurationProvider.CompileMappings();
+
+            // Middleware nativo para tratamento de exceções.
+            app.UseExceptionHandler(builder =>
+            {
+                builder.Run(async context =>
+                {
+                    var exceptionHandler = context.Features.Get<IExceptionHandlerFeature>();
+                    if (exceptionHandler != null)
+                    {
+                        const int statusCode = StatusCodes.Status500InternalServerError;
+                        context.Response.StatusCode = statusCode;
+                        context.Response.ContentType = MediaTypeNames.Application.Json;
+
+                        var logger = loggerFactory.CreateLogger<Startup>();
+                        logger.LogError(exceptionHandler.Error, exceptionHandler.Error.Message);
+
+                        var apiError = new ApiError("Ocorreu um erro interno ao processar a sua solicitação.");
+                        var apiResponse = new ApiResponse(statusCode, apiError);
+                        await context.Response.WriteAsync(apiResponse.ToJson());
+                    }
+                });
+            });
 
             app.UseOpenApi(apiVersionProvider);
 

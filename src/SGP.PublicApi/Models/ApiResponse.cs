@@ -1,13 +1,27 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SGP.PublicApi.Models
 {
-    public class ApiResponse<T>
+    public class ApiResponse
     {
-        public int Status { get; private set; }
-        public bool Success { get; private set; }
-        public T Result { get; private set; }
-        public IEnumerable<string> Errors { get; private set; } = Enumerable.Empty<string>();
+        public ApiResponse(int statusCode)
+        {
+            StatusCode = statusCode;
+        }
+
+        public ApiResponse(int statusCode, IEnumerable<ApiError> errors)
+            : this(statusCode)
+        {
+            Errors = errors;
+        }
+
+        public ApiResponse(int statusCode, ApiError apiError)
+            : this(statusCode)
+        {
+            Errors = new[] { apiError };
+        }
+
+        public int StatusCode { get; private set; }
+        public IEnumerable<ApiError> Errors { get; private set; }
     }
 }

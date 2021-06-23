@@ -9,12 +9,7 @@ namespace SGP.Application.Requests.CidadeRequests
             Ibge = ibge;
         }
 
-        public int Ibge { get; }
-
-        public override string ToString()
-        {
-            return Ibge.ToString();
-        }
+        public int Ibge { get; private init; }
 
         public override void Validate()
         {

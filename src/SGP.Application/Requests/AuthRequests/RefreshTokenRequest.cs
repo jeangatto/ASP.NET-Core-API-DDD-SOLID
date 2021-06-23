@@ -1,4 +1,5 @@
 using SGP.Shared.Messages;
+using System.ComponentModel.DataAnnotations;
 
 namespace SGP.Application.Requests.AuthRequests
 {
@@ -9,12 +10,8 @@ namespace SGP.Application.Requests.AuthRequests
             Token = token;
         }
 
-        public string Token { get; }
-
-        public override string ToString()
-        {
-            return Token;
-        }
+        [Required]
+        public string Token { get; private init; }
 
         public override void Validate()
         {
