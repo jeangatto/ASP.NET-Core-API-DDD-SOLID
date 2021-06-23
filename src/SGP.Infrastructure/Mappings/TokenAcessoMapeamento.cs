@@ -11,6 +11,8 @@ namespace SGP.Infrastructure.Mappings
         {
             builder.ConfigureBaseEntity();
 
+            builder.ToTable("TokenAcessos");
+
             builder.Property(token => token.UsuarioId)
                 .IsRequired();
 
