@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SGP.PublicApi.Filters
 {
-    public class SwaggerDefaultValues : IOperationFilter
+    public class SwaggerDefaultValuesFilter : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {

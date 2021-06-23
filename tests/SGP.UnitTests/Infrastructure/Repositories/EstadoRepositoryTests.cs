@@ -15,7 +15,10 @@ namespace SGP.UnitTests.Infrastructure.Repositories
     {
         private readonly EfSqliteFixture _fixture;
 
-        public EstadoRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public EstadoRepositoryTests(EfSqliteFixture fixture)
+        {
+            _fixture = fixture;
+        }
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarEstadoPorRegiao))]

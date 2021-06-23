@@ -13,13 +13,16 @@ using Xunit.Categories;
 
 namespace SGP.IntegrationTests.GraphQL
 {
+    [IntegrationTest]
     [Category(TestCategories.GraphQL)]
     public class CidadeSchemaTests : IClassFixture<WebTestApplicationFactory>
     {
         private readonly HttpClient _client;
 
         public CidadeSchemaTests(WebTestApplicationFactory factory)
-            => _client = factory.Server.CreateClient();
+        {
+            _client = factory.Server.CreateClient();
+        }
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorUf))]

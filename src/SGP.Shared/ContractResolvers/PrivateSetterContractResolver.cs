@@ -7,7 +7,13 @@ namespace SGP.Shared.ContractResolvers
     public class PrivateSetterContractResolver : DefaultContractResolver
     {
         public PrivateSetterContractResolver(NamingStrategy namingStrategy)
-            => NamingStrategy = namingStrategy;
+        {
+            NamingStrategy = namingStrategy;
+        }
+
+        public PrivateSetterContractResolver()
+        {
+        }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {

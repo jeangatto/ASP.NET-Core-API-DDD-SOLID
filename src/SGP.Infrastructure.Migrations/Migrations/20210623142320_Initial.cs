@@ -28,10 +28,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                     BloqueioExpiraEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     NumeroFalhasAoAcessar = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Usuarios", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Usuarios", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Estados",
@@ -54,7 +51,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TokenAcesso",
+                name: "TokenAcessos",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -66,9 +63,9 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TokenAcesso", x => x.Id);
+                    table.PrimaryKey("PK_TokenAcessos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TokenAcesso_Usuarios_UsuarioId",
+                        name: "FK_TokenAcessos_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
@@ -124,8 +121,8 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TokenAcesso_UsuarioId",
-                table: "TokenAcesso",
+                name: "IX_TokenAcessos_UsuarioId",
+                table: "TokenAcessos",
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
@@ -142,7 +139,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 name: "Cidades");
 
             migrationBuilder.DropTable(
-                name: "TokenAcesso");
+                name: "TokenAcessos");
 
             migrationBuilder.DropTable(
                 name: "Estados");

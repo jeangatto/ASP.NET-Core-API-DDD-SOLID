@@ -1,4 +1,4 @@
-﻿using Ardalis.GuardClauses;
+using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -16,7 +16,7 @@ namespace SGP.Infrastructure.Extensions
 
             var foreignKeys = modelBuilder.Model
                 .GetEntityTypes()
-                .SelectMany(e => e.GetForeignKeys())
+                .SelectMany(entity => entity.GetForeignKeys())
                 .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
 
             foreach (var fk in foreignKeys)

@@ -17,7 +17,11 @@ namespace SGP.SharedTests.Extensions
             Guard.Against.NullOrWhiteSpace(endpoint, nameof(endpoint));
             Guard.Against.Null(request, nameof(request));
 
-            var httpContent = new StringContent(request.ToJson(), Encoding.UTF8, MediaTypeNames.Application.Json);
+            var httpContent = new StringContent(
+                request.ToJson(),
+                Encoding.UTF8,
+                MediaTypeNames.Application.Json);
+
             return httpClient.PostAsync(endpoint, httpContent);
         }
     }

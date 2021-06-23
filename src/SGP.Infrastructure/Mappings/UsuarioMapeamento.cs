@@ -16,7 +16,6 @@ namespace SGP.Infrastructure.Mappings
                 .IsUnicode(false)
                 .HasMaxLength(30);
 
-            // Mapeamento ValueObject
             builder.OwnsOne(usuario => usuario.Email, ownedNav =>
             {
                 ownedNav.Property(email => email.Address)

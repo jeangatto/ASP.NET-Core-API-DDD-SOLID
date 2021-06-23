@@ -23,7 +23,10 @@ namespace SGP.UnitTests.Application.Services
     {
         private readonly EfSqliteFixture _fixture;
 
-        public CidadeServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public CidadeServiceTests(EfSqliteFixture fixture)
+        {
+            _fixture = fixture;
+        }
 
         [Theory]
         [InlineData("São Paulo")] // Comprimento maior que 2 caracteres

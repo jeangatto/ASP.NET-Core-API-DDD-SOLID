@@ -12,7 +12,10 @@ namespace SGP.Infrastructure.Repositories
     {
         private readonly DbSet<Estado> _dbSet;
 
-        public EstadoRepository(SgpContext context) => _dbSet = context.Estados;
+        public EstadoRepository(SgpContext context)
+        {
+            _dbSet = context.Estados;
+        }
 
         public async Task<IEnumerable<Estado>> ObterTodosAsync()
         {

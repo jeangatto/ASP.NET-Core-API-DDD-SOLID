@@ -5,7 +5,10 @@ namespace SGP.Domain.ValueObjects
 {
     public class Email : ValueObject
     {
-        public Email(string address) => Address = address?.ToLowerInvariant();
+        public Email(string address)
+        {
+            Address = address?.ToLowerInvariant();
+        }
 
         private Email() // ORM
         {
@@ -13,7 +16,10 @@ namespace SGP.Domain.ValueObjects
 
         public string Address { get; private init; }
 
-        public override string ToString() => Address;
+        public override string ToString()
+        {
+            return Address;
+        }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {

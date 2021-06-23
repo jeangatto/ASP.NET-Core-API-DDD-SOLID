@@ -15,7 +15,10 @@ namespace SGP.UnitTests.Infrastructure.Repositories
     {
         private readonly EfSqliteFixture _fixture;
 
-        public RegiaoRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public RegiaoRepositoryTests(EfSqliteFixture fixture)
+        {
+            _fixture = fixture;
+        }
 
         [Fact]
         public async Task Devera_ObterTodasRegioes_RetornaRegioes()

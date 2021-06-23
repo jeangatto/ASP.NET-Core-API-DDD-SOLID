@@ -19,7 +19,10 @@ namespace SGP.UnitTests.Infrastructure.UoW
     {
         private readonly EfSqliteFixture _fixture;
 
-        public UnitOfWorkTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public UnitOfWorkTests(EfSqliteFixture fixture)
+        {
+            _fixture = fixture;
+        }
 
         [Fact]
         public async Task Should_ReturnRowsAffected_WhenSaveChanges()

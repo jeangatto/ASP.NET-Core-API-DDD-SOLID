@@ -16,7 +16,10 @@ namespace SGP.PublicApi.Controllers.v1
     {
         private readonly IAuthService _service;
 
-        public AuthController(IAuthService service) => _service = service;
+        public AuthController(IAuthService service)
+        {
+            _service = service;
+        }
 
         /// <summary>
         /// Autentica um usuário - AUTH01

@@ -23,7 +23,10 @@ namespace SGP.UnitTests.Infrastructure.Repositories
     {
         private readonly EfSqliteFixture _fixture;
 
-        public UsuarioRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public UsuarioRepositoryTests(EfSqliteFixture fixture)
+        {
+            _fixture = fixture;
+        }
 
         [Fact]
         public async Task Devera_RetonarVerdadeiro_QuandoVerificarSeEmailJaExiste()

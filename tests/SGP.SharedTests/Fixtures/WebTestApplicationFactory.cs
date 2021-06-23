@@ -17,7 +17,10 @@ namespace SGP.SharedTests.Fixtures
         private const string ConnectionString = "DataSource=:memory:";
         private SqliteConnection _connection;
 
-        public WebTestApplicationFactory() => Server.AllowSynchronousIO = true;
+        public WebTestApplicationFactory()
+        {
+            Server.AllowSynchronousIO = true;
+        }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {

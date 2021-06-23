@@ -15,7 +15,10 @@ namespace SGP.UnitTests.Infrastructure.Context
     {
         private readonly EfSqliteFixture _fixture;
 
-        public SgpContextSeedTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public SgpContextSeedTests(EfSqliteFixture fixture)
+        {
+            _fixture = fixture;
+        }
 
         [Fact]
         public async Task Should_ReturnsRowsAffected_WhenEnsureSeedData()

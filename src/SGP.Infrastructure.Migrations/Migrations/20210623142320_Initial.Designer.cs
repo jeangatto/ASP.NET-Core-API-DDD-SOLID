@@ -9,7 +9,7 @@ using System;
 namespace SGP.Infrastructure.Migrations.Migrations
 {
     [DbContext(typeof(SgpContext))]
-    [Migration("20210605143230_Initial")]
+    [Migration("20210623142320_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
             modelBuilder
                 .HasAnnotation("Relational:Collation", "Latin1_General_CI_AI")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.6")
+                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("SGP.Domain.Entities.Cidade", b =>
@@ -125,7 +125,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("TokenAcesso");
+                    b.ToTable("TokenAcessos");
                 });
 
             modelBuilder.Entity("SGP.Domain.Entities.Usuario", b =>

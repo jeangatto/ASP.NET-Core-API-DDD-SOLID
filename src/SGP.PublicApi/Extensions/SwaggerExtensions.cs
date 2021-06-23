@@ -22,7 +22,7 @@ namespace SGP.PublicApi.Extensions
 
             services.AddSwaggerGen(options =>
             {
-                options.OperationFilter<SwaggerDefaultValues>();
+                options.OperationFilter<SwaggerDefaultValuesFilter>();
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

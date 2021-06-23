@@ -14,19 +14,40 @@ namespace SGP.Infrastructure.Repositories.Common
     {
         private readonly DbSet<TEntity> _dbSet;
 
-        protected EfRepository(SgpContext context) => _dbSet = context.Set<TEntity>();
+        protected EfRepository(SgpContext context)
+        {
+            _dbSet = context.Set<TEntity>();
+        }
 
-        public void Add(TEntity entity) => _dbSet.Add(entity);
+        public void Add(TEntity entity)
+        {
+            _dbSet.Add(entity);
+        }
 
-        public void AddRange(IEnumerable<TEntity> entities) => _dbSet.AddRange(entities);
+        public void AddRange(IEnumerable<TEntity> entities)
+        {
+            _dbSet.AddRange(entities);
+        }
 
-        public void Update(TEntity entity) => _dbSet.Update(entity);
+        public void Update(TEntity entity)
+        {
+            _dbSet.Update(entity);
+        }
 
-        public void UpdateRange(IEnumerable<TEntity> entities) => _dbSet.UpdateRange(entities);
+        public void UpdateRange(IEnumerable<TEntity> entities)
+        {
+            _dbSet.UpdateRange(entities);
+        }
 
-        public void Remove(TEntity entity) => _dbSet.Remove(entity);
+        public void Remove(TEntity entity)
+        {
+            _dbSet.Remove(entity);
+        }
 
-        public void RemoveRange(IEnumerable<TEntity> entities) => _dbSet.RemoveRange(entities);
+        public void RemoveRange(IEnumerable<TEntity> entities)
+        {
+            _dbSet.RemoveRange(entities);
+        }
 
         public virtual async Task<TEntity> GetByIdAsync(Guid id, bool readOnly = true)
         {
@@ -36,6 +57,8 @@ namespace SGP.Infrastructure.Repositories.Common
         }
 
         protected IQueryable<TEntity> Queryable(bool readOnly = true)
-            => readOnly ? _dbSet.AsNoTracking() : _dbSet.AsQueryable();
+        {
+            return readOnly ? _dbSet.AsNoTracking() : _dbSet.AsQueryable();
+        }
     }
 }
