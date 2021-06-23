@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace SGP.Application.Requests.AuthRequests
 {
@@ -6,7 +6,7 @@ namespace SGP.Application.Requests.AuthRequests
     {
         public RefreshTokenRequestValidator()
         {
-            RuleFor(x => x.Token)
+            RuleFor(m => m.Token)
                 .NotEmpty();
         }
     }

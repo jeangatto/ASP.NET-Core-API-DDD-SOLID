@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -8,25 +9,19 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using SGP.Application;
-using SGP.GraphQL;
 using SGP.Infrastructure;
 using SGP.Infrastructure.Migrations;
 using SGP.PublicApi.Extensions;
+using SGP.Shared.Extensions;
 
 namespace SGP.PublicApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly IConfiguration _configuration;
 
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration) => _configuration = configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -43,9 +38,9 @@ namespace SGP.PublicApi
 
             services.AddOpenApi();
 
-            services.AddJwtBearer(Configuration);
+            services.ConfigureAppSettings();
 
-            services.ConfigureAppSettings(Configuration);
+            services.AddJwtBearer(_configuration);
 
             services.AddServices();
 
@@ -82,14 +77,7 @@ namespace SGP.PublicApi
                     options.SuppressMapClientErrors = true;
                     options.SuppressModelStateInvalidFilter = true;
                 })
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.Formatting = Formatting.None;
-                    options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
-                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    options.SerializerSettings.Converters = new[] { new StringEnumConverter(new CamelCaseNamingStrategy()) };
-                });
+                .AddNewtonsoftJson(options => options.SerializerSettings.Configure());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,6 +92,7 @@ namespace SGP.PublicApi
                 app.UseDeveloperExceptionPage();
             }
 
+            ValidatorOptions.Global.Configure();
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
             mapper.ConfigurationProvider.CompileMappings();
 
@@ -113,9 +102,9 @@ namespace SGP.PublicApi
 
             app.UseForwardedHeaders();
 
-            app.UseHttpsRedirection();
-
             app.UseGraphQL();
+
+            app.UseHttpsRedirection();
 
             app.UseHsts();
 

@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
-		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;</NoWarn>
+		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;S1144;</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Ardalis.GuardClauses" Version="3.2.0" />
@@ -12,12 +12,11 @@
 		<PackageReference Include="FluentValidation" Version="10.2.3" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Scrutor" Version="3.3.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
+		<ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj" />
 		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
 	</ItemGroup>
 </Project>

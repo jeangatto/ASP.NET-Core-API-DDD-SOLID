@@ -13,9 +13,9 @@ namespace SGP.Infrastructure.Extensions
         public static void ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
             where TEntity : BaseEntity
         {
-            builder.HasKey(e => e.Id);
+            builder.HasKey(entity => entity.Id);
 
-            builder.Property(e => e.Id)
+            builder.Property(entity => entity.Id)
                 .IsRequired()
                 .ValueGeneratedNever();
         }

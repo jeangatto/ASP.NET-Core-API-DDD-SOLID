@@ -8,11 +8,10 @@ namespace SGP.Shared.Entities
     /// </summary>
     public abstract class BaseEntity : IEntityKey<Guid>
     {
-        protected BaseEntity()
-        {
-            Id = Guid.NewGuid();
-        }
+        protected BaseEntity() => Id = Guid.NewGuid();
 
         public Guid Id { get; private set; }
+
+        public override string ToString() => Id.ToString();
     }
 }

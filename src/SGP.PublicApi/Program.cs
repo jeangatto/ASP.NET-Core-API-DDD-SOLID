@@ -30,6 +30,8 @@ namespace SGP.PublicApi
 
                     if ((await context.Database.GetPendingMigrationsAsync()).Any())
                     {
+                        // Aplica de maneira assíncrona quaisquer migrações pendentes do contexto.
+                        // Criará o banco de dados, se ainda não existir.
                         await context.Database.MigrateAsync();
                     }
 

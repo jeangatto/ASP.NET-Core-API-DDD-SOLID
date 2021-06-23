@@ -1,11 +1,11 @@
 {
-  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:54865",
-      "sslPort": 44313
+      "applicationUrl": "http://localhost:44442",
+      "sslPort": 44366
     }
   },
   "profiles": {

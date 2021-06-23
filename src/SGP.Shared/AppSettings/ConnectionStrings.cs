@@ -1,7 +1,13 @@
-﻿namespace SGP.Shared.AppSettings
+namespace SGP.Shared.AppSettings
 {
     public sealed class ConnectionStrings
     {
-        public string DefaultConnection { get; private init; }
+        /// <summary>
+        /// String da conexão padrão.
+        /// </summary>
+        public string DefaultConnection { get; private set; }
+
+        public static ConnectionStrings Create(string defaultConnection)
+            => new() { DefaultConnection = defaultConnection };
     }
 }

@@ -1,4 +1,4 @@
-using SGP.Application.Requests.Common;
+using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.AuthRequests
 {
@@ -10,11 +10,12 @@ namespace SGP.Application.Requests.AuthRequests
             Password = password;
         }
 
-        public AuthRequest()
-        {
-        }
+        public string Email { get; }
+        public string Password { get; }
 
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public override void Validate()
+        {
+            ValidationResult = new AuthRequestValidator().Validate(this);
+        }
     }
 }

@@ -1,7 +1,6 @@
 using AutoMapper;
 using SGP.Application.Responses;
 using SGP.Domain.Entities;
-using SGP.Domain.Entities.UserAggregate;
 
 namespace SGP.Application.Mapper
 {
@@ -9,9 +8,13 @@ namespace SGP.Application.Mapper
     {
         public DomainToResponseMapper()
         {
-            CreateMap<City, CityResponse>(MemberList.Destination);
-            CreateMap<User, UserResponse>(MemberList.Destination)
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email.Address));
+            CreateMap<Cidade, CidadeResponse>(MemberList.Destination)
+                .ForMember(dest => dest.Regiao, opt => opt.MapFrom(src => src.Estado.Regiao.Nome))
+                .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado.Nome))
+                .ForMember(dest => dest.Uf, opt => opt.MapFrom(src => src.Estado.Uf));
+
+            CreateMap<Estado, EstadoResponse>(MemberList.Destination)
+                .ForMember(dest => dest.Regiao, opt => opt.MapFrom(src => src.Regiao.Nome));
         }
     }
 }

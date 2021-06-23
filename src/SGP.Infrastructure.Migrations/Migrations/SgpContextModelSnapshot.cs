@@ -19,50 +19,95 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("SGP.Domain.Entities.City", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.Cidade", b =>
                 {
-                    b.Property<string>("Ibge")
-                        .HasMaxLength(8)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(8)");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
+                    b.Property<Guid>("EstadoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Ibge")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(70)
                         .IsUnicode(false)
                         .HasColumnType("varchar(70)");
 
-                    b.Property<string>("StateAbbr")
+                    b.HasKey("Id");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("Ibge")
+                        .IsUnique();
+
+                    b.ToTable("Cidades");
+                });
+
+            modelBuilder.Entity("SGP.Domain.Entities.Estado", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(75)");
+
+                    b.Property<Guid>("RegiaoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Uf")
                         .IsRequired()
                         .HasMaxLength(2)
                         .IsUnicode(false)
                         .HasColumnType("char(2)")
                         .IsFixedLength(true);
 
-                    b.HasKey("Ibge");
+                    b.HasKey("Id");
 
-                    b.HasIndex("StateAbbr");
+                    b.HasIndex("RegiaoId");
 
-                    b.ToTable("Cities");
+                    b.HasIndex("Uf")
+                        .IsUnique();
+
+                    b.ToTable("Estados");
                 });
 
-            modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.RefreshToken", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.Regiao", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ExpireAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ReplacedByToken")
-                        .HasMaxLength(2048)
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(15)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(2048)");
+                        .HasColumnType("varchar(15)");
 
-                    b.Property<DateTime?>("RevokedAt")
+                    b.HasKey("Id");
+
+                    b.HasIndex("Nome")
+                        .IsUnique();
+
+                    b.ToTable("Regioes");
+                });
+
+            modelBuilder.Entity("SGP.Domain.Entities.TokenAcesso", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CriadoEm")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiraEm")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("RevogadoEm")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Token")
@@ -71,63 +116,85 @@ namespace SGP.Infrastructure.Migrations.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(2048)");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UsuarioId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("TokenAcesso");
                 });
 
-            modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.User", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<short>("FailuresNum")
-                        .HasColumnType("smallint");
-
-                    b.Property<DateTime?>("LastAccessAt")
+                    b.Property<DateTime?>("BloqueioExpiraEm")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("LockExpires")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("HashSenha")
                         .IsRequired()
                         .HasMaxLength(60)
                         .IsUnicode(false)
                         .HasColumnType("varchar(60)");
 
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<int>("NumeroFalhasAoAcessar")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UltimoAcessoEm")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.RefreshToken", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.Cidade", b =>
                 {
-                    b.HasOne("SGP.Domain.Entities.UserAggregate.User", "User")
-                        .WithMany("RefreshTokens")
-                        .HasForeignKey("UserId")
+                    b.HasOne("SGP.Domain.Entities.Estado", "Estado")
+                        .WithMany("Cidades")
+                        .HasForeignKey("EstadoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Estado");
                 });
 
-            modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.User", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.Estado", b =>
+                {
+                    b.HasOne("SGP.Domain.Entities.Regiao", "Regiao")
+                        .WithMany("Estados")
+                        .HasForeignKey("RegiaoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Regiao");
+                });
+
+            modelBuilder.Entity("SGP.Domain.Entities.TokenAcesso", b =>
+                {
+                    b.HasOne("SGP.Domain.Entities.Usuario", "Usuario")
+                        .WithMany("Tokens")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("SGP.Domain.Entities.Usuario", b =>
                 {
                     b.OwnsOne("SGP.Domain.ValueObjects.Email", "Email", b1 =>
                         {
-                            b1.Property<Guid>("UserId")
+                            b1.Property<Guid>("UsuarioId")
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Address")
@@ -137,24 +204,34 @@ namespace SGP.Infrastructure.Migrations.Migrations
                                 .HasColumnType("varchar(100)")
                                 .HasColumnName("Email");
 
-                            b1.HasKey("UserId");
+                            b1.HasKey("UsuarioId");
 
                             b1.HasIndex("Address")
                                 .IsUnique()
                                 .HasFilter("[Email] IS NOT NULL");
 
-                            b1.ToTable("Users");
+                            b1.ToTable("Usuarios");
 
                             b1.WithOwner()
-                                .HasForeignKey("UserId");
+                                .HasForeignKey("UsuarioId");
                         });
 
                     b.Navigation("Email");
                 });
 
-            modelBuilder.Entity("SGP.Domain.Entities.UserAggregate.User", b =>
+            modelBuilder.Entity("SGP.Domain.Entities.Estado", b =>
                 {
-                    b.Navigation("RefreshTokens");
+                    b.Navigation("Cidades");
+                });
+
+            modelBuilder.Entity("SGP.Domain.Entities.Regiao", b =>
+                {
+                    b.Navigation("Estados");
+                });
+
+            modelBuilder.Entity("SGP.Domain.Entities.Usuario", b =>
+                {
+                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

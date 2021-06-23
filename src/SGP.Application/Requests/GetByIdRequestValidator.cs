@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using System;
 
 namespace SGP.Application.Requests
@@ -7,7 +7,7 @@ namespace SGP.Application.Requests
     {
         public GetByIdRequestValidator()
         {
-            RuleFor(x => x.Id)
+            RuleFor(m => m.Id)
                 .NotNull()
                 .NotEmpty()
                 .NotEqual(Guid.Empty);

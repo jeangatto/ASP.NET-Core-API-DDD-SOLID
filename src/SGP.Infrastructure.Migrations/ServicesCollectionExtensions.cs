@@ -14,7 +14,10 @@ namespace SGP.Infrastructure.Migrations
 {
     public static class ServicesCollectionExtensions
     {
-        public static IServiceCollection AddDbContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
+        private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+
+        public static IServiceCollection AddDbContext(this IServiceCollection services,
+            IHealthChecksBuilder healthChecksBuilder)
         {
             Guard.Against.Null(services, nameof(services));
             Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
@@ -22,11 +25,11 @@ namespace SGP.Infrastructure.Migrations
             services.AddDbContext<SgpContext>((serviceProvider, builder) =>
             {
                 var connectionString = serviceProvider.GetConnectionString();
-                var assemblyName = GetAssemblyName();
 
-                builder.UseSqlServer(connectionString,
-                    options => options.MigrationsAssembly(assemblyName));
+                builder.UseSqlServer(connectionString, options
+                    => options.MigrationsAssembly(AssemblyName));
 
+                // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
                 var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
                 if (environment.IsDevelopment())
                 {
@@ -41,23 +44,16 @@ namespace SGP.Infrastructure.Migrations
             healthChecksBuilder.AddDbContextCheck<SgpContext>(
                 tags: new[] { "database" },
                 customTestQuery: (context, cancellationToken)
-                    => context.Cities.AsNoTracking().AnyAsync(cancellationToken));
+                    => context.Estados.AsNoTracking().AnyAsync(cancellationToken));
 
             return services;
         }
 
-        private static string GetAssemblyName()
-        {
-            return Assembly.GetExecutingAssembly().GetName().Name;
-        }
-
         private static string GetConnectionString(this IServiceProvider serviceProvider)
         {
-            var connectionStringsOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>();
-
-            Guard.Against.Null(connectionStringsOptions, nameof(connectionStringsOptions));
-
-            return connectionStringsOptions.Value.DefaultConnection;
+            var connectionStrings = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>();
+            Guard.Against.NullOptions(connectionStrings, nameof(connectionStrings));
+            return connectionStrings.Value.DefaultConnection;
         }
     }
 }

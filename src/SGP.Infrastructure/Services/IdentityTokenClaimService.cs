@@ -2,6 +2,7 @@ using Ardalis.GuardClauses;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
+using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Shared.Records;
 using System;
@@ -20,7 +21,7 @@ namespace SGP.Infrastructure.Services
 
         public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTime dateTime)
         {
-            Guard.Against.Null(jwtOptions, nameof(jwtOptions));
+            Guard.Against.NullOptions(jwtOptions, nameof(jwtOptions));
 
             _jwtConfig = jwtOptions.Value;
             _dateTime = dateTime;
@@ -57,19 +58,8 @@ namespace SGP.Infrastructure.Services
             {
                 var randomBytes = new byte[64];
                 cryptoServiceProvider.GetBytes(randomBytes);
-                var base64 = Convert.ToBase64String(randomBytes);
-                return SanitizeRefreshToken(base64);
+                return Convert.ToBase64String(randomBytes);
             }
-        }
-
-        private static string SanitizeRefreshToken(string token)
-        {
-            foreach (var @char in new[] { "{", "}", "|", @"\", "^", "[", "]", "`", ";", "/", "$", "+", "=", "&" })
-            {
-                token = token.Replace(@char, string.Empty);
-            }
-
-            return token;
         }
     }
 }

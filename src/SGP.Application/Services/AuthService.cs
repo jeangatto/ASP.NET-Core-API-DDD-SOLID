@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthRequests;
 using SGP.Application.Responses;
-using SGP.Domain.Entities.UserAggregate;
+using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.AppSettings;
@@ -25,7 +25,7 @@ namespace SGP.Application.Services
         private readonly AuthConfig _authConfig;
         private readonly IDateTime _dateTime;
         private readonly IHashService _hashService;
-        private readonly IUserRepository _repository;
+        private readonly IUsuarioRepository _repository;
         private readonly IUnitOfWork _uow;
         private readonly ITokenClaimsService _tokenClaimsService;
 
@@ -35,7 +35,7 @@ namespace SGP.Application.Services
             IDateTime dateTime,
             IHashService hashService,
             ITokenClaimsService tokenClaimsService,
-            IUserRepository repository,
+            IUsuarioRepository repository,
             IUnitOfWork uow
         )
         {
@@ -51,29 +51,31 @@ namespace SGP.Application.Services
 
         public async Task<Result<TokenResponse>> AuthenticateAsync(AuthRequest request)
         {
-            var result = await new AuthRequestValidator().ValidateAsync(request);
-            if (!result.IsValid)
+            // Validando a requisição.
+            request.Validate();
+            if (!request.IsValid)
             {
-                return result.ToFail<TokenResponse>();
+                // Retornando os erros da validação.
+                return request.ToFail<TokenResponse>();
             }
 
-            var user = await _repository.GetByEmailAsync(new Email(request.Email));
-            if (user == null)
+            var usuario = await _repository.ObterPorEmailAsync(new Email(request.Email));
+            if (usuario == null)
             {
                 return Result.Fail<TokenResponse>(new NotFoundError("A conta informada não existe."));
             }
 
             // Verificando se a conta está bloqueada.
-            if (user.IsLocked(_dateTime))
+            if (usuario.EstaBloqueado(_dateTime))
             {
                 return Result.Fail<TokenResponse>("A sua conta está bloqueada, entre em contato com o nosso suporte.");
             }
 
             // Verificando se a senha corresponde a senha criptografada gravada na base de dados.
-            if (_hashService.Compare(request.Password, user.PasswordHash))
+            if (_hashService.Compare(request.Password, usuario.HashSenha))
             {
                 // Gerando as regras (ROLES).
-                var claims = GenerateClaims(user);
+                var claims = GenerateClaims(usuario);
 
                 // Gerando o TOKEN de acesso.
                 var accessToken = _tokenClaimsService.GenerateAccessToken(claims);
@@ -81,20 +83,16 @@ namespace SGP.Application.Services
                 // Gerando o TOKEN de atualização.
                 var refreshToken = _tokenClaimsService.GenerateRefreshToken();
 
-                // Adicionando o TOKEN atualização.
-                user.AddRefreshToken(new RefreshToken(
+                // Vinculando o TOKEN atualização ao USUÁRIO.
+                usuario.AdicionarToken(new TokenAcesso(
                     refreshToken,
                     accessToken.CreatedAt,
                     accessToken.ExpiresAt));
 
-                // Atualizando no repositório do usuário.
-                _repository.Update(user);
-
-                // Confirmando a transação.
+                _repository.Update(usuario);
                 await _uow.SaveChangesAsync();
 
                 return Result.Ok(new TokenResponse(
-                    true,
                     accessToken.Token,
                     accessToken.CreatedAt,
                     accessToken.ExpiresAt,
@@ -105,12 +103,9 @@ namespace SGP.Application.Services
                 // Se o LOGIN for inválido, será incrementado o número de falhas,
                 // se atingido o limite de tentativas de acesso a conta será bloqueada por um determinado tempo.
                 var lockedTimeSpan = TimeSpan.FromSeconds(_authConfig.SecondsBlocked);
-                user.IncrementFailuresNum(_dateTime, _authConfig.MaximumAttempts, lockedTimeSpan);
+                usuario.IncrementarFalhas(_dateTime, _authConfig.MaximumAttempts, lockedTimeSpan);
 
-                // Atualizando no repositório do usuário.
-                _repository.Update(user);
-
-                // Confirmando a transação.
+                _repository.Update(usuario);
                 await _uow.SaveChangesAsync();
 
                 return Result.Fail<TokenResponse>("O e-mail ou senha está incorreta.");
@@ -119,65 +114,63 @@ namespace SGP.Application.Services
 
         public async Task<Result<TokenResponse>> RefreshTokenAsync(RefreshTokenRequest request)
         {
-            var result = await new RefreshTokenRequestValidator().ValidateAsync(request);
-            if (!result.IsValid)
+            // Validando a requisição.
+            request.Validate();
+            if (!request.IsValid)
             {
-                return result.ToFail<TokenResponse>();
+                // Retornando os erros da validação.
+                return request.ToFail<TokenResponse>();
             }
 
-            var user = await _repository.GetByTokenAsync(request.Token);
-            if (user == null)
+            var usuario = await _repository.ObterPorTokenAsync(request.Token);
+            if (usuario == null)
             {
                 return Result.Fail<TokenResponse>(new NotFoundError("Nenhum token encontrado."));
             }
 
             // Verificando se o TOKEN de atualização está expirado.
-            var refreshToken = user.RefreshTokens.FirstOrDefault(t => t.Token == request.Token);
-            if (refreshToken.IsExpired(_dateTime))
+            var tokenAcesso = usuario.Tokens.FirstOrDefault(t => t.Token == request.Token);
+            if (!tokenAcesso.EstaValido(_dateTime))
             {
                 return Result.Fail<TokenResponse>("O token inválido ou expirado.");
             }
 
             // Gerando as regras (ROLES).
-            var claims = GenerateClaims(user);
+            var claims = GenerateClaims(usuario);
 
-            // Gerando o TOKEN de acesso.
+            // Gerando um novo TOKEN de acesso.
             var accessToken = _tokenClaimsService.GenerateAccessToken(claims);
 
-            // Gerando o TOKEN de atualização.
+            // Gerando um novo TOKEN de atualização.
             var newRefreshToken = _tokenClaimsService.GenerateRefreshToken();
 
-            // Substituindo o TOKEN de atualização atual pelo o novo.
-            refreshToken.Revoke(newRefreshToken, accessToken.CreatedAt);
+            // Revogando (cancelando) o TOKEN de atualização atual.
+            tokenAcesso.RevogarToken(accessToken.CreatedAt);
 
-            // Adicionando o novo TOKEN atualização.
-            user.AddRefreshToken(new RefreshToken(
+            // Vinculando o novo TOKEN atualização ao USUÁRIO.
+            usuario.AdicionarToken(new TokenAcesso(
                 newRefreshToken,
                 accessToken.CreatedAt,
                 accessToken.ExpiresAt));
 
-            // Atualizando no repositório do usuário.
-            _repository.Update(user);
-
-            // Confirmando a transação.
+            _repository.Update(usuario);
             await _uow.SaveChangesAsync();
 
             return Result.Ok(new TokenResponse(
-                true,
                 accessToken.Token,
                 accessToken.CreatedAt,
                 accessToken.ExpiresAt,
                 newRefreshToken));
         }
 
-        private static IEnumerable<Claim> GenerateClaims(User user)
+        private static IEnumerable<Claim> GenerateClaims(Usuario usuario)
         {
             return new[]
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Name, ClaimValueTypes.String),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email.ToString(), ClaimValueTypes.Email)
+                new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.Nome, ClaimValueTypes.String),
+                new Claim(JwtRegisteredClaimNames.Email, usuario.Email.ToString(), ClaimValueTypes.Email)
             };
         }
     }
