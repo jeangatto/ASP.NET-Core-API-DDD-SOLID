@@ -1,8 +1,9 @@
+using SGP.Shared.Messages;
 using System.Collections.Generic;
 
 namespace SGP.PublicApi.Models
 {
-    public class ApiResponse
+    public class ApiResponse : BaseResponse
     {
         public ApiResponse(int statusCode)
         {

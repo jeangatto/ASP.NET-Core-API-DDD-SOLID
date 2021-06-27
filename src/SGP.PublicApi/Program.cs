@@ -39,7 +39,7 @@ namespace SGP.PublicApi
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "Ocorreu um erro na propagação do banco de dados.");
+                    logger.LogError(ex, "Ocorreu um erro ao popular o banco de dados.");
                     throw;
                 }
             }

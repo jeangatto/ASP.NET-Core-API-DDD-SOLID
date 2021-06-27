@@ -28,11 +28,11 @@ namespace SGP.SharedTests.Fixtures
 
             builder.ConfigureServices(services =>
             {
-                var descriptor = services.FirstOrDefault(d =>
-                    d.ServiceType == typeof(DbContextOptions<SgpContext>));
-                if (descriptor != null)
+                var dbContextDescriptor = services
+                    .FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
+                if (dbContextDescriptor != null)
                 {
-                    services.Remove(descriptor);
+                    services.Remove(dbContextDescriptor);
                 }
 
                 _connection = new SqliteConnection(ConnectionString);
@@ -47,8 +47,11 @@ namespace SGP.SharedTests.Fixtures
 
                 using (var scope = serviceProvider.CreateScope())
                 {
-                    var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                     var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
+                    var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
+                    var logger = loggerFactory.CreateLogger<WebTestApplicationFactory>();
+
+                    logger.LogInformation($"ConnectionString={context.Database.GetConnectionString()}");
 
                     try
                     {
@@ -58,8 +61,7 @@ namespace SGP.SharedTests.Fixtures
                     }
                     catch (Exception ex)
                     {
-                        var logger = loggerFactory.CreateLogger<WebTestApplicationFactory>();
-                        logger.LogError(ex, "Ocorreu um erro na propagação do banco de dados.");
+                        logger.LogError(ex, "Ocorreu um erro ao popular o banco de dados.");
                         throw;
                     }
                 }
