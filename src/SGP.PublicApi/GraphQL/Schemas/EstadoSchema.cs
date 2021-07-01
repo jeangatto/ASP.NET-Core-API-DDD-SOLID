@@ -5,11 +5,11 @@ using System;
 
 namespace SGP.PublicApi.GraphQL.Schemas
 {
-    public class CidadeSchema : Schema
+    public class EstadoSchema : Schema
     {
-        public CidadeSchema(IServiceProvider serviceProvider) : base(serviceProvider)
+        public EstadoSchema(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            Query = serviceProvider.GetRequiredService<CidadeQuery>();
+            Query = serviceProvider.GetRequiredService<EstadoQuery>();
         }
     }
 }

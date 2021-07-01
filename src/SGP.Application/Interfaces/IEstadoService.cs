@@ -1,3 +1,4 @@
+using FluentResults;
 using SGP.Application.Responses;
 using SGP.Shared.Interfaces;
 using System.Collections.Generic;
@@ -7,6 +8,6 @@ namespace SGP.Application.Interfaces
 {
     public interface IEstadoService : IAppService
     {
-        Task<IEnumerable<EstadoResponse>> ObterTodosAsync();
+        Task<Result<IEnumerable<EstadoResponse>>> ObterTodosAsync();
     }
 }

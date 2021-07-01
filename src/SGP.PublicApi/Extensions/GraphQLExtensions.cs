@@ -54,11 +54,19 @@ namespace SGP.PublicApi.Extensions
         {
             Guard.Against.Null(app, nameof(app));
 
+            // NOTE: Buscar uma forma de fazer via Reflection para evitar repetição de código.
+
             app.UseGraphQL<CidadeSchema>(GraphQLApiEndpoints.Cidades);
             app.UseGraphQLPlayground(new PlaygroundOptions
             {
                 GraphQLEndPoint = GraphQLApiEndpoints.Cidades
             }, path: GraphQLPlaygroundEndpoints.Cidades);
+
+            app.UseGraphQL<EstadoSchema>(GraphQLApiEndpoints.Estados);
+            app.UseGraphQLPlayground(new PlaygroundOptions
+            {
+                GraphQLEndPoint = GraphQLApiEndpoints.Estados
+            }, path: GraphQLPlaygroundEndpoints.Estados);
 
             return app;
         }

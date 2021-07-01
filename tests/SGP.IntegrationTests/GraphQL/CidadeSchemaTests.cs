@@ -30,7 +30,8 @@ namespace SGP.IntegrationTests.GraphQL
         public async Task Devera_RetornarCidades_QuandoObterPorUf(string uf, int totalEsperado)
         {
             // Arrange
-            var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
+            const string queryName = QueryNames.CidadesPorEstado;
+            var request = new GraphQLQuery<CidadeResponse>(queryName)
                 .AddArguments(new { uf })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
@@ -45,17 +46,17 @@ namespace SGP.IntegrationTests.GraphQL
             // Assert
             response.EnsureSuccessStatusCode();
 
-            var data = await response.Content.GetGraphQLDataAsync<IEnumerable<CidadeResponse>>(QueryNames.CidadesPorEstado);
+            var data = await response.Content.GetGraphQLDataAsync<IEnumerable<CidadeResponse>>(queryName);
             data.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(totalEsperado)
-                .And.Subject.ForEach(c =>
+                .And.Subject.ForEach(cidade =>
                 {
-                    c.Regiao.Should().NotBeNullOrWhiteSpace();
-                    c.Estado.Should().NotBeNullOrWhiteSpace();
-                    c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
-                    c.Nome.Should().NotBeNullOrWhiteSpace();
-                    c.Ibge.Should().BePositive();
+                    cidade.Regiao.Should().NotBeNullOrWhiteSpace();
+                    cidade.Estado.Should().NotBeNullOrWhiteSpace();
+                    cidade.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
+                    cidade.Nome.Should().NotBeNullOrWhiteSpace();
+                    cidade.Ibge.Should().BePositive();
                 });
         }
 
@@ -133,11 +134,12 @@ namespace SGP.IntegrationTests.GraphQL
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge,
-            string cidadeEsperada, string ufEsperada, string regiaoEsperada)
+        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada,
+            string ufEsperada, string regiaoEsperada)
         {
             // Arrange
-            var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
+            const string queryName = QueryNames.CidadePorIbge;
+            var request = new GraphQLQuery<CidadeResponse>(queryName)
                 .AddArguments(new { ibge })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
@@ -152,7 +154,7 @@ namespace SGP.IntegrationTests.GraphQL
             // Assert
             response.EnsureSuccessStatusCode();
 
-            var data = await response.Content.GetGraphQLDataAsync<CidadeResponse>(QueryNames.CidadePorIbge);
+            var data = await response.Content.GetGraphQLDataAsync<CidadeResponse>(queryName);
             data.Should().NotBeNull();
             data.Regiao.Should().NotBeNullOrWhiteSpace().And.Be(regiaoEsperada);
             data.Estado.Should().NotBeNullOrWhiteSpace();

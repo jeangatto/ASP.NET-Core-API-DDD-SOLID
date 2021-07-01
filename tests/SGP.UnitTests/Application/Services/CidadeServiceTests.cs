@@ -40,7 +40,8 @@ namespace SGP.UnitTests.Application.Services
             var actual = await service.ObterTodosPorUfAsync(request);
 
             // Assert
-            actual.Should().BeFailure().And.Subject.HasError<ValidationError>().Should().BeTrue();
+            actual.Should().BeFailure()
+                .And.Subject.HasError<ValidationError>().Should().BeTrue();
         }
 
         [Fact]
@@ -61,8 +62,7 @@ namespace SGP.UnitTests.Application.Services
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorUf))]
-        public async Task Devera_RetornarResultadoSucessoComCidades_QuandoObterTodosPorUf(string uf,
-            int totalEsperado)
+        public async Task Devera_RetornarResultadoSucessoComCidades_QuandoObterTodosPorUf(string uf, int totalEsperado)
         {
             // Arrange
             await _fixture.SeedDataAsync();
@@ -89,8 +89,8 @@ namespace SGP.UnitTests.Application.Services
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge,
-            string cidadeEsperada, string ufEsperada, string regiaoEsperada)
+        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada,
+            string ufEsperada, string regiaoEsperada)
         {
             // Arrange
             await _fixture.SeedDataAsync();
@@ -122,7 +122,8 @@ namespace SGP.UnitTests.Application.Services
             var actual = await service.ObterPorIbgeAsync(request);
 
             // Assert
-            actual.Should().BeFailure().And.Subject.HasError<ValidationError>().Should().BeTrue();
+            actual.Should().BeFailure()
+                .And.Subject.HasError<ValidationError>().Should().BeTrue();
         }
 
         [Fact]
@@ -137,12 +138,12 @@ namespace SGP.UnitTests.Application.Services
             var actual = await service.ObterPorIbgeAsync(request);
 
             // Assert
-            actual.Should().BeFailure().And.Subject.HasError<NotFoundError>().Should().BeTrue();
+            actual.Should().BeFailure()
+                .And.Subject.HasError<NotFoundError>().Should().BeTrue();
         }
 
         private static IMapper CriarMapper()
-            => new Mapper(new MapperConfiguration(cfg
-                => cfg.AddProfile<DomainToResponseMapper>()));
+            => new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
 
         private static IMemoryCache CriarMemoryCache()
             => new MemoryCache(new MemoryCacheOptions());
@@ -151,9 +152,6 @@ namespace SGP.UnitTests.Application.Services
             => new CidadeRepository(_fixture.Context);
 
         private ICidadeService CriarServico()
-            => new CidadeService(
-                CriarMapper(),
-                CriarMemoryCache(),
-                CriarRepositorio());
+            => new CidadeService(CriarMapper(), CriarMemoryCache(), CriarRepositorio());
     }
 }
