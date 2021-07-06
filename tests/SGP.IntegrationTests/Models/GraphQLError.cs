@@ -1,4 +1,4 @@
-namespace SGP.SharedTests.GraphQL
+namespace SGP.IntegrationTests.Models
 {
     public class GraphQLError
     {

@@ -1,12 +1,12 @@
 using Ardalis.GuardClauses;
+using SGP.IntegrationTests.Models;
 using SGP.Shared.Extensions;
-using SGP.SharedTests.GraphQL;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SGP.SharedTests.Extensions
+namespace SGP.IntegrationTests.Extensions
 {
     public static class HttpClientExtensions
     {

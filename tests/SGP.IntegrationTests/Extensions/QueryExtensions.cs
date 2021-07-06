@@ -1,7 +1,7 @@
 using GraphQL.Query.Builder;
-using SGP.SharedTests.GraphQL;
+using SGP.IntegrationTests.Models;
 
-namespace SGP.SharedTests.Extensions
+namespace SGP.IntegrationTests.Extensions
 {
     public static class QueryExtensions
     {

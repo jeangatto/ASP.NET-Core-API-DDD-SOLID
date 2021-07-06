@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SGP.SharedTests.GraphQL
+namespace SGP.IntegrationTests.Models
 {
     public class GraphQLRequest : Dictionary<string, object>
     {

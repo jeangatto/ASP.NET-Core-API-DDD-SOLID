@@ -1,13 +1,13 @@
 using Ardalis.GuardClauses;
 using Newtonsoft.Json.Linq;
+using SGP.IntegrationTests.Models;
 using SGP.Shared.Extensions;
-using SGP.SharedTests.GraphQL;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SGP.SharedTests.Extensions
+namespace SGP.IntegrationTests.Extensions
 {
     public static class HttpContentExtensions
     {

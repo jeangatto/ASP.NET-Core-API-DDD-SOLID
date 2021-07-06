@@ -5,7 +5,7 @@ using SGP.SharedTests.Mocks;
 using System;
 using System.Threading.Tasks;
 
-namespace SGP.SharedTests.Fixtures
+namespace SGP.UnitTests.Fixtures
 {
     public class EfSqliteFixture : IDisposable
     {

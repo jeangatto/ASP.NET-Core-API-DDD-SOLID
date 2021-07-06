@@ -1,7 +1,7 @@
 using GraphQL.Query.Builder;
 using SGP.Shared.Messages;
 
-namespace SGP.SharedTests.GraphQL
+namespace SGP.IntegrationTests.Models
 {
     public class GraphQLQuery<TResponse> : Query<TResponse> where TResponse : BaseResponse
     {

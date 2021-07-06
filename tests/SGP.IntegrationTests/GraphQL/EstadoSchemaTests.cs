@@ -1,10 +1,11 @@
 using FluentAssertions;
 using SGP.Application.Responses;
+using SGP.IntegrationTests.Extensions;
+using SGP.IntegrationTests.Fixtures;
+using SGP.IntegrationTests.Models;
 using SGP.PublicApi.GraphQL.Constants;
 using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
-using SGP.SharedTests.Fixtures;
-using SGP.SharedTests.GraphQL;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;

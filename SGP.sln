@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
@@ -38,11 +39,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.Application", "src\SGP.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.PublicApi", "src\SGP.PublicApi\SGP.PublicApi.csproj", "{354FFA12-4DEF-49A6-88B1-83B45F35350A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.UnitTests", "tests\SGP.UnitTests\SGP.UnitTests.csproj", "{58CD9F38-6D3E-435F-BB53-8B21B0E1276E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.UnitTests", "tests\SGP.UnitTests\SGP.UnitTests.csproj", "{58CD9F38-6D3E-435F-BB53-8B21B0E1276E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.IntegrationTests", "tests\SGP.IntegrationTests\SGP.IntegrationTests.csproj", "{037D2F19-3F32-4B8A-B0DD-7C9D3A504761}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.IntegrationTests", "tests\SGP.IntegrationTests\SGP.IntegrationTests.csproj", "{037D2F19-3F32-4B8A-B0DD-7C9D3A504761}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGP.SharedTests", "tests\SGP.SharedTests\SGP.SharedTests.csproj", "{23162C75-CCD8-4630-AFA2-84287417B294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGP.SharedTests", "tests\SGP.SharedTests\SGP.SharedTests.csproj", "{23162C75-CCD8-4630-AFA2-84287417B294}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C811074F-D1BB-4CA8-89E5-E7F63B941464}"
 EndProject

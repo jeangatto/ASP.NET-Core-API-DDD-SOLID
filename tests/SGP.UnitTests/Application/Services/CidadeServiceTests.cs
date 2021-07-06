@@ -12,7 +12,7 @@ using SGP.Shared.Errors;
 using SGP.SharedTests;
 using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
-using SGP.SharedTests.Fixtures;
+using SGP.UnitTests.Fixtures;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;

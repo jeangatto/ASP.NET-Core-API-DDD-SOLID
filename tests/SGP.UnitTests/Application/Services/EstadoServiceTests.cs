@@ -9,7 +9,7 @@ using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
 using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
-using SGP.SharedTests.Fixtures;
+using SGP.UnitTests.Fixtures;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;

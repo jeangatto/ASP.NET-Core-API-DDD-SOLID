@@ -10,7 +10,7 @@ using SGP.Infrastructure.UoW;
 using SGP.Shared.Interfaces;
 using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
-using SGP.SharedTests.Fixtures;
+using SGP.UnitTests.Fixtures;
 using System;
 using System.Threading.Tasks;
 using Xunit;
