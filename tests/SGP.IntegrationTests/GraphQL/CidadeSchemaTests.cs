@@ -4,7 +4,6 @@ using SGP.IntegrationTests.Extensions;
 using SGP.IntegrationTests.Fixtures;
 using SGP.IntegrationTests.Models;
 using SGP.PublicApi.GraphQL.Constants;
-using SGP.SharedTests;
 using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
 using System.Collections.Generic;
@@ -26,14 +25,13 @@ namespace SGP.IntegrationTests.GraphQL
             _client = factory.Server.CreateClient();
         }
 
-        [Theory]
-        [ClassData(typeof(TestDatas.FiltrarPorUf))]
-        public async Task Devera_RetornarCidades_QuandoObterPorUf(string uf, int totalEsperado)
+        [Fact]
+        public async Task Devera_RetornarCidades_QuandoObterPorUf()
         {
             // Arrange
             const string queryName = QueryNames.CidadesPorEstado;
             var request = new GraphQLQuery<CidadeResponse>(queryName)
-                .AddArguments(new { uf })
+                .AddArguments(new { uf = "SP" })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
@@ -50,12 +48,12 @@ namespace SGP.IntegrationTests.GraphQL
             var data = await response.Content.GetGraphQLDataAsync<IEnumerable<CidadeResponse>>(queryName);
             data.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.HaveCount(totalEsperado)
+                .And.HaveCount(Totais.CidadesSaoPaulo)
                 .And.Subject.ForEach(cidade =>
                 {
                     cidade.Regiao.Should().NotBeNullOrWhiteSpace();
                     cidade.Estado.Should().NotBeNullOrWhiteSpace();
-                    cidade.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
+                    cidade.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
                     cidade.Nome.Should().NotBeNullOrWhiteSpace();
                     cidade.Ibge.Should().BePositive();
                 });
@@ -133,15 +131,13 @@ namespace SGP.IntegrationTests.GraphQL
             errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
         }
 
-        [Theory]
-        [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada,
-            string ufEsperada, string regiaoEsperada)
+        [Fact]
+        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge()
         {
             // Arrange
             const string queryName = QueryNames.CidadePorIbge;
             var request = new GraphQLQuery<CidadeResponse>(queryName)
-                .AddArguments(new { ibge })
+                .AddArguments(new { ibge = 3557105 })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
@@ -157,11 +153,11 @@ namespace SGP.IntegrationTests.GraphQL
 
             var data = await response.Content.GetGraphQLDataAsync<CidadeResponse>(queryName);
             data.Should().NotBeNull();
-            data.Regiao.Should().NotBeNullOrWhiteSpace().And.Be(regiaoEsperada);
+            data.Regiao.Should().NotBeNullOrWhiteSpace();
             data.Estado.Should().NotBeNullOrWhiteSpace();
-            data.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(ufEsperada);
-            data.Nome.Should().NotBeNullOrWhiteSpace().And.Be(cidadeEsperada);
-            data.Ibge.Should().BePositive().And.Be(ibge);
+            data.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+            data.Nome.Should().NotBeNullOrWhiteSpace();
+            data.Ibge.Should().BePositive();
         }
     }
 }

@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace SGP.SharedTests
+namespace SGP.UnitTests
 {
     public static class TestDatas
     {

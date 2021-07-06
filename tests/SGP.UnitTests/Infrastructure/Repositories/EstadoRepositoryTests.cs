@@ -1,7 +1,6 @@
 using FluentAssertions;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
-using SGP.SharedTests;
 using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
 using SGP.UnitTests.Fixtures;

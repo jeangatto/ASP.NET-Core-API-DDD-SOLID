@@ -5,5 +5,6 @@ namespace SGP.SharedTests.Constants
         public const int Regioes = 5;
         public const int Estados = 27;
         public const int Cidades = 5570;
+        public const int CidadesSaoPaulo = 645;
     }
 }

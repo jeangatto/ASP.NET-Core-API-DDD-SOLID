@@ -9,7 +9,6 @@ using SGP.Application.Services;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
 using SGP.Shared.Errors;
-using SGP.SharedTests;
 using SGP.SharedTests.Constants;
 using SGP.SharedTests.Extensions;
 using SGP.UnitTests.Fixtures;
