@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
+		<IsPackable>false</IsPackable>
 		<SonarQubeTestProject>True</SonarQubeTestProject>
 	</PropertyGroup>
 	<ItemGroup>
