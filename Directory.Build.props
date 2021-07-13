@@ -4,8 +4,10 @@
 		<MaintainerEmail>jean_gatto@hotmail.com</MaintainerEmail>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/JeanGatto/SGP</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<TargetFramework>net5.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
+		<NeutralLanguage>en</NeutralLanguage>
 		<DebugType>embedded</DebugType>
 		<Deterministic>true</Deterministic>
 		<AnalysisLevel>latest</AnalysisLevel>
