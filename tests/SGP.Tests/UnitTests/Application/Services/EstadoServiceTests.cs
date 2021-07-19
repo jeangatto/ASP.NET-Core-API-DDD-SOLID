@@ -41,11 +41,11 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.Value.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(Totais.Estados)
-                .And.Subject.ForEach(estado =>
+                .And.Subject.ForEach(e =>
                 {
-                    estado.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
-                    estado.Regiao.Should().NotBeNullOrWhiteSpace();
-                    estado.Nome.Should().NotBeNullOrEmpty();
+                    e.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+                    e.Regiao.Should().NotBeNullOrWhiteSpace();
+                    e.Nome.Should().NotBeNullOrEmpty();
                 });
         }
 

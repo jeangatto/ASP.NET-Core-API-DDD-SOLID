@@ -34,14 +34,13 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().NotBeEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(Totais.Regioes)
-                .And.Subject.ForEach(regiao =>
+                .And.Subject.ForEach(r =>
                 {
-                    regiao.Id.Should().NotBeEmpty();
-                    regiao.Nome.Should().NotBeNullOrWhiteSpace();
+                    r.Id.Should().NotBeEmpty();
+                    r.Nome.Should().NotBeNullOrWhiteSpace();
                 });
         }
 
-        private IRegiaoRepository CriarRepositorio()
-            => new RegiaoRepository(_fixture.Context);
+        private IRegiaoRepository CriarRepositorio() => new RegiaoRepository(_fixture.Context);
     }
 }

@@ -1,10 +1,11 @@
-﻿using System;
+using SGP.Shared.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SGP.Shared.ValueObjects
 {
-    public abstract class ValueObject
+    public abstract class ValueObject : BaseRule
     {
         public override bool Equals(object obj)
         {

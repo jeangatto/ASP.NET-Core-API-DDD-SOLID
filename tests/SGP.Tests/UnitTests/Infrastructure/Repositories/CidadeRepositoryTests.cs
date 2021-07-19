@@ -22,7 +22,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada, string ufEsperada,
+        public async Task Devera_RetornarCidade_QuandoObterPorIbge(
+            int ibge,
+            string cidadeEsperada,
+            string ufEsperada,
             string regiaoEsperada)
         {
             // Arrange
@@ -63,25 +66,24 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().NotBeEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(totalEsperado)
-                .And.Subject.ForEach(cidade =>
+                .And.Subject.ForEach(c =>
                 {
-                    cidade.Should().NotBeNull();
-                    cidade.Id.Should().NotBeEmpty();
-                    cidade.EstadoId.Should().NotBeEmpty();
-                    cidade.Nome.Should().NotBeNullOrWhiteSpace();
-                    cidade.Ibge.Should().BePositive();
-                    cidade.Estado.Should().NotBeNull();
-                    cidade.Estado.Id.Should().NotBeEmpty();
-                    cidade.Estado.RegiaoId.Should().NotBeEmpty();
-                    cidade.Estado.Nome.Should().NotBeNullOrWhiteSpace();
-                    cidade.Estado.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
-                    cidade.Estado.Regiao.Should().NotBeNull();
-                    cidade.Estado.Regiao.Id.Should().NotBeEmpty();
-                    cidade.Estado.Regiao.Nome.Should().NotBeNullOrWhiteSpace();
+                    c.Should().NotBeNull();
+                    c.Id.Should().NotBeEmpty();
+                    c.EstadoId.Should().NotBeEmpty();
+                    c.Nome.Should().NotBeNullOrWhiteSpace();
+                    c.Ibge.Should().BePositive();
+                    c.Estado.Should().NotBeNull();
+                    c.Estado.Id.Should().NotBeEmpty();
+                    c.Estado.RegiaoId.Should().NotBeEmpty();
+                    c.Estado.Nome.Should().NotBeNullOrWhiteSpace();
+                    c.Estado.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
+                    c.Estado.Regiao.Should().NotBeNull();
+                    c.Estado.Regiao.Id.Should().NotBeEmpty();
+                    c.Estado.Regiao.Nome.Should().NotBeNullOrWhiteSpace();
                 });
         }
 
-        private ICidadeRepository CriarRepositorio()
-            => new CidadeRepository(_fixture.Context);
+        private ICidadeRepository CriarRepositorio() => new CidadeRepository(_fixture.Context);
     }
 }

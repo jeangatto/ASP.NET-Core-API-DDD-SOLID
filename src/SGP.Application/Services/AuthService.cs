@@ -59,7 +59,7 @@ namespace SGP.Application.Services
                 return request.ToFail<TokenResponse>();
             }
 
-            var usuario = await _repository.ObterPorEmailAsync(new Email(request.Email));
+            var usuario = await _repository.ObterPorEmailAsync(Email.Create(request.Email));
             if (usuario == null)
             {
                 return Result.Fail<TokenResponse>(new NotFoundError("A conta informada não existe."));

@@ -15,12 +15,11 @@ namespace SGP.PublicApi.GraphQL.Queries
         {
             FieldAsync<CidadeType>(
                 name: QueryNames.CidadePorIbge,
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<IntGraphType>>
-                    {
-                        Name = "ibge",
-                        Description = "IBGE da cidade"
-                    }),
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IntGraphType>>
+                {
+                    Name = "ibge",
+                    Description = "IBGE da cidade"
+                }),
                 resolve: async context =>
                 {
                     var request = new ObterPorIbgeRequest(context.GetArgument<int>("ibge"));
@@ -37,12 +36,11 @@ namespace SGP.PublicApi.GraphQL.Queries
 
             FieldAsync<ListGraphType<CidadeType>>(
                 name: QueryNames.CidadesPorEstado,
-                arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<StringGraphType>>
-                    {
-                        Name = "uf",
-                        Description = "Sigla da unidade federativa (UF)"
-                    }),
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<StringGraphType>>
+                {
+                    Name = "uf",
+                    Description = "Sigla da unidade federativa (UF)"
+                }),
                 resolve: async context =>
                 {
                     var request = new ObterTodosPorUfRequest(context.GetArgument<string>("uf"));
