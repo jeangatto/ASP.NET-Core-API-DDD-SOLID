@@ -76,20 +76,23 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.Value.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(totalEsperado)
-                .And.Subject.ForEach(cidade =>
+                .And.Subject.ForEach(c =>
                 {
-                    cidade.Regiao.Should().NotBeNullOrWhiteSpace();
-                    cidade.Estado.Should().NotBeNullOrWhiteSpace();
-                    cidade.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
-                    cidade.Nome.Should().NotBeNullOrWhiteSpace();
-                    cidade.Ibge.Should().BePositive();
+                    c.Regiao.Should().NotBeNullOrWhiteSpace();
+                    c.Estado.Should().NotBeNullOrWhiteSpace();
+                    c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
+                    c.Nome.Should().NotBeNullOrWhiteSpace();
+                    c.Ibge.Should().BePositive();
                 });
         }
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(int ibge, string cidadeEsperada,
-            string ufEsperada, string regiaoEsperada)
+        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(
+            int ibge,
+            string cidadeEsperada,
+            string ufEsperada,
+            string regiaoEsperada)
         {
             // Arrange
             await _fixture.SeedDataAsync();

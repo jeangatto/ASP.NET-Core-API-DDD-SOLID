@@ -4,28 +4,27 @@ using Microsoft.Extensions.Caching.Memory;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
+using SGP.Application.Services.Common;
 using SGP.Domain.Repositories;
 using SGP.Shared.Errors;
 using SGP.Shared.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SGP.Application.Services
 {
-    public class CidadeService : ICidadeService
+    public class CidadeService : BaseService, ICidadeService
     {
         private const string ObterPorIbgeCacheKey = "CidadeService__ObterPorIbgeAsync__{0}";
         private const string ObterTodosPorUfCacheKey = "CidadeService__ObterTodosPorUfAsync__{0}";
         private readonly IMapper _mapper;
-        private readonly IMemoryCache _memoryCache;
         private readonly ICidadeRepository _repository;
 
         public CidadeService(IMapper mapper, IMemoryCache memoryCache, ICidadeRepository repository)
+            : base(memoryCache)
         {
             _mapper = mapper;
-            _memoryCache = memoryCache;
             _repository = repository;
         }
 
@@ -33,7 +32,7 @@ namespace SGP.Application.Services
         {
             var cacheKey = string.Format(ObterPorIbgeCacheKey, request.Ibge);
 
-            return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
+            return await MemoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
                 ConfigureCacheEntry(cacheEntry);
 
@@ -63,7 +62,7 @@ namespace SGP.Application.Services
         {
             var cacheKey = string.Format(ObterTodosPorUfCacheKey, request.Uf);
 
-            return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
+            return await MemoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
                 ConfigureCacheEntry(cacheEntry);
 
@@ -87,12 +86,6 @@ namespace SGP.Application.Services
                 // Mapeando domínio para resposta (DTO).
                 return Result.Ok(_mapper.Map<IEnumerable<CidadeResponse>>(cidades));
             });
-        }
-
-        private static void ConfigureCacheEntry(ICacheEntry cacheEntry)
-        {
-            cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(60);
-            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
         }
     }
 }

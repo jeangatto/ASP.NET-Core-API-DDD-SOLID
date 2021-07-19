@@ -24,13 +24,14 @@ namespace SGP.Tests.UnitTests.Infrastructure.Context
         public async Task Should_ReturnsRowsAffected_WhenEnsureSeedData()
         {
             // Arrange
+            var logger = LoggerFactoryMock.Create();
             var context = _fixture.Context;
 
             // Act
-            var actual = await context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
-            var totalRegioes = await context.Regioes.AsNoTracking().LongCountAsync();
-            var totalEstados = await context.Estados.AsNoTracking().LongCountAsync();
-            var totalCidades = await context.Cidades.AsNoTracking().LongCountAsync();
+            var actual = await context.EnsureSeedDataAsync(logger);
+            var totalRegioes = await context.Regioes.AsNoTracking().CountAsync();
+            var totalEstados = await context.Estados.AsNoTracking().CountAsync();
+            var totalCidades = await context.Cidades.AsNoTracking().CountAsync();
 
             // Assert
             actual.Should().Be(totalRegioes + totalEstados + totalCidades);

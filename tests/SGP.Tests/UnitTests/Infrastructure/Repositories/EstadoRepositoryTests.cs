@@ -35,15 +35,15 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().NotBeEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(totalEsperado)
-                .And.Subject.ForEach(estado =>
+                .And.Subject.ForEach(e =>
                 {
-                    estado.Id.Should().NotBeEmpty();
-                    estado.RegiaoId.Should().NotBeEmpty();
-                    estado.Nome.Should().NotBeNullOrEmpty();
-                    estado.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
-                    estado.Regiao.Should().NotBeNull();
-                    estado.Regiao.Id.Should().NotBeEmpty();
-                    estado.Regiao.Nome.Should().NotBeNullOrWhiteSpace().And.Be(regiao);
+                    e.Id.Should().NotBeEmpty();
+                    e.RegiaoId.Should().NotBeEmpty();
+                    e.Nome.Should().NotBeNullOrEmpty();
+                    e.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+                    e.Regiao.Should().NotBeNull();
+                    e.Regiao.Id.Should().NotBeEmpty();
+                    e.Regiao.Nome.Should().NotBeNullOrWhiteSpace().And.Be(regiao);
                 });
         }
 
@@ -61,15 +61,15 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().NotBeEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(Totais.Estados)
-                .And.Subject.ForEach(estado =>
+                .And.Subject.ForEach(e =>
                 {
-                    estado.Id.Should().NotBeEmpty();
-                    estado.RegiaoId.Should().NotBeEmpty();
-                    estado.Nome.Should().NotBeNullOrEmpty();
-                    estado.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
-                    estado.Regiao.Should().NotBeNull();
-                    estado.Regiao.Id.Should().NotBeEmpty();
-                    estado.Regiao.Nome.Should().NotBeNullOrWhiteSpace();
+                    e.Id.Should().NotBeEmpty();
+                    e.RegiaoId.Should().NotBeEmpty();
+                    e.Nome.Should().NotBeNullOrEmpty();
+                    e.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+                    e.Regiao.Should().NotBeNull();
+                    e.Regiao.Id.Should().NotBeEmpty();
+                    e.Regiao.Nome.Should().NotBeNullOrWhiteSpace();
                 });
         }
 
@@ -87,7 +87,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             actual.Should().BeEmpty().And.HaveCount(0);
         }
 
-        private IEstadoRepository CriarRepositorio()
-            => new EstadoRepository(_fixture.Context);
+        private IEstadoRepository CriarRepositorio() => new EstadoRepository(_fixture.Context);
     }
 }

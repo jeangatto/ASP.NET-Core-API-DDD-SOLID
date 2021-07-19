@@ -5,6 +5,53 @@ namespace SGP.Tests
     public static class TestDatas
     {
         /// <summary>
+        /// T1 = Endereço de e-mail
+        /// </summary>
+        public class ValidEmailAddresses : TheoryData<string>
+        {
+            public ValidEmailAddresses()
+            {
+                Add("ma@hostname.com");
+                Add("ma@hostname.comcom");
+                Add("MA@hostname.coMCom");
+                Add("MA@HOSTNAME.COM");
+                Add("m.a@hostname.co");
+                Add("m_a1a@hostname.com");
+                Add("ma-a@hostname.com");
+                Add("ma-a@hostname.com.edu");
+                Add("ma-a.aa@hostname.com.edu");
+                Add("ma.h.saraf.onemore@hostname.com.edu");
+                Add("ma12@hostname.com");
+                Add("12@hostname.com");
+            }
+        }
+
+        /// <summary>
+        /// T1 = Endereço de e-mail
+        /// </summary>
+        public class InvalidEmailAddresses : TheoryData<string>
+        {
+            public InvalidEmailAddresses()
+            {
+                Add("");                    // Empty
+                Add(" ");                   // Whitespaces
+                Add("Abc.example.com");     // No `@`
+                Add("A@b@c@example.com");   // multiple `@`
+                Add("ma...ma@jjf.co");      // continuous multiple dots in name
+                Add("ma@jjf.c");            // only 1 char in extension
+                Add("ma@jjf..com");         // continuous multiple dots in domain
+                Add("ma@@jjf.com");         // continuous multiple `@`
+                Add("@majjf.com");          // nothing before `@`
+                Add("ma.@jjf.com");         // nothing after `.`
+                Add("ma_@jjf.com");         // nothing after `_`
+                Add("ma_@jjf");             // no domain extension
+                Add("ma_@jjf.");            // nothing after `_` and .
+                Add("ma@jjf.");             // nothing after `.`
+
+            }
+        }
+
+        /// <summary>
         /// T1 = Nome da região,
         /// T2 = Total de estados da região
         /// </summary>

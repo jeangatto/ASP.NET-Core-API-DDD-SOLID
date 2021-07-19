@@ -32,7 +32,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetonarVerdadeiro_QuandoVerificarSeEmailJaExiste()
         {
             // Arrange
-            var (repositorio, usuario) = await InserirUsuario();
+            var (repositorio, usuario) = await PopularAsync();
 
             // Act
             var actual = await repositorio.VerificaSeEmailExisteAsync(usuario.Email);
@@ -45,7 +45,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_QuandoObterPorEmail()
         {
             // Arrange
-            var (repositorio, usuarioInserido) = await InserirUsuario();
+            var (repositorio, usuarioInserido) = await PopularAsync();
 
             // Act
             var actual = await repositorio.ObterPorEmailAsync(usuarioInserido.Email);
@@ -71,7 +71,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_QuandoObterPorId()
         {
             // Arrange
-            var (repositorio, usuarioInserido) = await InserirUsuario();
+            var (repositorio, usuarioInserido) = await PopularAsync();
 
             // Act
             var actual = await repositorio.GetByIdAsync(usuarioInserido.Id);
@@ -98,7 +98,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         {
             // Arrange
             const int quantidadeTokens = 3;
-            var (repositorio, usuarioInserido) = await InserirUsuario(quantidadeTokens);
+            var (repositorio, usuarioInserido) = await PopularAsync(quantidadeTokens);
 
             // Act
             var actual = await repositorio.ObterPorTokenAsync(usuarioInserido.Tokens[0].Token);
@@ -120,13 +120,22 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 });
         }
 
+        private async Task<(IUsuarioRepository, Usuario)> PopularAsync(int quantidadeTokens = 1)
+        {
+            var usuario = CriarUsuario(quantidadeTokens);
+            var repositorio = CriarRepositorio();
+            repositorio.Add(usuario);
+            await CriarUoW().SaveChangesAsync();
+            return (repositorio, usuario);
+        }
+
         private static Usuario CriarUsuario(int quantidadeTokens)
         {
             return new Faker<Usuario>()
                 .UsePrivateConstructor()
                 .RuleFor(u => u.Id, Guid.NewGuid())
                 .RuleFor(u => u.Nome, f => f.Person.UserName)
-                .RuleFor(u => u.Email, f => new Email(f.Person.Email))
+                .RuleFor(u => u.Email, f => Email.Create(f.Person.Email))
                 .RuleFor(u => u.HashSenha, f => f.Internet.Password(60))
                 .FinishWith((f, u) =>
                 {
@@ -147,19 +156,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         private IUnitOfWork CriarUoW()
         {
             return new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
-        }
-
-        private async Task<(IUsuarioRepository, Usuario)> InserirUsuario(int quantidadeTokens = 1)
-        {
-            var uow = CriarUoW();
-            var repositorio = CriarRepositorio();
-
-            var usuario = CriarUsuario(quantidadeTokens);
-
-            repositorio.Add(usuario);
-            await uow.SaveChangesAsync();
-
-            return (repositorio, usuario);
         }
     }
 }
