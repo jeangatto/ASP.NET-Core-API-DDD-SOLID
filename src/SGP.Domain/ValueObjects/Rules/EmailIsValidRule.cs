@@ -14,6 +14,6 @@ namespace SGP.Domain.ValueObjects.Rules
 
         public string Message => "Endereço de e-mail inválido.";
 
-        public bool IsBroken() => !RegexPatterns.ValidEmailAddress.IsMatch(_emailAddress);
+        public bool IsBroken() => !RegexPatterns.EmailRegexPattern.IsMatch(_emailAddress);
     }
 }
