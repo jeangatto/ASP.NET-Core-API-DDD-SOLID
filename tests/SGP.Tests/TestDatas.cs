@@ -47,7 +47,6 @@ namespace SGP.Tests
                 Add("ma_@jjf");             // no domain extension
                 Add("ma_@jjf.");            // nothing after `_` and .
                 Add("ma@jjf.");             // nothing after `.`
-
             }
         }
 

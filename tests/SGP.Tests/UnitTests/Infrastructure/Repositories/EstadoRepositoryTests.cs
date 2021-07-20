@@ -73,20 +73,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 });
         }
 
-        [Fact]
-        public async Task Devera_RetornarListVazia_QuandoObterPorRegiaoInexistente()
-        {
-            // Arrange
-            await _fixture.SeedDataAsync();
-            var repository = CriarRepositorio();
-
-            // Act
-            var actual = await repository.ObterTodosPorRegiaoAsync("XXX");
-
-            // Assert
-            actual.Should().BeEmpty().And.HaveCount(0);
-        }
-
         private IEstadoRepository CriarRepositorio() => new EstadoRepository(_fixture.Context);
     }
 }

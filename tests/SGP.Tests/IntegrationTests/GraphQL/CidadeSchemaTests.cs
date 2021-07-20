@@ -30,9 +30,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             const string queryName = QueryNames.CidadesPorEstado;
+            const string ufSaoPaulo = "SP";
             const int totaisEsperado = 645;
             var request = new GraphQLQuery<CidadeResponse>(queryName)
-                .AddArguments(new { uf = "SP" })
+                .AddArguments(new { uf = ufSaoPaulo })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
@@ -64,8 +65,9 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroNaoEncontrado_QuandoObterTodosPorUfInexistente()
         {
             // Arrange
+            const string ufNaoExistente = "XX";
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
-                .AddArguments(new { uf = "XX" })
+                .AddArguments(new { uf = ufNaoExistente })
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
 
@@ -82,8 +84,9 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroValidacao_QuandoObterPorIbgeInexistente()
         {
             // Arrange
+            const int ibgeNaoExistente = 999999999;
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
-                .AddArguments(new { ibge = int.MaxValue })
+                .AddArguments(new { ibge = ibgeNaoExistente })
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
@@ -100,8 +103,9 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroValidacao_QuandoObterPorIbgeInvalido()
         {
             // Arrange
+            const int ibgeInvalido = -1;
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
-                .AddArguments(new { ibge = -1 })
+                .AddArguments(new { ibge = ibgeInvalido })
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
@@ -118,8 +122,9 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroValidacao_QuandoObterTodosPorUfInvalido()
         {
             // Arrange
+            const string ufInvalido = "XXX.XX_X";
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
-                .AddArguments(new { uf = "XXX XXX" })
+                .AddArguments(new { uf = ufInvalido })
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
 
@@ -137,8 +142,9 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             const string queryName = QueryNames.CidadePorIbge;
+            const int ibgeVotuporanga = 3557105;
             var request = new GraphQLQuery<CidadeResponse>(queryName)
-                .AddArguments(new { ibge = 3557105 })
+                .AddArguments(new { ibge = ibgeVotuporanga })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
