@@ -32,8 +32,7 @@ namespace SGP.Infrastructure.Context
         /// <param name="context">Contexto da base de dados.</param>
         /// <param name="loggerFactory"></param>
         /// <returns>Retorna o número de linhas afetadas na base de dados.</returns>
-        public static async Task<long> EnsureSeedDataAsync(this SgpContext context,
-            ILoggerFactory loggerFactory)
+        public static async Task<long> EnsureSeedDataAsync(this SgpContext context, ILoggerFactory loggerFactory)
         {
             Guard.Against.Null(context, nameof(context));
             Guard.Against.Null(loggerFactory, nameof(loggerFactory));
@@ -45,8 +44,8 @@ namespace SGP.Infrastructure.Context
             return rowsAffected;
         }
 
-        private static async Task<long> PopularAsync<TEntity>(SgpContext context,
-            ILogger logger, string jsonFileName) where TEntity : class
+        private static async Task<long> PopularAsync<TEntity>(SgpContext context, ILogger logger, string jsonFileName)
+            where TEntity : class
         {
             Guard.Against.Null(logger, nameof(logger));
             Guard.Against.NullOrWhiteSpace(jsonFileName, nameof(jsonFileName));

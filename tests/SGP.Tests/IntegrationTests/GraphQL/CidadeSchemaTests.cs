@@ -26,7 +26,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         }
 
         [Fact]
-        public async Task Devera_RetornarCidades_QuandoObterPorUf()
+        public async Task Devera_RetornarCidades_AoObterPorUf()
         {
             // Arrange
             const string queryName = QueryNames.CidadesPorEstado;
@@ -62,7 +62,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         }
 
         [Fact]
-        public async Task Devera_RetornarErroNaoEncontrado_QuandoObterTodosPorUfInexistente()
+        public async Task Devera_RetornarErroNaoEncontrado_AoObterTodosPorUfInexistente()
         {
             // Arrange
             const string ufNaoExistente = "XX";
@@ -81,7 +81,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         }
 
         [Fact]
-        public async Task Devera_RetornarErroValidacao_QuandoObterPorIbgeInexistente()
+        public async Task Devera_RetornarErroValidacao_AoObterPorIbgeInexistente()
         {
             // Arrange
             const int ibgeNaoExistente = 999999999;
@@ -100,7 +100,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         }
 
         [Fact]
-        public async Task Devera_RetornarErroValidacao_QuandoObterPorIbgeInvalido()
+        public async Task Devera_RetornarErroValidacao_AoObterPorIbgeInvalido()
         {
             // Arrange
             const int ibgeInvalido = -1;
@@ -119,7 +119,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         }
 
         [Fact]
-        public async Task Devera_RetornarErroValidacao_QuandoObterTodosPorUfInvalido()
+        public async Task Devera_RetornarErroValidacao_AoObterTodosPorUfInvalido()
         {
             // Arrange
             const string ufInvalido = "XXX.XX_X";
@@ -138,7 +138,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         }
 
         [Fact]
-        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge()
+        public async Task Devera_RetornarResultadoSucessoComCidade_AoObterPorIbge()
         {
             // Arrange
             const string queryName = QueryNames.CidadePorIbge;

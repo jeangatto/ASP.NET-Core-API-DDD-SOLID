@@ -18,6 +18,6 @@ namespace SGP.Domain.Entities.Rules
 
         public string Message => "O endereço de e-mail informado já está sendo utilizado.";
 
-        public async Task<bool> IsBrokenAsync() => !await _repository.VerificarDisponibilidadeEmailAsync(_email);
+        public async Task<bool> IsBrokenAsync() => await _repository.VerificaSeEmailExisteAsync(_email);
     }
 }

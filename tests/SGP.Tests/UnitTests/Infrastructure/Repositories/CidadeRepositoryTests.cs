@@ -22,7 +22,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarCidade_QuandoObterPorIbge(
+        public async Task Devera_RetornarCidade_AoObterPorIbge(
             int ibge,
             string cidadeEsperada,
             string ufEsperada,
@@ -53,7 +53,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorUf))]
-        public async Task Devera_RetornarCidades_QuandoObterPorUf(string uf, int totalEsperado)
+        public async Task Devera_RetornarCidades_AoObterPorUf(string uf, int totalEsperado)
         {
             // Arrange
             await _fixture.SeedDataAsync();

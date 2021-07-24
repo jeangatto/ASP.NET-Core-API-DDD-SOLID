@@ -26,7 +26,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         }
 
         [Fact]
-        public async Task Devera_RetornarResultadoSucessoComEstados_QuandoObterTodos()
+        public async Task Devera_RetornarResultadoSucessoComEstados_AoObterTodos()
         {
             // Arrange
             const string queryName = QueryNames.ListarEstados;

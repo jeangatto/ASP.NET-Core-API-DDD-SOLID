@@ -29,7 +29,7 @@ namespace SGP.Tests.UnitTests.Application.Services
         }
 
         [Fact]
-        public async Task Devera_RetornarErroValidacao_QuandoObterTodosPorUfInvalido()
+        public async Task Devera_RetornarErroValidacao_AoObterTodosPorUfInvalido()
         {
             // Arrange
             var service = CriarServico();
@@ -44,7 +44,7 @@ namespace SGP.Tests.UnitTests.Application.Services
         }
 
         [Fact]
-        public async Task Devera_RetornarErroNaoEncontrado_QuandoObterTodosPorUfInexistente()
+        public async Task Devera_RetornarErroNaoEncontrado_AoObterTodosPorUfInexistente()
         {
             // Arrange
             await _fixture.SeedDataAsync();
@@ -61,7 +61,7 @@ namespace SGP.Tests.UnitTests.Application.Services
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorUf))]
-        public async Task Devera_RetornarResultadoSucessoComCidades_QuandoObterTodosPorUf(string uf, int totalEsperado)
+        public async Task Devera_RetornarResultadoSucessoComCidades_AoObterTodosPorUf(string uf, int totalEsperado)
         {
             // Arrange
             await _fixture.SeedDataAsync();
@@ -88,7 +88,7 @@ namespace SGP.Tests.UnitTests.Application.Services
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarResultadoSucessoComCidade_QuandoObterPorIbge(
+        public async Task Devera_RetornarResultadoSucessoComCidade_AoObterPorIbge(
             int ibge,
             string cidadeEsperada,
             string ufEsperada,
@@ -114,7 +114,7 @@ namespace SGP.Tests.UnitTests.Application.Services
         [Theory]
         [InlineData(-1)]
         [InlineData(0)]
-        public async Task Devera_RetornarErroValidacao_QuandoObterPorIbgeInvalido(int ibge)
+        public async Task Devera_RetornarErroValidacao_AoObterPorIbgeInvalido(int ibge)
         {
             // Arrange
             var service = CriarServico();
@@ -129,7 +129,7 @@ namespace SGP.Tests.UnitTests.Application.Services
         }
 
         [Fact]
-        public async Task Devera_RetornarErroValidacao_QuandoObterPorIbgeInexistente()
+        public async Task Devera_RetornarErroValidacao_AoObterPorIbgeInexistente()
         {
             // Arrange
             await _fixture.SeedDataAsync();

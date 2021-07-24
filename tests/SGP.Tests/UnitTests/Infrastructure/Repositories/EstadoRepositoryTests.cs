@@ -22,7 +22,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarEstadoPorRegiao))]
-        public async Task Devera_RetornarEstados_QuandoObterPorRegiao(string regiao, int totalEsperado)
+        public async Task Devera_RetornarEstados_AoObterPorRegiao(string regiao, int totalEsperado)
         {
             // Arrange
             await _fixture.SeedDataAsync();
@@ -48,7 +48,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         }
 
         [Fact]
-        public async Task Devera_RetornarEstados_QuandoObterTodos()
+        public async Task Devera_RetornarEstados_AoObterTodos()
         {
             // Arrange
             await _fixture.SeedDataAsync();

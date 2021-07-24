@@ -38,12 +38,6 @@ namespace SGP.Infrastructure.Repositories
                .FirstOrDefaultAsync();
         }
 
-        public Task<bool> VerificarDisponibilidadeEmailAsync(Email email)
-        {
-            return Queryable()
-                .AnyAsync(usuario => usuario.Email.Address == email.Address);
-        }
-
         public async Task<bool> VerificaSeEmailExisteAsync(Email email)
         {
             return await Queryable()

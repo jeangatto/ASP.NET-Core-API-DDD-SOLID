@@ -29,7 +29,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         }
 
         [Fact]
-        public async Task Devera_RetonarVerdadeiro_QuandoVerificarSeEmailJaExiste()
+        public async Task Devera_RetonarVerdadeiro_AoVerificarSeEmailJaExiste()
         {
             // Arrange
             var (repositorio, usuario) = await PopularAsync();
@@ -42,7 +42,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         }
 
         [Fact]
-        public async Task Devera_RetornarUsuario_QuandoObterPorEmail()
+        public async Task Devera_RetornarUsuario_AoObterPorEmail()
         {
             // Arrange
             var (repositorio, usuarioInserido) = await PopularAsync();
@@ -68,7 +68,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         }
 
         [Fact]
-        public async Task Devera_RetornarUsuario_QuandoObterPorId()
+        public async Task Devera_RetornarUsuario_AoObterPorId()
         {
             // Arrange
             var (repositorio, usuarioInserido) = await PopularAsync();
@@ -94,7 +94,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         }
 
         [Fact]
-        public async Task Devera_RetornarUsuario_QuandoObterPorToken()
+        public async Task Devera_RetornarUsuario_AoObterPorToken()
         {
             // Arrange
             const int quantidadeTokens = 3;

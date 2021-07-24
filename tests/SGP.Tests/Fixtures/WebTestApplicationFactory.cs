@@ -17,19 +17,18 @@ namespace SGP.Tests.Fixtures
         private const string ConnectionString = "DataSource=:memory:";
         private SqliteConnection _connection;
 
-        public WebTestApplicationFactory()
-        {
-            Server.AllowSynchronousIO = true;
-        }
+        public WebTestApplicationFactory() => Server.AllowSynchronousIO = true;
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.UseEnvironment(Environments.Development);
 
+            builder.UseDefaultServiceProvider(options => options.ValidateScopes = true);
+
             builder.ConfigureServices(services =>
             {
-                var dbContextDescriptor = services
-                    .FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
+                var dbContextDescriptor = services.FirstOrDefault(d
+                    => d.ServiceType == typeof(DbContextOptions<SgpContext>));
                 if (dbContextDescriptor != null)
                 {
                     services.Remove(dbContextDescriptor);
@@ -57,11 +56,11 @@ namespace SGP.Tests.Fixtures
                     {
                         context.Database.EnsureDeleted();
                         context.Database.EnsureCreated();
-                        context.EnsureSeedDataAsync(loggerFactory).Wait();
+                        context.EnsureSeedDataAsync(loggerFactory).GetAwaiter().GetResult();
                     }
                     catch (Exception ex)
                     {
-                        logger.LogError(ex, "Ocorreu um erro ao popular o banco de dados.");
+                        logger.LogError(ex, $"Ocorreu um erro ao popular o banco de dados; {ex.Message}");
                         throw;
                     }
                 }
