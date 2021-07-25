@@ -74,16 +74,16 @@ namespace SGP.Application.Services
             // Verificando se a senha corresponde a senha criptografada gravada na base de dados.
             if (_hashService.Compare(request.Password, usuario.HashSenha))
             {
-                // Gerando as regras (ROLES).
+                // Gerando as regras (roles).
                 var claims = GenerateClaims(usuario);
 
-                // Gerando o TOKEN de acesso.
+                // Gerando o token de acesso.
                 var accessToken = _tokenClaimsService.GenerateAccessToken(claims);
 
-                // Gerando o TOKEN de atualização.
+                // Gerando o token de atualização.
                 var refreshToken = _tokenClaimsService.GenerateRefreshToken();
 
-                // Vinculando o TOKEN atualização ao USUÁRIO.
+                // Vinculando o token atualização ao usuário.
                 usuario.AdicionarToken(new TokenAcesso(
                     refreshToken,
                     accessToken.CreatedAt,
@@ -100,7 +100,7 @@ namespace SGP.Application.Services
             }
             else
             {
-                // Se o LOGIN for inválido, será incrementado o número de falhas,
+                // Se o login for inválido, será incrementado o número de falhas,
                 // se atingido o limite de tentativas de acesso a conta será bloqueada por um determinado tempo.
                 var lockedTimeSpan = TimeSpan.FromSeconds(_authConfig.SecondsBlocked);
                 usuario.IncrementarFalhas(_dateTime, _authConfig.MaximumAttempts, lockedTimeSpan);
@@ -128,26 +128,26 @@ namespace SGP.Application.Services
                 return Result.Fail<TokenResponse>(new NotFoundError("Nenhum token encontrado."));
             }
 
-            // Verificando se o TOKEN de atualização está expirado.
+            // Verificando se o token de atualização está expirado.
             var tokenAcesso = usuario.Tokens.FirstOrDefault(t => t.Token == request.Token);
             if (!tokenAcesso.EstaValido(_dateTime))
             {
                 return Result.Fail<TokenResponse>("O token inválido ou expirado.");
             }
 
-            // Gerando as regras (ROLES).
+            // Gerando as regras (roles).
             var claims = GenerateClaims(usuario);
 
-            // Gerando um novo TOKEN de acesso.
+            // Gerando um novo token de acesso.
             var accessToken = _tokenClaimsService.GenerateAccessToken(claims);
 
-            // Gerando um novo TOKEN de atualização.
+            // Gerando um novo token de atualização.
             var newRefreshToken = _tokenClaimsService.GenerateRefreshToken();
 
-            // Revogando (cancelando) o TOKEN de atualização atual.
+            // Revogando (cancelando) o token de atualização atual.
             tokenAcesso.RevogarToken(accessToken.CreatedAt);
 
-            // Vinculando o novo TOKEN atualização ao USUÁRIO.
+            // Vinculando o novo token atualização ao usuário.
             usuario.AdicionarToken(new TokenAcesso(
                 newRefreshToken,
                 accessToken.CreatedAt,

@@ -38,7 +38,7 @@ namespace SGP.Infrastructure.Repositories
                .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> VerificaSeEmailExisteAsync(Email email)
+        public async Task<bool> VerificarSeEmailExisteAsync(Email email)
         {
             return await Queryable()
                 .AnyAsync(usuario => usuario.Email.Address == email.Address);

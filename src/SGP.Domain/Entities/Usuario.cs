@@ -1,4 +1,3 @@
-using Ardalis.GuardClauses;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
@@ -31,46 +30,22 @@ namespace SGP.Domain.Entities
 
         public IReadOnlyList<TokenAcesso> Tokens => _tokens.AsReadOnly();
 
-        public void AdicionarToken(TokenAcesso tokenAcesso)
-        {
-            Guard.Against.Null(tokenAcesso, nameof(TokenAcesso));
-            _tokens.Add(tokenAcesso);
-        }
+        public void AdicionarToken(TokenAcesso tokenAcesso) => _tokens.Add(tokenAcesso);
 
         /// <summary>
         /// Indica se a conta do usuário está bloqueada.
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns>Verdadeiro se a conta estiver bloqueada; caso contrário, falso.</returns>
-        public bool EstaBloqueado(IDateTime dateTime)
-        {
-            Guard.Against.Null(dateTime, nameof(dateTime));
-            return BloqueioExpiraEm > dateTime.Now;
-        }
+        public bool EstaBloqueado(IDateTime dateTime) => BloqueioExpiraEm > dateTime.Now;
 
-        public void AtualizarNome(string nome)
-        {
-            Guard.Against.NullOrWhiteSpace(nome, nameof(nome));
-            Nome = nome;
-        }
+        public void AtualizarNome(string nome) => Nome = nome;
 
-        public void AtualizarEmail(Email email)
-        {
-            Guard.Against.Null(email, nameof(email));
-            Email = email;
-        }
+        public void AtualizarEmail(Email email) => Email = email;
 
-        public void DefinirHashSenha(string hashSenha)
-        {
-            Guard.Against.NullOrWhiteSpace(hashSenha, nameof(hashSenha));
-            HashSenha = hashSenha;
-        }
+        public void DefinirHashSenha(string hashSenha) => HashSenha = hashSenha;
 
-        public void DefinirUltimoAcesso(IDateTime dateTime)
-        {
-            Guard.Against.Null(dateTime, nameof(dateTime));
-            UltimoAcessoEm = dateTime.Now;
-        }
+        public void DefinirUltimoAcesso(IDateTime dateTime) => UltimoAcessoEm = dateTime.Now;
 
         /// <summary>
         /// Incremenenta o número de acessos que falharam.
@@ -81,10 +56,6 @@ namespace SGP.Domain.Entities
         /// <param name="lockedTimeSpan">Determinado tempo em que a conta ficará bloqueada.</param>
         public void IncrementarFalhas(IDateTime dateTime, short numeroTentativas, TimeSpan lockedTimeSpan)
         {
-            Guard.Against.Null(dateTime, nameof(dateTime));
-            Guard.Against.NegativeOrZero(numeroTentativas, nameof(numeroTentativas));
-            Guard.Against.Null(lockedTimeSpan, nameof(lockedTimeSpan));
-
             if (EstaBloqueado(dateTime))
             {
                 return;

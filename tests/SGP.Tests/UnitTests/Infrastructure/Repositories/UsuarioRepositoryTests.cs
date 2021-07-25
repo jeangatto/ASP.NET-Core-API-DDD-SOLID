@@ -35,7 +35,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             var (repositorio, usuario) = await PopularAsync();
 
             // Act
-            var actual = await repositorio.VerificaSeEmailExisteAsync(usuario.Email);
+            var actual = await repositorio.VerificarSeEmailExisteAsync(usuario.Email);
 
             // Assert
             actual.Should().Be(true);
@@ -97,8 +97,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_AoObterPorToken()
         {
             // Arrange
-            const int quantidadeTokens = 3;
-            var (repositorio, usuarioInserido) = await PopularAsync(quantidadeTokens);
+            var (repositorio, usuarioInserido) = await PopularAsync(3);
 
             // Act
             var actual = await repositorio.ObterPorTokenAsync(usuarioInserido.Tokens[0].Token);
@@ -145,7 +144,8 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                         var expiraEm = criadoEm.AddHours(8);
                         u.AdicionarToken(new TokenAcesso(f.Internet.Password(2048), criadoEm, expiraEm));
                     }
-                }).Generate();
+                })
+                .Generate();
         }
 
         private IUsuarioRepository CriarRepositorio()

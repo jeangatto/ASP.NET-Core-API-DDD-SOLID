@@ -35,7 +35,7 @@ namespace SGP.Tests.UnitTests.ValueObjects
             Action act = () => Email.Create(emailAddress);
 
             // Assert
-            act.Should().ThrowExactly<BusinessRuleException>();
+            act.Should().ThrowExactly<BusinessException>();
         }
     }
 }

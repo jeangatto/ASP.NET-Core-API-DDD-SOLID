@@ -9,6 +9,6 @@ namespace SGP.Domain.Repositories
     {
         Task<Usuario> ObterPorEmailAsync(Email email);
         Task<Usuario> ObterPorTokenAsync(string token);
-        Task<bool> VerificaSeEmailExisteAsync(Email email);
+        Task<bool> VerificarSeEmailExisteAsync(Email email);
     }
 }
