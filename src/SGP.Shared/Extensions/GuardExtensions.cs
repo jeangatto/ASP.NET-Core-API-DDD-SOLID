@@ -1,10 +1,10 @@
-using Ardalis.GuardClauses;
-using Microsoft.Extensions.Options;
-using System;
-using System.Diagnostics.CodeAnalysis;
-
 namespace SGP.Shared.Extensions
 {
+    using Ardalis.GuardClauses;
+    using Microsoft.Extensions.Options;
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+
     public static class GuardExtensions
     {
         /// <summary>
@@ -21,7 +21,7 @@ namespace SGP.Shared.Extensions
         public static IOptions<T> NullOptions<T>(this IGuardClause guardClause, IOptions<T> input,
             string paramName) where T : class
         {
-            if (input == null || input.Value == null)
+            if (input?.Value == null)
             {
                 throw new ArgumentNullException(paramName,
                     $"A seção '{typeof(T).Name}' não está configurada no appsettings.json");

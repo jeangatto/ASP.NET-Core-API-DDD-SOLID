@@ -1,16 +1,15 @@
-using Ardalis.GuardClauses;
-using FluentValidation;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Scrutor;
-using SGP.Infrastructure.Services;
-using SGP.Infrastructure.UoW;
-using SGP.Shared.AppSettings;
-using SGP.Shared.Interfaces;
-using System;
-
 namespace SGP.Infrastructure
 {
+    using Ardalis.GuardClauses;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Scrutor;
+    using Services;
+    using Shared.AppSettings;
+    using Shared.Interfaces;
+    using System;
+    using UoW;
+
     public static class ServicesCollectionExtensions
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)

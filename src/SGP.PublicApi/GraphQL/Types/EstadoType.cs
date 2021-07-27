@@ -1,9 +1,9 @@
-using GraphQL.Types;
-using SGP.Application.Responses;
-
 namespace SGP.PublicApi.GraphQL.Types
 {
-    public class EstadoType : ObjectGraphType<EstadoResponse>
+    using Application.Responses;
+    using global::GraphQL.Types;
+
+    public sealed class EstadoType : ObjectGraphType<EstadoResponse>
     {
         public EstadoType()
         {

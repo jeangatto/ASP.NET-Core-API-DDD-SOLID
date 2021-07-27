@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
-
-namespace SGP.PublicApi.Options
+﻿namespace SGP.PublicApi.Options
 {
+    using Microsoft.AspNetCore.Mvc.ApiExplorer;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Options;
+    using Microsoft.OpenApi.Models;
+    using Swashbuckle.AspNetCore.SwaggerGen;
+    using System;
+
     public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
     {
         private readonly IApiVersionDescriptionProvider _provider;
@@ -38,7 +38,7 @@ namespace SGP.PublicApi.Options
                     Name = "Jean Gatto",
                     Email = "jean_gatto@hotmail.com",
                     Url = new Uri("https://www.linkedin.com/in/jeangatto/")
-                },
+                }
             };
 
             if (description.IsDeprecated)

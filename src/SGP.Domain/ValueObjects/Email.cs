@@ -1,13 +1,11 @@
-using SGP.Shared.Constants;
-using SGP.Shared.Exceptions;
-using SGP.Shared.ValueObjects;
-using System.Collections.Generic;
-
 namespace SGP.Domain.ValueObjects
 {
+    using Shared.ValueObjects;
+    using System.Collections.Generic;
+
     public sealed class Email : ValueObject
     {
-        private Email(string address)
+        public Email(string address)
         {
             Address = address?.ToLowerInvariant();
         }
@@ -17,16 +15,6 @@ namespace SGP.Domain.ValueObjects
         }
 
         public string Address { get; private init; }
-
-        public static Email Create(string address)
-        {
-            if (!RegexPatterns.EmailRegexPattern.IsMatch(address))
-            {
-                throw new BusinessException($"O endereço de e-mail '{address}' é inválido.");
-            }
-
-            return new Email(address);
-        }
 
         public override string ToString()
         {

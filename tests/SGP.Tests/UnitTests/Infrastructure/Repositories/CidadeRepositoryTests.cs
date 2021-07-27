@@ -1,15 +1,15 @@
-using FluentAssertions;
-using SGP.Domain.Repositories;
-using SGP.Infrastructure.Repositories;
-using SGP.Tests.Constants;
-using SGP.Tests.Extensions;
-using SGP.Tests.Fixtures;
-using System.Threading.Tasks;
-using Xunit;
-using Xunit.Categories;
-
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
+    using Constants;
+    using Domain.Repositories;
+    using Extensions;
+    using Fixtures;
+    using FluentAssertions;
+    using SGP.Infrastructure.Repositories;
+    using System.Threading.Tasks;
+    using Xunit;
+    using Xunit.Categories;
+
     [UnitTest(TestCategories.Infrastructure)]
     public class CidadeRepositoryTests : IClassFixture<EfSqliteFixture>
     {
@@ -22,10 +22,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 
         [Theory]
         [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarCidade_AoObterPorIbge(
-            int ibge,
-            string cidadeEsperada,
-            string ufEsperada,
+        public async Task Devera_RetornarCidade_AoObterPorIbge(int ibge, string cidadeEsperada, string ufEsperada,
             string regiaoEsperada)
         {
             // Arrange

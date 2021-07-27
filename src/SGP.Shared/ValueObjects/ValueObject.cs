@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace SGP.Shared.ValueObjects
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public abstract class ValueObject
     {
         public override bool Equals(object obj)
@@ -24,7 +23,7 @@ namespace SGP.Shared.ValueObjects
                 .Aggregate((x, y) => x ^ y);
         }
 
-        protected static bool EqualOperator(ValueObject left, ValueObject right)
+        private static bool EqualOperator(ValueObject left, ValueObject right)
         {
             if (left is null ^ right is null)
             {

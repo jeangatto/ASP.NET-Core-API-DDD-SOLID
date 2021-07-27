@@ -1,16 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using SGP.Infrastructure.Context;
-using SGP.Shared.Entities;
-using SGP.Shared.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace SGP.Infrastructure.Repositories.Common
 {
-    public abstract class EfRepository<TEntity> : IAsyncRepository<TEntity>
-       where TEntity : BaseEntity, IAggregateRoot
+    using Context;
+    using Microsoft.EntityFrameworkCore;
+    using Shared.Entities;
+    using Shared.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    public abstract class EfRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : BaseEntity, IAggregateRoot
     {
         private readonly DbSet<TEntity> _dbSet;
 
@@ -19,35 +18,17 @@ namespace SGP.Infrastructure.Repositories.Common
             _dbSet = context.Set<TEntity>();
         }
 
-        public void Add(TEntity entity)
-        {
-            _dbSet.Add(entity);
-        }
+        public void Add(TEntity entity) => _dbSet.Add(entity);
 
-        public void AddRange(IEnumerable<TEntity> entities)
-        {
-            _dbSet.AddRange(entities);
-        }
+        public void AddRange(IEnumerable<TEntity> entities) => _dbSet.AddRange(entities);
 
-        public void Update(TEntity entity)
-        {
-            _dbSet.Update(entity);
-        }
+        public void Update(TEntity entity) => _dbSet.Update(entity);
 
-        public void UpdateRange(IEnumerable<TEntity> entities)
-        {
-            _dbSet.UpdateRange(entities);
-        }
+        public void UpdateRange(IEnumerable<TEntity> entities) => _dbSet.UpdateRange(entities);
 
-        public void Remove(TEntity entity)
-        {
-            _dbSet.Remove(entity);
-        }
+        public void Remove(TEntity entity) => _dbSet.Remove(entity);
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
-        {
-            _dbSet.RemoveRange(entities);
-        }
+        public void RemoveRange(IEnumerable<TEntity> entities) => _dbSet.RemoveRange(entities);
 
         public virtual async Task<TEntity> GetByIdAsync(Guid id, bool readOnly = true)
         {
@@ -57,8 +38,6 @@ namespace SGP.Infrastructure.Repositories.Common
         }
 
         protected IQueryable<TEntity> Queryable(bool readOnly = true)
-        {
-            return readOnly ? _dbSet.AsNoTracking() : _dbSet.AsQueryable();
-        }
+            => readOnly ? _dbSet.AsNoTracking() : _dbSet.AsQueryable();
     }
 }

@@ -1,15 +1,15 @@
-using AutoMapper;
-using FluentResults;
-using Microsoft.Extensions.Caching.Memory;
-using SGP.Application.Interfaces;
-using SGP.Application.Responses;
-using SGP.Application.Services.Common;
-using SGP.Domain.Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace SGP.Application.Services
 {
+    using AutoMapper;
+    using Common;
+    using Domain.Repositories;
+    using FluentResults;
+    using Interfaces;
+    using Microsoft.Extensions.Caching.Memory;
+    using Responses;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public class EstadoService : BaseService, IEstadoService
     {
         private const string ObterTodosCacheKey = "EstadoService__ObterTodosAsync";
@@ -28,7 +28,6 @@ namespace SGP.Application.Services
             return await MemoryCache.GetOrCreateAsync(ObterTodosCacheKey, async cacheEntry =>
             {
                 ConfigureCacheEntry(cacheEntry);
-
                 var estados = await _repository.ObterTodosAsync();
                 return Result.Ok(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
             });

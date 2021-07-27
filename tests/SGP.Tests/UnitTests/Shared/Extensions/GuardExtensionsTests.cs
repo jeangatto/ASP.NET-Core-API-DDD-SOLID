@@ -1,15 +1,15 @@
-using Ardalis.GuardClauses;
-using FluentAssertions;
-using Microsoft.Extensions.Options;
-using SGP.Shared.AppSettings;
-using SGP.Shared.Extensions;
-using SGP.Tests.Constants;
-using System;
-using Xunit;
-using Xunit.Categories;
-
 namespace SGP.Tests.UnitTests.Shared.Extensions
 {
+    using Ardalis.GuardClauses;
+    using Constants;
+    using FluentAssertions;
+    using Microsoft.Extensions.Options;
+    using SGP.Shared.AppSettings;
+    using SGP.Shared.Extensions;
+    using System;
+    using Xunit;
+    using Xunit.Categories;
+
     [UnitTest(TestCategories.Shared)]
     public class GuardExtensionsTests
     {
@@ -31,7 +31,7 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
         {
             // Arrange
             IOptions<AuthConfig> options = null;
-            var expectedMessage = $"A seção '{typeof(AuthConfig).Name}' não está configurada no appsettings.json";
+            var expectedMessage = $"A seção '{nameof(AuthConfig)}' não está configurada no appsettings.json";
 
             // Act
             Action act = () => Guard.Against.NullOptions(options, nameof(options));
@@ -45,7 +45,7 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
         {
             // Arrange
             var options = Options.Create<AuthConfig>(null);
-            var expectedMessage = $"A seção '{typeof(AuthConfig).Name}' não está configurada no appsettings.json";
+            var expectedMessage = $"A seção '{nameof(AuthConfig)}' não está configurada no appsettings.json";
 
             // Act
             Action act = () => Guard.Against.NullOptions(options, nameof(options));

@@ -1,23 +1,23 @@
-using Bogus;
-using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using Moq;
-using SGP.Domain.Entities;
-using SGP.Domain.Repositories;
-using SGP.Domain.ValueObjects;
-using SGP.Infrastructure.Repositories;
-using SGP.Infrastructure.UoW;
-using SGP.Shared.Interfaces;
-using SGP.Tests.Constants;
-using SGP.Tests.Extensions;
-using SGP.Tests.Fixtures;
-using System;
-using System.Threading.Tasks;
-using Xunit;
-using Xunit.Categories;
-
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
+    using Bogus;
+    using Constants;
+    using Domain.Entities;
+    using Domain.Repositories;
+    using Domain.ValueObjects;
+    using Extensions;
+    using Fixtures;
+    using FluentAssertions;
+    using Microsoft.Extensions.Logging;
+    using Moq;
+    using SGP.Infrastructure.Repositories;
+    using SGP.Infrastructure.UoW;
+    using SGP.Shared.Interfaces;
+    using System;
+    using System.Threading.Tasks;
+    using Xunit;
+    using Xunit.Categories;
+
     [Category(TestCategories.Infrastructure)]
     public class UsuarioRepositoryTests : IClassFixture<EfSqliteFixture>
     {
@@ -32,7 +32,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetonarVerdadeiro_AoVerificarSeEmailJaExiste()
         {
             // Arrange
-            var (repositorio, usuario) = await PopularAsync();
+            (IUsuarioRepository repositorio, Usuario usuario) = await PopularAsync();
 
             // Act
             var actual = await repositorio.VerificarSeEmailExisteAsync(usuario.Email);
@@ -45,7 +45,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_AoObterPorEmail()
         {
             // Arrange
-            var (repositorio, usuarioInserido) = await PopularAsync();
+            (IUsuarioRepository repositorio, Usuario usuarioInserido) = await PopularAsync();
 
             // Act
             var actual = await repositorio.ObterPorEmailAsync(usuarioInserido.Email);
@@ -71,7 +71,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_AoObterPorId()
         {
             // Arrange
-            var (repositorio, usuarioInserido) = await PopularAsync();
+            (IUsuarioRepository repositorio, Usuario usuarioInserido) = await PopularAsync();
 
             // Act
             var actual = await repositorio.GetByIdAsync(usuarioInserido.Id);
@@ -97,7 +97,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_AoObterPorToken()
         {
             // Arrange
-            var (repositorio, usuarioInserido) = await PopularAsync(3);
+            (IUsuarioRepository repositorio, Usuario usuarioInserido) = await PopularAsync(3);
 
             // Act
             var actual = await repositorio.ObterPorTokenAsync(usuarioInserido.Tokens[0].Token);
@@ -134,7 +134,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 .UsePrivateConstructor()
                 .RuleFor(u => u.Id, Guid.NewGuid())
                 .RuleFor(u => u.Nome, f => f.Person.UserName)
-                .RuleFor(u => u.Email, f => Email.Create(f.Person.Email))
+                .RuleFor(u => u.Email, f => new Email(f.Person.Email))
                 .RuleFor(u => u.HashSenha, f => f.Internet.Password(60))
                 .FinishWith((f, u) =>
                 {
@@ -148,14 +148,8 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 .Generate();
         }
 
-        private IUsuarioRepository CriarRepositorio()
-        {
-            return new UsuarioRepository(_fixture.Context);
-        }
+        private IUsuarioRepository CriarRepositorio() => new UsuarioRepository(_fixture.Context);
 
-        private IUnitOfWork CriarUoW()
-        {
-            return new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
-        }
+        private IUnitOfWork CriarUoW() => new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
     }
 }

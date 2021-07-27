@@ -1,21 +1,21 @@
-using AutoMapper;
-using FluentAssertions;
-using FluentResults.Extensions.FluentAssertions;
-using Microsoft.Extensions.Caching.Memory;
-using SGP.Application.Interfaces;
-using SGP.Application.Mapper;
-using SGP.Application.Services;
-using SGP.Domain.Repositories;
-using SGP.Infrastructure.Repositories;
-using SGP.Tests.Constants;
-using SGP.Tests.Extensions;
-using SGP.Tests.Fixtures;
-using System.Threading.Tasks;
-using Xunit;
-using Xunit.Categories;
-
 namespace SGP.Tests.UnitTests.Application.Services
 {
+    using AutoMapper;
+    using Constants;
+    using Domain.Repositories;
+    using Fixtures;
+    using FluentAssertions;
+    using FluentResults.Extensions.FluentAssertions;
+    using Microsoft.Extensions.Caching.Memory;
+    using SGP.Application.Interfaces;
+    using SGP.Application.Mapper;
+    using SGP.Application.Services;
+    using SGP.Infrastructure.Repositories;
+    using System.Threading.Tasks;
+    using Tests.Extensions;
+    using Xunit;
+    using Xunit.Categories;
+
     [UnitTest(TestCategories.Application)]
     public class EstadoServiceTests : IClassFixture<EfSqliteFixture>
     {
@@ -52,11 +52,9 @@ namespace SGP.Tests.UnitTests.Application.Services
         private static IMapper CriarMapper()
             => new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
 
-        private static IMemoryCache CriarMemoryCache()
-            => new MemoryCache(new MemoryCacheOptions());
+        private static IMemoryCache CriarMemoryCache() => new MemoryCache(new MemoryCacheOptions());
 
-        private IEstadoRepository CriarRepositorio()
-            => new EstadoRepository(_fixture.Context);
+        private IEstadoRepository CriarRepositorio() => new EstadoRepository(_fixture.Context);
 
         private IEstadoService CriarServico()
             => new EstadoService(CriarMapper(), CriarMemoryCache(), CriarRepositorio());

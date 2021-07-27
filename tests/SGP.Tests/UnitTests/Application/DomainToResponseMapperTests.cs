@@ -1,11 +1,11 @@
-using AutoMapper;
-using SGP.Application.Mapper;
-using SGP.Tests.Constants;
-using Xunit;
-using Xunit.Categories;
-
 namespace SGP.Tests.UnitTests.Application
 {
+    using AutoMapper;
+    using Constants;
+    using SGP.Application.Mapper;
+    using Xunit;
+    using Xunit.Categories;
+
     [UnitTest(TestCategories.Application)]
     public class DomainToResponseMapperTests
     {
@@ -13,7 +13,8 @@ namespace SGP.Tests.UnitTests.Application
         public void Should_Mapper_ConfigurationIsValid()
         {
             // Arrange
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>());
+            var configuration = new MapperConfiguration(cfg
+                => cfg.AddProfile<DomainToResponseMapper>());
 
             // Act
             var mapper = new Mapper(configuration);

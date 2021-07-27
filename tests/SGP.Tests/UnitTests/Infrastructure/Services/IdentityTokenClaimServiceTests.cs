@@ -1,18 +1,18 @@
-using Bogus;
-using FluentAssertions;
-using Microsoft.Extensions.Options;
-using SGP.Infrastructure.Services;
-using SGP.Shared.AppSettings;
-using SGP.Shared.Interfaces;
-using SGP.Tests.Constants;
-using System;
-using System.Linq;
-using System.Security.Claims;
-using Xunit;
-using Xunit.Categories;
-
 namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
+    using Bogus;
+    using Constants;
+    using FluentAssertions;
+    using Microsoft.Extensions.Options;
+    using SGP.Infrastructure.Services;
+    using SGP.Shared.AppSettings;
+    using SGP.Shared.Interfaces;
+    using System;
+    using System.Linq;
+    using System.Security.Claims;
+    using Xunit;
+    using Xunit.Categories;
+
     [UnitTest(TestCategories.Infrastructure)]
     public class IdentityTokenClaimServiceTests
     {
@@ -27,7 +27,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Name, Faker.Person.UserName),
-                new Claim(ClaimTypes.Email, Faker.Person.Email),
+                new Claim(ClaimTypes.Email, Faker.Person.Email)
             };
 
             // Act

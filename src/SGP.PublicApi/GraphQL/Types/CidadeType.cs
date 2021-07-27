@@ -1,9 +1,9 @@
-using GraphQL.Types;
-using SGP.Application.Responses;
-
 namespace SGP.PublicApi.GraphQL.Types
 {
-    public class CidadeType : ObjectGraphType<CidadeResponse>
+    using Application.Responses;
+    using global::GraphQL.Types;
+
+    public sealed class CidadeType : ObjectGraphType<CidadeResponse>
     {
         public CidadeType()
         {

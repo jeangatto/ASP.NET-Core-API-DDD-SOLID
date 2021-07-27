@@ -1,16 +1,16 @@
-using GraphQL.Types;
-using SGP.Application.Interfaces;
-using SGP.PublicApi.GraphQL.Constants;
-using SGP.PublicApi.GraphQL.Types;
-
 namespace SGP.PublicApi.GraphQL.Queries
 {
+    using Application.Interfaces;
+    using Constants;
+    using global::GraphQL.Types;
+    using Types;
+
     public class EstadoQuery : ObjectGraphType
     {
         public EstadoQuery(IEstadoService service)
         {
             FieldAsync<ListGraphType<EstadoType>>(
-               name: QueryNames.ListarEstados,
+               QueryNames.ListarEstados,
                resolve: async _ => (await service.ObterTodosAsync()).Value);
         }
     }

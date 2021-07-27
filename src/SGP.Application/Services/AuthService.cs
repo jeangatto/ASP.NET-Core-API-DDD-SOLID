@@ -1,25 +1,25 @@
-using Ardalis.GuardClauses;
-using FluentResults;
-using Microsoft.Extensions.Options;
-using SGP.Application.Interfaces;
-using SGP.Application.Requests.AuthRequests;
-using SGP.Application.Responses;
-using SGP.Domain.Entities;
-using SGP.Domain.Repositories;
-using SGP.Domain.ValueObjects;
-using SGP.Shared.AppSettings;
-using SGP.Shared.Errors;
-using SGP.Shared.Extensions;
-using SGP.Shared.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
 namespace SGP.Application.Services
 {
+    using Ardalis.GuardClauses;
+    using Domain.Entities;
+    using Domain.Repositories;
+    using Domain.ValueObjects;
+    using FluentResults;
+    using Interfaces;
+    using Microsoft.Extensions.Options;
+    using Requests.AuthRequests;
+    using Responses;
+    using Shared.AppSettings;
+    using Shared.Errors;
+    using Shared.Extensions;
+    using Shared.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
     public class AuthService : IAuthService
     {
         private readonly AuthConfig _authConfig;
@@ -59,7 +59,7 @@ namespace SGP.Application.Services
                 return request.ToFail<TokenResponse>();
             }
 
-            var usuario = await _repository.ObterPorEmailAsync(Email.Create(request.Email));
+            var usuario = await _repository.ObterPorEmailAsync(new Email(request.Email));
             if (usuario == null)
             {
                 return Result.Fail<TokenResponse>(new NotFoundError("A conta informada não existe."));
@@ -130,7 +130,7 @@ namespace SGP.Application.Services
 
             // Verificando se o token de atualização está expirado.
             var tokenAcesso = usuario.Tokens.FirstOrDefault(t => t.Token == request.Token);
-            if (!tokenAcesso.EstaValido(_dateTime))
+            if (tokenAcesso == null || !tokenAcesso.EstaValido(_dateTime))
             {
                 return Result.Fail<TokenResponse>("O token inválido ou expirado.");
             }

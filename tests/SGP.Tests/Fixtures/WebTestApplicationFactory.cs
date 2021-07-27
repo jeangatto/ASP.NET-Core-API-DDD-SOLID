@@ -1,17 +1,17 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using SGP.Infrastructure.Context;
-using SGP.PublicApi;
-using System;
-using System.Linq;
-
 namespace SGP.Tests.Fixtures
 {
+    using Infrastructure.Context;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc.Testing;
+    using Microsoft.Data.Sqlite;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using PublicApi;
+    using System;
+    using System.Linq;
+
     public class WebTestApplicationFactory : WebApplicationFactory<Startup>
     {
         private const string ConnectionString = "DataSource=:memory:";
@@ -27,8 +27,8 @@ namespace SGP.Tests.Fixtures
 
             builder.ConfigureServices(services =>
             {
-                var dbContextDescriptor = services.FirstOrDefault(d
-                    => d.ServiceType == typeof(DbContextOptions<SgpContext>));
+                var dbContextDescriptor =
+                    services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
                 if (dbContextDescriptor != null)
                 {
                     services.Remove(dbContextDescriptor);
@@ -74,6 +74,7 @@ namespace SGP.Tests.Fixtures
                 _connection?.Dispose();
                 _connection = null;
             }
+
             base.Dispose(disposing);
         }
     }

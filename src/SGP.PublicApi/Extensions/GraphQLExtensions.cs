@@ -1,22 +1,22 @@
-using Ardalis.GuardClauses;
-using GraphQL;
-using GraphQL.Caching;
-using GraphQL.Execution;
-using GraphQL.Server;
-using GraphQL.Server.Ui.Playground;
-using GraphQL.Types;
-using GraphQL.Validation;
-using GraphQL.Validation.Complexity;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Scrutor;
-using SGP.PublicApi.GraphQL.Constants;
-using SGP.PublicApi.GraphQL.Schemas;
-
 namespace SGP.PublicApi.Extensions
 {
+    using Ardalis.GuardClauses;
+    using global::GraphQL;
+    using global::GraphQL.Caching;
+    using global::GraphQL.Execution;
+    using global::GraphQL.Server;
+    using global::GraphQL.Server.Ui.Playground;
+    using global::GraphQL.Types;
+    using global::GraphQL.Validation;
+    using global::GraphQL.Validation.Complexity;
+    using GraphQL.Constants;
+    using GraphQL.Schemas;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using Scrutor;
+
     public static class ServicesCollectionExtensions
     {
         public static IServiceCollection AddGraphQLWithSchemas(this IServiceCollection services)
@@ -60,13 +60,13 @@ namespace SGP.PublicApi.Extensions
             app.UseGraphQLPlayground(new PlaygroundOptions
             {
                 GraphQLEndPoint = GraphQLApiEndpoints.Cidades
-            }, path: GraphQLPlaygroundEndpoints.Cidades);
+            }, GraphQLPlaygroundEndpoints.Cidades);
 
             app.UseGraphQL<EstadoSchema>(GraphQLApiEndpoints.Estados);
             app.UseGraphQLPlayground(new PlaygroundOptions
             {
                 GraphQLEndPoint = GraphQLApiEndpoints.Estados
-            }, path: GraphQLPlaygroundEndpoints.Estados);
+            }, GraphQLPlaygroundEndpoints.Estados);
 
             return app;
         }
@@ -81,7 +81,7 @@ namespace SGP.PublicApi.Extensions
                 // for 10MB maximum memory use by the cache)
                 SizeLimit = 1000000,
                 // no expiration of cached queries (cached queries are only ejected when the cache is full)
-                SlidingExpiration = null,
+                SlidingExpiration = null
             });
 
             services.AddSingleton<IDocumentExecuter>(_ =>
