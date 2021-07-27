@@ -1,8 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace SGP.Shared.ValueObjects
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     public abstract class ValueObject
     {
         public override bool Equals(object obj)

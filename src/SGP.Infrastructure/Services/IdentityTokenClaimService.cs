@@ -1,19 +1,19 @@
+using Ardalis.GuardClauses;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using SGP.Shared.AppSettings;
+using SGP.Shared.Extensions;
+using SGP.Shared.Interfaces;
+using SGP.Shared.Records;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+
 namespace SGP.Infrastructure.Services
 {
-    using Ardalis.GuardClauses;
-    using Microsoft.Extensions.Options;
-    using Microsoft.IdentityModel.Tokens;
-    using Shared.AppSettings;
-    using Shared.Extensions;
-    using Shared.Interfaces;
-    using Shared.Records;
-    using System;
-    using System.Collections.Generic;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Security.Claims;
-    using System.Security.Cryptography;
-    using System.Text;
-
     public class IdentityTokenClaimService : ITokenClaimsService
     {
         private readonly JwtConfig _jwtConfig;

@@ -1,8 +1,8 @@
+using Bogus;
+using System;
+
 namespace SGP.Tests.Extensions
 {
-    using Bogus;
-    using System;
-
     public static class FakerExtensions
     {
         public static Faker<T> UsePrivateConstructor<T>(this Faker<T> faker) where T : class

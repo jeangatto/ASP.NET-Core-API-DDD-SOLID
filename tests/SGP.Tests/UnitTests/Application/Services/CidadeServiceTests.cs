@@ -1,23 +1,23 @@
+using AutoMapper;
+using FluentAssertions;
+using FluentResults.Extensions.FluentAssertions;
+using Microsoft.Extensions.Caching.Memory;
+using SGP.Application.Interfaces;
+using SGP.Application.Mapper;
+using SGP.Application.Requests.CidadeRequests;
+using SGP.Application.Services;
+using SGP.Domain.Repositories;
+using SGP.Infrastructure.Repositories;
+using SGP.Shared.Errors;
+using SGP.Tests.Constants;
+using SGP.Tests.Extensions;
+using SGP.Tests.Fixtures;
+using System.Threading.Tasks;
+using Xunit;
+using Xunit.Categories;
+
 namespace SGP.Tests.UnitTests.Application.Services
 {
-    using AutoMapper;
-    using Constants;
-    using Domain.Repositories;
-    using Fixtures;
-    using FluentAssertions;
-    using FluentResults.Extensions.FluentAssertions;
-    using Microsoft.Extensions.Caching.Memory;
-    using SGP.Application.Interfaces;
-    using SGP.Application.Mapper;
-    using SGP.Application.Requests.CidadeRequests;
-    using SGP.Application.Services;
-    using SGP.Infrastructure.Repositories;
-    using SGP.Shared.Errors;
-    using System.Threading.Tasks;
-    using Tests.Extensions;
-    using Xunit;
-    using Xunit.Categories;
-
     [UnitTest(TestCategories.Application)]
     public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
     {
@@ -142,7 +142,8 @@ namespace SGP.Tests.UnitTests.Application.Services
         }
 
         private static IMapper CriarMapper()
-            => new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
+            => new Mapper(new MapperConfiguration(cfg
+                => cfg.AddProfile<DomainToResponseMapper>()));
 
         private static IMemoryCache CriarMemoryCache() => new MemoryCache(new MemoryCacheOptions());
 

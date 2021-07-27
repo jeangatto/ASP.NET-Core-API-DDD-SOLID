@@ -10,8 +10,8 @@ namespace SGP.Tests.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static Task<HttpResponseMessage> SendAsync(this HttpClient httpClient,
-            string endpoint, GraphQLRequest request)
+        public static Task<HttpResponseMessage> SendAsync(this HttpClient httpClient, string endpoint,
+            GraphQLRequest request)
         {
             Guard.Against.Null(httpClient, nameof(httpClient));
             Guard.Against.NullOrWhiteSpace(endpoint, nameof(endpoint));

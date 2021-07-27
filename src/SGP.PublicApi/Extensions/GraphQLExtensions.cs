@@ -1,22 +1,22 @@
+using Ardalis.GuardClauses;
+using GraphQL;
+using GraphQL.Caching;
+using GraphQL.Execution;
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
+using GraphQL.Types;
+using GraphQL.Validation;
+using GraphQL.Validation.Complexity;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Scrutor;
+using SGP.PublicApi.GraphQL.Constants;
+using SGP.PublicApi.GraphQL.Schemas;
+
 namespace SGP.PublicApi.Extensions
 {
-    using Ardalis.GuardClauses;
-    using global::GraphQL;
-    using global::GraphQL.Caching;
-    using global::GraphQL.Execution;
-    using global::GraphQL.Server;
-    using global::GraphQL.Server.Ui.Playground;
-    using global::GraphQL.Types;
-    using global::GraphQL.Validation;
-    using global::GraphQL.Validation.Complexity;
-    using GraphQL.Constants;
-    using GraphQL.Schemas;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
-    using Scrutor;
-
     public static class ServicesCollectionExtensions
     {
         public static IServiceCollection AddGraphQLWithSchemas(this IServiceCollection services)
@@ -84,14 +84,11 @@ namespace SGP.PublicApi.Extensions
                 SlidingExpiration = null
             });
 
-            services.AddSingleton<IDocumentExecuter>(_ =>
-            {
-                return new DocumentExecuter(
-                    new GraphQLDocumentBuilder(),
-                    new DocumentValidator(),
-                    new ComplexityAnalyzer(),
-                    documentCache);
-            });
+            services.AddSingleton<IDocumentExecuter>(_ => new DocumentExecuter(
+                new GraphQLDocumentBuilder(),
+                new DocumentValidator(),
+                new ComplexityAnalyzer(),
+                documentCache));
 
             return services;
         }

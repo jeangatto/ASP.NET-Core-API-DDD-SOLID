@@ -8,14 +8,11 @@ namespace SGP.Shared.Extensions
 {
     public static class JsonSettingsExtensions
     {
-        private static readonly NamingStrategy DefaultNamingStrategy
-            = new CamelCaseNamingStrategy();
+        private static readonly NamingStrategy DefaultNamingStrategy = new CamelCaseNamingStrategy();
+        private static readonly JsonConverter DefaultEnumConverter = new StringEnumConverter(DefaultNamingStrategy);
 
-        private static readonly JsonConverter DefaultEnumConverter
-            = new StringEnumConverter(DefaultNamingStrategy);
-
-        private static readonly IContractResolver DefaultContractResolver
-            = new PrivateSetterContractResolver(DefaultNamingStrategy);
+        private static readonly IContractResolver DefaultContractResolver =
+            new PrivateSetterContractResolver(DefaultNamingStrategy);
 
         /// <summary>
         /// Configuração do serializador em JSON otimizado para gerar um JSON menor, resultando numa melhor performance.

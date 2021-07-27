@@ -1,8 +1,8 @@
+using Ardalis.GuardClauses;
+using FluentValidation;
+
 namespace SGP.Shared.Extensions
 {
-    using Ardalis.GuardClauses;
-    using FluentValidation;
-
     public static class ValidatorConfigurationExtensions
     {
         public static ValidatorConfiguration Configure(this ValidatorConfiguration configuration)

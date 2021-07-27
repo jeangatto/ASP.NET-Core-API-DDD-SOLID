@@ -1,23 +1,23 @@
+using Bogus;
+using FluentAssertions;
+using Microsoft.Extensions.Logging;
+using Moq;
+using SGP.Domain.Entities;
+using SGP.Domain.Repositories;
+using SGP.Domain.ValueObjects;
+using SGP.Infrastructure.Repositories;
+using SGP.Infrastructure.UoW;
+using SGP.Shared.Interfaces;
+using SGP.Tests.Constants;
+using SGP.Tests.Extensions;
+using SGP.Tests.Fixtures;
+using System;
+using System.Threading.Tasks;
+using Xunit;
+using Xunit.Categories;
+
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
-    using Bogus;
-    using Constants;
-    using Domain.Entities;
-    using Domain.Repositories;
-    using Domain.ValueObjects;
-    using Extensions;
-    using Fixtures;
-    using FluentAssertions;
-    using Microsoft.Extensions.Logging;
-    using Moq;
-    using SGP.Infrastructure.Repositories;
-    using SGP.Infrastructure.UoW;
-    using SGP.Shared.Interfaces;
-    using System;
-    using System.Threading.Tasks;
-    using Xunit;
-    using Xunit.Categories;
-
     [Category(TestCategories.Infrastructure)]
     public class UsuarioRepositoryTests : IClassFixture<EfSqliteFixture>
     {

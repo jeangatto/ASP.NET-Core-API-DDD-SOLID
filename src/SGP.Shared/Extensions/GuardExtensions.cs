@@ -1,10 +1,10 @@
+using Ardalis.GuardClauses;
+using Microsoft.Extensions.Options;
+using System;
+using System.Diagnostics.CodeAnalysis;
+
 namespace SGP.Shared.Extensions
 {
-    using Ardalis.GuardClauses;
-    using Microsoft.Extensions.Options;
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-
     public static class GuardExtensions
     {
         /// <summary>

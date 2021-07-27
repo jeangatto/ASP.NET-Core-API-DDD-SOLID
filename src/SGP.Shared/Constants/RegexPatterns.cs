@@ -1,7 +1,7 @@
+using System.Text.RegularExpressions;
+
 namespace SGP.Shared.Constants
 {
-    using System.Text.RegularExpressions;
-
     public static class RegexPatterns
     {
         public static readonly Regex EmailRegexPattern =

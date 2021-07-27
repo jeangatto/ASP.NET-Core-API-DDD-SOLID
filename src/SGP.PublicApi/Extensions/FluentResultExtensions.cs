@@ -1,14 +1,14 @@
+using FluentResults;
+using GraphQL;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using SGP.PublicApi.Models;
+using SGP.Shared.Errors;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace SGP.PublicApi.Extensions
 {
-    using FluentResults;
-    using global::GraphQL;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-    using Models;
-    using Shared.Errors;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public static class FluentResultExtensions
     {
         public static Result<T> ToExecutionError<T>(this Result<T> result, IResolveFieldContext<object> context)

@@ -1,14 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using SGP.Infrastructure.Context;
+using SGP.Shared.Entities;
+using SGP.Shared.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace SGP.Infrastructure.Repositories.Common
 {
-    using Context;
-    using Microsoft.EntityFrameworkCore;
-    using Shared.Entities;
-    using Shared.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     public abstract class EfRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : BaseEntity, IAggregateRoot
     {
         private readonly DbSet<TEntity> _dbSet;

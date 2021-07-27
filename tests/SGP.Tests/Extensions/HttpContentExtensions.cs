@@ -11,8 +11,7 @@ namespace SGP.Tests.Extensions
 {
     public static class HttpContentExtensions
     {
-        public static async Task<T> GetGraphQLDataAsync<T>(
-            this HttpContent httpContent, string queryName)
+        public static async Task<T> GetGraphQLDataAsync<T>(this HttpContent httpContent, string queryName)
         {
             Guard.Against.Null(httpContent, nameof(httpContent));
             Guard.Against.NullOrWhiteSpace(queryName, nameof(queryName));
@@ -21,16 +20,10 @@ namespace SGP.Tests.Extensions
             var jsonObject = JObject.Parse(response);
             var jsonString = jsonObject["data"]?[queryName]?.ToString();
 
-            if (string.IsNullOrWhiteSpace(jsonString))
-            {
-                return default;
-            }
-
-            return jsonString.FromJson<T>();
+            return string.IsNullOrWhiteSpace(jsonString) ? default : jsonString.FromJson<T>();
         }
 
-        public static async Task<IEnumerable<GraphQLError>> GetGraphQLErrors(
-            this HttpContent httpContent)
+        public static async Task<IEnumerable<GraphQLError>> GetGraphQLErrors(this HttpContent httpContent)
         {
             Guard.Against.Null(httpContent, nameof(httpContent));
 
@@ -38,12 +31,8 @@ namespace SGP.Tests.Extensions
             var jsonObject = JObject.Parse(response);
             var jsonString = jsonObject["errors"]?.ToString();
 
-            if (string.IsNullOrWhiteSpace(jsonString))
-            {
-                return Enumerable.Empty<GraphQLError>();
-            }
-
-            return jsonString.FromJson<IEnumerable<GraphQLError>>();
+            return string.IsNullOrWhiteSpace(jsonString) ?
+                Enumerable.Empty<GraphQLError>() : jsonString.FromJson<IEnumerable<GraphQLError>>();
         }
     }
 }

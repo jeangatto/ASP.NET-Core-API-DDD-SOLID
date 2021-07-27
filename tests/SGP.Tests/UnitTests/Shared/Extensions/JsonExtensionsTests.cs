@@ -13,7 +13,8 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
         public void Should_ReturnJsonString_WhenSerializeWithPrivateSetters()
         {
             // Arrange
-            const string expectedJson = "{\"email\":\"john.doe@hotmai.com\",\"userName\":\"John Doe\",\"status\":\"active\"}";
+            const string expectedJson =
+                "{\"email\":\"john.doe@hotmai.com\",\"userName\":\"John Doe\",\"status\":\"active\"}";
             var user = new User("John Doe", "john.doe@hotmai.com", Status.Active);
 
             // Act

@@ -1,14 +1,14 @@
+using GraphQL.Types;
+using SGP.Application.Interfaces;
+using SGP.PublicApi.GraphQL.Constants;
+using SGP.PublicApi.GraphQL.Types;
+using SGP.Application.Requests.CidadeRequests;
+using SGP.PublicApi.Extensions;
+using System.Linq;
+using GraphQL;
+
 namespace SGP.PublicApi.GraphQL.Queries
 {
-    using Application.Interfaces;
-    using Application.Requests.CidadeRequests;
-    using Constants;
-    using Extensions;
-    using global::GraphQL;
-    using global::GraphQL.Types;
-    using System.Linq;
-    using Types;
-
     public class CidadeQuery : ObjectGraphType
     {
         public CidadeQuery(ICidadeService service)

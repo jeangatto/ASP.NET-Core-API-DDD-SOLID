@@ -1,18 +1,18 @@
+using Bogus;
+using FluentAssertions;
+using Microsoft.Extensions.Options;
+using SGP.Infrastructure.Services;
+using SGP.Shared.AppSettings;
+using SGP.Shared.Interfaces;
+using SGP.Tests.Constants;
+using System;
+using System.Linq;
+using System.Security.Claims;
+using Xunit;
+using Xunit.Categories;
+
 namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
-    using Bogus;
-    using Constants;
-    using FluentAssertions;
-    using Microsoft.Extensions.Options;
-    using SGP.Infrastructure.Services;
-    using SGP.Shared.AppSettings;
-    using SGP.Shared.Interfaces;
-    using System;
-    using System.Linq;
-    using System.Security.Claims;
-    using Xunit;
-    using Xunit.Categories;
-
     [UnitTest(TestCategories.Infrastructure)]
     public class IdentityTokenClaimServiceTests
     {
@@ -42,7 +42,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         [Fact]
         public void Should_ReturnseRefreshToken_WhenGenerateRefreshToken()
         {
-            // Arrange          
+            // Arrange
             var service = CreateTokenClaimsService();
 
             // Act
@@ -82,7 +82,15 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             => new LocalDateTimeService();
 
         private static IOptions<JwtConfig> CreateJwtConfigOptions()
-            => Options.Create(JwtConfig.Create("Clients-API-SGP", "API-SGP", 21600, "mgnCsPC22aPqn7YWb7rn2FEtqsJW9Apv", true, true));
+        {
+            return Options.Create(JwtConfig.Create(
+                "Clients-API-SGP",
+                "API-SGP",
+                21600,
+                "mgnCsPC22aPqn7YWb7rn2FEtqsJW9Apv",
+                true,
+                true));
+        }
 
         private static ITokenClaimsService CreateTokenClaimsService()
             => new IdentityTokenClaimService(CreateJwtConfigOptions(), CreateDateTimeService());

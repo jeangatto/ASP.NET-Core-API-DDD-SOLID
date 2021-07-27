@@ -60,9 +60,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.UoW
             return _fixture.Context;
         }
 
-        private IUnitOfWork CreateUoW()
-        {
-            return new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
-        }
+        private IUnitOfWork CreateUoW() => new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
     }
 }

@@ -1,8 +1,8 @@
+using SGP.Shared.ValueObjects;
+using System.Collections.Generic;
+
 namespace SGP.Domain.ValueObjects
 {
-    using Shared.ValueObjects;
-    using System.Collections.Generic;
-
     public sealed class Email : ValueObject
     {
         public Email(string address)
