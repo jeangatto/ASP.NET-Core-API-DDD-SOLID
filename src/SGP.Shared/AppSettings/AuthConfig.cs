@@ -7,7 +7,7 @@ namespace SGP.Shared.AppSettings
 
         public static AuthConfig Create(short maximumAttempts, short secondsBlocked)
         {
-            return new AuthConfig
+            return new()
             {
                 MaximumAttempts = maximumAttempts,
                 SecondsBlocked = secondsBlocked
