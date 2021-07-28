@@ -20,7 +20,7 @@ using SGP.Shared.Interfaces;
 
 namespace SGP.Application.Services
 {
-    public class AuthService : IAuthService
+    public class AuthenticationService : IAuthenticationService
     {
         #region Fields
 
@@ -35,7 +35,7 @@ namespace SGP.Application.Services
 
         #region Constructor
 
-        public AuthService
+        public AuthenticationService
         (
             IOptions<AuthConfig> authOptions,
             IDateTime dateTime,

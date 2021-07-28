@@ -6,7 +6,7 @@ using SGP.Shared.Interfaces;
 
 namespace SGP.Application.Interfaces
 {
-    public interface IAuthService : IAppService
+    public interface IAuthenticationService : IAppService
     {
         Task<Result<TokenResponse>> AuthenticateAsync(AuthRequest request);
         Task<Result<TokenResponse>> RefreshTokenAsync(RefreshTokenRequest request);

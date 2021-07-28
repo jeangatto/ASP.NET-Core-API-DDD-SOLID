@@ -11,11 +11,11 @@ namespace SGP.PublicApi.Controllers.v1
     [Route("api")]
     [ApiVersion("1.0")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthService _service;
+        private readonly IAuthenticationService _service;
 
-        public AuthController(IAuthService service)
+        public AuthenticationController(IAuthenticationService service)
         {
             _service = service;
         }
