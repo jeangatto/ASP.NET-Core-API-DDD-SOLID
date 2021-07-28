@@ -1,3 +1,5 @@
+using System;
+using System.Text;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -5,8 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
-using System;
-using System.Text;
 
 namespace SGP.PublicApi.Extensions
 {

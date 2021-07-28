@@ -1,11 +1,11 @@
+using System.Collections.Generic;
+using System.Linq;
 using FluentResults;
 using GraphQL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGP.PublicApi.Models;
 using SGP.Shared.Errors;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SGP.PublicApi.Extensions
 {
@@ -58,10 +58,10 @@ namespace SGP.PublicApi.Extensions
         private static IEnumerable<string> GroupByErrors(this IEnumerable<Error> errors)
         {
             return errors
-                  .Select(error => error.Message)
-                  .Distinct()
-                  .OrderBy(message => message)
-                  .ToList();
+                .Select(error => error.Message)
+                .Distinct()
+                .OrderBy(message => message)
+                .ToList();
         }
     }
 }

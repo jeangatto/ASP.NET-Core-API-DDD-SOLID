@@ -1,6 +1,6 @@
+using System;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
-using System;
 
 namespace SGP.Domain.Entities
 {

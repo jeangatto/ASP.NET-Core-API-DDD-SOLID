@@ -1,5 +1,5 @@
-using SGP.Shared.Interfaces;
 using System;
+using SGP.Shared.Interfaces;
 
 namespace SGP.Shared.Entities
 {

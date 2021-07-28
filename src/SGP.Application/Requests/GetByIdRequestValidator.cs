@@ -1,5 +1,5 @@
-using FluentValidation;
 using System;
+using FluentValidation;
 
 namespace SGP.Application.Requests
 {

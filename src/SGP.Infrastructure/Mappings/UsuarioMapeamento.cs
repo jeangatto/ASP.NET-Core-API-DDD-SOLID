@@ -22,7 +22,7 @@ namespace SGP.Infrastructure.Mappings
                     .IsRequired()
                     .IsUnicode(false)
                     .HasMaxLength(100)
-                    .HasColumnName("Email");
+                    .HasColumnName(nameof(Usuario.Email));
 
                 ownedNav.HasIndex(email => email.Address)
                     .IsUnique();

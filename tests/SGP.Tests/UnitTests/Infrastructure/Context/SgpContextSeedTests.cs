@@ -1,10 +1,10 @@
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using SGP.Infrastructure.Context;
 using SGP.Tests.Constants;
 using SGP.Tests.Fixtures;
 using SGP.Tests.Mocks;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

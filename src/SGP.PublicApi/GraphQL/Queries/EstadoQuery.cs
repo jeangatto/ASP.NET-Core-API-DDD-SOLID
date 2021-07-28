@@ -10,8 +10,8 @@ namespace SGP.PublicApi.GraphQL.Queries
         public EstadoQuery(IEstadoService service)
         {
             FieldAsync<ListGraphType<EstadoType>>(
-               QueryNames.ListarEstados,
-               resolve: async _ => (await service.ObterTodosAsync()).Value);
+                QueryNames.ListarEstados,
+                resolve: async _ => (await service.ObterTodosAsync()).Value);
         }
     }
 }

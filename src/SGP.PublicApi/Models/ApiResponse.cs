@@ -1,5 +1,5 @@
-using SGP.Shared.Messages;
 using System.Collections.Generic;
+using SGP.Shared.Messages;
 
 namespace SGP.PublicApi.Models
 {

@@ -1,10 +1,10 @@
+using System.Threading.Tasks;
 using FluentAssertions;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
 using SGP.Tests.Constants;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

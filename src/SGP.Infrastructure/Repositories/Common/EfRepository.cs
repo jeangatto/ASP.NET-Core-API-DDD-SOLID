@@ -1,11 +1,11 @@
-using Microsoft.EntityFrameworkCore;
-using SGP.Infrastructure.Context;
-using SGP.Shared.Entities;
-using SGP.Shared.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SGP.Infrastructure.Context;
+using SGP.Shared.Entities;
+using SGP.Shared.Interfaces;
 
 namespace SGP.Infrastructure.Repositories.Common
 {

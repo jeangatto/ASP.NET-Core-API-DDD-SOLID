@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using FluentAssertions;
 using SGP.Application.Responses;
 using SGP.PublicApi.GraphQL.Constants;
@@ -5,9 +8,6 @@ using SGP.Tests.Constants;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using SGP.Tests.Models;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

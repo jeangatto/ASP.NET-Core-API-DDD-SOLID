@@ -1,11 +1,11 @@
-using GraphQL.Types;
-using SGP.Application.Interfaces;
-using SGP.PublicApi.GraphQL.Constants;
-using SGP.PublicApi.GraphQL.Types;
-using SGP.Application.Requests.CidadeRequests;
-using SGP.PublicApi.Extensions;
 using System.Linq;
 using GraphQL;
+using GraphQL.Types;
+using SGP.Application.Interfaces;
+using SGP.Application.Requests.CidadeRequests;
+using SGP.PublicApi.Extensions;
+using SGP.PublicApi.GraphQL.Constants;
+using SGP.PublicApi.GraphQL.Types;
 
 namespace SGP.PublicApi.GraphQL.Queries
 {

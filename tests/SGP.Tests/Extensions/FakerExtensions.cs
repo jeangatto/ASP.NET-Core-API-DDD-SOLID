@@ -1,5 +1,5 @@
-using Bogus;
 using System;
+using Bogus;
 
 namespace SGP.Tests.Extensions
 {

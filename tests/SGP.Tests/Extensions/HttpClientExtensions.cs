@@ -1,10 +1,10 @@
-using Ardalis.GuardClauses;
-using GraphQL.Server;
-using SGP.Shared.Extensions;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
+using GraphQL.Server;
+using SGP.Shared.Extensions;
 
 namespace SGP.Tests.Extensions
 {

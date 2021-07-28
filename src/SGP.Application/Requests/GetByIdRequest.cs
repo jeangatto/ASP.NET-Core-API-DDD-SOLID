@@ -1,5 +1,5 @@
-using SGP.Shared.Messages;
 using System;
+using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests
 {

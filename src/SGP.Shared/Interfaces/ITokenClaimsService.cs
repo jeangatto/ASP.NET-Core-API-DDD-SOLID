@@ -1,6 +1,6 @@
-using SGP.Shared.Records;
 using System.Collections.Generic;
 using System.Security.Claims;
+using SGP.Shared.Records;
 
 namespace SGP.Shared.Interfaces
 {

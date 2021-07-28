@@ -1,8 +1,8 @@
-﻿using Xunit;
-using SGP.Domain.ValueObjects;
+﻿using System;
 using FluentAssertions;
 using FluentValidation;
-using System;
+using SGP.Domain.ValueObjects;
+using Xunit;
 
 namespace SGP.Tests.UnitTests.ValueObjects
 {

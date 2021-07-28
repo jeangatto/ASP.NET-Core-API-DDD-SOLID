@@ -1,10 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SGP.Infrastructure.Repositories
 {

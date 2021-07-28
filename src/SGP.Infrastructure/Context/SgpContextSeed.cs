@@ -1,13 +1,13 @@
-using Ardalis.GuardClauses;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using SGP.Domain.Entities;
-using SGP.Shared.Extensions;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using SGP.Domain.Entities;
+using SGP.Shared.Extensions;
 
 namespace SGP.Infrastructure.Context
 {

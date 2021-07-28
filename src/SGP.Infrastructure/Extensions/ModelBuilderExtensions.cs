@@ -1,6 +1,6 @@
+using System.Linq;
 using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace SGP.Infrastructure.Extensions
 {

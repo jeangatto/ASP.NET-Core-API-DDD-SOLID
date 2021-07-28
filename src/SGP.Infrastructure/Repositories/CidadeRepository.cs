@@ -1,10 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SGP.Infrastructure.Repositories
 {
@@ -22,7 +22,7 @@ namespace SGP.Infrastructure.Repositories
             return await _dbSet
                 .AsNoTracking()
                 .Include(cidade => cidade.Estado)
-                    .ThenInclude(estado => estado.Regiao)
+                .ThenInclude(estado => estado.Regiao)
                 .FirstOrDefaultAsync(cidade => cidade.Ibge == ibge);
         }
 
@@ -31,10 +31,10 @@ namespace SGP.Infrastructure.Repositories
             return await _dbSet
                 .AsNoTracking()
                 .Include(cidade => cidade.Estado)
-                    .ThenInclude(estado => estado.Regiao)
+                .ThenInclude(estado => estado.Regiao)
                 .Where(cidade => cidade.Estado.Uf == uf)
                 .OrderBy(cidade => cidade.Nome)
-                    .ThenBy(cidade => cidade.Ibge)
+                .ThenBy(cidade => cidade.Ibge)
                 .ToListAsync();
         }
     }

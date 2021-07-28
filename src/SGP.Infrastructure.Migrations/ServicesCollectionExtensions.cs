@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,8 +9,6 @@ using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
-using System;
-using System.Reflection;
 
 namespace SGP.Infrastructure.Migrations
 {

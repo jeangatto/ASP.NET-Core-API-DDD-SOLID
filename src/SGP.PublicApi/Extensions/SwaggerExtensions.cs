@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -6,9 +9,6 @@ using Microsoft.Extensions.Options;
 using SGP.PublicApi.Filters;
 using SGP.PublicApi.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
-using System.IO;
-using System.Reflection;
 
 namespace SGP.PublicApi.Extensions
 {

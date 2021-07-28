@@ -1,8 +1,8 @@
+using System.Reflection;
 using Ardalis.GuardClauses;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using SGP.Shared.Interfaces;
-using System.Reflection;
 
 namespace SGP.Application
 {

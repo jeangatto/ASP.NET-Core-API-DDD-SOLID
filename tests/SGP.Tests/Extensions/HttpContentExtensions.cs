@@ -1,11 +1,11 @@
-using Ardalis.GuardClauses;
-using Newtonsoft.Json.Linq;
-using SGP.Shared.Extensions;
-using SGP.Tests.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
+using Newtonsoft.Json.Linq;
+using SGP.Shared.Extensions;
+using SGP.Tests.Models;
 
 namespace SGP.Tests.Extensions
 {

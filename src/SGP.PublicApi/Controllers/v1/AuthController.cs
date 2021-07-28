@@ -1,10 +1,10 @@
+using System.Net.Mime;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthRequests;
 using SGP.PublicApi.Extensions;
-using System.Net.Mime;
-using System.Threading.Tasks;
 
 namespace SGP.PublicApi.Controllers.v1
 {

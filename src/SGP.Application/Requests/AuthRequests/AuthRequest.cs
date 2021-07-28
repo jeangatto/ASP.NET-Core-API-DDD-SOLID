@@ -1,5 +1,5 @@
-using SGP.Shared.Messages;
 using System.ComponentModel.DataAnnotations;
+using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.AuthRequests
 {

@@ -1,8 +1,8 @@
+using System;
+using System.Collections.Generic;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
-using System;
-using System.Collections.Generic;
 
 namespace SGP.Domain.Entities
 {

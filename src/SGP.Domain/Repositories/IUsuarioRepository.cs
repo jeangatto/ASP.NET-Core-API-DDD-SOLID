@@ -1,7 +1,7 @@
+using System.Threading.Tasks;
 using SGP.Domain.Entities;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Interfaces;
-using System.Threading.Tasks;
 
 namespace SGP.Domain.Repositories
 {

@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -7,8 +9,6 @@ using SGP.Infrastructure.UoW;
 using SGP.Shared.Interfaces;
 using SGP.Tests.Constants;
 using SGP.Tests.Fixtures;
-using System;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

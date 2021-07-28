@@ -1,9 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using FluentResults;
 using FluentValidation.Results;
 using SGP.Shared.Errors;
 using SGP.Shared.Messages;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SGP.Shared.Extensions
 {

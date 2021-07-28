@@ -1,9 +1,9 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using SGP.Infrastructure.Context;
 using SGP.Tests.Mocks;
-using System;
-using System.Threading.Tasks;
 
 namespace SGP.Tests.Fixtures
 {

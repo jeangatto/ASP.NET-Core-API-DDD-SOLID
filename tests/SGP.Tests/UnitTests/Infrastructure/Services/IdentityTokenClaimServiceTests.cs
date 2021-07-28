@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Security.Claims;
 using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
@@ -5,9 +8,6 @@ using SGP.Infrastructure.Services;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Interfaces;
 using SGP.Tests.Constants;
-using System;
-using System.Linq;
-using System.Security.Claims;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,19 +16,18 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
     [UnitTest(TestCategories.Infrastructure)]
     public class IdentityTokenClaimServiceTests
     {
-        private static readonly Faker Faker = new();
-
         [Fact]
         public void Should_ReturnsAcessToken_WhenGenerateAccessTokenWithValidClaims()
         {
             // Arrange
-            var service = CreateTokenClaimsService();
+            var faker = new Faker();
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Name, Faker.Person.UserName),
-                new Claim(ClaimTypes.Email, Faker.Person.Email)
+                new Claim(ClaimTypes.Name, faker.Person.UserName),
+                new Claim(ClaimTypes.Email, faker.Person.Email)
             };
+            var service = CreateTokenClaimsService();
 
             // Act
             var actual = service.GenerateAccessToken(claims);

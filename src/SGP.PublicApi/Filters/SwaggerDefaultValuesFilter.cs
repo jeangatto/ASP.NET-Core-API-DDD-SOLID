@@ -1,8 +1,8 @@
+using System.Linq;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Linq;
 
 namespace SGP.PublicApi.Filters
 {
@@ -13,18 +13,14 @@ namespace SGP.PublicApi.Filters
             var apiDescription = context.ApiDescription;
             operation.Deprecated |= apiDescription.IsDeprecated();
 
-            if (operation.Parameters == null)
-            {
-                return;
-            }
+            if (operation.Parameters == null) return;
 
             foreach (var parameter in operation.Parameters)
             {
                 var description = apiDescription.ParameterDescriptions.FirstOrDefault(p => p.Name == parameter.Name);
-                if (parameter.Description == null)
-                {
-                    parameter.Description = description.ModelMetadata?.Description;
-                }
+                if (description == null) continue;
+
+                parameter.Description ??= description.ModelMetadata.Description;
 
                 if (parameter.Schema.Default == null && description.DefaultValue != null)
                 {

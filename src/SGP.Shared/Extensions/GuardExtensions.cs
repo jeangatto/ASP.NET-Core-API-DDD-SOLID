@@ -1,7 +1,7 @@
-using Ardalis.GuardClauses;
-using Microsoft.Extensions.Options;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Ardalis.GuardClauses;
+using Microsoft.Extensions.Options;
 
 namespace SGP.Shared.Extensions
 {

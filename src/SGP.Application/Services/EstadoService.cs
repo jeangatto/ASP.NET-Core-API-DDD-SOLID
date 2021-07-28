@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentResults;
 using Microsoft.Extensions.Caching.Memory;
@@ -5,8 +7,6 @@ using SGP.Application.Interfaces;
 using SGP.Application.Responses;
 using SGP.Application.Services.Common;
 using SGP.Domain.Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace SGP.Application.Services
 {

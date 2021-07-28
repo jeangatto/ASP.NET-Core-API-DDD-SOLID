@@ -1,5 +1,5 @@
-using SGP.Application.Responses;
 using GraphQL.Types;
+using SGP.Application.Responses;
 
 namespace SGP.PublicApi.GraphQL.Types
 {

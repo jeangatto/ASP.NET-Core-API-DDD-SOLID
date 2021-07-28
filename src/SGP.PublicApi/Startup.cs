@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
@@ -18,7 +19,6 @@ using SGP.Infrastructure.Migrations;
 using SGP.PublicApi.Extensions;
 using SGP.PublicApi.Models;
 using SGP.Shared.Extensions;
-using System.Net.Mime;
 
 namespace SGP.PublicApi
 {

@@ -1,10 +1,10 @@
+using System;
 using Ardalis.GuardClauses;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
 using SGP.Tests.Constants;
-using System;
 using Xunit;
 using Xunit.Categories;
 

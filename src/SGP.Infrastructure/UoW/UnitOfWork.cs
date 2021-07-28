@@ -1,10 +1,10 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
 using SGP.Shared.Interfaces;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SGP.Infrastructure.UoW
 {
@@ -27,12 +27,12 @@ namespace SGP.Infrastructure.UoW
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                _logger.LogError(ex, "Ocorreu um erro (concorrência) ao salvar as informações na base de dados.");
+                _logger.LogError(ex, "Ocorreu um erro (concorrência) ao salvar as informações na base de dados");
                 throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados.");
+                _logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados");
                 throw;
             }
         }

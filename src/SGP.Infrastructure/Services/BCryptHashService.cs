@@ -1,7 +1,7 @@
+using System;
 using Ardalis.GuardClauses;
 using Microsoft.Extensions.Logging;
 using SGP.Shared.Interfaces;
-using System;
 
 namespace SGP.Infrastructure.Services
 {
@@ -25,7 +25,7 @@ namespace SGP.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ocorreu um erro ao verificar o HASH com BCrypt.");
+                _logger.LogError(ex, "Ocorreu um erro ao verificar o HASH com BCrypt");
                 throw;
             }
         }
@@ -40,7 +40,7 @@ namespace SGP.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ocorreu um erro ao gerar o HASH com BCrypt.");
+                _logger.LogError(ex, "Ocorreu um erro ao gerar o HASH com BCrypt");
                 throw;
             }
         }

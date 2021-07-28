@@ -1,8 +1,8 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Extensions;
-using System.Reflection;
 
 namespace SGP.Infrastructure.Context
 {

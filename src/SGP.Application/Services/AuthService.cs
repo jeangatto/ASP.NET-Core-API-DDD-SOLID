@@ -1,3 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using FluentResults;
 using Microsoft.Extensions.Options;
@@ -11,12 +17,6 @@ using SGP.Shared.AppSettings;
 using SGP.Shared.Errors;
 using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace SGP.Application.Services
 {
