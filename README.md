@@ -2,8 +2,9 @@
 
 ###### Sistema Gerenciador de Pedidos (Online)
 
-[![.NET](https://github.com/JeanGatto/SGP/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/dotnet.yml) 
+[![.NET](https://github.com/JeanGatto/SGP/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/dotnet.yml)
 [![CodeQL](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml)
+[![License](https://img.shields.io/github/license/JeanGatto/SGP.svg)](LICENSE)
 
 C# 9 + ASP.NET Core 5 + EF Core 5 + JWT Bearer + OpenAPI (Swagger)
 
