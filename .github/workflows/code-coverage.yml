@@ -1,4 +1,4 @@
-name: Code coverage
+name: Code Coverage
 
 on:
   push:
@@ -6,26 +6,52 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  CAMINHO_PROJETO_TESTES: ./tests/SGP.Tests
+
 jobs:
-  build:
+  tests:
 
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup .NET
-      
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.x
-          
-      - name: Generate coverage report
-        run: |
-          cd ./tests/SGP.Tests/
-          dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
-          
-      - name: Publish coverage report to coveralls.io
-        uses: coverallsapp/github-action@v1.0.1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./tests/SGP.Tests/TestResults/coverage.info   
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.102
+
+    - name: Testes com .NET 5 + xUnit + Fluent Assertions + Coverlet
+      run: dotnet test ${{ env.CAMINHO_PROJETO_TESTES }} --verbosity minimal --logger:"html;LogFileName=resultado-testes.html" --collect:"XPlat Code Coverage"
+
+    - name: Instalar ReportGenerator
+      if: success()
+      run: dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.12
+  
+    - name: Gerar relatório de cobertura de testes com ReportGenerator
+      if: success()
+      run: |
+        cd ${{ env.CAMINHO_PROJETO_TESTES }}/TestResults
+        # Acessar diretório gerado com o XML de Cobertura de código
+        cd $(ls -d */|head -n 1)
+        reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:coveragereport" -reporttypes:Html
+    - name: Upload como Artifact dos Reports de Resultado de Testes Executados com Sucesso + Cobertura de Código
+      uses: actions/upload-artifact@v2.2.2
+      env:
+        CAMINHO_RESULTADO_TESTES: ${{ env.CAMINHO_PROJETO_TESTES }}/TestResults/
+      if: success()
+      with:
+        name: resultado-testes
+        path: ${{ env.CAMINHO_RESULTADO_TESTES }}
+        retention-days: 30
+
+    - name: Upload como Artifact do Report de Testes com Falhas
+      uses: actions/upload-artifact@v2.2.2
+      if: failure()
+      env:
+        CAMINHO_RELATORIO_ERROS: ${{ env.CAMINHO_PROJETO_TESTES }}/TestResults/resultado-testes.html
+      with:
+        name: resultado-erros-testes
+        path: ${{ env.CAMINHO_RELATORIO_ERROS }}
+        retention-days: 30
