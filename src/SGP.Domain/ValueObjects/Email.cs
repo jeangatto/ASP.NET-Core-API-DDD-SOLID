@@ -1,5 +1,6 @@
 using SGP.Shared.ValueObjects;
 using System.Collections.Generic;
+using SGP.Domain.ValueObjects.Validators;
 
 namespace SGP.Domain.ValueObjects
 {
@@ -8,6 +9,7 @@ namespace SGP.Domain.ValueObjects
         public Email(string address)
         {
             Address = address?.ToLowerInvariant();
+            Validate<EmailValidator>(this);
         }
 
         private Email() // ORM
