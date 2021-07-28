@@ -22,12 +22,18 @@ namespace SGP.Application.Services
 {
     public class AuthService : IAuthService
     {
+        #region Fields
+
         private readonly AuthConfig _authConfig;
         private readonly IDateTime _dateTime;
         private readonly IHashService _hashService;
         private readonly IUsuarioRepository _repository;
         private readonly IUnitOfWork _uow;
         private readonly ITokenClaimsService _tokenClaimsService;
+
+        #endregion
+
+        #region Constructor
 
         public AuthService
         (
@@ -48,6 +54,10 @@ namespace SGP.Application.Services
             _repository = repository;
             _uow = uow;
         }
+
+        #endregion
+
+        #region Methods
 
         public async Task<Result<TokenResponse>> AuthenticateAsync(AuthRequest request)
         {
@@ -173,5 +183,7 @@ namespace SGP.Application.Services
                 new Claim(JwtRegisteredClaimNames.Email, usuario.Email.ToString(), ClaimValueTypes.Email)
             };
         }
+
+        #endregion
     }
 }

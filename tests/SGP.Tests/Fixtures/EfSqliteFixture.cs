@@ -9,8 +9,8 @@ namespace SGP.Tests.Fixtures
 {
     public class EfSqliteFixture : IDisposable
     {
+        private const string ConnectionString = "Data Source=:memory:";
         private readonly SqliteConnection _connection;
-        private const string ConnectionString = "DataSource=:memory:";
 
         public EfSqliteFixture()
         {
@@ -24,7 +24,6 @@ namespace SGP.Tests.Fixtures
                 .Options;
 
             Context = new SgpContext(options);
-            Context.Database.EnsureDeleted();
             Context.Database.EnsureCreated();
         }
 

@@ -54,7 +54,6 @@ namespace SGP.Tests.Fixtures
 
                     try
                     {
-                        context.Database.EnsureDeleted();
                         context.Database.EnsureCreated();
                         context.EnsureSeedDataAsync(loggerFactory).GetAwaiter().GetResult();
                     }
