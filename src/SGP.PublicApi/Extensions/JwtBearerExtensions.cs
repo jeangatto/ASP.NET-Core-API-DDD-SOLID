@@ -12,7 +12,7 @@ namespace SGP.PublicApi.Extensions
 {
     public static class JwtBearerExtensions
     {
-        public static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
+        public static void AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
         {
             Guard.Against.Null(services, nameof(services));
             Guard.Against.Null(configuration, nameof(configuration));
@@ -61,8 +61,6 @@ namespace SGP.PublicApi.Extensions
                     .RequireAuthenticatedUser()
                     .Build());
             });
-
-            return services;
         }
     }
 }

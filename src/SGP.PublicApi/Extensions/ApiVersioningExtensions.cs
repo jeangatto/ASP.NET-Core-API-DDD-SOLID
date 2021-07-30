@@ -6,7 +6,7 @@ namespace SGP.PublicApi.Extensions
 {
     public static class ApiVersioningExtensions
     {
-        public static IServiceCollection AddApiVersioningAndApiExplorer(this IServiceCollection services)
+        public static void AddApiVersioningAndApiExplorer(this IServiceCollection services)
         {
             Guard.Against.Null(services, nameof(services));
 
@@ -18,7 +18,7 @@ namespace SGP.PublicApi.Extensions
                 // Reporting api versions will return the headers "api-supported-versions" and "api-deprecated-versions"
                 options.ReportApiVersions = true;
 
-                // If the client hasn't specified the API version in the request, use the default API version number 
+                // If the client hasn't specified the API version in the request, use the default API version number
                 options.AssumeDefaultVersionWhenUnspecified = true;
             });
 
@@ -32,8 +32,6 @@ namespace SGP.PublicApi.Extensions
                 // can also be used to control the format of the API version in route templates
                 options.SubstituteApiVersionInUrl = true;
             });
-
-            return services;
         }
     }
 }

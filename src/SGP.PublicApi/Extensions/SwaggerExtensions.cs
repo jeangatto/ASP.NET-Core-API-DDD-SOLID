@@ -14,7 +14,7 @@ namespace SGP.PublicApi.Extensions
 {
     public static class SwaggerExtensions
     {
-        public static IServiceCollection AddOpenApi(this IServiceCollection services)
+        public static void AddOpenApi(this IServiceCollection services)
         {
             Guard.Against.Null(services, nameof(services));
 
@@ -31,12 +31,9 @@ namespace SGP.PublicApi.Extensions
             });
 
             services.AddSwaggerGenNewtonsoftSupport();
-
-            return services;
         }
 
-        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app,
-            IApiVersionDescriptionProvider provider)
+        public static void UseOpenApi(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
             Guard.Against.Null(app, nameof(app));
             Guard.Against.Null(provider, nameof(provider));
@@ -51,8 +48,6 @@ namespace SGP.PublicApi.Extensions
                         description.GroupName.ToUpperInvariant());
                 }
             });
-
-            return app;
         }
     }
 }

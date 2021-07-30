@@ -39,14 +39,6 @@ namespace SGP.Domain.Entities
         /// <returns>Verdadeiro se a conta estiver bloqueada; caso contrário, falso.</returns>
         public bool EstaBloqueado(IDateTime dateTime) => BloqueioExpiraEm > dateTime.Now;
 
-        public void AtualizarNome(string nome) => Nome = nome;
-
-        public void AtualizarEmail(Email email) => Email = email;
-
-        public void DefinirHashSenha(string hashSenha) => HashSenha = hashSenha;
-
-        public void DefinirUltimoAcesso(IDateTime dateTime) => UltimoAcessoEm = dateTime.Now;
-
         /// <summary>
         /// Incremenenta o número de acessos que falharam.
         /// Quando é atingido o limite de acessos a conta será bloqueada por um tempo.

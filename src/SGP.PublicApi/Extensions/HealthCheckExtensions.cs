@@ -8,7 +8,7 @@ namespace SGP.PublicApi.Extensions
 {
     public static class HealthCheckExtensions
     {
-        public static IApplicationBuilder UseHealthChecks(this IApplicationBuilder app)
+        public static void UseHealthChecks(this IApplicationBuilder app)
         {
             Guard.Against.Null(app, nameof(app));
 
@@ -17,8 +17,6 @@ namespace SGP.PublicApi.Extensions
                 AllowCachingResponses = true,
                 ResponseWriter = (context, report) => context.Response.WriteAsync(report.ToJson())
             });
-
-            return app;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace SGP.Infrastructure
 {
     public static class ServicesCollectionExtensions
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+        public static void AddInfrastructure(this IServiceCollection services)
         {
             Guard.Against.Null(services, nameof(services));
 
@@ -29,11 +29,9 @@ namespace SGP.Infrastructure
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
-
-            return services;
         }
 
-        public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
+        public static void ConfigureAppSettings(this IServiceCollection services)
         {
             Guard.Against.Null(services, nameof(services));
 
@@ -45,8 +43,6 @@ namespace SGP.Infrastructure
 
             services.AddOptions<ConnectionStrings>()
                 .BindConfiguration(nameof(ConnectionStrings), BinderNonPublicPropertiesOptions());
-
-            return services;
         }
 
         private static Action<BinderOptions> BinderNonPublicPropertiesOptions()

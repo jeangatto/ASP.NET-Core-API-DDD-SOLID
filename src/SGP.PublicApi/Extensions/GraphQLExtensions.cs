@@ -19,7 +19,7 @@ namespace SGP.PublicApi.Extensions
 {
     public static class ServicesCollectionExtensions
     {
-        public static IServiceCollection AddGraphQLWithSchemas(this IServiceCollection services)
+        public static void AddGraphQLWithSchemas(this IServiceCollection services)
         {
             Guard.Against.Null(services, nameof(services));
 
@@ -46,11 +46,9 @@ namespace SGP.PublicApi.Extensions
                     var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
                     options.ExposeExceptionStackTrace = environment.IsDevelopment();
                 });
-
-            return services;
         }
 
-        public static IApplicationBuilder UseGraphQL(this IApplicationBuilder app)
+        public static void UseGraphQL(this IApplicationBuilder app)
         {
             Guard.Against.Null(app, nameof(app));
 
@@ -67,8 +65,6 @@ namespace SGP.PublicApi.Extensions
             {
                 GraphQLEndPoint = GraphQLApiEndpoints.Estados
             }, GraphQLPlaygroundEndpoints.Estados);
-
-            return app;
         }
 
         private static IServiceCollection AddDocumentExecuter(this IServiceCollection services)

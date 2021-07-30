@@ -11,37 +11,29 @@ namespace SGP.PublicApi.Extensions
 {
     public static class FluentResultExtensions
     {
-        public static Result<T> ToExecutionError<T>(this Result<T> result, IResolveFieldContext<object> context)
+        public static void ToExecutionError<T>(this Result<T> result, IResolveFieldContext<object> context)
         {
             foreach (var errorMessage in result.Errors.GroupByErrors())
             {
                 context.Errors.Add(new ExecutionError(errorMessage));
             }
-
-            return result;
         }
 
         public static ObjectResult ToHttpResult(this Result result)
         {
-            if (result.IsFailed)
-            {
-                return result.ConvertErrorsToHttpNonSuccessResult();
-            }
-
-            return new OkObjectResult(new ApiResponse(StatusCodes.Status200OK));
+            return result.IsFailed
+                ? result.ToHttpNonSuccessResult()
+                : new OkObjectResult(new ApiResponse(StatusCodes.Status200OK));
         }
 
         public static ObjectResult ToHttpResult<T>(this Result<T> result)
         {
-            if (result.IsFailed)
-            {
-                return result.ConvertErrorsToHttpNonSuccessResult();
-            }
-
-            return new OkObjectResult(new ApiResponse<T>(StatusCodes.Status200OK, result.Value));
+            return result.IsFailed
+                ? result.ToHttpNonSuccessResult()
+                : new OkObjectResult(new ApiResponse<T>(StatusCodes.Status200OK, result.Value));
         }
 
-        private static ObjectResult ConvertErrorsToHttpNonSuccessResult(this ResultBase resultBase)
+        private static ObjectResult ToHttpNonSuccessResult(this ResultBase resultBase)
         {
             var errors = resultBase.Errors.GroupByErrors().Select(message => new ApiError(message));
 

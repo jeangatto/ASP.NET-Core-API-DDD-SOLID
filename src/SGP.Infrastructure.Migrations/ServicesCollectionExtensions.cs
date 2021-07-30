@@ -16,8 +16,7 @@ namespace SGP.Infrastructure.Migrations
     {
         private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
-        public static IServiceCollection AddDbContext(this IServiceCollection services,
-            IHealthChecksBuilder healthChecksBuilder)
+        public static void AddDbContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
         {
             Guard.Against.Null(services, nameof(services));
             Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
@@ -40,11 +39,9 @@ namespace SGP.Infrastructure.Migrations
 
             // Verificador de saúde da base de dados.
             healthChecksBuilder.AddDbContextCheck<SgpContext>(
-                tags: new[] { "database" },
+                tags: new[] {"database"},
                 customTestQuery: (context, cancellationToken)
                     => context.Estados.AsNoTracking().AnyAsync(cancellationToken));
-
-            return services;
         }
 
         private static string GetConnectionString(this IServiceProvider serviceProvider)
