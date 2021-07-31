@@ -21,7 +21,11 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         }
 
         [Theory]
-        [ClassData(typeof(TestDatas.FiltrarEstadoPorRegiao))]
+        [InlineData("Nordeste", 9)]
+        [InlineData("Sudeste", 4)]
+        [InlineData("Sul", 3)]
+        [InlineData("Centro-Oeste", 4)]
+        [InlineData("Norte", 7)]
         public async Task Devera_RetornarEstados_AoObterPorRegiao(string regiao, int totalEsperado)
         {
             // Arrange

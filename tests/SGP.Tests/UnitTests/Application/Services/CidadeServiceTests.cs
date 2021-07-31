@@ -39,8 +39,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterTodosPorUfAsync(request);
 
             // Assert
-            actual.Should().BeFailure()
-                .And.Subject.HasError<ValidationError>().Should().BeTrue();
+            actual.Should().BeFailure().And.Subject.HasError<ValidationError>().Should().BeTrue();
         }
 
         [Fact]
@@ -55,18 +54,17 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterTodosPorUfAsync(request);
 
             // Assert
-            actual.Should().BeFailure()
-                .And.Subject.HasError<NotFoundError>().Should().BeTrue();
+            actual.Should().BeFailure().And.Subject.HasError<NotFoundError>().Should().BeTrue();
         }
 
-        [Theory]
-        [ClassData(typeof(TestDatas.FiltrarPorUf))]
-        public async Task Devera_RetornarResultadoSucessoComCidades_AoObterTodosPorUf(string uf, int totalEsperado)
+        [Fact]
+        public async Task Devera_RetornarResultadoSucessoComCidades_AoObterTodosPorUf()
         {
             // Arrange
             await _fixture.SeedDataAsync();
+            const string ufSaoPaulo = "SP";
+            var request = new ObterTodosPorUfRequest(ufSaoPaulo);
             var service = CriarServico();
-            var request = new ObterTodosPorUfRequest(uf);
 
             // Act
             var actual = await service.ObterTodosPorUfAsync(request);
@@ -75,37 +73,36 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.Should().BeSuccess();
             actual.Value.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.HaveCount(totalEsperado)
+                .And.HaveCount(645)
                 .And.Subject.ForEach(c =>
                 {
                     c.Regiao.Should().NotBeNullOrWhiteSpace();
                     c.Estado.Should().NotBeNullOrWhiteSpace();
-                    c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
+                    c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
                     c.Nome.Should().NotBeNullOrWhiteSpace();
                     c.Ibge.Should().BePositive();
                 });
         }
 
-        [Theory]
-        [ClassData(typeof(TestDatas.FiltrarPorIbge))]
-        public async Task Devera_RetornarResultadoSucessoComCidade_AoObterPorIbge(int ibge, string cidadeEsperada,
-            string ufEsperada, string regiaoEsperada)
+        [Fact]
+        public async Task Devera_RetornarResultadoSucessoComCidade_AoObterPorIbge()
         {
             // Arrange
             await _fixture.SeedDataAsync();
+            const int ibgeVotuporanga = 3557105;
+            var request = new ObterPorIbgeRequest(ibgeVotuporanga);
             var service = CriarServico();
-            var request = new ObterPorIbgeRequest(ibge);
 
             // Act
             var actual = await service.ObterPorIbgeAsync(request);
 
             // Assert
             actual.Should().BeSuccess();
-            actual.Value.Regiao.Should().NotBeNullOrWhiteSpace().And.Be(regiaoEsperada);
+            actual.Value.Regiao.Should().NotBeNullOrWhiteSpace();
             actual.Value.Estado.Should().NotBeNullOrWhiteSpace();
-            actual.Value.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(ufEsperada);
-            actual.Value.Nome.Should().NotBeNullOrWhiteSpace().And.Be(cidadeEsperada);
-            actual.Value.Ibge.Should().BePositive().And.Be(ibge);
+            actual.Value.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+            actual.Value.Nome.Should().NotBeNullOrWhiteSpace();
+            actual.Value.Ibge.Should().BePositive();
         }
 
         [Theory]
@@ -121,8 +118,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterPorIbgeAsync(request);
 
             // Assert
-            actual.Should().BeFailure()
-                .And.Subject.HasError<ValidationError>().Should().BeTrue();
+            actual.Should().BeFailure().And.Subject.HasError<ValidationError>().Should().BeTrue();
         }
 
         [Fact]
@@ -145,9 +141,11 @@ namespace SGP.Tests.UnitTests.Application.Services
             => new Mapper(new MapperConfiguration(cfg
                 => cfg.AddProfile<DomainToResponseMapper>()));
 
-        private static IMemoryCache CriarMemoryCache() => new MemoryCache(new MemoryCacheOptions());
+        private static IMemoryCache CriarMemoryCache()
+            => new MemoryCache(new MemoryCacheOptions());
 
-        private ICidadeRepository CriarRepositorio() => new CidadeRepository(_fixture.Context);
+        private ICidadeRepository CriarRepositorio()
+            => new CidadeRepository(_fixture.Context);
 
         private ICidadeService CriarServico()
             => new CidadeService(CriarMapper(), CriarMemoryCache(), CriarRepositorio());
