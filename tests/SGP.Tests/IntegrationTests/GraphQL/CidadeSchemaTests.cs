@@ -30,7 +30,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             // Arrange
             const string queryName = QueryNames.CidadesPorEstado;
             const string ufSaoPaulo = "SP";
-            const int totaisEsperado = 645;
+            const int totalCidadesEsperado = 645;
             var request = new GraphQLQuery<CidadeResponse>(queryName)
                 .AddArguments(new { uf = ufSaoPaulo })
                 .AddField(c => c.Regiao)
@@ -49,7 +49,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var data = await response.Content.GetGraphQLDataAsync<IEnumerable<CidadeResponse>>(queryName);
             data.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.HaveCount(totaisEsperado)
+                .And.HaveCount(totalCidadesEsperado)
                 .And.Subject.ForEach(c =>
                 {
                     c.Regiao.Should().NotBeNullOrWhiteSpace();

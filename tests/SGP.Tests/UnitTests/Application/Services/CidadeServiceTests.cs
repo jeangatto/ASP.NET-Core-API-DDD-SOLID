@@ -63,6 +63,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             // Arrange
             await _fixture.SeedDataAsync();
             const string ufSaoPaulo = "SP";
+            const int totalCidadesEsperado = 645;
             var request = new ObterTodosPorUfRequest(ufSaoPaulo);
             var service = CriarServico();
 
@@ -73,7 +74,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.Should().BeSuccess();
             actual.Value.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.HaveCount(645)
+                .And.HaveCount(totalCidadesEsperado)
                 .And.Subject.ForEach(c =>
                 {
                     c.Regiao.Should().NotBeNullOrWhiteSpace();
