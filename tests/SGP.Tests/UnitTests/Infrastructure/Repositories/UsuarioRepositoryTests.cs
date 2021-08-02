@@ -136,13 +136,13 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 .RuleFor(u => u.Nome, f => f.Person.UserName)
                 .RuleFor(u => u.Email, f => new Email(f.Person.Email))
                 .RuleFor(u => u.HashSenha, f => f.Internet.Password(60))
-                .FinishWith((f, u) =>
+                .FinishWith((faker, usuario) =>
                 {
-                    for (int i = 0; i < quantidadeTokens; i++)
+                    for (var i = 0; i < quantidadeTokens; i++)
                     {
                         var criadoEm = i == 0 ? DateTime.Now : DateTime.Now.AddDays(i + 1);
                         var expiraEm = criadoEm.AddHours(8);
-                        u.AdicionarToken(new TokenAcesso(f.Internet.Password(2048), criadoEm, expiraEm));
+                        usuario.AdicionarToken(new TokenAcesso(faker.Internet.Password(2048), criadoEm, expiraEm));
                     }
                 })
                 .Generate();
