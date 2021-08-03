@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -27,7 +26,7 @@ namespace SGP.Infrastructure.Services
             _dateTime = dateTime;
         }
 
-        public AccessToken GenerateAccessToken(IEnumerable<Claim> claims)
+        public AccessToken GenerateAccessToken(Claim[] claims)
         {
             Guard.Against.NullOrEmpty(claims, nameof(claims));
 

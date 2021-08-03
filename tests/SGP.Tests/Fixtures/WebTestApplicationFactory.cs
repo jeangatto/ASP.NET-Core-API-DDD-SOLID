@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
 using SGP.PublicApi;
+using SGP.Tests.Constants;
 
 namespace SGP.Tests.Fixtures
 {
@@ -21,17 +21,16 @@ namespace SGP.Tests.Fixtures
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseEnvironment(Environments.Development);
+            builder.UseEnvironment(Environments.Test);
 
             builder.UseDefaultServiceProvider(options => options.ValidateScopes = true);
 
             builder.ConfigureServices(services =>
             {
-                var dbContextDescriptor =
-                    services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
-                if (dbContextDescriptor != null)
+                var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
+                if (descriptor != null)
                 {
-                    services.Remove(dbContextDescriptor);
+                    services.Remove(descriptor);
                 }
 
                 _connection = new SqliteConnection(ConnectionString);

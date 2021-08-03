@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -173,7 +172,7 @@ namespace SGP.Application.Services
                 newRefreshToken));
         }
 
-        private static IEnumerable<Claim> GenerateClaims(Usuario usuario)
+        private static Claim[] GenerateClaims(Usuario usuario)
         {
             return new[]
             {

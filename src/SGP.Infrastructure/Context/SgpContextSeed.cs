@@ -16,6 +16,8 @@ namespace SGP.Infrastructure.Context
     /// </summary>
     public static class SgpContextSeed
     {
+        private const string SeedFolderName = "Seeds";
+
         /// <summary>
         /// Caminho da pasta raiz da aplicação.
         /// </summary>
@@ -24,7 +26,7 @@ namespace SGP.Infrastructure.Context
         /// <summary>
         /// Caminho da pasta que contém os arquivos de seeds.
         /// </summary>
-        private static readonly string FolderPath = Path.Combine(RootFolderPath, "Seeds");
+        private static readonly string FolderPath = Path.Combine(RootFolderPath, SeedFolderName);
 
         /// <summary>
         /// Popula a base de dados.
@@ -44,7 +46,7 @@ namespace SGP.Infrastructure.Context
             return rowsAffected;
         }
 
-        private static async Task<long> PopularAsync<TEntity>(SgpContext context, ILogger logger, string jsonFileName)
+        private static async Task<long> PopularAsync<TEntity>(DbContext context, ILogger logger, string jsonFileName)
             where TEntity : class
         {
             Guard.Against.Null(logger, nameof(logger));
@@ -57,17 +59,13 @@ namespace SGP.Infrastructure.Context
             {
                 var filePath = Path.Combine(FolderPath, jsonFileName);
                 if (!File.Exists(filePath))
-                {
                     throw new FileNotFoundException($"O arquivo '{filePath}' não foi encontrado.", jsonFileName);
-                }
-                else
-                {
-                    var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
-                    dbSet.AddRange(entitiesJson.FromJson<IEnumerable<TEntity>>());
 
-                    totalRows = await context.SaveChangesAsync();
-                    logger.LogInformation($"Total de '{totalRows}' registros inseridos em '{typeof(TEntity).Name}'.");
-                }
+                var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
+                dbSet.AddRange(entitiesJson.FromJson<IEnumerable<TEntity>>());
+
+                totalRows = await context.SaveChangesAsync();
+                logger.LogInformation($"Total de '{totalRows}' registros inseridos em '{typeof(TEntity).Name}'.");
             }
 
             return totalRows;

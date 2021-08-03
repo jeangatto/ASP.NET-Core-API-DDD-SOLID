@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Security.Claims;
 using Bogus;
 using FluentAssertions;
@@ -58,7 +57,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             var service = CreateTokenClaimsService();
 
             // Act
-            Action act = () => service.GenerateAccessToken(Enumerable.Empty<Claim>());
+            Action act = () => service.GenerateAccessToken(Array.Empty<Claim>());
 
             // Assert
             act.Should().ThrowExactly<ArgumentException>();
@@ -77,8 +76,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             act.Should().ThrowExactly<ArgumentNullException>();
         }
 
-        private static IDateTime CreateDateTimeService()
-            => new LocalDateTimeService();
+        private static IDateTime CreateDateTimeService() => new LocalDateTimeService();
 
         private static IOptions<JwtConfig> CreateJwtConfigOptions()
         {
