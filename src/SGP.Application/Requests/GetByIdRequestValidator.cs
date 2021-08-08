@@ -1,4 +1,3 @@
-using System;
 using FluentValidation;
 
 namespace SGP.Application.Requests
@@ -9,8 +8,7 @@ namespace SGP.Application.Requests
         {
             RuleFor(x => x.Id)
                 .NotNull()
-                .NotEmpty()
-                .NotEqual(Guid.Empty);
+                .NotEmpty();
         }
     }
 }

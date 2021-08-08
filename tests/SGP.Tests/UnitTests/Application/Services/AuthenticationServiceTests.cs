@@ -53,10 +53,10 @@ namespace SGP.Tests.UnitTests.Application.Services
                 repository,
                 unitOfWork);
 
-            var userName = Faker.Person.FullName;
+            var name = Faker.Person.FullName;
             var email = Faker.Person.Email;
             var senha = Faker.Internet.Password(8);
-            var usuario = new Usuario(userName, new Email(email), hashService.Hash(senha));
+            var usuario = new Usuario(name, new Email(email), hashService.Hash(senha));
             repository.Add(usuario);
             await unitOfWork.SaveChangesAsync();
 

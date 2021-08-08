@@ -1,4 +1,5 @@
 using System;
+using SGP.Shared.Helpers;
 using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests
@@ -19,7 +20,7 @@ namespace SGP.Application.Requests
 
         public override void Validate()
         {
-            ValidationResult = new GetByIdRequestValidator().Validate(this);
+            ValidationResult = ValidatorHelper.Validate<GetByIdRequestValidator>(this);
         }
     }
 }

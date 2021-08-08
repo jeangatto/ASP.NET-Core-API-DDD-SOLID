@@ -1,3 +1,4 @@
+using SGP.Shared.Helpers;
 using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.CidadeRequests
@@ -13,7 +14,7 @@ namespace SGP.Application.Requests.CidadeRequests
 
         public override void Validate()
         {
-            ValidationResult = new ObterTodosPorUfRequestValidator().Validate(this);
+            ValidationResult = ValidatorHelper.Validate<ObterTodosPorUfRequestValidator>(this);
         }
     }
 }

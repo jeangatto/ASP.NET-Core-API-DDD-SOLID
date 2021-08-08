@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using SGP.Shared.Helpers;
 using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.AuthenticationRequests
@@ -10,12 +11,11 @@ namespace SGP.Application.Requests.AuthenticationRequests
             Token = token;
         }
 
-        [Required]
-        public string Token { get; }
+        [Required] public string Token { get; }
 
         public override void Validate()
         {
-            ValidationResult = new RefreshTokenRequestValidator().Validate(this);
+            ValidationResult = ValidatorHelper.Validate<RefreshTokenRequestValidator>(this);
         }
     }
 }
