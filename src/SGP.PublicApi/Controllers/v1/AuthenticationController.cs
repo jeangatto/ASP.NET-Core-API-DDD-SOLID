@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGP.Application.Interfaces;
-using SGP.Application.Requests.AuthRequests;
+using SGP.Application.Requests.AuthenticationRequests;
 using SGP.PublicApi.Extensions;
 
 namespace SGP.PublicApi.Controllers.v1
@@ -33,7 +33,7 @@ namespace SGP.PublicApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Authenticate([FromBody] AuthRequest request)
+        public async Task<IActionResult> Authenticate([FromBody] LogInRequest request)
         {
             var result = await _service.AuthenticateAsync(request);
             return result.ToHttpResult();

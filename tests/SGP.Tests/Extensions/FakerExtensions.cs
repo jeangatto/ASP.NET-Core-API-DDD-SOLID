@@ -7,8 +7,7 @@ namespace SGP.Tests.Extensions
     {
         public static Faker<T> UsePrivateConstructor<T>(this Faker<T> faker) where T : class
         {
-            return faker.CustomInstantiator(_
-                => Activator.CreateInstance(typeof(T), true) as T);
+            return faker.CustomInstantiator(_ => Activator.CreateInstance(typeof(T), true) as T);
         }
     }
 }

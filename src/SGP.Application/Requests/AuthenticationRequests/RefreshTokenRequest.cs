@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using SGP.Shared.Messages;
 
-namespace SGP.Application.Requests.AuthRequests
+namespace SGP.Application.Requests.AuthenticationRequests
 {
     public class RefreshTokenRequest : BaseRequest
     {
@@ -11,7 +11,7 @@ namespace SGP.Application.Requests.AuthRequests
         }
 
         [Required]
-        public string Token { get; private set; }
+        public string Token { get; }
 
         public override void Validate()
         {

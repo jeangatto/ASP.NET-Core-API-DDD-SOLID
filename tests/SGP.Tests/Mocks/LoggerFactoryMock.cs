@@ -10,7 +10,7 @@ namespace SGP.Tests.Mocks
             var loggerFactoryMock = new Mock<ILoggerFactory>();
 
             loggerFactoryMock
-                .Setup(s => s.CreateLogger(It.IsAny<string>()))
+                .Setup(s => s.CreateLogger(It.IsNotNull<string>()))
                 .Returns(Mock.Of<ILogger>());
 
             return loggerFactoryMock.Object;

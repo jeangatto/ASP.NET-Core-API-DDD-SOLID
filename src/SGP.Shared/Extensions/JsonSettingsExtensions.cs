@@ -1,4 +1,3 @@
-using Ardalis.GuardClauses;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -23,8 +22,6 @@ namespace SGP.Shared.Extensions
         /// <param name="settings"></param>
         public static JsonSerializerSettings Configure(this JsonSerializerSettings settings)
         {
-            Guard.Against.Null(settings, nameof(settings));
-
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             settings.PreserveReferencesHandling = PreserveReferencesHandling.None;
             settings.NullValueHandling = NullValueHandling.Ignore;

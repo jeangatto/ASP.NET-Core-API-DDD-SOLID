@@ -21,9 +21,7 @@ namespace SGP.PublicApi.Options
             // Add a swagger document for each discovered API version.
             // NOTE: you might choose to skip or document deprecated API versions differently.
             foreach (var description in _provider.ApiVersionDescriptions)
-            {
                 options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
-            }
         }
 
         private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
@@ -42,9 +40,7 @@ namespace SGP.PublicApi.Options
             };
 
             if (description.IsDeprecated)
-            {
                 openApiInfo.Description += " - Esta versão da API foi descontinuada.";
-            }
 
             return openApiInfo;
         }

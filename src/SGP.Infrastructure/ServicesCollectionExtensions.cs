@@ -1,5 +1,4 @@
 using System;
-using Ardalis.GuardClauses;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
@@ -14,8 +13,6 @@ namespace SGP.Infrastructure
     {
         public static void AddInfrastructure(this IServiceCollection services)
         {
-            Guard.Against.Null(services, nameof(services));
-
             services.AddScoped<IDateTime, LocalDateTimeService>();
             services.AddScoped<IHashService, BCryptHashService>();
             services.AddScoped<ITokenClaimsService, IdentityTokenClaimService>();
@@ -25,7 +22,7 @@ namespace SGP.Infrastructure
             // REF: https://github.com/khellang/Scrutor
             services.Scan(scan => scan
                 .FromCallingAssembly()
-                .AddClasses(implementations => implementations.AssignableTo<IRepository>())
+                .AddClasses(@class => @class.AssignableTo<IRepository>())
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
@@ -33,8 +30,6 @@ namespace SGP.Infrastructure
 
         public static void ConfigureAppSettings(this IServiceCollection services)
         {
-            Guard.Against.Null(services, nameof(services));
-
             services.AddOptions<AuthConfig>()
                 .BindConfiguration(nameof(AuthConfig), BinderNonPublicPropertiesOptions());
 

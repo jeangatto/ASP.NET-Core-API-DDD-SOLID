@@ -12,10 +12,10 @@ namespace SGP.Application.Requests
 
         public GetByIdRequest(string id)
         {
-            Id = Guid.TryParse(id, out Guid result) ? result : Guid.Empty;
+            Id = Guid.TryParse(id, out var result) ? result : Guid.Empty;
         }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; }
 
         public override void Validate()
         {

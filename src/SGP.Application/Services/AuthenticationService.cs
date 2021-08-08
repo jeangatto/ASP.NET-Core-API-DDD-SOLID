@@ -7,7 +7,7 @@ using Ardalis.GuardClauses;
 using FluentResults;
 using Microsoft.Extensions.Options;
 using SGP.Application.Interfaces;
-using SGP.Application.Requests.AuthRequests;
+using SGP.Application.Requests.AuthenticationRequests;
 using SGP.Application.Responses;
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
@@ -58,7 +58,7 @@ namespace SGP.Application.Services
 
         #region Methods
 
-        public async Task<Result<TokenResponse>> AuthenticateAsync(AuthRequest request)
+        public async Task<Result<TokenResponse>> AuthenticateAsync(LogInRequest request)
         {
             // Validando a requisição.
             request.Validate();

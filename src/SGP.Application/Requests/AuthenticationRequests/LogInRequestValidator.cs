@@ -1,11 +1,11 @@
 using FluentValidation;
 using SGP.Shared.Extensions;
 
-namespace SGP.Application.Requests.AuthRequests
+namespace SGP.Application.Requests.AuthenticationRequests
 {
-    public class AuthRequestValidator : AbstractValidator<AuthRequest>
+    public class LogInRequestValidator : AbstractValidator<LogInRequest>
     {
-        public AuthRequestValidator()
+        public LogInRequestValidator()
         {
             RuleFor(x => x.Email)
                 .NotEmpty()
@@ -13,7 +13,8 @@ namespace SGP.Application.Requests.AuthRequests
                 .MaximumLength(100);
 
             RuleFor(x => x.Password)
-                .NotEmpty();
+                .NotEmpty()
+                .MinimumLength(4);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace SGP.Application.Requests.CidadeRequests
             Uf = uf?.ToUpperInvariant();
         }
 
-        public string Uf { get; private set; }
+        public string Uf { get; }
 
         public override void Validate()
         {

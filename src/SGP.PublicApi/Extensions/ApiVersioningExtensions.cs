@@ -1,4 +1,3 @@
-using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,8 +7,6 @@ namespace SGP.PublicApi.Extensions
     {
         public static void AddApiVersioningAndApiExplorer(this IServiceCollection services)
         {
-            Guard.Against.Null(services, nameof(services));
-
             services.AddApiVersioning(options =>
             {
                 // Specify the default API Version as 1.0

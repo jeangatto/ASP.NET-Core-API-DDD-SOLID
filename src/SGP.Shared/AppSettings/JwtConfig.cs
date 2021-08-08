@@ -17,7 +17,7 @@ namespace SGP.Shared.AppSettings
             bool validateAudience,
             bool validateIssuer)
         {
-            return new()
+            return new JwtConfig
             {
                 Audience = audience,
                 Issuer = issuer,

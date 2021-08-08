@@ -5,11 +5,7 @@ namespace SGP.Application.Responses
 {
     public sealed class TokenResponse : BaseResponse
     {
-        public TokenResponse(
-            string accessToken,
-            DateTime created,
-            DateTime expiration,
-            string refreshToken)
+        public TokenResponse(string accessToken, DateTime created, DateTime expiration, string refreshToken)
         {
             AccessToken = accessToken;
             Created = created;
@@ -17,10 +13,10 @@ namespace SGP.Application.Responses
             RefreshToken = refreshToken;
         }
 
-        public string AccessToken { get; private set; }
-        public DateTime Created { get; private set; }
-        public DateTime Expiration { get; private set; }
-        public string RefreshToken { get; private set; }
+        public string AccessToken { get; }
+        public DateTime Created { get; }
+        public DateTime Expiration { get; }
+        public string RefreshToken { get; }
         public int ExpiresIn => (int)Expiration.Subtract(Created).TotalSeconds;
     }
 }

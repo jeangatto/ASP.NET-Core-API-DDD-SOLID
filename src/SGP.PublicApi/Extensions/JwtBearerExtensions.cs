@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -14,9 +13,6 @@ namespace SGP.PublicApi.Extensions
     {
         public static void AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
         {
-            Guard.Against.Null(services, nameof(services));
-            Guard.Against.Null(configuration, nameof(configuration));
-
             var jwtConfig = configuration
                 .GetSection(nameof(JwtConfig))
                 .Get<JwtConfig>(options => options.BindNonPublicProperties = true);

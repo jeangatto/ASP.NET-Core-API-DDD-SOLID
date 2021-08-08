@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using SGP.Shared.Messages;
 
-namespace SGP.Application.Requests.AuthRequests
+namespace SGP.Application.Requests.AuthenticationRequests
 {
-    public class AuthRequest : BaseRequest
+    public class LogInRequest : BaseRequest
     {
-        public AuthRequest(string email, string password)
+        public LogInRequest(string email, string password)
         {
             Email = email;
             Password = password;
@@ -13,15 +13,16 @@ namespace SGP.Application.Requests.AuthRequests
 
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; private set; }
+        public string Email { get; }
 
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; private set; }
+        [MinLength(4)]
+        public string Password { get; }
 
         public override void Validate()
         {
-            ValidationResult = new AuthRequestValidator().Validate(this);
+            ValidationResult = new LogInRequestValidator().Validate(this);
         }
     }
 }

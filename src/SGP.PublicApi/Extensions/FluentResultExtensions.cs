@@ -14,9 +14,7 @@ namespace SGP.PublicApi.Extensions
         public static void ToExecutionError<T>(this Result<T> result, IResolveFieldContext<object> context)
         {
             foreach (var errorMessage in result.Errors.GroupByErrors())
-            {
                 context.Errors.Add(new ExecutionError(errorMessage));
-            }
         }
 
         public static ObjectResult ToHttpResult(this Result result)

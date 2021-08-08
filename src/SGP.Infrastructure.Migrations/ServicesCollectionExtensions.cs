@@ -18,9 +18,6 @@ namespace SGP.Infrastructure.Migrations
 
         public static void AddDbContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
         {
-            Guard.Against.Null(services, nameof(services));
-            Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
-
             services.AddDbContext<SgpContext>((serviceProvider, builder) =>
             {
                 builder.UseSqlServer(serviceProvider.GetConnectionString(),
@@ -39,7 +36,7 @@ namespace SGP.Infrastructure.Migrations
 
             // Verificador de saúde da base de dados.
             healthChecksBuilder.AddDbContextCheck<SgpContext>(
-                tags: new[] {"database"},
+                tags: new[] { "database" },
                 customTestQuery: (context, cancellationToken)
                     => context.Estados.AsNoTracking().AnyAsync(cancellationToken));
         }

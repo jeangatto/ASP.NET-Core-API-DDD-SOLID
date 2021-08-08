@@ -13,8 +13,7 @@ namespace SGP.Shared.Messages
             ValidationResult = new ValidationResult();
         }
 
-        [JsonIgnore]
-        public ValidationResult ValidationResult { get; protected set; }
+        [JsonIgnore] public ValidationResult ValidationResult { get; protected set; }
 
         /// <summary>
         /// Indica se a requisição é valida.
