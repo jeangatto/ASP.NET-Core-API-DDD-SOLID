@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Bogus;
 using FluentAssertions;
-using FluentResults.Extensions.FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -66,7 +65,8 @@ namespace SGP.Tests.UnitTests.Application.Services
             var act = await service.AuthenticateAsync(request);
 
             // Assert
-            act.Should().NotBeNull().And.BeSuccess();
+            act.Should().NotBeNull();
+            act.IsSuccess.Should().BeTrue();
             act.Value.AccessToken.Should().NotBeNullOrWhiteSpace();
             act.Value.Expiration.Should().BeAfter(act.Value.Created);
             act.Value.RefreshToken.Should().NotBeNullOrWhiteSpace();

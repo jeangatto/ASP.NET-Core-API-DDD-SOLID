@@ -15,7 +15,7 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
             // Arrange
             const string expectedJson =
                 "{\"email\":\"john.doe@hotmai.com\",\"userName\":\"John Doe\",\"status\":\"active\"}";
-            var user = new User("John Doe", "john.doe@hotmai.com", Status.Active);
+            var user = new User("John Doe", "john.doe@hotmai.com", EStatus.Active);
 
             // Act
             var actual = user.ToJson();
@@ -28,7 +28,7 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
         public void Should_ReturnEntity_WhenDeserializeWithPrivateSetters()
         {
             // Arrange
-            var expectedUser = new User("John Doe", "john.doe@hotmai.com", Status.Inactive);
+            var expectedUser = new User("John Doe", "john.doe@hotmai.com", EStatus.Inactive);
             const string json = "{\"email\":\"john.doe@hotmai.com\",\"userName\":\"John Doe\",\"status\":\"inactive\"}";
 
             // Act
@@ -38,11 +38,11 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
             actual.Should().NotBeNull().And.BeEquivalentTo(expectedUser);
         }
 
-        private enum Status { Active = 0, Inactive = 1 }
+        private enum EStatus { Active = 0, Inactive = 1 }
 
         private class User
         {
-            public User(string userName, string email, Status status)
+            public User(string userName, string email, EStatus status)
             {
                 UserName = userName;
                 Email = email;
@@ -51,7 +51,7 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
 
             public string Email { get; private set; }
             public string UserName { get; private set; }
-            public Status Status { get; private set; }
+            public EStatus Status { get; private set; }
         }
     }
 }

@@ -29,7 +29,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             const string queryName = QueryNames.ListarEstados;
-            var request = new GraphQLQuery<EstadoResponse>(queryName)
+            var request = new GraphQuery<EstadoResponse>(queryName)
                  .AddField(e => e.Regiao)
                  .AddField(e => e.Uf)
                  .AddField(e => e.Nome)

@@ -31,7 +31,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             const string queryName = QueryNames.CidadesPorEstado;
             const string ufSaoPaulo = "SP";
             const int totalCidadesEsperado = 645;
-            var request = new GraphQLQuery<CidadeResponse>(queryName)
+            var request = new GraphQuery<CidadeResponse>(queryName)
                 .AddArguments(new { uf = ufSaoPaulo })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
@@ -65,7 +65,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             const string ufNaoExistente = "XX";
-            var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
+            var request = new GraphQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
                 .AddArguments(new { uf = ufNaoExistente })
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
@@ -84,7 +84,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             const int ibgeNaoExistente = 999999999;
-            var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
+            var request = new GraphQuery<CidadeResponse>(QueryNames.CidadePorIbge)
                 .AddArguments(new { ibge = ibgeNaoExistente })
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
@@ -103,7 +103,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             const int ibgeInvalido = -1;
-            var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
+            var request = new GraphQuery<CidadeResponse>(QueryNames.CidadePorIbge)
                 .AddArguments(new { ibge = ibgeInvalido })
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
@@ -122,7 +122,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             const string ufInvalido = "XXX.XX_X";
-            var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
+            var request = new GraphQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
                 .AddArguments(new { uf = ufInvalido })
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
@@ -142,7 +142,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             // Arrange
             const string queryName = QueryNames.CidadePorIbge;
             const int ibgeVotuporanga = 3557105;
-            var request = new GraphQLQuery<CidadeResponse>(queryName)
+            var request = new GraphQuery<CidadeResponse>(queryName)
                 .AddArguments(new { ibge = ibgeVotuporanga })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)

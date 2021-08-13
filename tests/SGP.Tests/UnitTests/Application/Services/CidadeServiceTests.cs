@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
-using FluentResults.Extensions.FluentAssertions;
 using Microsoft.Extensions.Caching.Memory;
 using SGP.Application.Interfaces;
 using SGP.Application.Mapper;
@@ -39,7 +38,10 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterTodosPorUfAsync(request);
 
             // Assert
-            actual.Should().BeFailure().And.Subject.HasError<ValidationError>().Should().BeTrue();
+            actual.Should().NotBeNull();
+            actual.HasError<ValidationError>().Should().BeTrue();
+            actual.IsFailed.Should().BeTrue();
+            actual.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
         }
 
         [Fact]
@@ -54,7 +56,10 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterTodosPorUfAsync(request);
 
             // Assert
-            actual.Should().BeFailure().And.Subject.HasError<NotFoundError>().Should().BeTrue();
+            actual.Should().NotBeNull();
+            actual.HasError<NotFoundError>().Should().BeTrue();
+            actual.IsFailed.Should().BeTrue();
+            actual.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
         }
 
         [Fact]
@@ -71,7 +76,8 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterTodosPorUfAsync(request);
 
             // Assert
-            actual.Should().BeSuccess();
+            actual.Should().NotBeNull();
+            actual.IsSuccess.Should().BeTrue();
             actual.Value.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(totalCidadesEsperado)
@@ -98,7 +104,8 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterPorIbgeAsync(request);
 
             // Assert
-            actual.Should().BeSuccess();
+            actual.Should().NotBeNull();
+            actual.IsSuccess.Should().BeTrue();
             actual.Value.Regiao.Should().NotBeNullOrWhiteSpace();
             actual.Value.Estado.Should().NotBeNullOrWhiteSpace();
             actual.Value.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
@@ -119,7 +126,10 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterPorIbgeAsync(request);
 
             // Assert
-            actual.Should().BeFailure().And.Subject.HasError<ValidationError>().Should().BeTrue();
+            actual.Should().NotBeNull();
+            actual.HasError<ValidationError>().Should().BeTrue();
+            actual.IsFailed.Should().BeTrue();
+            actual.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
         }
 
         [Fact]
@@ -134,8 +144,10 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterPorIbgeAsync(request);
 
             // Assert
-            actual.Should().BeFailure()
-                .And.Subject.HasError<NotFoundError>().Should().BeTrue();
+            actual.Should().NotBeNull();
+            actual.HasError<NotFoundError>().Should().BeTrue();
+            actual.IsFailed.Should().BeTrue();
+            actual.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
         }
 
         private static IMapper CriarMapper()

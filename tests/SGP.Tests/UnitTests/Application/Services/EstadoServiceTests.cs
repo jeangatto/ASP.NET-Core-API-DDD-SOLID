@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
-using FluentResults.Extensions.FluentAssertions;
 using Microsoft.Extensions.Caching.Memory;
 using SGP.Application.Interfaces;
 using SGP.Application.Mapper;
@@ -37,7 +36,8 @@ namespace SGP.Tests.UnitTests.Application.Services
             var actual = await service.ObterTodosAsync();
 
             // Assert
-            actual.Should().BeSuccess();
+            actual.Should().NotBeNull();
+            actual.IsSuccess.Should().BeTrue();
             actual.Value.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(Totais.Estados)

@@ -7,7 +7,7 @@ namespace SGP.Tests.Models
             Message = message;
         }
 
-        public string Message { get; private set; }
+        public string Message { get; }
 
         public override string ToString()
         {

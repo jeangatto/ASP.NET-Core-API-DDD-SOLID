@@ -54,7 +54,8 @@ namespace SGP.Tests.Fixtures
                     try
                     {
                         context.Database.EnsureCreated();
-                        context.EnsureSeedDataAsync(loggerFactory).GetAwaiter().GetResult();
+                        var rowsAffected = context.EnsureSeedDataAsync(loggerFactory).GetAwaiter().GetResult();
+                        logger.LogInformation($"Total de linhas populadas: {rowsAffected}");
                     }
                     catch (Exception ex)
                     {

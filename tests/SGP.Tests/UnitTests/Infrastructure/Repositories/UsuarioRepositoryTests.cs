@@ -32,10 +32,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetonarVerdadeiro_AoVerificarSeEmailJaExiste()
         {
             // Arrange
-            (IUsuarioRepository repositorio, Usuario usuario) = await PopularAsync();
+            var (repositorio, usuarioInserido) = await PopularAsync();
 
             // Act
-            var actual = await repositorio.VerificarSeEmailExisteAsync(usuario.Email);
+            var actual = await repositorio.VerificarSeEmailExisteAsync(usuarioInserido.Email);
 
             // Assert
             actual.Should().Be(true);
@@ -45,7 +45,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_AoObterPorEmail()
         {
             // Arrange
-            (IUsuarioRepository repositorio, Usuario usuarioInserido) = await PopularAsync();
+            var (repositorio, usuarioInserido) = await PopularAsync();
 
             // Act
             var actual = await repositorio.ObterPorEmailAsync(usuarioInserido.Email);
@@ -71,7 +71,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_AoObterPorId()
         {
             // Arrange
-            (IUsuarioRepository repositorio, Usuario usuarioInserido) = await PopularAsync();
+            var (repositorio, usuarioInserido) = await PopularAsync();
 
             // Act
             var actual = await repositorio.GetByIdAsync(usuarioInserido.Id);
@@ -97,7 +97,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarUsuario_AoObterPorToken()
         {
             // Arrange
-            (IUsuarioRepository repositorio, Usuario usuarioInserido) = await PopularAsync(3);
+            var (repositorio, usuarioInserido) = await PopularAsync(3);
 
             // Act
             var actual = await repositorio.ObterPorTokenAsync(usuarioInserido.Tokens[0].Token);
