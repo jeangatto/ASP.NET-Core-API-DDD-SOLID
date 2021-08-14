@@ -6,7 +6,6 @@ using SGP.Application.Interfaces;
 using SGP.Application.Mapper;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Services;
-using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
 using SGP.Shared.Errors;
 using SGP.Tests.Constants;
@@ -22,10 +21,7 @@ namespace SGP.Tests.UnitTests.Application.Services
     {
         private readonly EfSqliteFixture _fixture;
 
-        public CidadeServiceTests(EfSqliteFixture fixture)
-        {
-            _fixture = fixture;
-        }
+        public CidadeServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Fact]
         public async Task Devera_RetornarErroValidacao_AoObterTodosPorUfInvalido()
@@ -150,17 +146,12 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
         }
 
-        private static IMapper CriarMapper()
-            => new Mapper(new MapperConfiguration(cfg
-                => cfg.AddProfile<DomainToResponseMapper>()));
-
-        private static IMemoryCache CriarMemoryCache()
-            => new MemoryCache(new MemoryCacheOptions());
-
-        private ICidadeRepository CriarRepositorio()
-            => new CidadeRepository(_fixture.Context);
-
         private ICidadeService CriarServico()
-            => new CidadeService(CriarMapper(), CriarMemoryCache(), CriarRepositorio());
+        {
+            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
+            var memoryCache = new MemoryCache(new MemoryCacheOptions());
+            var repositorio = new CidadeRepository(_fixture.Context);
+            return new CidadeService(mapper, memoryCache, repositorio);
+        }
     }
 }

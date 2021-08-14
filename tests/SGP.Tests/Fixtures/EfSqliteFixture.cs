@@ -24,15 +24,13 @@ namespace SGP.Tests.Fixtures
                 .Options;
 
             Context = new SgpContext(options);
+            Context.Database.EnsureDeleted();
             Context.Database.EnsureCreated();
         }
 
         public SgpContext Context { get; }
 
-        public async Task SeedDataAsync()
-        {
-            await Context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
-        }
+        public async Task SeedDataAsync() => await Context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
 
         #region Dispose
 
@@ -56,9 +54,7 @@ namespace SGP.Tests.Fixtures
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed)
-            {
                 return;
-            }
 
             // Dispose managed state (managed objects).
             if (disposing)

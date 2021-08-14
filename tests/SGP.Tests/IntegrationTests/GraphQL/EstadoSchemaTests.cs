@@ -19,10 +19,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
     {
         private readonly HttpClient _client;
 
-        public EstadoSchemaTests(WebTestApplicationFactory factory)
-        {
-            _client = factory.Server.CreateClient();
-        }
+        public EstadoSchemaTests(WebTestApplicationFactory factory) => _client = factory.Server.CreateClient();
 
         [Fact]
         public async Task Devera_RetornarResultadoSucessoComEstados_AoObterTodos()
@@ -30,10 +27,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             // Arrange
             const string queryName = QueryNames.ListarEstados;
             var request = new GraphQuery<EstadoResponse>(queryName)
-                 .AddField(e => e.Regiao)
-                 .AddField(e => e.Uf)
-                 .AddField(e => e.Nome)
-                 .ToGraphQLRequest();
+                .AddField(e => e.Regiao)
+                .AddField(e => e.Uf)
+                .AddField(e => e.Nome)
+                .ToGraphQLRequest();
 
             // Act
             var response = await _client.SendAsync(GraphQLApiEndpoints.Estados, request);

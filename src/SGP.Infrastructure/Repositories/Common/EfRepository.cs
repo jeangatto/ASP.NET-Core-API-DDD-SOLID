@@ -13,10 +13,7 @@ namespace SGP.Infrastructure.Repositories.Common
     {
         private readonly DbSet<TEntity> _dbSet;
 
-        protected EfRepository(SgpContext context)
-        {
-            _dbSet = context.Set<TEntity>();
-        }
+        protected EfRepository(SgpContext context) => _dbSet = context.Set<TEntity>();
 
         public void Add(TEntity entity) => _dbSet.Add(entity);
 
@@ -32,12 +29,12 @@ namespace SGP.Infrastructure.Repositories.Common
 
         public virtual async Task<TEntity> GetByIdAsync(Guid id, bool readOnly = true)
         {
-            return readOnly ?
-                await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id) :
-                await _dbSet.FindAsync(id);
+            return readOnly
+                ? await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id)
+                : await _dbSet.FindAsync(id);
         }
 
-        protected IQueryable<TEntity> Queryable(bool readOnly = true)
-            => readOnly ? _dbSet.AsNoTracking() : _dbSet.AsQueryable();
+        protected IQueryable<TEntity> Queryable(bool readOnly = true) =>
+            readOnly ? _dbSet.AsNoTracking() : _dbSet.AsQueryable();
     }
 }

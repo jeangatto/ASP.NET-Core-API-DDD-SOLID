@@ -15,10 +15,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
     {
         private readonly EfSqliteFixture _fixture;
 
-        public CidadeRepositoryTests(EfSqliteFixture fixture)
-        {
-            _fixture = fixture;
-        }
+        public CidadeRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Theory]
         [InlineData(3550308, "São Paulo", "SP", "Sudeste")]

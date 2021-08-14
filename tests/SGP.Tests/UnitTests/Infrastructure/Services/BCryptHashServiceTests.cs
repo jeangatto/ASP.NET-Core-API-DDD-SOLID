@@ -42,8 +42,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             var actual = hashService.Hash(text);
 
             // Assert
-            actual.Should().NotBeNullOrEmpty()
-                .And.Should().NotBeSameAs(text);
+            actual.Should().NotBeNullOrEmpty().And.Should().NotBeSameAs(text);
         }
 
         [Fact]
@@ -75,8 +74,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             Action actual = () => hashService.Compare(password, hash);
 
             // Assert
-            actual.Should().Throw<ArgumentException>()
-                .And.ParamName.Should().Be("hash");
+            actual.Should().Throw<ArgumentException>().And.ParamName.Should().Be("hash");
         }
 
         [Theory]
@@ -93,8 +91,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             Action actual = () => hashService.Compare(text, hash);
 
             // Assert
-            actual.Should().Throw<ArgumentException>()
-                .And.ParamName.Should().Be("text");
+            actual.Should().Throw<ArgumentException>().And.ParamName.Should().Be("text");
         }
 
         [Theory]
@@ -110,11 +107,9 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             Action actual = () => hashService.Hash(text);
 
             // Assert
-            actual.Should().Throw<ArgumentException>()
-                .And.ParamName.Should().Be("text");
+            actual.Should().Throw<ArgumentException>().And.ParamName.Should().Be("text");
         }
 
-        private static IHashService CreateHashService()
-            => new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
+        private static IHashService CreateHashService() => new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
     }
 }

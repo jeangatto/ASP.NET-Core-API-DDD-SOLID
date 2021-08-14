@@ -19,10 +19,9 @@ namespace SGP.PublicApi
 
             using (var scope = host.Services.CreateScope())
             {
-                var serviceProvider = scope.ServiceProvider;
-                var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+                var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                 var logger = loggerFactory.CreateLogger(nameof(Program));
-                var context = serviceProvider.GetRequiredService<SgpContext>();
+                var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
 
                 try
                 {

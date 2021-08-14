@@ -41,9 +41,7 @@ namespace SGP.Tests.Fixtures
                     .EnableDetailedErrors()
                     .EnableSensitiveDataLogging());
 
-                var serviceProvider = services.BuildServiceProvider(true);
-
-                using (var scope = serviceProvider.CreateScope())
+                using (var scope = services.BuildServiceProvider(true).CreateScope())
                 {
                     var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
                     var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
@@ -53,6 +51,7 @@ namespace SGP.Tests.Fixtures
 
                     try
                     {
+                        context.Database.EnsureDeleted();
                         context.Database.EnsureCreated();
                         var rowsAffected = context.EnsureSeedDataAsync(loggerFactory).GetAwaiter().GetResult();
                         logger.LogInformation($"Total de linhas populadas: {rowsAffected}");

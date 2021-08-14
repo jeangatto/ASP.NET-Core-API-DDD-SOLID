@@ -19,10 +19,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
     {
         private readonly HttpClient _client;
 
-        public CidadeSchemaTests(WebTestApplicationFactory factory)
-        {
-            _client = factory.Server.CreateClient();
-        }
+        public CidadeSchemaTests(WebTestApplicationFactory factory) => _client = factory.Server.CreateClient();
 
         [Fact]
         public async Task Devera_RetornarCidades_AoObterPorUf()

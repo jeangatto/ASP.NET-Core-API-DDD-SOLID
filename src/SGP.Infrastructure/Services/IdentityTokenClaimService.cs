@@ -17,6 +17,7 @@ namespace SGP.Infrastructure.Services
     {
         private readonly JwtConfig _jwtConfig;
         private readonly IDateTime _dateTime;
+        private const short RefreshTokenBytesLength = 64;
 
         public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTime dateTime)
         {
@@ -55,7 +56,7 @@ namespace SGP.Infrastructure.Services
         {
             using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
             {
-                var randomBytes = new byte[64];
+                var randomBytes = new byte[RefreshTokenBytesLength];
                 cryptoServiceProvider.GetBytes(randomBytes);
                 return Convert.ToBase64String(randomBytes);
             }

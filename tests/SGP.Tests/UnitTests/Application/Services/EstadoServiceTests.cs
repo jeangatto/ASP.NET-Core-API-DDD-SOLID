@@ -5,7 +5,6 @@ using Microsoft.Extensions.Caching.Memory;
 using SGP.Application.Interfaces;
 using SGP.Application.Mapper;
 using SGP.Application.Services;
-using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
 using SGP.Tests.Constants;
 using SGP.Tests.Extensions;
@@ -20,10 +19,7 @@ namespace SGP.Tests.UnitTests.Application.Services
     {
         private readonly EfSqliteFixture _fixture;
 
-        public EstadoServiceTests(EfSqliteFixture fixture)
-        {
-            _fixture = fixture;
-        }
+        public EstadoServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Fact]
         public async Task Devera_RetornarResultadoSucessoComEstados_AoObterTodos()
@@ -49,15 +45,12 @@ namespace SGP.Tests.UnitTests.Application.Services
                 });
         }
 
-        private static IMapper CriarMapper()
-            => new Mapper(new MapperConfiguration(cfg
-                => cfg.AddProfile<DomainToResponseMapper>()));
-
-        private static IMemoryCache CriarMemoryCache() => new MemoryCache(new MemoryCacheOptions());
-
-        private IEstadoRepository CriarRepositorio() => new EstadoRepository(_fixture.Context);
-
         private IEstadoService CriarServico()
-            => new EstadoService(CriarMapper(), CriarMemoryCache(), CriarRepositorio());
+        {
+            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
+            var memoryCache = new MemoryCache(new MemoryCacheOptions());
+            var repositorio = new EstadoRepository(_fixture.Context);
+            return new EstadoService(mapper, memoryCache, repositorio);
+        }
     }
 }

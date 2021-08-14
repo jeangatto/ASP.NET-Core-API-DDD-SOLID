@@ -1,10 +1,7 @@
 using System;
 using System.Security.Claims;
-using Bogus;
 using FluentAssertions;
-using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Services;
-using SGP.Shared.AppSettings;
 using SGP.Shared.Interfaces;
 using SGP.Tests.Constants;
 using Xunit;
@@ -13,20 +10,18 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
     [UnitTest(TestCategories.Infrastructure)]
-    public class IdentityTokenClaimServiceTests
+    public class IdentityTokenClaimServiceTests : TestBase
     {
         [Fact]
         public void Should_ReturnsAcessToken_WhenGenerateAccessTokenWithValidClaims()
         {
             // Arrange
-            var faker = new Faker();
+            var service = CreateTokenClaimsService();
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Name, faker.Person.UserName),
-                new Claim(ClaimTypes.Email, faker.Person.Email)
+                new Claim(ClaimTypes.NameIdentifier, Faker.Random.Guid().ToString()),
+                new Claim(ClaimTypes.Name, Faker.Person.UserName), new Claim(ClaimTypes.Email, Faker.Person.Email)
             };
-            var service = CreateTokenClaimsService();
 
             // Act
             var actual = service.GenerateAccessToken(claims);
@@ -60,7 +55,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             Action act = () => service.GenerateAccessToken(Array.Empty<Claim>());
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>();
+            act.Should().ThrowExactly<ArgumentException>().And.ParamName.Should().Be("claims");
         }
 
         [Fact]
@@ -73,23 +68,13 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             Action act = () => service.GenerateAccessToken(null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>();
-        }
-
-        private static IDateTime CreateDateTimeService() => new LocalDateTimeService();
-
-        private static IOptions<JwtConfig> CreateJwtConfigOptions()
-        {
-            return Options.Create(JwtConfig.Create(
-                "Clients-API-SGP",
-                "API-SGP",
-                21600,
-                "mgnCsPC22aPqn7YWb7rn2FEtqsJW9Apv",
-                true,
-                true));
+            act.Should().ThrowExactly<ArgumentNullException>().And.ParamName.Should().Be("claims");
         }
 
         private static ITokenClaimsService CreateTokenClaimsService()
-            => new IdentityTokenClaimService(CreateJwtConfigOptions(), CreateDateTimeService());
+        {
+            var dateTime = new LocalDateTimeService();
+            return new IdentityTokenClaimService(CreateJwtConfigOptions(), dateTime);
+        }
     }
 }

@@ -13,8 +13,7 @@ namespace SGP.Tests.UnitTests.Application
         public void Should_Mapper_ConfigurationIsValid()
         {
             // Arrange
-            var configuration = new MapperConfiguration(cfg
-                => cfg.AddProfile<DomainToResponseMapper>());
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>());
 
             // Act
             var mapper = new Mapper(configuration);

@@ -12,10 +12,7 @@ namespace SGP.Infrastructure.Repositories
     {
         private readonly DbSet<Cidade> _dbSet;
 
-        public CidadeRepository(SgpContext context)
-        {
-            _dbSet = context.Cidades;
-        }
+        public CidadeRepository(SgpContext context) => _dbSet = context.Cidades;
 
         public async Task<Cidade> ObterPorIbgeAsync(int ibge)
         {

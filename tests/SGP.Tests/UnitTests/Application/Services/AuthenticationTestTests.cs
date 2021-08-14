@@ -1,20 +1,14 @@
 ﻿using System.Threading.Tasks;
-using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
-using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthenticationRequests;
 using SGP.Application.Services;
 using SGP.Domain.Entities;
-using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Repositories;
 using SGP.Infrastructure.Services;
 using SGP.Infrastructure.UoW;
-using SGP.Shared.AppSettings;
-using SGP.Shared.Interfaces;
 using SGP.Tests.Constants;
 using SGP.Tests.Fixtures;
 using Xunit;
@@ -23,15 +17,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Application.Services
 {
     [UnitTest(TestCategories.Application)]
-    public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
+    public class AuthenticationTestTests : TestBase, IClassFixture<EfSqliteFixture>
     {
-        private static readonly Faker Faker = new();
         private readonly EfSqliteFixture _fixture;
 
-        public AuthenticationServiceTests(EfSqliteFixture fixture)
-        {
-            _fixture = fixture;
-        }
+        public AuthenticationTestTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Fact]
         public async Task Devera_RetornarTokenResponse_AoAutenticar()
@@ -39,12 +29,12 @@ namespace SGP.Tests.UnitTests.Application.Services
             // Arrange
             var authConfigOptions = CreateAuthConfigOptions();
             var jwtConfigOptions = CreateJwtConfigOptions();
-            IDateTime dateTime = new LocalDateTimeService();
-            IHashService hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
-            ITokenClaimsService tokenClaimService = new IdentityTokenClaimService(jwtConfigOptions, dateTime);
-            IUsuarioRepository repository = new UsuarioRepository(_fixture.Context);
-            IUnitOfWork unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
-            IAuthenticationService service = new AuthenticationService(
+            var dateTime = new LocalDateTimeService();
+            var hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
+            var tokenClaimService = new IdentityTokenClaimService(jwtConfigOptions, dateTime);
+            var repository = new UsuarioRepository(_fixture.Context);
+            var unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
+            var service = new AuthenticationService(
                 authConfigOptions,
                 dateTime,
                 hashService,
@@ -71,22 +61,6 @@ namespace SGP.Tests.UnitTests.Application.Services
             act.Value.Expiration.Should().BeAfter(act.Value.Created);
             act.Value.RefreshToken.Should().NotBeNullOrWhiteSpace();
             act.Value.ExpiresIn.Should().BePositive().And.Be(jwtConfigOptions.Value.Seconds);
-        }
-
-        private static IOptions<AuthConfig> CreateAuthConfigOptions()
-        {
-            const short maximumAttempts = 3;
-            const short secondsBlocked = 1000;
-            return Options.Create(AuthConfig.Create(maximumAttempts, secondsBlocked));
-        }
-
-        private static IOptions<JwtConfig> CreateJwtConfigOptions()
-        {
-            const string audience = "Clients-API-SGP";
-            const string issuer = "API-SGP";
-            const short seconds = 21600;
-            var secret = Faker.Random.String2(32);
-            return Options.Create(JwtConfig.Create(audience, issuer, seconds, secret, true, true));
         }
     }
 }

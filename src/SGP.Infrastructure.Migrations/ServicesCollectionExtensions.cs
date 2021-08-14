@@ -18,13 +18,15 @@ namespace SGP.Infrastructure.Migrations
 
         public static void AddDbContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
         {
-            services.AddDbContext<SgpContext>((serviceProvider, builder) =>
+            Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
+
+            services.AddDbContext<SgpContext>((provider, builder) =>
             {
-                builder.UseSqlServer(serviceProvider.GetConnectionString(),
+                builder.UseSqlServer(provider.GetConnectionString(),
                     options => options.MigrationsAssembly(AssemblyName));
 
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
-                var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+                var environment = provider.GetRequiredService<IHostEnvironment>();
                 if (environment.IsDevelopment())
                 {
                     var loggerFactory = LoggerFactory.Create(logging => logging.AddConsole());
@@ -41,9 +43,9 @@ namespace SGP.Infrastructure.Migrations
                     => context.Estados.AsNoTracking().AnyAsync(cancellationToken));
         }
 
-        private static string GetConnectionString(this IServiceProvider serviceProvider)
+        private static string GetConnectionString(this IServiceProvider provider)
         {
-            var connectionStrings = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>();
+            var connectionStrings = provider.GetRequiredService<IOptions<ConnectionStrings>>();
             Guard.Against.NullOptions(connectionStrings, nameof(connectionStrings));
             return connectionStrings.Value.DefaultConnection;
         }

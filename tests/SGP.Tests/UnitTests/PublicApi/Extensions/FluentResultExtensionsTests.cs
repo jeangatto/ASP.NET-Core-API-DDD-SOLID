@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SGP.PublicApi.Extensions;
 using SGP.PublicApi.Models;
 using SGP.Shared.Errors;
+using SGP.Tests.Extensions;
 using Xunit;
 using Xunit.Categories;
 
@@ -79,11 +80,12 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
 
             // Assert
             act.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
-            var apiResponse = act.Value as ApiResponse;
-            apiResponse.Should().NotBeNull();
+            act.Value.Should().NotBeNull().And.BeOfType<ApiResponse>();
+            var apiResponse = (ApiResponse)act.Value;
             apiResponse.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.HaveCount(expectedCount);
+                .And.HaveCount(expectedCount)
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
         }
 
         [Fact]
