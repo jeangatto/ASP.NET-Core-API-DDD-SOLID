@@ -7,7 +7,7 @@ namespace SGP.Shared.Helpers
 {
     public static class ValidatorHelper
     {
-        private static readonly ConcurrentDictionary<string, IValidator> ValidatorsInstance = new();
+        private static readonly ConcurrentDictionary<string, IValidator> Cache = new();
 
         public static ValidationResult Validate<TValidator>(object instanceToValidate) where TValidator : IValidator
         {
@@ -16,15 +16,6 @@ namespace SGP.Shared.Helpers
         }
 
         private static IValidator CreateOrGetValidatorInstance<TValidator>() where TValidator : IValidator
-        {
-            var key = typeof(TValidator).Name;
-
-            if (ValidatorsInstance.TryGetValue(key, out var validator))
-                return validator;
-
-            validator = Activator.CreateInstance<TValidator>();
-            ValidatorsInstance.TryAdd(key, validator);
-            return validator;
-        }
+            => Cache.GetOrAdd(typeof(TValidator).Name, Activator.CreateInstance<TValidator>());
     }
 }

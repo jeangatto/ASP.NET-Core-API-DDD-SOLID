@@ -5,7 +5,7 @@ using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class CidadeMapeamento : IEntityTypeConfiguration<Cidade>
+    public class CidadeMap : IEntityTypeConfiguration<Cidade>
     {
         public void Configure(EntityTypeBuilder<Cidade> builder)
         {

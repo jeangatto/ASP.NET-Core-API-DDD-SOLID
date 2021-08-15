@@ -30,14 +30,10 @@ namespace SGP.Infrastructure
 
         public static void ConfigureAppSettings(this IServiceCollection services)
         {
-            services.AddOptions<AuthConfig>()
-                .BindConfiguration(nameof(AuthConfig), BinderNonPublicPropertiesOptions());
-
-            services.AddOptions<JwtConfig>()
-                .BindConfiguration(nameof(JwtConfig), BinderNonPublicPropertiesOptions());
-
-            services.AddOptions<ConnectionStrings>()
-                .BindConfiguration(nameof(ConnectionStrings), BinderNonPublicPropertiesOptions());
+            var binderOptions = BinderNonPublicPropertiesOptions();
+            services.AddOptions<AuthConfig>().BindConfiguration(nameof(AuthConfig), binderOptions);
+            services.AddOptions<JwtConfig>().BindConfiguration(nameof(JwtConfig), binderOptions);
+            services.AddOptions<ConnectionStrings>().BindConfiguration(nameof(ConnectionStrings), binderOptions);
         }
 
         private static Action<BinderOptions> BinderNonPublicPropertiesOptions()

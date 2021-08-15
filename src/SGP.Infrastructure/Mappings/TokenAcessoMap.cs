@@ -5,7 +5,7 @@ using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class TokenAcessoMapeamento : IEntityTypeConfiguration<TokenAcesso>
+    public class TokenAcessoMap : IEntityTypeConfiguration<TokenAcesso>
     {
         public void Configure(EntityTypeBuilder<TokenAcesso> builder)
         {

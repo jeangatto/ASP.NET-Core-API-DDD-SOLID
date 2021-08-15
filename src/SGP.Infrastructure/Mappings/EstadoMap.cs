@@ -5,7 +5,7 @@ using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class EstadoMapeamento : IEntityTypeConfiguration<Estado>
+    public class EstadoMap : IEntityTypeConfiguration<Estado>
     {
         public void Configure(EntityTypeBuilder<Estado> builder)
         {

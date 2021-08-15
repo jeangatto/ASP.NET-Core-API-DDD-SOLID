@@ -5,7 +5,7 @@ using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class RegiaoMapeamento : IEntityTypeConfiguration<Regiao>
+    public class RegiaoMap : IEntityTypeConfiguration<Regiao>
     {
         public void Configure(EntityTypeBuilder<Regiao> builder)
         {
