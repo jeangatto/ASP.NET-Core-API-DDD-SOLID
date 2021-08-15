@@ -27,7 +27,7 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal ./tests/SGP.Tests/SGP.Tests.csproj -p:ParallelizeTestCollections=false
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencovers=false
 
     - name: Codecov
       uses: codecov/codecov-action@v2.0.2
