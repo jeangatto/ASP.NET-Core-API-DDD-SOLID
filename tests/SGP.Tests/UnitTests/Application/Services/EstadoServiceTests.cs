@@ -25,7 +25,6 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarResultadoSucessoComEstados_AoObterTodos()
         {
             // Arrange
-            await _fixture.SeedDataAsync();
             var service = CriarServico();
 
             // Act

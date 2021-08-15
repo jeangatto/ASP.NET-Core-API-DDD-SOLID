@@ -44,7 +44,6 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarErroNaoEncontrado_AoObterTodosPorUfInexistente()
         {
             // Arrange
-            await _fixture.SeedDataAsync();
             var service = CriarServico();
             var request = new ObterTodosPorUfRequest("XX");
 
@@ -62,7 +61,6 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarResultadoSucessoComCidades_AoObterTodosPorUf()
         {
             // Arrange
-            await _fixture.SeedDataAsync();
             const string ufSaoPaulo = "SP";
             const int totalCidadesEsperado = 645;
             var request = new ObterTodosPorUfRequest(ufSaoPaulo);
@@ -91,7 +89,6 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarResultadoSucessoComCidade_AoObterPorIbge()
         {
             // Arrange
-            await _fixture.SeedDataAsync();
             const int ibgeVotuporanga = 3557105;
             var request = new ObterPorIbgeRequest(ibgeVotuporanga);
             var service = CriarServico();
@@ -132,7 +129,6 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarErroValidacao_AoObterPorIbgeInexistente()
         {
             // Arrange
-            await _fixture.SeedDataAsync();
             var service = CriarServico();
             var request = new ObterPorIbgeRequest(int.MaxValue);
 

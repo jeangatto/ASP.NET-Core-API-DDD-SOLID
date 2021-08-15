@@ -27,7 +27,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.UoW
             // Arrange
             var unitOfWork = CreateUoW();
             var context = GetContext();
-            context.Add(new Regiao("Norte"));
+            context.Add(new Regiao("Meio-Oeste"));
 
             // Act
             var actual = await unitOfWork.SaveChangesAsync();

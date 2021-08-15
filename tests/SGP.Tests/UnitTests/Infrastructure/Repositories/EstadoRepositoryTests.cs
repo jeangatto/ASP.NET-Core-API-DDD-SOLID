@@ -26,7 +26,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarEstados_AoObterPorRegiao(string regiao, int totalEsperado)
         {
             // Arrange
-            await _fixture.SeedDataAsync();
             var repository = CriarRepositorio();
 
             // Act
@@ -52,7 +51,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarEstados_AoObterTodos()
         {
             // Arrange
-            await _fixture.SeedDataAsync();
             var repository = CriarRepositorio();
 
             // Act

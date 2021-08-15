@@ -36,8 +36,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var response = await _client.SendAsync(GraphQLApiEndpoints.Estados, request);
 
             // Assert
-            response.EnsureSuccessStatusCode();
-
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
             var data = await response.Content.GetGraphQLDataAsync<IEnumerable<EstadoResponse>>(queryName);
             data.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()

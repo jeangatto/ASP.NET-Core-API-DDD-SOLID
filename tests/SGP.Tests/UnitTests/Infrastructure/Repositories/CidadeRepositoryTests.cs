@@ -27,7 +27,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             string regiaoEsperada)
         {
             // Arrange
-            await _fixture.SeedDataAsync();
             var repository = CriarRepositorio();
 
             // Act
@@ -79,7 +78,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_RetornarCidades_AoObterPorUf(string uf, int totalCidadesEsperada)
         {
             // Arrange
-            await _fixture.SeedDataAsync();
             var repository = CriarRepositorio();
 
             // Act

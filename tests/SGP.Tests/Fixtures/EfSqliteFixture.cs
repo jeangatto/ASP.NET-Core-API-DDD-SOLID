@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using SGP.Infrastructure.Context;
@@ -17,20 +16,18 @@ namespace SGP.Tests.Fixtures
             _connection = new SqliteConnection(ConnectionString);
             _connection.Open();
 
-            var options = new DbContextOptionsBuilder<SgpContext>()
+            var dbContextOptionsBuilder = new DbContextOptionsBuilder<SgpContext>()
                 .UseSqlite(_connection)
                 .EnableDetailedErrors()
-                .EnableSensitiveDataLogging()
-                .Options;
+                .EnableSensitiveDataLogging();
 
-            Context = new SgpContext(options);
+            Context = new SgpContext(dbContextOptionsBuilder.Options);
             Context.Database.EnsureDeleted();
             Context.Database.EnsureCreated();
+            Context.EnsureSeedDataAsync(LoggerFactoryMock.Create()).GetAwaiter().GetResult();
         }
 
         public SgpContext Context { get; }
-
-        public async Task SeedDataAsync() => await Context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
 
         #region Dispose
 

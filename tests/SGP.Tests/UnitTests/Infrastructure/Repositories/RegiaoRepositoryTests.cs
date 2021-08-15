@@ -21,7 +21,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         public async Task Devera_ObterTodasRegioes_RetornaRegioes()
         {
             // Arrange
-            await _fixture.SeedDataAsync();
             var repository = CriarRepositorio();
 
             // Act
