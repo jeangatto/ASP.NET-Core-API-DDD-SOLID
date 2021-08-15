@@ -24,10 +24,11 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore /p:ContinuousIntegrationBuild=true
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencovers=false
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
     - name: Codecov
-      uses: codecov/codecov-action@v2.0.2
+    - uses: actions/checkout@master
+    - uses: codecov/codecov-action@v2
