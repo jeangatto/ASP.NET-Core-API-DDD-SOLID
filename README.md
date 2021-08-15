@@ -2,6 +2,7 @@
 
 ###### Sistema Gerenciador de Pedidos (Online)
 
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=jeangatto.sgp)
 [![.NET](https://github.com/JeanGatto/SGP/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/dotnet.yml)
 [![CodeQL](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml)
 [![License](https://img.shields.io/github/license/JeanGatto/SGP.svg)](LICENSE)
