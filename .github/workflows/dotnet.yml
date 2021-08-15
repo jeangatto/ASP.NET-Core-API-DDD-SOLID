@@ -30,5 +30,4 @@ jobs:
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
     - name: Codecov
-    - uses: actions/checkout@master
-    - uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v2
