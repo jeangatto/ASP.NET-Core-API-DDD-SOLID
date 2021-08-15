@@ -1,12 +1,14 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using SGP.Infrastructure.Context;
 using SGP.Tests.Mocks;
+using Xunit;
 
 namespace SGP.Tests.Fixtures
 {
-    public class EfSqliteFixture : IDisposable
+    public class EfSqliteFixture : IAsyncLifetime, IDisposable
     {
         private const string ConnectionString = "Data Source=:memory:";
         private readonly SqliteConnection _connection;
@@ -24,8 +26,11 @@ namespace SGP.Tests.Fixtures
             Context = new SgpContext(dbContextOptionsBuilder.Options);
             Context.Database.EnsureDeleted();
             Context.Database.EnsureCreated();
-            Context.EnsureSeedDataAsync(LoggerFactoryMock.Create()).GetAwaiter().GetResult();
         }
+
+        public async Task InitializeAsync() => await Context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
+
+        public Task DisposeAsync() => Task.CompletedTask;
 
         public SgpContext Context { get; }
 
