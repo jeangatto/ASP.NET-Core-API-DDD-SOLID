@@ -10,7 +10,7 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
     [UnitTest(TestCategories.Infrastructure)]
-    public class IdentityTokenClaimServiceTests : TestBase
+    public class IdentityTokenClaimServiceTests : UnitTestBase
     {
         [Fact]
         public void Should_ReturnsAcessToken_WhenGenerateAccessTokenWithValidClaims()

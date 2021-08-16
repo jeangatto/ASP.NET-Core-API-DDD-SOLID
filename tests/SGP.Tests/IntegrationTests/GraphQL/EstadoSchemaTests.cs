@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using SGP.Application.Responses;
@@ -15,11 +14,11 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 {
     [IntegrationTest]
     [Category(TestCategories.GraphQL)]
-    public class EstadoSchemaTests : IClassFixture<WebTestApplicationFactory>
+    public class EstadoSchemaTests : IntegrationTestBase, IClassFixture<WebTestApplicationFactory>
     {
-        private readonly HttpClient _client;
-
-        public EstadoSchemaTests(WebTestApplicationFactory factory) => _client = factory.Server.CreateClient();
+        public EstadoSchemaTests(WebTestApplicationFactory factory) : base(factory)
+        {
+        }
 
         [Fact]
         public async Task Devera_RetornarResultadoSucessoComEstados_AoObterTodos()
@@ -33,7 +32,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphQLRequest();
 
             // Act
-            var response = await _client.SendAsync(GraphQLApiEndpoints.Estados, request);
+            var response = await Client.SendAsync(GraphQLApiEndpoints.Estados, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299

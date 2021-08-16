@@ -25,7 +25,7 @@ namespace SGP.Tests.Fixtures
 
             builder.UseDefaultServiceProvider(options => options.ValidateScopes = true);
 
-            builder.ConfigureServices(async services =>
+            builder.ConfigureServices(services =>
             {
                 var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
                 if (descriptor != null)
@@ -51,9 +51,8 @@ namespace SGP.Tests.Fixtures
 
                     try
                     {
-                        await context.Database.EnsureDeletedAsync();
-                        await context.Database.EnsureCreatedAsync();
-                        await context.EnsureSeedDataAsync(loggerFactory);
+                        context.Database.EnsureDeleted();
+                        context.Database.EnsureCreated();
                     }
                     catch (Exception ex)
                     {

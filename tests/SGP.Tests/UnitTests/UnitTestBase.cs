@@ -4,7 +4,7 @@ using SGP.Shared.AppSettings;
 
 namespace SGP.Tests.UnitTests
 {
-    public abstract class TestBase
+    public abstract class UnitTestBase
     {
         protected static readonly Faker Faker = new();
 

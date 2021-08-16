@@ -17,11 +17,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Application.Services
 {
     [UnitTest(TestCategories.Application)]
-    public class AuthenticationTestTests : TestBase, IClassFixture<EfSqliteFixture>
+    public class AuthenticationTests : UnitTestBase, IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public AuthenticationTestTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public AuthenticationTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Fact]
         public async Task Devera_RetornarTokenResponse_AoAutenticar()
