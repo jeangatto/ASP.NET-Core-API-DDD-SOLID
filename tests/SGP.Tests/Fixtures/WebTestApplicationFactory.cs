@@ -1,11 +1,9 @@
-using System;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
 using SGP.PublicApi;
 using SGP.Tests.Constants;
@@ -40,26 +38,6 @@ namespace SGP.Tests.Fixtures
                     .UseSqlite(_connection)
                     .EnableDetailedErrors()
                     .EnableSensitiveDataLogging());
-
-                using (var scope = services.BuildServiceProvider(true).CreateScope())
-                {
-                    var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
-                    var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
-                    var logger = loggerFactory.CreateLogger<WebTestApplicationFactory>();
-
-                    logger.LogInformation($"ConnectionString={context.Database.GetConnectionString()}");
-
-                    try
-                    {
-                        context.Database.EnsureDeleted();
-                        context.Database.EnsureCreated();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, $"Ocorreu um erro ao popular o banco de dados; {ex.Message}");
-                        throw;
-                    }
-                }
             });
         }
 

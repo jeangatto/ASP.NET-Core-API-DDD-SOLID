@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
@@ -27,9 +28,12 @@ namespace SGP.Tests.IntegrationTests
                 var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
                 var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                 var logger = loggerFactory.CreateLogger<WebTestApplicationFactory>();
+                logger.LogInformation($"ConnectionString={context.Database.GetConnectionString()}");
 
                 try
                 {
+                    await context.Database.EnsureDeletedAsync();
+                    await context.Database.EnsureCreatedAsync();
                     await context.EnsureSeedDataAsync(loggerFactory);
                 }
                 catch (Exception ex)
