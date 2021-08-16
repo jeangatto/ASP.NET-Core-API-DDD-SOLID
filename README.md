@@ -17,4 +17,3 @@ C# 9 + ASP.NET Core 5 + EF Core 5 + JWT Bearer + OpenAPI (Swagger)
 - Padrão de Camada Anticorrupção **(FluentValidation)**
 - Padrão Resultado **(FluentResults)** [Functional C#: Handling failures](https://enterprisecraftsmanship.com/posts/functional-c-handling-failures-input-errors/)
 - Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**
-- [Guard Clauses](https://deviq.com/design-patterns/guard-clause)
