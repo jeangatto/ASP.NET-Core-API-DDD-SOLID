@@ -15,9 +15,9 @@ namespace SGP.Infrastructure.Services
 {
     public class IdentityTokenClaimService : ITokenClaimsService
     {
+        private const short RefreshTokenBytesLength = 64;
         private readonly JwtConfig _jwtConfig;
         private readonly IDateTime _dateTime;
-        private const short RefreshTokenBytesLength = 64;
 
         public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTime dateTime)
         {

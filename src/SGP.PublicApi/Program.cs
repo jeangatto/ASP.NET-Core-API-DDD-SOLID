@@ -34,8 +34,7 @@ namespace SGP.PublicApi
                         await context.Database.MigrateAsync();
                     }
 
-                    var rowsAffected = await context.EnsureSeedDataAsync(loggerFactory);
-                    logger.LogInformation($"Total de linhas populadas: {rowsAffected}");
+                    await context.EnsureSeedDataAsync(loggerFactory);
                 }
                 catch (Exception ex)
                 {
@@ -52,6 +51,11 @@ namespace SGP.PublicApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
+                    webBuilder.UseKestrel(options =>
+                    {
+                        options.AddServerHeader = false;
+                        options.AllowSynchronousIO = true;
+                    });
                     webBuilder.UseStartup<Startup>();
                 })
                 .UseDefaultServiceProvider((context, options) =>

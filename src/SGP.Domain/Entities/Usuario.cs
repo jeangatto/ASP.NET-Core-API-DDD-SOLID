@@ -49,9 +49,7 @@ namespace SGP.Domain.Entities
         public void IncrementarFalhas(IDateTime dateTime, short numeroTentativas, TimeSpan lockedTimeSpan)
         {
             if (EstaBloqueado(dateTime))
-            {
                 return;
-            }
 
             NumeroFalhasAoAcessar++;
 

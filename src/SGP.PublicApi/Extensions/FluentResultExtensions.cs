@@ -11,6 +11,8 @@ namespace SGP.PublicApi.Extensions
 {
     public static class FluentResultExtensions
     {
+        private static readonly OkObjectResult OkResult = new(new ApiResponse(StatusCodes.Status200OK));
+
         public static void ToExecutionError<T>(this Result<T> result, IResolveFieldContext<object> context)
         {
             foreach (var errorMessage in result.Errors.GroupByErrors())
@@ -18,11 +20,7 @@ namespace SGP.PublicApi.Extensions
         }
 
         public static ObjectResult ToHttpResult(this Result result)
-        {
-            return result.IsFailed
-                ? result.ToHttpNonSuccessResult()
-                : new OkObjectResult(new ApiResponse(StatusCodes.Status200OK));
-        }
+            => result.IsFailed ? result.ToHttpNonSuccessResult() : OkResult;
 
         public static ObjectResult ToHttpResult<T>(this Result<T> result)
         {
@@ -31,18 +29,14 @@ namespace SGP.PublicApi.Extensions
                 : new OkObjectResult(new ApiResponse<T>(StatusCodes.Status200OK, result.Value));
         }
 
-        private static ObjectResult ToHttpNonSuccessResult(this ResultBase resultBase)
+        private static ObjectResult ToHttpNonSuccessResult(this ResultBase result)
         {
-            var errors = resultBase.Errors.GroupByErrors().Select(message => new ApiError(message));
+            var apiErrors = result.Errors.GroupByErrors().Select(message => new ApiError(message));
 
-            if (resultBase.HasError<NotFoundError>())
-            {
-                return new NotFoundObjectResult(
-                    new ApiResponse(StatusCodes.Status404NotFound, errors));
-            }
+            if (result.HasError<NotFoundError>())
+                return new NotFoundObjectResult(new ApiResponse(StatusCodes.Status404NotFound, apiErrors));
 
-            return new BadRequestObjectResult(
-                new ApiResponse(StatusCodes.Status400BadRequest, errors));
+            return new BadRequestObjectResult(new ApiResponse(StatusCodes.Status400BadRequest, apiErrors));
         }
 
         private static IEnumerable<string> GroupByErrors(this IEnumerable<Error> errors)

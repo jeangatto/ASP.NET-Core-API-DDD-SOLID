@@ -34,6 +34,7 @@ namespace SGP.Application.Services
 
             return await MemoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
+                // Aplicando a configuração do cahche.
                 ConfigureCacheEntry(cacheEntry);
 
                 // Validando a requisição.
@@ -64,6 +65,7 @@ namespace SGP.Application.Services
 
             return await MemoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
+                // Aplicando a configuração do cahche.
                 ConfigureCacheEntry(cacheEntry);
 
                 // Validando a requisição.

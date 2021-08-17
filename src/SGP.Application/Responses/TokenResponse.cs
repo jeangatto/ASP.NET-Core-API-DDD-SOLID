@@ -13,10 +13,29 @@ namespace SGP.Application.Responses
             RefreshToken = refreshToken;
         }
 
+        /// <summary>
+        /// Token de acesso.
+        /// </summary>
         public string AccessToken { get; }
+
+        /// <summary>
+        /// Data da criação do Token.
+        /// </summary>
         public DateTime Created { get; }
+
+        /// <summary>
+        /// Data do vencimento do token.
+        /// </summary>
         public DateTime Expiration { get; }
+
+        /// <summary>
+        /// Token de atualização.
+        /// </summary>
         public string RefreshToken { get; }
+
+        /// <summary>
+        /// Expiração em segundos.
+        /// </summary>
         public int ExpiresIn => (int)Expiration.Subtract(Created).TotalSeconds;
     }
 }

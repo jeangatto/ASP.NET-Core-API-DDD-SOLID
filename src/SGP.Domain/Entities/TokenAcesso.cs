@@ -17,10 +17,29 @@ namespace SGP.Domain.Entities
         {
         }
 
+        /// <summary>
+        /// Identificação do usuário.
+        /// </summary>
         public Guid UsuarioId { get; private set; }
+
+        /// <summary>
+        /// Token de atualização.
+        /// </summary>
         public string Token { get; private set; }
+
+        /// <summary>
+        /// Data da criação do Token.
+        /// </summary>
         public DateTime CriadoEm { get; private set; }
+
+        /// <summary>
+        /// Data do vencimento do token.
+        /// </summary>
         public DateTime ExpiraEm { get; private set; }
+
+        /// <summary>
+        /// Data da revogação (cancelamento) do token.
+        /// </summary>
         public DateTime? RevogadoEm { get; private set; }
 
         public Usuario Usuario { get; private set; }
@@ -40,13 +59,11 @@ namespace SGP.Domain.Entities
         /// <summary>
         /// Revoga (cancela) o token.
         /// </summary>
-        /// <param name="dataRevogacao"></param>
+        /// <param name="dataRevogacao">Data da revogação.</param>
         public void RevogarToken(DateTime dataRevogacao)
         {
             if (!EstaRevogado)
-            {
                 RevogadoEm = dataRevogacao;
-            }
         }
     }
 }

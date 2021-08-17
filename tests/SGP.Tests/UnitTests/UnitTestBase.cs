@@ -6,8 +6,6 @@ namespace SGP.Tests.UnitTests
 {
     public abstract class UnitTestBase
     {
-        protected static readonly Faker Faker = new();
-
         // AuthConfig
         private const short MaximumAttempts = 3;
         private const short SecondsBlocked = 1000;
@@ -20,6 +18,8 @@ namespace SGP.Tests.UnitTests
         // SecretKey
         private const int SecretKeySize = 32;
         private const string SecretKeyFormat = "123456789.abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        protected static readonly Faker Faker = new();
 
         protected static IOptions<AuthConfig> CreateAuthConfigOptions()
         {

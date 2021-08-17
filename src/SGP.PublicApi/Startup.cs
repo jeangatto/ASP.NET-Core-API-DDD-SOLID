@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -60,8 +59,7 @@ namespace SGP.PublicApi
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
-                options.ForwardedHeaders =
-                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
 
             services.Configure<RouteOptions>(options =>
@@ -69,14 +67,6 @@ namespace SGP.PublicApi
                 options.LowercaseUrls = true;
                 options.LowercaseQueryStrings = true;
             });
-
-            services.Configure<KestrelServerOptions>(options =>
-            {
-                options.AddServerHeader = false;
-                options.AllowSynchronousIO = true;
-            });
-
-            services.Configure<IISServerOptions>(options => options.AllowSynchronousIO = true);
 
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
