@@ -23,9 +23,7 @@ namespace SGP.PublicApi.Filters
                 parameter.Description ??= description.ModelMetadata.Description;
 
                 if (parameter.Schema.Default == null && description.DefaultValue != null)
-                {
                     parameter.Schema.Default = new OpenApiString(description.DefaultValue.ToString());
-                }
 
                 parameter.Required |= description.IsRequired;
             }
