@@ -30,7 +30,6 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarSucessoComToken_AoAutenticar()
         {
             // Arrange
-            var authConfigOptions = OptionsDataFaker.AuthConfigOptions;
             var jwtConfigOptions = OptionsDataFaker.JwtConfigOptions;
             var dateTime = new LocalDateTimeService();
             var tokenClaimService = new IdentityTokenClaimService(jwtConfigOptions, dateTime);
@@ -38,7 +37,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             var repository = new UsuarioRepository(_fixture.Context);
             var unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
             var service = new AuthenticationService(
-                authConfigOptions,
+                OptionsDataFaker.AuthConfigOptions,
                 dateTime,
                 hashService,
                 tokenClaimService,
@@ -61,7 +60,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.Value.Should().NotBeNull();
             var tokenResponse = actual.Value;
             tokenResponse.AccessToken.Should().NotBeNullOrWhiteSpace();
-            tokenResponse.Expiration.Should().BeAfter(actual.Value.Created);
+            tokenResponse.Expiration.Should().BeAfter(tokenResponse.Created);
             tokenResponse.RefreshToken.Should().NotBeNullOrWhiteSpace();
             tokenResponse.ExpiresIn.Should().BePositive().And.Be(jwtConfigOptions.Value.Seconds);
         }
@@ -70,15 +69,13 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarErroValidacao_AoAutenticarLogInInvalido()
         {
             // Arrange
-            var authConfigOptions = OptionsDataFaker.AuthConfigOptions;
-            var jwtConfigOptions = OptionsDataFaker.JwtConfigOptions;
             var dateTime = new LocalDateTimeService();
-            var tokenClaimService = new IdentityTokenClaimService(jwtConfigOptions, dateTime);
+            var tokenClaimService = new IdentityTokenClaimService(OptionsDataFaker.JwtConfigOptions, dateTime);
             var hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
             var repository = new UsuarioRepository(_fixture.Context);
             var unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
             var service = new AuthenticationService(
-                authConfigOptions,
+                OptionsDataFaker.AuthConfigOptions,
                 dateTime,
                 hashService,
                 tokenClaimService,
@@ -103,22 +100,20 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarErroValidacao_AoAutenticarLogInInexistente()
         {
             // Arrange
-            const string expectedError = "A conta informada não existe.";
-            var authConfigOptions = OptionsDataFaker.AuthConfigOptions;
-            var jwtConfigOptions = OptionsDataFaker.JwtConfigOptions;
             var dateTime = new LocalDateTimeService();
-            var tokenClaimService = new IdentityTokenClaimService(jwtConfigOptions, dateTime);
+            var tokenClaimService = new IdentityTokenClaimService(OptionsDataFaker.JwtConfigOptions, dateTime);
             var hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
             var repository = new UsuarioRepository(_fixture.Context);
             var unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
             var service = new AuthenticationService(
-                authConfigOptions,
+                OptionsDataFaker.AuthConfigOptions,
                 dateTime,
                 hashService,
                 tokenClaimService,
                 repository,
                 unitOfWork);
 
+            const string expectedError = "A conta informada não existe.";
             var request = new LogInRequest("joao.ninguem@gmail.com", "gUoCA3#d1oKB");
 
             // Act
