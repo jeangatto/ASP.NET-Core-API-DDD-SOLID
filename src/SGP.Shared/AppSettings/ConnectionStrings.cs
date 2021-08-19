@@ -9,7 +9,7 @@ namespace SGP.Shared.AppSettings
 
         public static ConnectionStrings Create(string defaultConnection)
         {
-            return new() { DefaultConnection = defaultConnection };
+            return new ConnectionStrings { DefaultConnection = defaultConnection };
         }
     }
 }

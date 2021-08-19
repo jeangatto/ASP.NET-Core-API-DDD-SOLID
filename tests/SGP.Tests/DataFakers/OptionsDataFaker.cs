@@ -11,11 +11,13 @@ namespace SGP.Tests.DataFakers
         private const string Issuer = "API-SGP";
         private const short Seconds = 21600;
         private const string SecretKey = "p8SXNddEAEn1cCuyfVJKYA7e6hlagbLd";
+        private const bool ValidateAudience = true;
+        private const bool ValidateIssuer = true;
 
         public static readonly IOptions<AuthConfig> AuthConfigOptions =
             Options.Create(AuthConfig.Create(MaximumAttempts, SecondsBlocked));
 
         public static readonly IOptions<JwtConfig> JwtConfigOptions =
-            Options.Create(JwtConfig.Create(Audience, Issuer, Seconds, SecretKey, true, true));
+            Options.Create(JwtConfig.Create(Audience, Issuer, Seconds, SecretKey, ValidateAudience, ValidateIssuer));
     }
 }
