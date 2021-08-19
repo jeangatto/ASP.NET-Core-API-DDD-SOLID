@@ -89,7 +89,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 .And.HaveCount(totalCidadesEsperada)
                 .And.Subject.ForEach(c =>
                 {
-                    c.Should().NotBeNull();
                     c.Id.Should().NotBeEmpty();
                     c.EstadoId.Should().NotBeEmpty();
                     c.Nome.Should().NotBeNullOrWhiteSpace();

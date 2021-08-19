@@ -42,12 +42,12 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
             var result = new Result().WithError(new Error(errorMessage));
 
             // Arrange
-            var act = result.ToHttpResult();
+            var actual = result.ToHttpResult();
 
             // Assert
-            act.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
-            act.StatusCode.Should().Be(expectedStatusCode);
-            act.Value.Should().BeEquivalentTo(expectedApiResponse);
+            actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
+            actual.StatusCode.Should().Be(expectedStatusCode);
+            actual.Value.Should().BeEquivalentTo(expectedApiResponse);
         }
 
         [Fact]
@@ -60,12 +60,12 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
             var result = new Result<string>().WithError(new Error(errorMessage));
 
             // Arrange
-            var act = result.ToHttpResult();
+            var actual = result.ToHttpResult();
 
             // Assert
-            act.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
-            act.StatusCode.Should().Be(expectedStatusCode);
-            act.Value.Should().BeEquivalentTo(expectedApiResponse);
+            actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
+            actual.StatusCode.Should().Be(expectedStatusCode);
+            actual.Value.Should().BeEquivalentTo(expectedApiResponse);
         }
 
         [Fact]
@@ -76,12 +76,12 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
             var result = new Result().WithErrors(new[] { "Erro0", "Erro1", "Erro0", "Erro2" });
 
             // Act
-            var act = result.ToHttpResult();
+            var actual = result.ToHttpResult();
 
             // Assert
-            act.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
-            act.Value.Should().NotBeNull().And.BeOfType<ApiResponse>();
-            var apiResponse = (ApiResponse)act.Value;
+            actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
+            actual.Value.Should().NotBeNull().And.BeOfType<ApiResponse>();
+            var apiResponse = (ApiResponse)actual.Value;
             apiResponse.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(expectedCount)
@@ -98,12 +98,12 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
             var result = new Result().WithError(new NotFoundError(errorMessage));
 
             // Arrange
-            var act = result.ToHttpResult();
+            var actual = result.ToHttpResult();
 
             // Assert
-            act.Should().NotBeNull().And.BeOfType<NotFoundObjectResult>();
-            act.StatusCode.Should().Be(expectedStatusCode);
-            act.Value.Should().BeEquivalentTo(expectedApiResponse);
+            actual.Should().NotBeNull().And.BeOfType<NotFoundObjectResult>();
+            actual.StatusCode.Should().Be(expectedStatusCode);
+            actual.Value.Should().BeEquivalentTo(expectedApiResponse);
         }
 
         [Fact]
@@ -116,12 +116,12 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
             var result = new Result<string>().WithError(new NotFoundError(errorMessage));
 
             // Arrange
-            var act = result.ToHttpResult();
+            var actual = result.ToHttpResult();
 
             // Assert
-            act.Should().NotBeNull().And.BeOfType<NotFoundObjectResult>();
-            act.StatusCode.Should().Be(expectedStatusCode);
-            act.Value.Should().BeEquivalentTo(expectedApiResponse);
+            actual.Should().NotBeNull().And.BeOfType<NotFoundObjectResult>();
+            actual.StatusCode.Should().Be(expectedStatusCode);
+            actual.Value.Should().BeEquivalentTo(expectedApiResponse);
         }
 
         [Fact]
@@ -133,12 +133,12 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
             var result = new Result();
 
             // Arrange
-            var act = result.ToHttpResult();
+            var actual = result.ToHttpResult();
 
             // Assert
-            act.Should().NotBeNull().And.BeOfType<OkObjectResult>();
-            act.StatusCode.Should().Be(expectedStatusCode);
-            act.Value.Should().BeEquivalentTo(expectedApiResponse);
+            actual.Should().NotBeNull().And.BeOfType<OkObjectResult>();
+            actual.StatusCode.Should().Be(expectedStatusCode);
+            actual.Value.Should().BeEquivalentTo(expectedApiResponse);
         }
 
         [Fact]
@@ -151,12 +151,12 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
             var result = new Result<string>().WithValue(value);
 
             // Arrange
-            var act = result.ToHttpResult();
+            var actual = result.ToHttpResult();
 
             // Assert
-            act.Should().NotBeNull().And.BeOfType<OkObjectResult>();
-            act.StatusCode.Should().Be(expectedStatusCode);
-            act.Value.Should().BeEquivalentTo(expectedApiResponse);
+            actual.Should().NotBeNull().And.BeOfType<OkObjectResult>();
+            actual.StatusCode.Should().Be(expectedStatusCode);
+            actual.Value.Should().BeEquivalentTo(expectedApiResponse);
         }
     }
 }

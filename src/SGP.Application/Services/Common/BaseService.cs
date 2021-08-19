@@ -7,10 +7,7 @@ namespace SGP.Application.Services.Common
     {
         protected readonly IMemoryCache MemoryCache;
 
-        protected BaseService(IMemoryCache memoryCache)
-        {
-            MemoryCache = memoryCache;
-        }
+        protected BaseService(IMemoryCache memoryCache) => MemoryCache = memoryCache;
 
         protected static void ConfigureCacheEntry(ICacheEntry cacheEntry)
         {

@@ -16,8 +16,12 @@ namespace SGP.Application.Services
 {
     public class CidadeService : BaseService, ICidadeService
     {
-        private const string ObterPorIbgeCacheKey = "CidadeService__ObterPorIbgeAsync__{0}";
-        private const string ObterTodosPorUfCacheKey = "CidadeService__ObterTodosPorUfAsync__{0}";
+        private static readonly string ObterPorIbgeCacheKey =
+            $"{nameof(CidadeService)}__{nameof(ObterPorIbgeAsync)}__{{0}}";
+
+        private static readonly string ObterTodosPorUfCacheKey =
+            $"{nameof(CidadeService)}__{nameof(ObterTodosPorUfAsync)}__{{0}}";
+
         private readonly IMapper _mapper;
         private readonly ICidadeRepository _repository;
 
@@ -34,7 +38,7 @@ namespace SGP.Application.Services
 
             return await MemoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
-                // Aplicando a configuração do cahche.
+                // Aplicando a configuração do cache.
                 ConfigureCacheEntry(cacheEntry);
 
                 // Validando a requisição.
@@ -65,7 +69,7 @@ namespace SGP.Application.Services
 
             return await MemoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
-                // Aplicando a configuração do cahche.
+                // Aplicando a configuração do cache.
                 ConfigureCacheEntry(cacheEntry);
 
                 // Validando a requisição.

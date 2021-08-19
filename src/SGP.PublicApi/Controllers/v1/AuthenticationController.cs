@@ -8,17 +8,14 @@ using SGP.PublicApi.Extensions;
 
 namespace SGP.PublicApi.Controllers.v1
 {
-    [Route("api")]
+    [Route("api/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _service;
 
-        public AuthenticationController(IAuthenticationService service)
-        {
-            _service = service;
-        }
+        public AuthenticationController(IAuthenticationService service) => _service = service;
 
         /// <summary>
         /// Autenticar um usuário - AUTH01

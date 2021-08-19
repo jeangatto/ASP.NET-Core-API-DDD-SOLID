@@ -37,7 +37,9 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.Should().NotBeNull();
             actual.HasError<ValidationError>().Should().BeTrue();
             actual.IsFailed.Should().BeTrue();
-            actual.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
+            actual.Errors.Should().NotBeNullOrEmpty()
+                .And.OnlyHaveUniqueItems()
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
         }
 
         [Fact]
@@ -46,6 +48,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             // Arrange
             var service = CriarServico();
             var request = new ObterTodosPorUfRequest("XX");
+            var expectedError = $"Nenhuma cidade encontrada pelo UF: {request.Uf}";
 
             // Act
             var actual = await service.ObterTodosPorUfAsync(request);
@@ -54,7 +57,9 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.Should().NotBeNull();
             actual.HasError<NotFoundError>().Should().BeTrue();
             actual.IsFailed.Should().BeTrue();
-            actual.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
+            actual.Errors.Should().NotBeNullOrEmpty()
+                .And.OnlyHaveUniqueItems()
+                .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrEmpty().And.Be(expectedError));
         }
 
         [Fact]
@@ -79,7 +84,7 @@ namespace SGP.Tests.UnitTests.Application.Services
                 {
                     c.Regiao.Should().NotBeNullOrWhiteSpace();
                     c.Estado.Should().NotBeNullOrWhiteSpace();
-                    c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+                    c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(ufSaoPaulo);
                     c.Nome.Should().NotBeNullOrWhiteSpace();
                     c.Ibge.Should().BePositive();
                 });
@@ -99,11 +104,13 @@ namespace SGP.Tests.UnitTests.Application.Services
             // Assert
             actual.Should().NotBeNull();
             actual.IsSuccess.Should().BeTrue();
-            actual.Value.Regiao.Should().NotBeNullOrWhiteSpace();
-            actual.Value.Estado.Should().NotBeNullOrWhiteSpace();
-            actual.Value.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
-            actual.Value.Nome.Should().NotBeNullOrWhiteSpace();
-            actual.Value.Ibge.Should().BePositive();
+            actual.Value.Should().NotBeNull();
+            var cidadeResponse = actual.Value;
+            cidadeResponse.Regiao.Should().NotBeNullOrWhiteSpace();
+            cidadeResponse.Estado.Should().NotBeNullOrWhiteSpace();
+            cidadeResponse.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+            cidadeResponse.Nome.Should().NotBeNullOrWhiteSpace();
+            cidadeResponse.Ibge.Should().BePositive().And.Be(ibgeVotuporanga);
         }
 
         [Theory]
@@ -122,7 +129,9 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.Should().NotBeNull();
             actual.HasError<ValidationError>().Should().BeTrue();
             actual.IsFailed.Should().BeTrue();
-            actual.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
+            actual.Errors.Should().NotBeNullOrEmpty()
+                .And.OnlyHaveUniqueItems()
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
         }
 
         [Fact]
@@ -131,6 +140,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             // Arrange
             var service = CriarServico();
             var request = new ObterPorIbgeRequest(int.MaxValue);
+            var expectedError = $"Nenhuma cidade encontrada pelo IBGE: {request.Ibge}";
 
             // Act
             var actual = await service.ObterPorIbgeAsync(request);
@@ -139,7 +149,9 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.Should().NotBeNull();
             actual.HasError<NotFoundError>().Should().BeTrue();
             actual.IsFailed.Should().BeTrue();
-            actual.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
+            actual.Errors.Should().NotBeNullOrEmpty()
+                .And.OnlyHaveUniqueItems()
+                .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrEmpty().And.Be(expectedError));
         }
 
         private ICidadeService CriarServico()

@@ -28,13 +28,17 @@ namespace SGP.Tests.Fixtures
             Context.Database.EnsureCreated();
         }
 
+        public SgpContext Context { get; }
+
+        #region IAsyncLifetime
+
         public async Task InitializeAsync() => await Context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
 
         public Task DisposeAsync() => Task.CompletedTask;
 
-        public SgpContext Context { get; }
+        #endregion
 
-        #region Dispose
+        #region IDisposable
 
         // To detect redundant calls.
         private bool _disposed;

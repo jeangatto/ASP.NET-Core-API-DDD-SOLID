@@ -6,12 +6,10 @@ namespace SGP.Application.Requests.AuthenticationRequests
 {
     public class RefreshTokenRequest : BaseRequest
     {
-        public RefreshTokenRequest(string token)
-        {
-            Token = token;
-        }
+        public RefreshTokenRequest(string token) => Token = token;
 
-        [Required] public string Token { get; }
+        [Required]
+        public string Token { get; }
 
         public override void Validate()
         {

@@ -19,12 +19,12 @@ namespace SGP.Tests.UnitTests.Shared.Helpers
             var request = new GetByIdRequest(id);
 
             // Act
-            var act = ValidatorHelper.Validate<GetByIdRequestValidator>(request);
+            var actual = ValidatorHelper.Validate<GetByIdRequestValidator>(request);
 
             // Assert
-            act.Should().NotBeNull();
-            act.IsValid.Should().BeTrue();
-            act.Errors.Should().BeNullOrEmpty();
+            actual.Should().NotBeNull();
+            actual.IsValid.Should().BeTrue();
+            actual.Errors.Should().BeNullOrEmpty();
         }
 
         [Fact]
@@ -36,12 +36,12 @@ namespace SGP.Tests.UnitTests.Shared.Helpers
             var request = new GetByIdRequest(string.Empty);
 
             // Act
-            var act = ValidatorHelper.Validate<GetByIdRequestValidator>(request);
+            var actual = ValidatorHelper.Validate<GetByIdRequestValidator>(request);
 
             // Assert
-            act.Should().NotBeNull();
-            act.IsValid.Should().BeFalse();
-            act.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
+            actual.Should().NotBeNull();
+            actual.IsValid.Should().BeFalse();
+            actual.Errors.Should().NotBeNullOrEmpty().And.OnlyHaveUniqueItems();
         }
     }
 }

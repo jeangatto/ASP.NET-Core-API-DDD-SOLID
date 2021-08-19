@@ -6,15 +6,9 @@ namespace SGP.Application.Requests
 {
     public class GetByIdRequest : BaseRequest
     {
-        public GetByIdRequest(Guid id)
-        {
-            Id = id;
-        }
+        public GetByIdRequest(Guid id) => Id = id;
 
-        public GetByIdRequest(string id)
-        {
-            Id = Guid.TryParse(id, out var result) ? result : Guid.Empty;
-        }
+        public GetByIdRequest(string id) => Id = Guid.TryParse(id, out var result) ? result : Guid.Empty;
 
         public Guid Id { get; }
 

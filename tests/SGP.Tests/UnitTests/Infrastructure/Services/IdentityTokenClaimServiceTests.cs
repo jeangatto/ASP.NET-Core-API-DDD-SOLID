@@ -4,13 +4,14 @@ using FluentAssertions;
 using SGP.Infrastructure.Services;
 using SGP.Shared.Interfaces;
 using SGP.Tests.Constants;
+using SGP.Tests.DataFakers;
 using Xunit;
 using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
     [UnitTest(TestCategories.Infrastructure)]
-    public class IdentityTokenClaimServiceTests : UnitTestBase
+    public class IdentityTokenClaimServiceTests
     {
         [Fact]
         public void Should_ReturnsAcessToken_WhenGenerateAccessTokenWithValidClaims()
@@ -19,8 +20,9 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             var service = CreateTokenClaimsService();
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, Faker.Random.Guid().ToString()),
-                new Claim(ClaimTypes.Name, Faker.Person.UserName), new Claim(ClaimTypes.Email, Faker.Person.Email)
+                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Name, "Jean Gatto", ClaimValueTypes.String),
+                new Claim(ClaimTypes.Email, "jean_gatto@hotmail.com", ClaimValueTypes.Email)
             };
 
             // Act
@@ -52,10 +54,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             var service = CreateTokenClaimsService();
 
             // Act
-            Action act = () => service.GenerateAccessToken(Array.Empty<Claim>());
+            Action actual = () => service.GenerateAccessToken(Array.Empty<Claim>());
 
             // Assert
-            act.Should().ThrowExactly<ArgumentException>().And.ParamName.Should().Be("claims");
+            actual.Should().ThrowExactly<ArgumentException>().And.ParamName.Should().Be("claims");
         }
 
         [Fact]
@@ -65,16 +67,13 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             var service = CreateTokenClaimsService();
 
             // Act
-            Action act = () => service.GenerateAccessToken(null);
+            Action actual = () => service.GenerateAccessToken(null);
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>().And.ParamName.Should().Be("claims");
+            actual.Should().ThrowExactly<ArgumentNullException>().And.ParamName.Should().Be("claims");
         }
 
         private static ITokenClaimsService CreateTokenClaimsService()
-        {
-            var dateTime = new LocalDateTimeService();
-            return new IdentityTokenClaimService(CreateJwtConfigOptions(), dateTime);
-        }
+            => new IdentityTokenClaimService(OptionsDataFaker.JwtConfigOptions, new LocalDateTimeService());
     }
 }

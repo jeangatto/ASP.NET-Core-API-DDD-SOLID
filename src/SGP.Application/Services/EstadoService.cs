@@ -12,7 +12,7 @@ namespace SGP.Application.Services
 {
     public class EstadoService : BaseService, IEstadoService
     {
-        private const string ObterTodosCacheKey = "EstadoService__ObterTodosAsync";
+        private static readonly string ObterTodosCacheKey = $"{nameof(EstadoService)}__{nameof(ObterTodosAsync)}";
         private readonly IMapper _mapper;
         private readonly IEstadoRepository _repository;
 
@@ -27,7 +27,9 @@ namespace SGP.Application.Services
         {
             return await MemoryCache.GetOrCreateAsync(ObterTodosCacheKey, async cacheEntry =>
             {
+                // Aplicando a configuração do cache.
                 ConfigureCacheEntry(cacheEntry);
+
                 var estados = await _repository.ObterTodosAsync();
                 return Result.Ok(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
             });

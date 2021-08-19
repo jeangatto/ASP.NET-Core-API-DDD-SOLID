@@ -20,10 +20,10 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
             var options = Options.Create(AuthConfig.Create(3, 1000));
 
             // Act
-            Action act = () => Guard.Against.NullOptions(options, nameof(options));
+            Action actual = () => Guard.Against.NullOptions(options, nameof(options));
 
             // Assert
-            act.Should().NotThrow();
+            actual.Should().NotThrow();
         }
 
         [Fact]
@@ -34,10 +34,10 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
             var expectedMessage = $"A seção '{nameof(AuthConfig)}' não está configurada no appsettings.json";
 
             // Act
-            Action act = () => Guard.Against.NullOptions(options, nameof(options));
+            Action actual = () => Guard.Against.NullOptions(options, nameof(options));
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>().WithMessage($"*{expectedMessage}*");
+            actual.Should().ThrowExactly<ArgumentNullException>().WithMessage($"*{expectedMessage}*");
         }
 
         [Fact]
@@ -48,10 +48,10 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
             var expectedMessage = $"A seção '{nameof(AuthConfig)}' não está configurada no appsettings.json";
 
             // Act
-            Action act = () => Guard.Against.NullOptions(options, nameof(options));
+            Action actual = () => Guard.Against.NullOptions(options, nameof(options));
 
             // Assert
-            act.Should().ThrowExactly<ArgumentNullException>().WithMessage($"*{expectedMessage}*");
+            actual.Should().ThrowExactly<ArgumentNullException>().WithMessage($"*{expectedMessage}*");
         }
     }
 }
