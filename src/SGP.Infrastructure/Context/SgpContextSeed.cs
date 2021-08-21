@@ -16,12 +16,15 @@ namespace SGP.Infrastructure.Context
     /// </summary>
     public static class SgpContextSeed
     {
-        private const string SeedFolderName = "Seeds";
-
         /// <summary>
         /// Caminho da pasta raiz da aplicação.
         /// </summary>
         private static readonly string RootFolderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+        /// <summary>
+        /// Nome da pasta que contém os arquivos de seeds.
+        /// </summary>
+        private const string SeedFolderName = "Seeds";
 
         /// <summary>
         /// Caminho da pasta que contém os arquivos de seeds.

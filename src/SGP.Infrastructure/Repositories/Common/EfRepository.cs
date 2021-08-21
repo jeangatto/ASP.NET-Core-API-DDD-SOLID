@@ -28,13 +28,9 @@ namespace SGP.Infrastructure.Repositories.Common
         public void RemoveRange(IEnumerable<TEntity> entities) => _dbSet.RemoveRange(entities);
 
         public virtual async Task<TEntity> GetByIdAsync(Guid id, bool readOnly = true)
-        {
-            return readOnly
-                ? await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id)
-                : await _dbSet.FindAsync(id);
-        }
+            => readOnly ? await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id) : await _dbSet.FindAsync(id);
 
-        protected IQueryable<TEntity> Queryable(bool readOnly = true) =>
-            readOnly ? _dbSet.AsNoTracking() : _dbSet.AsQueryable();
+        protected IQueryable<TEntity> Queryable(bool readOnly = true)
+            => readOnly ? _dbSet.AsNoTracking() : _dbSet.AsQueryable();
     }
 }

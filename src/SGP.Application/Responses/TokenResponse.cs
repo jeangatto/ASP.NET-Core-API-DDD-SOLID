@@ -19,7 +19,7 @@ namespace SGP.Application.Responses
         public string AccessToken { get; }
 
         /// <summary>
-        /// Data da criação do Token.
+        /// Data da criação do token.
         /// </summary>
         public DateTime Created { get; }
 
@@ -34,7 +34,7 @@ namespace SGP.Application.Responses
         public string RefreshToken { get; }
 
         /// <summary>
-        /// Expiração em segundos.
+        /// Expiração do token em segundos.
         /// </summary>
         public int ExpiresIn => (int)Expiration.Subtract(Created).TotalSeconds;
     }
