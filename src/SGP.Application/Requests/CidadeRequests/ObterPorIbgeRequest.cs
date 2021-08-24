@@ -5,10 +5,7 @@ namespace SGP.Application.Requests.CidadeRequests
 {
     public class ObterPorIbgeRequest : BaseRequest
     {
-        public ObterPorIbgeRequest(int ibge)
-        {
-            Ibge = ibge;
-        }
+        public ObterPorIbgeRequest(int ibge) => Ibge = ibge;
 
         public int Ibge { get; }
 

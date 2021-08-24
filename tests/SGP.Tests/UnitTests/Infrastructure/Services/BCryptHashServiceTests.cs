@@ -42,7 +42,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             var actual = hashService.Hash(text);
 
             // Assert
-            actual.Should().NotBeNullOrEmpty().And.Should().NotBeSameAs(text);
+            actual.Should().NotBeNullOrEmpty().And.NotBeSameAs(text);
         }
 
         [Fact]
