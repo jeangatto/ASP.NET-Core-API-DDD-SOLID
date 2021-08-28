@@ -20,11 +20,11 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Application.Services
 {
     [UnitTest(TestCategories.Application)]
-    public class AuthenticationTests : IClassFixture<EfSqliteFixture>
+    public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
 
-        public AuthenticationTests(EfSqliteFixture fixture) => _fixture = fixture;
+        public AuthenticationServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
 
         [Fact]
         public async Task Devera_RetornarSucessoComToken_AoAutenticar()

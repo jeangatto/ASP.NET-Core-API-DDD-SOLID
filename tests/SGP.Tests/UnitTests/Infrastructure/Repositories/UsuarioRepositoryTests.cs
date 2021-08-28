@@ -129,17 +129,18 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         {
             return new Faker<Usuario>()
                 .UsePrivateConstructor()
-                .RuleFor(u => u.Id, Guid.NewGuid())
-                .RuleFor(u => u.Nome, f => f.Person.UserName)
-                .RuleFor(u => u.Email, f => new Email(f.Person.Email))
-                .RuleFor(u => u.HashSenha, f => f.Internet.Password(60))
+                .RuleFor(usuario => usuario.Id, Guid.NewGuid())
+                .RuleFor(usuario => usuario.Nome, faker => faker.Person.UserName)
+                .RuleFor(usuario => usuario.Email, faker => new Email(faker.Person.Email))
+                .RuleFor(usuario => usuario.HashSenha, faker => faker.Internet.Password(60))
                 .FinishWith((faker, usuario) =>
                 {
                     for (var i = 0; i < quantidadeTokens; i++)
                     {
-                        var criadoEm = i == 0 ? DateTime.Now : DateTime.Now.AddDays(i + 1);
-                        var expiraEm = criadoEm.AddHours(8);
-                        usuario.AdicionarToken(new TokenAcesso(faker.Internet.Password(2048), criadoEm, expiraEm));
+                        var token = faker.Random.String2(2048, "0123456789_/.abcdefghijklmnopqrstuvwxyz");
+                        var tokenCriadoEm = i == 0 ? DateTime.Now : DateTime.Now.AddDays(i + 1);
+                        var tokenExpiraEm = tokenCriadoEm.AddHours(8);
+                        usuario.AdicionarToken(new TokenAcesso(token, tokenCriadoEm, tokenExpiraEm));
                     }
                 })
                 .Generate();

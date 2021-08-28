@@ -9,10 +9,7 @@ namespace SGP.Infrastructure.Services
     {
         private readonly ILogger<BCryptHashService> _logger;
 
-        public BCryptHashService(ILogger<BCryptHashService> logger)
-        {
-            _logger = logger;
-        }
+        public BCryptHashService(ILogger<BCryptHashService> logger) => _logger = logger;
 
         public bool Compare(string text, string hash)
         {
