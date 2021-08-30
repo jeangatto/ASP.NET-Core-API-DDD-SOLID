@@ -1,13 +1,11 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using SGP.Infrastructure.Context;
+using Serilog;
+using Serilog.Events;
+using SGP.PublicApi.Extensions;
 
 namespace SGP.PublicApi
 {
@@ -16,38 +14,33 @@ namespace SGP.PublicApi
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
+            await host.MigrateDbContextAsync();
 
-            using (var scope = host.Services.CreateScope())
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            try
             {
-                var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
-                var logger = loggerFactory.CreateLogger(nameof(Program));
-                var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
-
-                try
-                {
-                    logger.LogInformation($"ConnectionString: {context.Database.GetConnectionString()}");
-
-                    if ((await context.Database.GetPendingMigrationsAsync()).Any())
-                    {
-                        // Aplica de maneira assíncrona quaisquer migrações pendentes do contexto.
-                        // Criará o banco de dados, se ainda não existir.
-                        await context.Database.MigrateAsync();
-                    }
-
-                    await context.EnsureSeedDataAsync(loggerFactory);
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, $"Ocorreu um erro ao popular o banco de dados; {ex.Message}");
-                    throw;
-                }
+                Log.Information("Starting web host");
+                await host.RunAsync();
             }
-
-            await host.RunAsync();
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+                throw;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
