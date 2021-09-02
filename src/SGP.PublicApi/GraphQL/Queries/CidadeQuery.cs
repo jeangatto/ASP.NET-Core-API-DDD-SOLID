@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using GraphQL;
 using GraphQL.Types;
@@ -11,6 +12,8 @@ namespace SGP.PublicApi.GraphQL.Queries
 {
     public class CidadeQuery : ObjectGraphType
     {
+        private static readonly IEnumerable<CidadeType> EmptyResult = Enumerable.Empty<CidadeType>();
+
         public CidadeQuery(ICidadeService service)
         {
             FieldAsync<CidadeType>(
@@ -49,7 +52,7 @@ namespace SGP.PublicApi.GraphQL.Queries
                     if (result.IsFailed)
                     {
                         result.ToExecutionError(context);
-                        return Enumerable.Empty<CidadeType>();
+                        return EmptyResult;
                     }
 
                     return result.Value;
