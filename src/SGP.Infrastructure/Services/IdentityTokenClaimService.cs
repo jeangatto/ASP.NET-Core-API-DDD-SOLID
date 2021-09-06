@@ -7,7 +7,6 @@ using Ardalis.GuardClauses;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
-using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Shared.Records;
 
@@ -21,8 +20,6 @@ namespace SGP.Infrastructure.Services
 
         public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTime dateTime)
         {
-            Guard.Against.NullOptions(jwtOptions, nameof(jwtOptions));
-
             _jwtConfig = jwtOptions.Value;
             _dateTime = dateTime;
         }
@@ -33,8 +30,6 @@ namespace SGP.Infrastructure.Services
 
             var createdAt = _dateTime.Now;
             var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);
-            var secretKey = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
-            var securityKey = new SymmetricSecurityKey(secretKey);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -43,7 +38,7 @@ namespace SGP.Infrastructure.Services
                 NotBefore = createdAt,
                 Expires = expiresAt,
                 Subject = new ClaimsIdentity(claims),
-                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = CreateSigningCredentials()
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -60,6 +55,13 @@ namespace SGP.Infrastructure.Services
                 cryptoServiceProvider.GetBytes(randomBytes);
                 return Convert.ToBase64String(randomBytes);
             }
+        }
+
+        private SigningCredentials CreateSigningCredentials()
+        {
+            var secretKey = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
+            var securityKey = new SymmetricSecurityKey(secretKey);
+            return new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
         }
     }
 }

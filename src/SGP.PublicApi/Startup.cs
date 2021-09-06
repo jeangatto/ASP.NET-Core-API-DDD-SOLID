@@ -18,6 +18,7 @@ using SGP.Infrastructure;
 using SGP.Infrastructure.Migrations;
 using SGP.PublicApi.Extensions;
 using SGP.PublicApi.Models;
+using SGP.Shared;
 using SGP.Shared.Extensions;
 
 namespace SGP.PublicApi

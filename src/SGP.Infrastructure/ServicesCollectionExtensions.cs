@@ -1,10 +1,7 @@
-using System;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using SGP.Infrastructure.Services;
 using SGP.Infrastructure.UoW;
-using SGP.Shared.AppSettings;
 using SGP.Shared.Interfaces;
 
 namespace SGP.Infrastructure
@@ -27,15 +24,5 @@ namespace SGP.Infrastructure
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
         }
-
-        public static void ConfigureAppSettings(this IServiceCollection services)
-        {
-            var binderOptions = BinderOptions();
-            services.AddOptions<AuthConfig>().BindConfiguration(nameof(AuthConfig), binderOptions);
-            services.AddOptions<JwtConfig>().BindConfiguration(nameof(JwtConfig), binderOptions);
-            services.AddOptions<ConnectionStrings>().BindConfiguration(nameof(ConnectionStrings), binderOptions);
-        }
-
-        private static Action<BinderOptions> BinderOptions() => options => options.BindNonPublicProperties = true;
     }
 }

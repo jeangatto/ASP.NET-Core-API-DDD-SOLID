@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
-using SGP.Shared.Extensions;
 
 namespace SGP.Infrastructure.Migrations
 {
@@ -46,7 +45,6 @@ namespace SGP.Infrastructure.Migrations
         private static string GetConnectionString(this IServiceProvider provider)
         {
             var connectionStrings = provider.GetRequiredService<IOptions<ConnectionStrings>>();
-            Guard.Against.NullOptions(connectionStrings, nameof(connectionStrings));
             return connectionStrings.Value.DefaultConnection;
         }
     }
