@@ -3,7 +3,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Ardalis.GuardClauses;
 using FluentResults;
 using Microsoft.Extensions.Options;
 using SGP.Application.Interfaces;
@@ -26,9 +25,9 @@ namespace SGP.Application.Services
         private readonly AuthConfig _authConfig;
         private readonly IDateTime _dateTime;
         private readonly IHashService _hashService;
+        private readonly ITokenClaimsService _tokenClaimsService;
         private readonly IUsuarioRepository _repository;
         private readonly IUnitOfWork _uow;
-        private readonly ITokenClaimsService _tokenClaimsService;
 
         #endregion
 
@@ -44,8 +43,6 @@ namespace SGP.Application.Services
             IUnitOfWork uow
         )
         {
-            Guard.Against.Null(authOptions, nameof(authOptions));
-
             _authConfig = authOptions.Value;
             _dateTime = dateTime;
             _hashService = hashService;

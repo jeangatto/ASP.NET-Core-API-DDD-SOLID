@@ -8,6 +8,9 @@ namespace SGP.Application.Requests.AuthenticationRequests
     {
         public RefreshTokenRequest(string token) => Token = token;
 
+        /// <summary>
+        /// Token de atualização (RefreshToken)
+        /// </summary>
         [Required]
         public string Token { get; }
 

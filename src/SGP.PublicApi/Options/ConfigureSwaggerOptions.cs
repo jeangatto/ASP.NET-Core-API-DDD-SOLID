@@ -33,6 +33,11 @@ namespace SGP.PublicApi.Options
                     Name = "Jean Gatto",
                     Email = "jean_gatto@hotmail.com",
                     Url = new Uri("https://www.linkedin.com/in/jeangatto/")
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "MIT License",
+                    Url = new Uri("https://github.com/JeanGatto/SGP/blob/main/LICENSE")
                 }
             };
 
