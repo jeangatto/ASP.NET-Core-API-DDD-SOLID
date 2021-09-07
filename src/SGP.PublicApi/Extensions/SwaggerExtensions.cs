@@ -13,7 +13,7 @@ namespace SGP.PublicApi.Extensions
 {
     public static class SwaggerExtensions
     {
-        public static void AddOpenApi(this IServiceCollection services)
+        public static IServiceCollection AddOpenApi(this IServiceCollection services)
         {
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
@@ -28,9 +28,11 @@ namespace SGP.PublicApi.Extensions
             });
 
             services.AddSwaggerGenNewtonsoftSupport();
+
+            return services;
         }
 
-        public static void UseOpenApi(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
+        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
             app.UseSwagger();
             app.UseSwaggerUI(options =>
@@ -42,6 +44,8 @@ namespace SGP.PublicApi.Extensions
                         description.GroupName.ToUpperInvariant());
                 }
             });
+
+            return app;
         }
     }
 }

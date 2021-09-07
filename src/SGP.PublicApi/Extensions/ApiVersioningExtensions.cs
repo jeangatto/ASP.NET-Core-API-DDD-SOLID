@@ -5,7 +5,7 @@ namespace SGP.PublicApi.Extensions
 {
     public static class ApiVersioningExtensions
     {
-        public static void AddApiVersioningAndApiExplorer(this IServiceCollection services)
+        public static IServiceCollection AddApiVersioningAndApiExplorer(this IServiceCollection services)
         {
             services.AddApiVersioning(options =>
             {
@@ -29,6 +29,8 @@ namespace SGP.PublicApi.Extensions
                 // can also be used to control the format of the API version in route templates
                 options.SubstituteApiVersionInUrl = true;
             });
+
+            return services;
         }
     }
 }

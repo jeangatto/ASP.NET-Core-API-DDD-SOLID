@@ -10,11 +10,10 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
     public class JsonExtensionsTests
     {
         [Fact]
-        public void Should_ReturnJsonString_WhenSerializeWithPrivateSetters()
+        public void Should_ReturnJsonString_WhenSerialize()
         {
             // Arrange
-            const string expectedJson =
-                "{\"email\":\"john.doe@hotmai.com\",\"userName\":\"John Doe\",\"status\":\"active\"}";
+            const string expectedJson = "{\"email\":\"john.doe@hotmai.com\",\"userName\":\"John Doe\",\"status\":\"active\"}";
             var user = new User("John Doe", "john.doe@hotmai.com", EStatus.Active);
 
             // Act
@@ -25,7 +24,21 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
         }
 
         [Fact]
-        public void Should_ReturnEntity_WhenDeserializeWithPrivateSetters()
+        public void Should_ReturnEntity_WhenDeserialize()
+        {
+            // Arrange
+            var expectedUser = new User("John Doe", "john.doe@hotmai.com", EStatus.Inactive);
+            const string json = "{\"email\":\"john.doe@hotmai.com\",\"userName\":\"John Doe\",\"status\":\"inactive\"}";
+
+            // Act
+            var actual = json.FromJson(typeof(User));
+
+            // Assert
+            actual.Should().NotBeNull().And.BeOfType<User>().And.BeEquivalentTo(expectedUser);
+        }
+
+        [Fact]
+        public void Should_ReturnEntity_WhenDeserializeTyped()
         {
             // Arrange
             var expectedUser = new User("John Doe", "john.doe@hotmai.com", EStatus.Inactive);

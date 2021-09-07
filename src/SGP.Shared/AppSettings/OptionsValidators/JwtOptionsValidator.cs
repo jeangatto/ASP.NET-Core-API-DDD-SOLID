@@ -4,22 +4,24 @@ namespace SGP.Shared.AppSettings.OptionsValidators
 {
     public class JwtOptionsValidator : AbstractValidator<JwtConfig>
     {
+        private const short Zero = 0;
+
         public JwtOptionsValidator()
         {
-            RuleFor(jwt => jwt.Secret)
+            RuleFor(options => options.Secret)
                 .NotEmpty()
                 .MinimumLength(32);
 
-            RuleFor(jwt => jwt.Seconds)
-                .GreaterThan((short)0);
+            RuleFor(options => options.Seconds)
+                .GreaterThan(Zero);
 
-            RuleFor(jwt => jwt.Audience)
+            RuleFor(options => options.Audience)
                 .NotEmpty()
-                .When(jwt => jwt.ValidateAudience);
+                .When(options => options.ValidateAudience);
 
-            RuleFor(jwt => jwt.Issuer)
+            RuleFor(options => options.Issuer)
                 .NotEmpty()
-                .When(jwt => jwt.ValidateIssuer);
+                .When(options => options.ValidateIssuer);
         }
     }
 }

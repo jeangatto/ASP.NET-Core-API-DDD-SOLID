@@ -11,7 +11,7 @@ namespace SGP.PublicApi.Extensions
 {
     public static class FluentResultExtensions
     {
-        private static readonly OkObjectResult OkResult = new(new ApiResponse(StatusCodes.Status200OK));
+        private static readonly OkObjectResult EmptyOkResult = new(new ApiResponse(StatusCodes.Status200OK));
 
         public static void ToExecutionError<T>(this Result<T> result, IResolveFieldContext<object> context)
         {
@@ -20,7 +20,7 @@ namespace SGP.PublicApi.Extensions
         }
 
         public static ObjectResult ToHttpResult(this Result result)
-            => result.IsFailed ? result.ToHttpNonSuccessResult() : OkResult;
+            => result.IsFailed ? result.ToHttpNonSuccessResult() : EmptyOkResult;
 
         public static ObjectResult ToHttpResult<T>(this Result<T> result)
         {

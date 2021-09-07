@@ -6,17 +6,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
+using SGP.Shared.Extensions;
 
 namespace SGP.PublicApi.Extensions
 {
     public static class JwtBearerExtensions
     {
-        public static void AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtConfig = configuration
-                .GetSection(nameof(JwtConfig))
-                .Get<JwtConfig>(options => options.BindNonPublicProperties = true);
-
+            var jwtConfig = configuration.GetWithNonPublicProperties<JwtConfig>();
             var secretKey = Encoding.ASCII.GetBytes(jwtConfig.Secret);
 
             services.AddAuthentication(authOptions =>
@@ -57,6 +55,8 @@ namespace SGP.PublicApi.Extensions
                     .RequireAuthenticatedUser()
                     .Build());
             });
+
+            return services;
         }
     }
 }

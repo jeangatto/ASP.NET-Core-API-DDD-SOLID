@@ -3,19 +3,19 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Ardalis.GuardClauses" Version="3.2.0"/>
-        <PackageReference Include="BCrypt.Net-Next" Version="4.0.2"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.9"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0"/>
-        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.2"/>
-        <PackageReference Include="Scrutor" Version="3.3.0"/>
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2"/>
+        <PackageReference Include="Ardalis.GuardClauses" Version="3.2.0" />
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.9" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.2" />
+        <PackageReference Include="Scrutor" Version="3.3.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj"/>
-        <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj"/>
+        <ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
+        <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="Seeds\cidades.json">

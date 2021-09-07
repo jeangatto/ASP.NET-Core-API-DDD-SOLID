@@ -5,16 +5,17 @@ using SGP.Shared.Interfaces;
 
 namespace SGP.Domain.Entities
 {
-    public class TokenAcesso : BaseEntity
+    public class Token : BaseEntity
     {
-        public TokenAcesso(string token, DateTime criadoEm, DateTime expiraEm)
+        public Token(string acesso, string atualizacao, DateTime criadoEm, DateTime expiraEm)
         {
-            Token = token;
+            Acesso = acesso;
+            Atualizacao = atualizacao;
             CriadoEm = criadoEm;
             ExpiraEm = expiraEm;
         }
 
-        private TokenAcesso() // ORM
+        private Token() // ORM
         {
         }
 
@@ -24,9 +25,14 @@ namespace SGP.Domain.Entities
         public Guid UsuarioId { get; private set; }
 
         /// <summary>
-        /// Token de atualização.
+        /// Token de acesso (AccessToken), utilizado para acessar o sistema.
         /// </summary>
-        public string Token { get; private set; }
+        public string Acesso { get; private set; }
+
+        /// <summary>
+        /// Token de atualização (RefreshToken), utilizado para gerar um novo token.
+        /// </summary>
+        public string Atualizacao { get; private set; }
 
         /// <summary>
         /// Data da criação do Token.

@@ -5,19 +5,26 @@ using SGP.Infrastructure.Extensions;
 
 namespace SGP.Infrastructure.Mappings
 {
-    public class TokenAcessoMap : IEntityTypeConfiguration<TokenAcesso>
+    public class TokenMap : IEntityTypeConfiguration<Token>
     {
-        public void Configure(EntityTypeBuilder<TokenAcesso> builder)
+        public void Configure(EntityTypeBuilder<Token> builder)
         {
             builder.ConfigureBaseEntity();
 
             builder.Property(token => token.UsuarioId)
                 .IsRequired();
 
-            builder.Property(token => token.Token)
+            builder.Property(token => token.Acesso)
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(2048);
+                .HasMaxLength(2048)
+                .HasComment("AcessToken");
+
+            builder.Property(token => token.Atualizacao)
+                .IsRequired()
+                .IsUnicode(false)
+                .HasMaxLength(2048)
+                .HasComment("RefreshToken");
 
             builder.Property(token => token.CriadoEm)
                 .IsRequired();

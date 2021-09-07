@@ -8,7 +8,7 @@ namespace SGP.Infrastructure
 {
     public static class ServicesCollectionExtensions
     {
-        public static void AddInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddScoped<IDateTime, LocalDateTimeService>();
             services.AddScoped<IHashService, BCryptHashService>();
@@ -23,6 +23,8 @@ namespace SGP.Infrastructure
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
+
+            return services;
         }
     }
 }

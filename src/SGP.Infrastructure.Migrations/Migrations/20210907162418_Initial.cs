@@ -1,5 +1,5 @@
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace SGP.Infrastructure.Migrations.Migrations
 {
@@ -14,7 +14,10 @@ namespace SGP.Infrastructure.Migrations.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false)
                 },
-                constraints: table => table.PrimaryKey("PK_Regioes", x => x.Id));
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Regioes", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Usuarios",
@@ -28,7 +31,10 @@ namespace SGP.Infrastructure.Migrations.Migrations
                     BloqueioExpiraEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     NumeroFalhasAoAcessar = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table => table.PrimaryKey("PK_Usuarios", x => x.Id));
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Estados",
@@ -51,21 +57,22 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TokenAcessos",
+                name: "Tokens",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Token = table.Column<string>(type: "varchar(2048)", unicode: false, maxLength: 2048, nullable: false),
+                    Acesso = table.Column<string>(type: "varchar(2048)", unicode: false, maxLength: 2048, nullable: false, comment: "AcessToken"),
+                    Atualizacao = table.Column<string>(type: "varchar(2048)", unicode: false, maxLength: 2048, nullable: false, comment: "RefreshToken"),
                     CriadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpiraEm = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RevogadoEm = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TokenAcessos", x => x.Id);
+                    table.PrimaryKey("PK_Tokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TokenAcessos_Usuarios_UsuarioId",
+                        name: "FK_Tokens_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
@@ -121,8 +128,8 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TokenAcessos_UsuarioId",
-                table: "TokenAcessos",
+                name: "IX_Tokens_UsuarioId",
+                table: "Tokens",
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
@@ -139,7 +146,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                 name: "Cidades");
 
             migrationBuilder.DropTable(
-                name: "TokenAcessos");
+                name: "Tokens");
 
             migrationBuilder.DropTable(
                 name: "Estados");

@@ -19,22 +19,22 @@ namespace SGP.Infrastructure.Repositories
         public override Task<Usuario> GetByIdAsync(Guid id, bool readOnly = true)
         {
             return Queryable(readOnly)
-                .Include(usuario => usuario.Tokens.OrderByDescending(t => t.ExpiraEm))
+                .Include(usuario => usuario.Tokens.OrderByDescending(token => token.ExpiraEm))
                 .FirstOrDefaultAsync(usuario => usuario.Id == id);
         }
 
         public async Task<Usuario> ObterPorEmailAsync(Email email)
         {
             return await Queryable(false)
-                .Include(usuario => usuario.Tokens.OrderByDescending(t => t.ExpiraEm))
+                .Include(usuario => usuario.Tokens.OrderByDescending(token => token.ExpiraEm))
                 .FirstOrDefaultAsync(usuario => usuario.Email.Address == email.Address);
         }
 
-        public async Task<Usuario> ObterPorTokenAsync(string token)
+        public async Task<Usuario> ObterPorTokenAtualizacaoAsync(string tokenAtualizacao)
         {
             return await Queryable(false)
-                .Include(usuario => usuario.Tokens.Where(t => t.Token == token))
-                .Where(usuario => usuario.Tokens.Any(t => t.Token == token))
+                .Include(usuario => usuario.Tokens.Where(token => token.Atualizacao == tokenAtualizacao))
+                .Where(usuario => usuario.Tokens.Any(token => token.Atualizacao == tokenAtualizacao))
                 .FirstOrDefaultAsync();
         }
 

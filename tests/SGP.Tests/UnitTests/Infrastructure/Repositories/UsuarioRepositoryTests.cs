@@ -58,7 +58,8 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 {
                     t.Id.Should().NotBeEmpty();
                     t.UsuarioId.Should().Be(usuarioInserido.Id);
-                    t.Token.Should().NotBeNullOrWhiteSpace();
+                    t.Acesso.Should().NotBeNullOrWhiteSpace();
+                    t.Atualizacao.Should().NotBeNullOrWhiteSpace();
                     t.CriadoEm.Should().BeBefore(t.ExpiraEm);
                     t.ExpiraEm.Should().BeAfter(t.CriadoEm);
                 });
@@ -84,7 +85,8 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 {
                     t.Id.Should().NotBeEmpty();
                     t.UsuarioId.Should().Be(usuarioInserido.Id);
-                    t.Token.Should().NotBeNullOrWhiteSpace();
+                    t.Acesso.Should().NotBeNullOrWhiteSpace();
+                    t.Atualizacao.Should().NotBeNullOrWhiteSpace();
                     t.CriadoEm.Should().BeBefore(t.ExpiraEm);
                     t.ExpiraEm.Should().BeAfter(t.CriadoEm);
                 });
@@ -97,7 +99,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             var (repositorio, usuarioInserido) = await PopularAsync(3);
 
             // Act
-            var actual = await repositorio.ObterPorTokenAsync(usuarioInserido.Tokens[0].Token);
+            var actual = await repositorio.ObterPorTokenAtualizacaoAsync(usuarioInserido.Tokens[0].Atualizacao);
 
             // Assert
             actual.Should().NotBeNull();
@@ -110,7 +112,8 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 {
                     t.Id.Should().NotBeEmpty();
                     t.UsuarioId.Should().Be(usuarioInserido.Id);
-                    t.Token.Should().NotBeNullOrWhiteSpace();
+                    t.Acesso.Should().NotBeNullOrWhiteSpace();
+                    t.Atualizacao.Should().NotBeNullOrWhiteSpace();
                     t.CriadoEm.Should().BeBefore(t.ExpiraEm);
                     t.ExpiraEm.Should().BeAfter(t.CriadoEm);
                 });
@@ -137,10 +140,11 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 {
                     for (var i = 0; i < quantidadeTokens; i++)
                     {
-                        var token = faker.Random.String2(2048, "0123456789_/.abcdefghijklmnopqrstuvwxyz");
+                        var accessToken = faker.Random.String2(2048, "0123456789_/.abcdefghijklmnopqrstuvwxyz");
+                        var refreshToken = faker.Random.String2(2048, "0123456789_/.abcdefghijklmnopqrstuvwxyz");
                         var tokenCriadoEm = i == 0 ? DateTime.Now : DateTime.Now.AddDays(i + 1);
                         var tokenExpiraEm = tokenCriadoEm.AddHours(8);
-                        usuario.AdicionarToken(new TokenAcesso(token, tokenCriadoEm, tokenExpiraEm));
+                        usuario.AdicionarToken(new Token(accessToken, refreshToken, tokenCriadoEm, tokenExpiraEm));
                     }
                 })
                 .Generate();

@@ -15,23 +15,24 @@ namespace SGP.Infrastructure.Migrations
     {
         private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
-        public static void AddDbContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
+        public static IServiceCollection AddDbContext(this IServiceCollection services,
+            IHealthChecksBuilder healthChecksBuilder)
         {
             Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
 
-            services.AddDbContext<SgpContext>((provider, builder) =>
+            services.AddDbContext<SgpContext>((serviceProvider, builder) =>
             {
-                builder.UseSqlServer(provider.GetConnectionString(),
+                builder.UseSqlServer(serviceProvider.GetConnectionString(),
                     options => options.MigrationsAssembly(AssemblyName));
 
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
-                var environment = provider.GetRequiredService<IHostEnvironment>();
+                var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
                 if (environment.IsDevelopment())
                 {
-                    var loggerFactory = LoggerFactory.Create(logging => logging.AddConsole());
-                    builder.UseLoggerFactory(loggerFactory);
-                    builder.EnableDetailedErrors();
-                    builder.EnableSensitiveDataLogging();
+                    builder
+                        .UseLoggerFactory(LoggerFactory.Create(logging => logging.AddConsole()))
+                        .EnableDetailedErrors()
+                        .EnableSensitiveDataLogging();
                 }
             });
 
@@ -40,12 +41,11 @@ namespace SGP.Infrastructure.Migrations
                 tags: new[] { "database" },
                 customTestQuery: (context, cancellationToken)
                     => context.Estados.AsNoTracking().AnyAsync(cancellationToken));
+
+            return services;
         }
 
-        private static string GetConnectionString(this IServiceProvider provider)
-        {
-            var connectionStrings = provider.GetRequiredService<IOptions<ConnectionStrings>>();
-            return connectionStrings.Value.DefaultConnection;
-        }
+        private static string GetConnectionString(this IServiceProvider serviceProvider)
+            => serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>().Value.DefaultConnection;
     }
 }

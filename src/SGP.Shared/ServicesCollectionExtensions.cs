@@ -1,5 +1,4 @@
-﻿using System;
-using IL.FluentValidation.Extensions.Options;
+﻿using IL.FluentValidation.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SGP.Shared.AppSettings;
@@ -9,24 +8,23 @@ namespace SGP.Shared
 {
     public static class ServicesCollectionExtensions
     {
-        public static void ConfigureAppSettings(this IServiceCollection services)
+        public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
         {
-            var binderOptions = BinderOptions();
+            void BinderOptions(BinderOptions options) => options.BindNonPublicProperties = true;
 
             services.AddOptions<AuthConfig>()
-                .BindConfiguration(nameof(AuthConfig), binderOptions)
+                .BindConfiguration(nameof(AuthConfig), BinderOptions)
                 .FluentValidate().With<AuthOptionsValidator>();
 
             services.AddOptions<JwtConfig>()
-                .BindConfiguration(nameof(JwtConfig), binderOptions)
+                .BindConfiguration(nameof(JwtConfig), BinderOptions)
                 .FluentValidate().With<JwtOptionsValidator>();
 
             services.AddOptions<ConnectionStrings>()
-                .BindConfiguration(nameof(ConnectionStrings), binderOptions)
+                .BindConfiguration(nameof(ConnectionStrings), BinderOptions)
                 .FluentValidate().With<ConnectionStringsOptionsValidator>();
-        }
 
-        private static Action<BinderOptions> BinderOptions()
-            => options => options.BindNonPublicProperties = true;
+            return services;
+        }
     }
 }

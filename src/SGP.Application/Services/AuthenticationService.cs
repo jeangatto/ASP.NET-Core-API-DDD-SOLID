@@ -83,18 +83,18 @@ namespace SGP.Application.Services
                 var claims = GenerateClaims(usuario);
 
                 // Gerando o token de acesso.
-                var (token, createdAt, expiresAt) = _tokenClaimsService.GenerateAccessToken(claims);
+                var (accessToken, createdAt, expiresAt) = _tokenClaimsService.GenerateAccessToken(claims);
 
                 // Gerando o token de atualização.
                 var refreshToken = _tokenClaimsService.GenerateRefreshToken();
 
                 // Vinculando o token atualização ao usuário.
-                usuario.AdicionarToken(new TokenAcesso(refreshToken, createdAt, expiresAt));
+                usuario.AdicionarToken(new Token(accessToken, refreshToken, createdAt, expiresAt));
 
                 _repository.Update(usuario);
                 await _uow.SaveChangesAsync();
 
-                return Result.Ok(new TokenResponse(token, createdAt, expiresAt, refreshToken));
+                return Result.Ok(new TokenResponse(accessToken, createdAt, expiresAt, refreshToken));
             }
 
             // Se o login for inválido, será incrementado o número de falhas,
@@ -118,12 +118,12 @@ namespace SGP.Application.Services
                 return request.ToFail<TokenResponse>();
             }
 
-            var usuario = await _repository.ObterPorTokenAsync(request.Token);
+            var usuario = await _repository.ObterPorTokenAtualizacaoAsync(request.Token);
             if (usuario == null)
                 return Result.Fail<TokenResponse>(new NotFoundError("Nenhum token encontrado."));
 
             // Verificando se o token de atualização está expirado.
-            var tokenAcesso = usuario.Tokens.FirstOrDefault(t => t.Token == request.Token);
+            var tokenAcesso = usuario.Tokens.FirstOrDefault(t => t.Atualizacao == request.Token);
             if (tokenAcesso == null || !tokenAcesso.EstaValido(_dateTime))
                 return Result.Fail<TokenResponse>("O token inválido ou expirado.");
 
@@ -131,7 +131,7 @@ namespace SGP.Application.Services
             var claims = GenerateClaims(usuario);
 
             // Gerando um novo token de acesso.
-            var (token, createdAt, expiresAt) = _tokenClaimsService.GenerateAccessToken(claims);
+            var (accessToken, createdAt, expiresAt) = _tokenClaimsService.GenerateAccessToken(claims);
 
             // Gerando um novo token de atualização.
             var newRefreshToken = _tokenClaimsService.GenerateRefreshToken();
@@ -140,12 +140,12 @@ namespace SGP.Application.Services
             tokenAcesso.RevogarToken(createdAt);
 
             // Vinculando o novo token atualização ao usuário.
-            usuario.AdicionarToken(new TokenAcesso(newRefreshToken, createdAt, expiresAt));
+            usuario.AdicionarToken(new Token(accessToken, newRefreshToken, createdAt, expiresAt));
 
             _repository.Update(usuario);
             await _uow.SaveChangesAsync();
 
-            return Result.Ok(new TokenResponse(token, createdAt, expiresAt, newRefreshToken));
+            return Result.Ok(new TokenResponse(accessToken, createdAt, expiresAt, newRefreshToken));
         }
 
         private static Claim[] GenerateClaims(Usuario usuario) => new[]

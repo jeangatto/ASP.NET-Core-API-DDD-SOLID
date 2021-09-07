@@ -9,7 +9,7 @@ namespace SGP.Domain.Entities
 {
     public class Usuario : BaseEntity, IAggregateRoot
     {
-        private readonly List<TokenAcesso> _tokens = new();
+        private readonly List<Token> _tokens = new();
 
         public Usuario(string nome, Email email, string hashSenha)
         {
@@ -29,12 +29,12 @@ namespace SGP.Domain.Entities
         public DateTime? BloqueioExpiraEm { get; private set; }
         public int NumeroFalhasAoAcessar { get; private set; }
 
-        public IReadOnlyList<TokenAcesso> Tokens => _tokens.AsReadOnly();
+        public IReadOnlyList<Token> Tokens => _tokens.AsReadOnly();
 
-        public void AdicionarToken(TokenAcesso tokenAcesso)
+        public void AdicionarToken(Token token)
         {
-            Guard.Against.Null(tokenAcesso, nameof(tokenAcesso));
-            _tokens.Add(tokenAcesso);
+            Guard.Against.Null(token, nameof(token));
+            _tokens.Add(token);
         }
 
         /// <summary>
