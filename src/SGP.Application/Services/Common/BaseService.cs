@@ -9,7 +9,7 @@ namespace SGP.Application.Services.Common
 
         protected BaseService(IMemoryCache memoryCache) => MemoryCache = memoryCache;
 
-        protected static void ConfigureCacheEntry(ICacheEntry cacheEntry)
+        protected static void ConfigureDefaultCache(ICacheEntry cacheEntry)
         {
             cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(60);
             cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);

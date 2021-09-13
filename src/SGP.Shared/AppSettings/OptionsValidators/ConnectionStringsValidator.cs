@@ -2,9 +2,9 @@
 
 namespace SGP.Shared.AppSettings.OptionsValidators
 {
-    public class ConnectionStringsOptionsValidator : AbstractValidator<ConnectionStrings>
+    public class ConnectionStringsValidator : AbstractValidator<ConnectionStrings>
     {
-        public ConnectionStringsOptionsValidator()
+        public ConnectionStringsValidator()
         {
             RuleFor(options => options.DefaultConnection)
                 .NotEmpty();

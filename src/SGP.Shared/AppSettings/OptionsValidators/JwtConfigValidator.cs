@@ -2,11 +2,11 @@
 
 namespace SGP.Shared.AppSettings.OptionsValidators
 {
-    public class JwtOptionsValidator : AbstractValidator<JwtConfig>
+    public class JwtConfigValidator : AbstractValidator<JwtConfig>
     {
         private const short Zero = 0;
 
-        public JwtOptionsValidator()
+        public JwtConfigValidator()
         {
             RuleFor(options => options.Secret)
                 .NotEmpty()

@@ -2,11 +2,11 @@
 
 namespace SGP.Shared.AppSettings.OptionsValidators
 {
-    public class AuthOptionsValidator : AbstractValidator<AuthConfig>
+    public class AuthConfigValidator : AbstractValidator<AuthConfig>
     {
         private const short Zero = 0;
 
-        public AuthOptionsValidator()
+        public AuthConfigValidator()
         {
             RuleFor(options => options.MaximumAttempts)
                 .GreaterThan(Zero);

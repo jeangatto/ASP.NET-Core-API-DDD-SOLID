@@ -30,7 +30,8 @@ namespace SGP.Infrastructure.Migrations
             var connectionString = configuration.GetWithNonPublicProperties<ConnectionStrings>();
 
             var builder = new DbContextOptionsBuilder<SgpContext>()
-                .UseSqlServer(connectionString.DefaultConnection, options => options.MigrationsAssembly(AssemblyName))
+                .UseSqlServer(connectionString.DefaultConnection, options
+                    => options.MigrationsAssembly(AssemblyName))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
 

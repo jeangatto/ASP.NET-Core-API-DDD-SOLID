@@ -28,7 +28,7 @@ namespace SGP.Application.Services
             return await MemoryCache.GetOrCreateAsync(ObterTodosCacheKey, async cacheEntry =>
             {
                 // Aplicando a configuração do cache.
-                ConfigureCacheEntry(cacheEntry);
+                ConfigureDefaultCache(cacheEntry);
 
                 var estados = await _repository.ObterTodosAsync();
                 return Result.Ok(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
