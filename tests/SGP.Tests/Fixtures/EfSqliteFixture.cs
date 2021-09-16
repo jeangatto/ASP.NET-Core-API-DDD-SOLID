@@ -24,15 +24,18 @@ namespace SGP.Tests.Fixtures
                 .EnableSensitiveDataLogging();
 
             Context = new SgpContext(dbContextOptionsBuilder.Options);
-            Context.Database.EnsureDeleted();
-            Context.Database.EnsureCreated();
         }
 
         public SgpContext Context { get; }
 
         #region IAsyncLifetime
 
-        public async Task InitializeAsync() => await Context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
+        public async Task InitializeAsync()
+        {
+            await Context.Database.EnsureDeletedAsync();
+            await Context.Database.EnsureCreatedAsync();
+            await Context.EnsureSeedDataAsync(LoggerFactoryMock.Create());
+        }
 
         public Task DisposeAsync() => Task.CompletedTask;
 

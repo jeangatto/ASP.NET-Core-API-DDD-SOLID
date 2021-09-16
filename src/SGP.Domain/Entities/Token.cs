@@ -1,5 +1,4 @@
 using System;
-using Ardalis.GuardClauses;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 
@@ -61,11 +60,7 @@ namespace SGP.Domain.Entities
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns>Verdadeiro se o token estiver expirado ou revogado; caso contrário, falso.</returns>
-        public bool EstaValido(IDateTime dateTime)
-        {
-            Guard.Against.Null(dateTime, nameof(dateTime));
-            return dateTime.Now >= ExpiraEm || EstaRevogado;
-        }
+        public bool EstaValido(IDateTime dateTime) => dateTime.Now >= ExpiraEm || EstaRevogado;
 
         /// <summary>
         /// Revoga (cancela) o token.

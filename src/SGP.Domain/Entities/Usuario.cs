@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Ardalis.GuardClauses;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
@@ -31,22 +30,14 @@ namespace SGP.Domain.Entities
 
         public IReadOnlyList<Token> Tokens => _tokens.AsReadOnly();
 
-        public void AdicionarToken(Token token)
-        {
-            Guard.Against.Null(token, nameof(token));
-            _tokens.Add(token);
-        }
+        public void AdicionarToken(Token token) => _tokens.Add(token);
 
         /// <summary>
         /// Indica se a conta do usuário está bloqueada.
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns>Verdadeiro se a conta estiver bloqueada; caso contrário, falso.</returns>
-        public bool EstaBloqueado(IDateTime dateTime)
-        {
-            Guard.Against.Null(dateTime, nameof(dateTime));
-            return BloqueioExpiraEm > dateTime.Now;
-        }
+        public bool EstaBloqueado(IDateTime dateTime) => BloqueioExpiraEm > dateTime.Now;
 
         /// <summary>
         /// Incremenenta o número de acessos que falharam.
@@ -57,9 +48,6 @@ namespace SGP.Domain.Entities
         /// <param name="lockedTimeSpan">Determinado tempo em que a conta ficará bloqueada.</param>
         public void IncrementarFalhas(IDateTime dateTime, short numeroTentativas, TimeSpan lockedTimeSpan)
         {
-            Guard.Against.NegativeOrZero(numeroTentativas, nameof(numeroTentativas));
-            Guard.Against.Null(lockedTimeSpan, nameof(lockedTimeSpan));
-
             if (EstaBloqueado(dateTime))
                 return;
 

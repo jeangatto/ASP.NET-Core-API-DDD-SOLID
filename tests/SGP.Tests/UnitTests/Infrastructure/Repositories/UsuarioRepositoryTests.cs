@@ -97,9 +97,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         {
             // Arrange
             var (repositorio, usuarioInserido) = await PopularAsync(3);
+            var tokenAtualizacao = usuarioInserido.Tokens[0].Atualizacao;
 
             // Act
-            var actual = await repositorio.ObterPorTokenAtualizacaoAsync(usuarioInserido.Tokens[0].Atualizacao);
+            var actual = await repositorio.ObterPorTokenAtualizacaoAsync(tokenAtualizacao);
 
             // Assert
             actual.Should().NotBeNull();
@@ -124,7 +125,8 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
             var usuario = CriarUsuario(quantidadeTokens);
             var repositorio = CriarRepositorio();
             repositorio.Add(usuario);
-            await CriarUoW().SaveChangesAsync();
+            var unitOfWork = CriarUoW();
+            await unitOfWork.SaveChangesAsync();
             return (repositorio, usuario);
         }
 
@@ -140,11 +142,11 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 {
                     for (var i = 0; i < quantidadeTokens; i++)
                     {
-                        var accessToken = faker.Random.String2(2048, "0123456789_/.abcdefghijklmnopqrstuvwxyz");
-                        var refreshToken = faker.Random.String2(2048, "0123456789_/.abcdefghijklmnopqrstuvwxyz");
-                        var tokenCriadoEm = i == 0 ? DateTime.Now : DateTime.Now.AddDays(i + 1);
-                        var tokenExpiraEm = tokenCriadoEm.AddHours(8);
-                        usuario.AdicionarToken(new Token(accessToken, refreshToken, tokenCriadoEm, tokenExpiraEm));
+                        var acesso = faker.Random.JsonWebToken();
+                        var atualizacao = faker.Random.JsonWebToken();
+                        var criadoEm = i == 0 ? DateTime.Now : DateTime.Now.AddDays(i + 1);
+                        var expiraEm = criadoEm.AddHours(8);
+                        usuario.AdicionarToken(new Token(acesso, atualizacao, criadoEm, expiraEm));
                     }
                 })
                 .Generate();
