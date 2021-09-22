@@ -12,27 +12,24 @@ namespace SGP.Infrastructure.Repositories
     {
         private readonly DbSet<Cidade> _dbSet;
 
-        public CidadeRepository(SgpContext context) => _dbSet = context.Cidades;
+        public CidadeRepository(SgpContext context)
+            => _dbSet = context.Cidades;
 
         public async Task<Cidade> ObterPorIbgeAsync(int ibge)
-        {
-            return await _dbSet
+            => await _dbSet
                 .AsNoTracking()
-                .Include(cidade => cidade.Estado)
-                .ThenInclude(estado => estado.Regiao)
-                .FirstOrDefaultAsync(cidade => cidade.Ibge == ibge);
-        }
+                .Include(c => c.Estado)
+                .ThenInclude(e => e.Regiao)
+                .FirstOrDefaultAsync(c => c.Ibge == ibge);
 
         public async Task<IEnumerable<Cidade>> ObterTodosPorUfAsync(string uf)
-        {
-            return await _dbSet
+            => await _dbSet
                 .AsNoTracking()
-                .Include(cidade => cidade.Estado)
-                .ThenInclude(estado => estado.Regiao)
-                .Where(cidade => cidade.Estado.Uf == uf)
-                .OrderBy(cidade => cidade.Nome)
-                .ThenBy(cidade => cidade.Ibge)
+                .Include(c => c.Estado)
+                .ThenInclude(e => e.Regiao)
+                .Where(c => c.Estado.Uf == uf)
+                .OrderBy(c => c.Nome)
+                .ThenBy(c => c.Ibge)
                 .ToListAsync();
-        }
     }
 }

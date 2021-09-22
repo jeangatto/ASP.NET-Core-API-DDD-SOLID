@@ -120,8 +120,8 @@ namespace SGP.Application.Services
                 return Result.Fail<TokenResponse>(new NotFoundError("Nenhum token encontrado."));
 
             // Verificando se o token de atualização está expirado.
-            var tokenAcesso = usuario.Tokens.FirstOrDefault(t => t.Atualizacao == request.Token);
-            if (tokenAcesso == null || !tokenAcesso.EstaValido(_dateTime))
+            var token = usuario.Tokens.FirstOrDefault(t => t.Atualizacao == request.Token);
+            if (token == null || !token.EstaValido(_dateTime))
                 return Result.Fail<TokenResponse>("O token inválido ou expirado.");
 
             // Gerando as regras (roles).
@@ -130,11 +130,11 @@ namespace SGP.Application.Services
             // Gerando um novo token de acesso.
             var (accessToken, createdAt, expiresAt) = _tokenClaimsService.GenerateAccessToken(claims);
 
+            // Revogando (cancelando) o token de atualização atual.
+            token.Revogar(createdAt);
+
             // Gerando um novo token de atualização.
             var newRefreshToken = _tokenClaimsService.GenerateRefreshToken();
-
-            // Revogando (cancelando) o token de atualização atual.
-            tokenAcesso.RevogarToken(createdAt);
 
             // Vinculando o novo token atualização ao usuário.
             usuario.AdicionarToken(new Token(accessToken, newRefreshToken, createdAt, expiresAt));

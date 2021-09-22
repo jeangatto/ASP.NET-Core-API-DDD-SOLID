@@ -12,14 +12,10 @@ namespace SGP.Infrastructure.Repositories
     {
         private readonly DbSet<Regiao> _dbSet;
 
-        public RegiaoRepository(SgpContext context) => _dbSet = context.Regioes;
+        public RegiaoRepository(SgpContext context)
+            => _dbSet = context.Regioes;
 
         public async Task<IEnumerable<Regiao>> ObterTodosAsync()
-        {
-            return await _dbSet
-                .AsNoTracking()
-                .OrderBy(regiao => regiao.Nome)
-                .ToListAsync();
-        }
+            => await _dbSet.AsNoTracking().OrderBy(r => r.Nome).ToListAsync();
     }
 }

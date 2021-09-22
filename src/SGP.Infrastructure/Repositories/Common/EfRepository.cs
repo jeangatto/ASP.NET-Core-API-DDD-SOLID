@@ -33,7 +33,7 @@ namespace SGP.Infrastructure.Repositories.Common
         public void RemoveRange(IEnumerable<TEntity> entities)
             => DbSet.RemoveRange(entities);
 
-        public virtual async Task<TEntity> GetByIdAsync(Guid id, bool readOnly = true)
-            => readOnly ? await DbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id) : await DbSet.FindAsync(id);
+        public virtual async Task<TEntity> GetByIdAsync(Guid id)
+            => await DbSet.FindAsync(id);
     }
 }

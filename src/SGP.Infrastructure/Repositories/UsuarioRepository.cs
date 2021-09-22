@@ -6,7 +6,6 @@ using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Context;
-using SGP.Infrastructure.Extensions;
 using SGP.Infrastructure.Repositories.Common;
 
 namespace SGP.Infrastructure.Repositories
@@ -17,29 +16,22 @@ namespace SGP.Infrastructure.Repositories
         {
         }
 
-        public override Task<Usuario> GetByIdAsync(Guid id, bool readOnly = true)
-        {
-            return DbSet
-                .AsTracking(readOnly)
-                .Include(usuario => usuario.Tokens.OrderByDescending(token => token.ExpiraEm))
-                .FirstOrDefaultAsync(usuario => usuario.Id == id);
-        }
+        public override async Task<Usuario> GetByIdAsync(Guid id)
+            => await DbSet
+                .Include(u => u.Tokens.OrderByDescending(t => t.ExpiraEm))
+                .FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task<Usuario> ObterPorEmailAsync(Email email)
-        {
-            return await DbSet
-                .Include(usuario => usuario.Tokens.OrderByDescending(token => token.ExpiraEm))
-                .FirstOrDefaultAsync(usuario => usuario.Email.Address == email.Address);
-        }
+            => await DbSet
+                .Include(u => u.Tokens.OrderByDescending(t => t.ExpiraEm))
+                .FirstOrDefaultAsync(u => u.Email.Address == email.Address);
 
         public async Task<Usuario> ObterPorTokenAtualizacaoAsync(string tokenAtualizacao)
-        {
-            return await DbSet
-                .Include(usuario => usuario.Tokens.Where(token => token.Atualizacao == tokenAtualizacao))
-                .FirstOrDefaultAsync(usuario => usuario.Tokens.Any(token => token.Atualizacao == tokenAtualizacao));
-        }
+            => await DbSet
+                .Include(u => u.Tokens.Where(t => t.Atualizacao == tokenAtualizacao))
+                .FirstOrDefaultAsync(u => u.Tokens.Any(t => t.Atualizacao == tokenAtualizacao));
 
         public async Task<bool> VerificarSeEmailExisteAsync(Email email)
-            => await DbSet.AsNoTracking().AnyAsync(usuario => usuario.Email.Address == email.Address);
+            => await DbSet.AsNoTracking().AnyAsync(u => u.Email.Address == email.Address);
     }
 }

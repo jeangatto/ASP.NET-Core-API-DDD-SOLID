@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SGP.Shared.Entities;
 
 namespace SGP.Shared.Interfaces
 {
-    public interface IAsyncRepository<TEntity> : IRepository where TEntity : IAggregateRoot
+    public interface IAsyncRepository<TEntity> : IRepository where TEntity : BaseEntity, IAggregateRoot
     {
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);
@@ -12,13 +13,6 @@ namespace SGP.Shared.Interfaces
         void UpdateRange(IEnumerable<TEntity> entities);
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);
-
-        /// <summary>
-        /// Encontra uma entidade pelo o valor da chave primária (id) fornecido.
-        /// </summary>
-        /// <param name="id">O valor da chave primária da entidade a ser encontrada.</param>
-        /// <param name="readOnly">Quando verdadeiro a entidade não será rastreada pelo rastreador de mudanças do contexto.</param>
-        /// <returns>A entidade encontrada ou nula.</returns>
-        Task<TEntity> GetByIdAsync(Guid id, bool readOnly = true);
+        Task<TEntity> GetByIdAsync(Guid id);
     }
 }

@@ -5,35 +5,35 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Ardalis.GuardClauses" Version="3.2.0"/>
-        <PackageReference Include="AutoMapper" Version="10.1.1"/>
-        <PackageReference Include="GraphQL" Version="4.6.0"/>
-        <PackageReference Include="GraphQL.DataLoader" Version="4.6.0"/>
-        <PackageReference Include="GraphQL.MemoryCache" Version="4.6.0"/>
-        <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="5.0.2"/>
-        <PackageReference Include="GraphQL.Server.Transports.AspNetCore.NewtonsoftJson" Version="5.0.2"/>
-        <PackageReference Include="GraphQL.Server.Ui.Playground" Version="5.0.2"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0"/>
+        <PackageReference Include="Ardalis.GuardClauses" Version="3.2.0" />
+        <PackageReference Include="AutoMapper" Version="10.1.1" />
+        <PackageReference Include="GraphQL" Version="4.6.0" />
+        <PackageReference Include="GraphQL.DataLoader" Version="4.6.0" />
+        <PackageReference Include="GraphQL.MemoryCache" Version="4.6.0" />
+        <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="5.0.2" />
+        <PackageReference Include="GraphQL.Server.Transports.AspNetCore.NewtonsoftJson" Version="5.0.2" />
+        <PackageReference Include="GraphQL.Server.Ui.Playground" Version="5.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="5.0.10"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-        <PackageReference Include="Serilog.AspNetCore" Version="4.1.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.1"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1"/>
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2"/>
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="5.0.10" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\SGP.Application\SGP.Application.csproj"/>
-        <ProjectReference Include="..\SGP.Infrastructure.Migrations\SGP.Infrastructure.Migrations.csproj"/>
-        <ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj"/>
-        <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj"/>
+        <ProjectReference Include="..\SGP.Application\SGP.Application.csproj" />
+        <ProjectReference Include="..\SGP.Infrastructure.Migrations\SGP.Infrastructure.Migrations.csproj" />
+        <ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj" />
+        <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Content Update="appsettings.json">

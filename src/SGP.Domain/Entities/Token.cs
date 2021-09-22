@@ -66,7 +66,7 @@ namespace SGP.Domain.Entities
         /// Revoga (cancela) o token.
         /// </summary>
         /// <param name="dataRevogacao">Data da revogação.</param>
-        public void RevogarToken(DateTime dataRevogacao)
+        public void Revogar(DateTime dataRevogacao)
         {
             if (!EstaRevogado)
                 RevogadoEm = dataRevogacao;
