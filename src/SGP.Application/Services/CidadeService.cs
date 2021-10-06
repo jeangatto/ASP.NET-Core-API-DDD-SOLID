@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,14 +8,13 @@ using Microsoft.Extensions.Caching.Memory;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
-using SGP.Application.Services.Common;
 using SGP.Domain.Repositories;
 using SGP.Shared.Errors;
 using SGP.Shared.Extensions;
 
 namespace SGP.Application.Services
 {
-    public class CidadeService : BaseService, ICidadeService
+    public class CidadeService :  ICidadeService
     {
         private static readonly string ObterPorIbgeCacheKey =
             $"{nameof(CidadeService)}__{nameof(ObterPorIbgeAsync)}__{{0}}";
@@ -23,12 +23,13 @@ namespace SGP.Application.Services
             $"{nameof(CidadeService)}__{nameof(ObterTodosPorUfAsync)}__{{0}}";
 
         private readonly IMapper _mapper;
+        private readonly IMemoryCache _memoryCache;
         private readonly ICidadeRepository _repository;
 
         public CidadeService(IMapper mapper, IMemoryCache memoryCache, ICidadeRepository repository)
-            : base(memoryCache)
         {
             _mapper = mapper;
+            _memoryCache = memoryCache;
             _repository = repository;
         }
 
@@ -36,10 +37,11 @@ namespace SGP.Application.Services
         {
             var cacheKey = string.Format(ObterPorIbgeCacheKey, request.Ibge);
 
-            return await MemoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
+            return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
                 // Aplicando a configuração do cache.
-                ConfigureDefaultCache(cacheEntry);
+                cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(60);
+                cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
 
                 // Validando a requisição.
                 request.Validate();
@@ -67,10 +69,11 @@ namespace SGP.Application.Services
         {
             var cacheKey = string.Format(ObterTodosPorUfCacheKey, request.Uf);
 
-            return await MemoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
+            return await _memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
             {
                 // Aplicando a configuração do cache.
-                ConfigureDefaultCache(cacheEntry);
+                cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(60);
+                cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
 
                 // Validando a requisição.
                 request.Validate();

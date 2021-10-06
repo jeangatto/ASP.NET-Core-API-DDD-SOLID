@@ -14,6 +14,7 @@ namespace SGP.Application.Requests.AuthenticationRequests
 
         [Required]
         [DataType(DataType.EmailAddress)]
+        [MaxLength(100)]
         public string Email { get; }
 
         [Required]
