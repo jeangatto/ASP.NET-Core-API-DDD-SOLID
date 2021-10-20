@@ -41,7 +41,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var data = await response.Content.GetGraphQLDataAsync<IEnumerable<CidadeResponse>>(queryName);
+            var data = await response.Content.GetDataAsync<IEnumerable<CidadeResponse>>(queryName);
             data.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(totalCidadesEsperado)
@@ -70,7 +70,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var errors = await response.Content.GetGraphQLErrors();
+            var errors = await response.Content.GetErrorsAsync();
             errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
@@ -91,7 +91,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var errors = await response.Content.GetGraphQLErrors();
+            var errors = await response.Content.GetErrorsAsync();
             errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
@@ -112,7 +112,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var errors = await response.Content.GetGraphQLErrors();
+            var errors = await response.Content.GetErrorsAsync();
             errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
@@ -133,7 +133,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var errors = await response.Content.GetGraphQLErrors();
+            var errors = await response.Content.GetErrorsAsync();
             errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
@@ -159,7 +159,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var data = await response.Content.GetGraphQLDataAsync<CidadeResponse>(queryName);
+            var data = await response.Content.GetDataAsync<CidadeResponse>(queryName);
             data.Should().NotBeNull();
             data.Regiao.Should().NotBeNullOrWhiteSpace();
             data.Estado.Should().NotBeNullOrWhiteSpace();

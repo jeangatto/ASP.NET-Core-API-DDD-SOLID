@@ -13,29 +13,29 @@ namespace SGP.Tests.Extensions
     {
         private static readonly IEnumerable<GraphQLError> EmptyErrors = Enumerable.Empty<GraphQLError>();
 
-        public static async Task<T> GetGraphQLDataAsync<T>(this HttpContent httpContent, string queryName)
+        public static async Task<T> GetDataAsync<T>(this HttpContent httpContent, string queryName)
         {
             Guard.Against.Null(httpContent, nameof(httpContent));
             Guard.Against.NullOrWhiteSpace(queryName, nameof(queryName));
 
             var response = await httpContent.ReadAsStringAsync();
             var jsonObject = JObject.Parse(response);
-            var dataJsonString = jsonObject["data"]?[queryName]?.ToString();
+            var dataStrJson = jsonObject["data"]?[queryName]?.ToString();
 
-            return string.IsNullOrWhiteSpace(dataJsonString) ? default : dataJsonString.FromJson<T>();
+            return string.IsNullOrWhiteSpace(dataStrJson) ? default : dataStrJson.FromJson<T>();
         }
 
-        public static async Task<IEnumerable<GraphQLError>> GetGraphQLErrors(this HttpContent httpContent)
+        public static async Task<IEnumerable<GraphQLError>> GetErrorsAsync(this HttpContent httpContent)
         {
             Guard.Against.Null(httpContent, nameof(httpContent));
 
             var response = await httpContent.ReadAsStringAsync();
             var jsonObject = JObject.Parse(response);
-            var errorsJsonString = jsonObject["errors"]?.ToString();
+            var errorsStrJson = jsonObject["errors"]?.ToString();
 
-            return string.IsNullOrWhiteSpace(errorsJsonString)
+            return string.IsNullOrWhiteSpace(errorsStrJson)
                 ? EmptyErrors
-                : errorsJsonString.FromJson<IEnumerable<GraphQLError>>();
+                : errorsStrJson.FromJson<IEnumerable<GraphQLError>>();
         }
     }
 }

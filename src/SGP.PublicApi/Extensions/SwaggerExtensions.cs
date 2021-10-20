@@ -28,11 +28,11 @@ namespace SGP.PublicApi.Extensions
             });
 
             services.AddSwaggerGenNewtonsoftSupport();
-
             return services;
         }
 
-        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
+        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app,
+            IApiVersionDescriptionProvider provider)
         {
             app.UseSwagger();
             app.UseSwaggerUI(options =>

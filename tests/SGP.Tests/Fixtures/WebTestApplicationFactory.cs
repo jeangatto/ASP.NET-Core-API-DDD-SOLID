@@ -45,9 +45,10 @@ namespace SGP.Tests.Fixtures
 
                 using (var scope = services.BuildServiceProvider(true).CreateScope())
                 {
-                    var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
+                    var serviceProvider = scope.ServiceProvider;
+                    var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
                     var logger = loggerFactory.CreateLogger<WebTestApplicationFactory>();
-                    var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
+                    var context = serviceProvider.GetRequiredService<SgpContext>();
                     logger.LogInformation($"Database Provider={context.Database.ProviderName} " +
                                           $"| ConnectionString={context.Database.GetConnectionString()}");
                 }
