@@ -1,8 +1,8 @@
 namespace SGP.Tests.Models
 {
-    public class GraphQLError
+    public class GraphError
     {
-        public GraphQLError(string message) => Message = message;
+        public GraphError(string message) => Message = message;
 
         public string Message { get; }
 

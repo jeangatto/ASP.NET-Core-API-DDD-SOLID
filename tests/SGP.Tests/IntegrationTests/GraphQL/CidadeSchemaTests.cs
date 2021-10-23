@@ -34,10 +34,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .AddField(c => c.Uf)
                 .AddField(c => c.Nome)
                 .AddField(c => c.Ibge)
-                .ToGraphQLRequest();
+                .ToGraphRequest();
 
             // Act
-            var response = await Client.SendAsync(GraphQLApiEndpoints.Cidades, request);
+            var response = await HttpClient.SendAsync(GraphQLApiEndpoints.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -49,7 +49,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 {
                     c.Regiao.Should().NotBeNullOrWhiteSpace();
                     c.Estado.Should().NotBeNullOrWhiteSpace();
-                    c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+                    c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(ufSaoPaulo);
                     c.Nome.Should().NotBeNullOrWhiteSpace();
                     c.Ibge.Should().BePositive();
                 });
@@ -63,10 +63,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var request = new GraphQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
                 .AddArguments(new { uf = ufNaoExistente })
                 .AddField(c => c.Nome)
-                .ToGraphQLRequest();
+                .ToGraphRequest();
 
             // Act
-            var response = await Client.SendAsync(GraphQLApiEndpoints.Cidades, request);
+            var response = await HttpClient.SendAsync(GraphQLApiEndpoints.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -84,10 +84,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var request = new GraphQuery<CidadeResponse>(QueryNames.CidadePorIbge)
                 .AddArguments(new { ibge = ibgeNaoExistente })
                 .AddField(c => c.Ibge)
-                .ToGraphQLRequest();
+                .ToGraphRequest();
 
             // Act
-            var response = await Client.SendAsync(GraphQLApiEndpoints.Cidades, request);
+            var response = await HttpClient.SendAsync(GraphQLApiEndpoints.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -105,10 +105,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var request = new GraphQuery<CidadeResponse>(QueryNames.CidadePorIbge)
                 .AddArguments(new { ibge = ibgeInvalido })
                 .AddField(c => c.Ibge)
-                .ToGraphQLRequest();
+                .ToGraphRequest();
 
             // Act
-            var response = await Client.SendAsync(GraphQLApiEndpoints.Cidades, request);
+            var response = await HttpClient.SendAsync(GraphQLApiEndpoints.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -126,10 +126,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var request = new GraphQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
                 .AddArguments(new { uf = ufInvalido })
                 .AddField(c => c.Nome)
-                .ToGraphQLRequest();
+                .ToGraphRequest();
 
             // Act
-            var response = await Client.SendAsync(GraphQLApiEndpoints.Cidades, request);
+            var response = await HttpClient.SendAsync(GraphQLApiEndpoints.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -152,10 +152,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .AddField(c => c.Uf)
                 .AddField(c => c.Nome)
                 .AddField(c => c.Ibge)
-                .ToGraphQLRequest();
+                .ToGraphRequest();
 
             // Act
-            var response = await Client.SendAsync(GraphQLApiEndpoints.Cidades, request);
+            var response = await HttpClient.SendAsync(GraphQLApiEndpoints.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -165,7 +165,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             data.Estado.Should().NotBeNullOrWhiteSpace();
             data.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
             data.Nome.Should().NotBeNullOrWhiteSpace();
-            data.Ibge.Should().BePositive();
+            data.Ibge.Should().BePositive().And.Be(ibgeVotuporanga);
         }
     }
 }

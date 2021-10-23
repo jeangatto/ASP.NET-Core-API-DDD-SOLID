@@ -29,10 +29,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .AddField(e => e.Regiao)
                 .AddField(e => e.Uf)
                 .AddField(e => e.Nome)
-                .ToGraphQLRequest();
+                .ToGraphRequest();
 
             // Act
-            var response = await Client.SendAsync(GraphQLApiEndpoints.Estados, request);
+            var response = await HttpClient.SendAsync(GraphQLApiEndpoints.Estados, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299

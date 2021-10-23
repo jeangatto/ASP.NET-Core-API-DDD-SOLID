@@ -18,8 +18,7 @@ namespace SGP.PublicApi.Extensions
 
             using (var scope = host.Services.CreateScope())
             {
-                var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
-                var logger = loggerFactory.CreateLogger(nameof(Program));
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
                 var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
 
                 try
@@ -34,7 +33,7 @@ namespace SGP.PublicApi.Extensions
                     }
 
                     // Populando a base de dados com estados, cidades...
-                    await context.EnsureSeedDataAsync(loggerFactory);
+                    await context.EnsureSeedDataAsync();
                 }
                 catch (Exception ex)
                 {

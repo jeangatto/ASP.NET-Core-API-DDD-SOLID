@@ -11,7 +11,7 @@ namespace SGP.Tests.Extensions
 {
     public static class HttpContentExtensions
     {
-        private static readonly IEnumerable<GraphQLError> EmptyErrors = Enumerable.Empty<GraphQLError>();
+        private static readonly IEnumerable<GraphError> EmptyErrors = Enumerable.Empty<GraphError>();
 
         public static async Task<T> GetDataAsync<T>(this HttpContent httpContent, string queryName)
         {
@@ -25,7 +25,7 @@ namespace SGP.Tests.Extensions
             return string.IsNullOrWhiteSpace(dataStrJson) ? default : dataStrJson.FromJson<T>();
         }
 
-        public static async Task<IEnumerable<GraphQLError>> GetErrorsAsync(this HttpContent httpContent)
+        public static async Task<IEnumerable<GraphError>> GetErrorsAsync(this HttpContent httpContent)
         {
             Guard.Against.Null(httpContent, nameof(httpContent));
 
@@ -35,7 +35,7 @@ namespace SGP.Tests.Extensions
 
             return string.IsNullOrWhiteSpace(errorsStrJson)
                 ? EmptyErrors
-                : errorsStrJson.FromJson<IEnumerable<GraphQLError>>();
+                : errorsStrJson.FromJson<IEnumerable<GraphError>>();
         }
     }
 }
