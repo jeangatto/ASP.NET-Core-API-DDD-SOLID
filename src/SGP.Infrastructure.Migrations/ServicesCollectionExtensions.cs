@@ -20,13 +20,13 @@ namespace SGP.Infrastructure.Migrations
         {
             Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
 
-            services.AddDbContext<SgpContext>((serviceProvider, builder) =>
+            services.AddDbContext<SgpContext>((provider, builder) =>
             {
-                builder.UseSqlServer(serviceProvider.GetConnectionString(),
+                builder.UseSqlServer(provider.GetConnectionString(),
                     options => options.MigrationsAssembly(AssemblyName));
 
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
-                var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
+                var environment = provider.GetRequiredService<IHostEnvironment>();
                 if (environment.IsDevelopment())
                 {
                     builder
@@ -45,7 +45,7 @@ namespace SGP.Infrastructure.Migrations
             return services;
         }
 
-        private static string GetConnectionString(this IServiceProvider serviceProvider)
-            => serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>().Value.DefaultConnection;
+        private static string GetConnectionString(this IServiceProvider provider)
+            => provider.GetRequiredService<IOptions<ConnectionStrings>>().Value.DefaultConnection;
     }
 }

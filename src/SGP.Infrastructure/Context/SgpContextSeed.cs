@@ -57,7 +57,7 @@ namespace SGP.Infrastructure.Context
             {
                 var filePath = Path.Combine(FolderPath, jsonFileName);
                 if (!File.Exists(filePath))
-                    throw new FileNotFoundException($"O arquivo '{filePath}' não foi encontrado.", jsonFileName);
+                    throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", jsonFileName);
 
                 var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
                 dbSet.AddRange(entitiesJson.FromJson<IEnumerable<TEntity>>());

@@ -22,6 +22,6 @@ namespace SGP.Domain.Entities
         public string Uf { get; private set; }
 
         public Regiao Regiao { get; private set; }
-        public ICollection<Cidade> Cidades { get; private set; }
+        public IReadOnlyList<Cidade> Cidades { get; private set; }
     }
 }

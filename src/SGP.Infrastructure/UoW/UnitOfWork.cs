@@ -19,6 +19,7 @@ namespace SGP.Infrastructure.UoW
             _logger = logger;
         }
 
+        /// <inheritdoc />
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             try

@@ -16,6 +16,6 @@ namespace SGP.Domain.Entities
 
         public string Nome { get; private set; }
 
-        public ICollection<Estado> Estados { get; private set; }
+        public IReadOnlyList<Estado> Estados { get; private set; }
     }
 }
