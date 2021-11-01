@@ -39,7 +39,7 @@ namespace SGP.PublicApi.Extensions
             return new BadRequestObjectResult(new ApiResponse(StatusCodes.Status400BadRequest, apiErrors));
         }
 
-        private static IEnumerable<string> GroupByErrors(this IEnumerable<Error> errors)
+        private static IEnumerable<string> GroupByErrors(this IEnumerable<IError> errors)
         {
             return errors
                 .Select(error => error.Message)

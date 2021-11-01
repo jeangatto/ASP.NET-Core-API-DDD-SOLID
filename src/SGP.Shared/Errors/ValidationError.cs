@@ -9,9 +9,8 @@ namespace SGP.Shared.Errors
         {
         }
 
-        public ValidationError(ValidationFailure failure)
+        public ValidationError(ValidationFailure failure) : base(failure.ErrorMessage)
         {
-            WithMessage(failure.ErrorMessage);
         }
     }
 }

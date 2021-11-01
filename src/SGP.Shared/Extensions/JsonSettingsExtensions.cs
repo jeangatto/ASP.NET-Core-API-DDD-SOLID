@@ -17,7 +17,7 @@ namespace SGP.Shared.Extensions
             = new PrivateSetterContractResolver(DefaultNamingStrategy);
 
         /// <summary>
-        /// Configuração do serializador em JSON otimizado para gerar um JSON menor, resultando numa melhor performance.
+        /// Configuração do serializador em JSON otimizado para gerar um JSON menor, resultando em uma melhor performance.
         /// </summary>
         /// <param name="settings"></param>
         public static JsonSerializerSettings Configure(this JsonSerializerSettings settings)

@@ -18,8 +18,9 @@ namespace SGP.PublicApi.Extensions
 
             using (var scope = host.Services.CreateScope())
             {
-                var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
+                var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                 var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
+                var logger = loggerFactory.CreateLogger("MigrateDbContext");
 
                 try
                 {
