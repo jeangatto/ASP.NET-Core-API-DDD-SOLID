@@ -8,20 +8,21 @@ namespace SGP.Shared
 {
     public static class ServicesCollectionExtensions
     {
+        private static void BinderOptionsNonPublicProperties(BinderOptions options) =>
+            options.BindNonPublicProperties = true;
+
         public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
         {
-            void BinderOptions(BinderOptions options) => options.BindNonPublicProperties = true;
-
             services.AddOptions<AuthConfig>()
-                .BindConfiguration(nameof(AuthConfig), BinderOptions)
+                .BindConfiguration(nameof(AuthConfig), BinderOptionsNonPublicProperties)
                 .FluentValidate().With<AuthConfigValidator>();
 
             services.AddOptions<JwtConfig>()
-                .BindConfiguration(nameof(JwtConfig), BinderOptions)
+                .BindConfiguration(nameof(JwtConfig), BinderOptionsNonPublicProperties)
                 .FluentValidate().With<JwtConfigValidator>();
 
             services.AddOptions<ConnectionStrings>()
-                .BindConfiguration(nameof(ConnectionStrings), BinderOptions)
+                .BindConfiguration(nameof(ConnectionStrings), BinderOptionsNonPublicProperties)
                 .FluentValidate().With<ConnectionStringsValidator>();
 
             return services;
