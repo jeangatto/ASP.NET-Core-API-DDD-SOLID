@@ -24,7 +24,7 @@ namespace SGP.Infrastructure.Repositories
 
         public async Task<IEnumerable<Cidade>> ObterTodosPorUfAsync(string uf)
             => await _dbSet
-                .AsNoTracking()
+                .AsNoTrackingWithIdentityResolution()
                 .Include(c => c.Estado)
                 .ThenInclude(e => e.Regiao)
                 .Where(c => c.Estado.Uf == uf)

@@ -17,14 +17,14 @@ namespace SGP.Infrastructure.Repositories
 
         public async Task<IEnumerable<Estado>> ObterTodosAsync()
             => await _dbSet
-                .AsNoTracking()
+                .AsNoTrackingWithIdentityResolution()
                 .Include(e => e.Regiao)
                 .OrderBy(e => e.Nome)
                 .ToListAsync();
 
         public async Task<IEnumerable<Estado>> ObterTodosPorRegiaoAsync(string regiao)
             => await _dbSet
-                .AsNoTracking()
+                .AsNoTrackingWithIdentityResolution()
                 .Include(e => e.Regiao)
                 .Where(e => e.Regiao.Nome == regiao)
                 .OrderBy(e => e.Nome)
