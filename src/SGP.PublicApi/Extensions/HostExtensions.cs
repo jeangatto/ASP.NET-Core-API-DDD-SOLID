@@ -12,6 +12,8 @@ namespace SGP.PublicApi.Extensions
 {
     public static class HostExtensions
     {
+        private const string LoggerCategoryName = "MigrateDbContext";
+
         internal static async Task MigrateDbContextAsync(this IHost host)
         {
             Guard.Against.Null(host, nameof(host));
@@ -19,12 +21,12 @@ namespace SGP.PublicApi.Extensions
             using (var scope = host.Services.CreateScope())
             {
                 var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
+                var logger = loggerFactory.CreateLogger(LoggerCategoryName);
                 var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
-                var logger = loggerFactory.CreateLogger("MigrateDbContext");
 
                 try
                 {
-                    logger.LogInformation($"ConnectionString: {context.Database.GetConnectionString()}");
+                    logger.LogInformation("Connection: {ConnectionString}", context.Database.GetConnectionString());
 
                     if ((await context.Database.GetPendingMigrationsAsync()).Any())
                     {
@@ -38,7 +40,7 @@ namespace SGP.PublicApi.Extensions
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, $"Ocorreu um erro ao popular o banco de dados; {ex.Message}");
+                    logger.LogError(ex, "Ocorreu um erro ao popular o banco de dados");
                     throw;
                 }
             }

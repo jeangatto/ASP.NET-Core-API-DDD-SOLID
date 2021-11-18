@@ -13,14 +13,14 @@ namespace SGP.Tests.Extensions
     {
         private static readonly IEnumerable<GraphError> EmptyErrors = Enumerable.Empty<GraphError>();
 
-        public static async Task<T> GetGraphDataAsync<T>(this HttpContent httpContent, string queryName)
+        public static async Task<T> GetGraphDataAsync<T>(this HttpContent httpContent, string fieldName)
         {
             Guard.Against.Null(httpContent, nameof(httpContent));
-            Guard.Against.NullOrWhiteSpace(queryName, nameof(queryName));
+            Guard.Against.NullOrWhiteSpace(fieldName, nameof(fieldName));
 
             var response = await httpContent.ReadAsStringAsync();
             var jObject = JObject.Parse(response);
-            var jToken = jObject.SelectToken($"data.{queryName}");
+            var jToken = jObject.SelectToken($"data.{fieldName}");
             return jToken?.HasValues == true ? jToken.ToString().FromJson<T>() : default;
         }
 

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
@@ -30,12 +31,13 @@ namespace SGP.Infrastructure.Migrations
             var connectionString = configuration.GetWithNonPublicProperties<ConnectionStrings>();
 
             var builder = new DbContextOptionsBuilder<SgpContext>()
-                .UseSqlServer(connectionString.DefaultConnection, options
-                    => options.MigrationsAssembly(AssemblyName))
+                .UseSqlServer(connectionString.DefaultConnection, options => options.MigrationsAssembly(AssemblyName))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
 
-            return new SgpContext(builder.Options);
+            var loggerFactory = LoggerFactory.Create(logging => logging.AddConsole());
+
+            return new SgpContext(builder.Options, loggerFactory);
         }
     }
 }

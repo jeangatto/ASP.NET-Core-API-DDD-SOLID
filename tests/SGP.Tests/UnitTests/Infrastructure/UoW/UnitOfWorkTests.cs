@@ -7,14 +7,13 @@ using SGP.Domain.Entities;
 using SGP.Infrastructure.Context;
 using SGP.Infrastructure.UoW;
 using SGP.Shared.Interfaces;
-using SGP.Tests.Constants;
 using SGP.Tests.Fixtures;
 using Xunit;
 using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.UoW
 {
-    [UnitTest(TestCategories.Infrastructure)]
+    [UnitTest]
     public class UnitOfWorkTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;

@@ -13,7 +13,7 @@ namespace SGP.PublicApi.Extensions
                 new HealthCheckOptions
                 {
                     AllowCachingResponses = true,
-                    ResponseWriter = (context, report) => context.Response.WriteAsync(report.ToJson())
+                    ResponseWriter = (context, healthReport) => context.Response.WriteAsync(healthReport.ToJson())
                 });
 
             return app;

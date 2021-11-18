@@ -14,7 +14,7 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Application.Services
 {
-    [UnitTest(TestCategories.Application)]
+    [UnitTest]
     public class EstadoServiceTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;

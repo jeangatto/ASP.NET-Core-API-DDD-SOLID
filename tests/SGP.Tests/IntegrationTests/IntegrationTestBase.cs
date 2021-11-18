@@ -4,9 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using SGP.Infrastructure.Context;
 using SGP.Tests.Fixtures;
 using Xunit;
+using Xunit.Categories;
 
 namespace SGP.Tests.IntegrationTests
 {
+    [IntegrationTest]
     public abstract class IntegrationTestBase : IAsyncLifetime
     {
         #region Constructor

@@ -8,9 +8,6 @@ namespace SGP.Shared
 {
     public static class ServicesCollectionExtensions
     {
-        private static void BinderOptionsNonPublicProperties(BinderOptions options) =>
-            options.BindNonPublicProperties = true;
-
         public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
         {
             services.AddOptions<AuthConfig>()
@@ -27,5 +24,8 @@ namespace SGP.Shared
 
             return services;
         }
+
+        private static void BinderOptionsNonPublicProperties(BinderOptions options)
+            => options.BindNonPublicProperties = true;
     }
 }

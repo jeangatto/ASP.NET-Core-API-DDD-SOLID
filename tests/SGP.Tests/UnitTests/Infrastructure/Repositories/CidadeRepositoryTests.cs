@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Repositories;
-using SGP.Tests.Constants;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using Xunit;
@@ -10,7 +9,7 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
-    [UnitTest(TestCategories.Infrastructure)]
+    [UnitTest]
     public class CidadeRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;

@@ -13,7 +13,7 @@ namespace SGP.Application
 
             services.Scan(scan => scan
                 .FromCallingAssembly()
-                .AddClasses(@class => @class.AssignableTo<IAppService>())
+                .AddClasses(classes => classes.AssignableTo<IAppService>())
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());

@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
 using SGP.PublicApi;
 using Environments = SGP.Tests.Constants.Environments;
@@ -38,20 +37,7 @@ namespace SGP.Tests.Fixtures
                 _connection = new SqliteConnection(ConnectionString);
                 _connection.Open();
 
-                services.AddDbContext<SgpContext>(options => options
-                    .UseSqlite(_connection)
-                    .EnableDetailedErrors()
-                    .EnableSensitiveDataLogging());
-
-                using (var scope = services.BuildServiceProvider(true).CreateScope())
-                {
-                    var serviceProvider = scope.ServiceProvider;
-                    var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-                    var logger = loggerFactory.CreateLogger<WebTestApplicationFactory>();
-                    var context = serviceProvider.GetRequiredService<SgpContext>();
-                    logger.LogInformation($"Database Provider={context.Database.ProviderName} " +
-                                          $"| ConnectionString={context.Database.GetConnectionString()}");
-                }
+                services.AddDbContext<SgpContext>(options => options.UseSqlite(_connection));
             });
         }
 

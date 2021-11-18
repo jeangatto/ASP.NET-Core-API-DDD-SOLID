@@ -1,12 +1,11 @@
 using FluentAssertions;
 using SGP.Shared.Extensions;
-using SGP.Tests.Constants;
 using Xunit;
 using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Shared.Extensions
 {
-    [UnitTest(TestCategories.Shared)]
+    [UnitTest]
     public class JsonExtensionsTests
     {
         [Fact]

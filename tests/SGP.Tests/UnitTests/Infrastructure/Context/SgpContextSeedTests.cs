@@ -9,7 +9,7 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Context
 {
-    [UnitTest(TestCategories.Infrastructure)]
+    [UnitTest]
     public class SgpContextSeedTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;

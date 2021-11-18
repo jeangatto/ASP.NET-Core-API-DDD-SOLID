@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
 using Xunit;
 
@@ -19,12 +20,10 @@ namespace SGP.Tests.Fixtures
             _connection = new SqliteConnection(ConnectionString);
             _connection.Open();
 
-            var dbContextOptionsBuilder = new DbContextOptionsBuilder<SgpContext>()
-                .UseSqlite(_connection)
-                .EnableDetailedErrors()
-                .EnableSensitiveDataLogging();
+            var builder = new DbContextOptionsBuilder<SgpContext>().UseSqlite(_connection);
+            var loggerFactory = LoggerFactory.Create(_ => { });
 
-            Context = new SgpContext(dbContextOptionsBuilder.Options);
+            Context = new SgpContext(builder.Options, loggerFactory);
         }
 
         #endregion

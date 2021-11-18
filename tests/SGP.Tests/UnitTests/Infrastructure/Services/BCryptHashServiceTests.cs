@@ -4,22 +4,21 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using SGP.Infrastructure.Services;
 using SGP.Shared.Interfaces;
-using SGP.Tests.Constants;
 using Xunit;
 using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
-    [UnitTest(TestCategories.Infrastructure)]
+    [UnitTest]
     public class BCryptHashServiceTests
     {
         [Fact]
         public void Should_ReturnsFalse_WhenCompareTextDiffPreviouslyHashedText()
         {
             // Arrange
-            var hashService = CreateHashService();
             const string password = "abc12345";
             const string hash = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
+            var hashService = CreateHashService();
 
             // Act
             var actual = hashService.Compare(password, hash);
@@ -49,9 +48,9 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         public void Should_ReturnsTrue_WhenCompareTextAndPreviouslyHashedText()
         {
             // Arrange
-            var hashService = CreateHashService();
             const string password = "12345abc";
             const string hash = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
+            var hashService = CreateHashService();
 
             // Act
             var actual = hashService.Compare(password, hash);
@@ -67,8 +66,8 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         public void Should_ThrowsArgumentException_WhenCompareHashIsInvalid(string hash)
         {
             // Arrange
+           const string password = "12345abc";
             var hashService = CreateHashService();
-            const string password = "12345abc";
 
             // Act
             Action actual = () => hashService.Compare(password, hash);
@@ -84,8 +83,8 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         public void Should_ThrowsArgumentException_WhenCompareTextIsInvalid(string text)
         {
             // Arrange
-            var hashService = CreateHashService();
             const string hash = "$2a$11$pbVXrwtaofL9vV3FqhIU0esyCRj2iHHtSMvky/y.kcUaoQPQi7jiW";
+            var hashService = CreateHashService();
 
             // Act
             Action actual = () => hashService.Compare(text, hash);

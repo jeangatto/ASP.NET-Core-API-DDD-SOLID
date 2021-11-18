@@ -4,7 +4,6 @@ using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
@@ -28,19 +27,14 @@ namespace SGP.Infrastructure.Migrations
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
                 var environment = provider.GetRequiredService<IHostEnvironment>();
                 if (environment.IsDevelopment())
-                {
-                    builder
-                        .UseLoggerFactory(LoggerFactory.Create(logging => logging.AddConsole()))
-                        .EnableDetailedErrors()
-                        .EnableSensitiveDataLogging();
-                }
+                    builder.EnableDetailedErrors().EnableSensitiveDataLogging();
             });
 
             // Verificador de saúde da base de dados.
             healthChecksBuilder.AddDbContextCheck<SgpContext>(
                 tags: new[] { "database" },
-                customTestQuery: (context, cancellationToken)
-                    => context.Estados.AsNoTracking().AnyAsync(cancellationToken));
+                customTestQuery: (context, cancellationToken) =>
+                    context.Estados.AsNoTracking().AnyAsync(cancellationToken));
 
             return services;
         }

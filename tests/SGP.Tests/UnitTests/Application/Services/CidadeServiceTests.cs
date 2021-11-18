@@ -8,7 +8,6 @@ using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Services;
 using SGP.Infrastructure.Repositories;
 using SGP.Shared.Errors;
-using SGP.Tests.Constants;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using Xunit;
@@ -16,7 +15,7 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Application.Services
 {
-    [UnitTest(TestCategories.Application)]
+    [UnitTest]
     public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
@@ -27,8 +26,8 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarErroValidacao_AoObterTodosPorUfInvalido()
         {
             // Arrange
-            var service = CriarServico();
             var request = new ObterTodosPorUfRequest(string.Empty);
+            var service = CriarServico();
 
             // Act
             var actual = await service.ObterTodosPorUfAsync(request);
@@ -46,9 +45,9 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarErroNaoEncontrado_AoObterTodosPorUfInexistente()
         {
             // Arrange
-            var service = CriarServico();
             var request = new ObterTodosPorUfRequest("XX");
             var expectedError = $"Nenhuma cidade encontrada pelo UF: {request.Uf}";
+            var service = CriarServico();
 
             // Act
             var actual = await service.ObterTodosPorUfAsync(request);
@@ -66,8 +65,8 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarResultadoSucessoComCidades_AoObterTodosPorUf()
         {
             // Arrange
+            const int totalCidades = 645;
             const string ufSaoPaulo = "SP";
-            const int totalCidadesEsperado = 645;
             var request = new ObterTodosPorUfRequest(ufSaoPaulo);
             var service = CriarServico();
 
@@ -79,7 +78,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.IsSuccess.Should().BeTrue();
             actual.Value.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.HaveCount(totalCidadesEsperado)
+                .And.HaveCount(totalCidades)
                 .And.Subject.ForEach(c =>
                 {
                     c.Regiao.Should().NotBeNullOrWhiteSpace();
@@ -119,8 +118,8 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarErroValidacao_AoObterPorIbgeInvalido(int ibge)
         {
             // Arrange
-            var service = CriarServico();
             var request = new ObterPorIbgeRequest(ibge);
+            var service = CriarServico();
 
             // Act
             var actual = await service.ObterPorIbgeAsync(request);
@@ -138,9 +137,9 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarErroValidacao_AoObterPorIbgeInexistente()
         {
             // Arrange
-            var service = CriarServico();
             var request = new ObterPorIbgeRequest(int.MaxValue);
             var expectedError = $"Nenhuma cidade encontrada pelo IBGE: {request.Ibge}";
+            var service = CriarServico();
 
             // Act
             var actual = await service.ObterPorIbgeAsync(request);

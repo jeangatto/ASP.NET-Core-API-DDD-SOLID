@@ -1,12 +1,11 @@
 using AutoMapper;
 using SGP.Application.Mapper;
-using SGP.Tests.Constants;
 using Xunit;
 using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Application
 {
-    [UnitTest(TestCategories.Application)]
+    [UnitTest]
     public class DomainToResponseMapperTests
     {
         [Fact]

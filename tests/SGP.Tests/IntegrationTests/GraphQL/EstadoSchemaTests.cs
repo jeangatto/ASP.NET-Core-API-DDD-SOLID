@@ -8,12 +8,9 @@ using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using SGP.Tests.Models;
 using Xunit;
-using Xunit.Categories;
 
 namespace SGP.Tests.IntegrationTests.GraphQL
 {
-    [IntegrationTest]
-    [Category(TestCategories.GraphQL)]
     public class EstadoSchemaTests : IntegrationTestBase, IClassFixture<WebTestApplicationFactory>
     {
         public EstadoSchemaTests(WebTestApplicationFactory factory) : base(factory)
@@ -25,6 +22,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             const string queryName = QueryNames.ListarEstados;
+
             var request = new GraphQuery<EstadoResponse>(queryName)
                 .AddField(e => e.Regiao)
                 .AddField(e => e.Uf)
@@ -32,7 +30,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphRequest();
 
             // Act
-            var response = await HttpClient.SendAsync(GraphQLApiEndpoints.Estados, request);
+            var response = await HttpClient.SendAsync(EndPoints.Api.Estados, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299

@@ -1,29 +1,31 @@
 using System;
 using System.Security.Claims;
+using Bogus;
 using FluentAssertions;
+using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Services;
+using SGP.Shared.AppSettings;
 using SGP.Shared.Interfaces;
-using SGP.Tests.Constants;
-using SGP.Tests.DataFakers;
 using Xunit;
 using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
-    [UnitTest(TestCategories.Infrastructure)]
+    [UnitTest]
     public class IdentityTokenClaimServiceTests
     {
         [Fact]
         public void Should_ReturnsAcessToken_WhenGenerateAccessTokenWithValidClaims()
         {
             // Arrange
-            var service = CreateTokenClaimsService();
+            var faker = new Faker();
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Name, "Jean Gatto", ClaimValueTypes.String),
-                new Claim(ClaimTypes.Email, "jean_gatto@hotmail.com", ClaimValueTypes.Email)
+                new Claim(ClaimTypes.Name, faker.Internet.UserName(), ClaimValueTypes.String),
+                new Claim(ClaimTypes.Email, faker.Internet.Email(), ClaimValueTypes.Email)
             };
+            var service = CreateTokenClaimsService();
 
             // Act
             var actual = service.GenerateAccessToken(claims);
@@ -74,6 +76,21 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         }
 
         private static ITokenClaimsService CreateTokenClaimsService()
-            => new IdentityTokenClaimService(OptionsDataFaker.JwtConfigOptions, new LocalDateTimeService());
+            => new IdentityTokenClaimService(CreateJwtConfig(), CreateDateTimeService());
+
+        private static IDateTime CreateDateTimeService()
+            => new LocalDateTimeService();
+
+        private static IOptions<JwtConfig> CreateJwtConfig()
+        {
+            const string audience = "Clients-API-SGP";
+            const string issuer = "API-SGP";
+            const string secretKey = "p8SXNddEAEn1cCuyfVJKYA7e6hlagbLd";
+            const short seconds = 21600;
+            const bool validateAudience = true;
+            const bool validateIssuer = true;
+            var jwtConfig = JwtConfig.Create(audience, issuer, seconds, secretKey, validateAudience, validateIssuer);
+            return Options.Create(jwtConfig);
+        }
     }
 }

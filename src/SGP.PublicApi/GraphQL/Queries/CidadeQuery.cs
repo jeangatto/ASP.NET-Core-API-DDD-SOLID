@@ -28,13 +28,11 @@ namespace SGP.PublicApi.GraphQL.Queries
                     var request = new ObterPorIbgeRequest(context.GetArgument<int>("ibge"));
 
                     var result = await service.ObterPorIbgeAsync(request);
-                    if (result.IsFailed)
-                    {
-                        result.ToExecutionError(context);
-                        return null;
-                    }
+                    if (result.IsSuccess)
+                        return result.Value;
 
-                    return result.Value;
+                    result.ToExecutionError(context);
+                    return null;
                 });
 
             FieldAsync<ListGraphType<CidadeType>>(
@@ -49,13 +47,11 @@ namespace SGP.PublicApi.GraphQL.Queries
                     var request = new ObterTodosPorUfRequest(context.GetArgument<string>("uf"));
 
                     var result = await service.ObterTodosPorUfAsync(request);
-                    if (result.IsFailed)
-                    {
-                        result.ToExecutionError(context);
-                        return EmptyResult;
-                    }
+                    if (result.IsSuccess)
+                        return result.Value;
 
-                    return result.Value;
+                    result.ToExecutionError(context);
+                    return EmptyResult;
                 });
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -12,8 +13,12 @@ namespace SGP.PublicApi.Extensions
 {
     public static class JwtBearerExtensions
     {
+        private const string PolicyName = "Bearer";
+
         public static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
         {
+            Guard.Against.Null(configuration, nameof(configuration));
+
             var jwtConfig = configuration.GetWithNonPublicProperties<JwtConfig>();
             var secretKey = Encoding.ASCII.GetBytes(jwtConfig.Secret);
 
@@ -50,7 +55,7 @@ namespace SGP.PublicApi.Extensions
             // a recursos deste projeto.
             services.AddAuthorization(auth =>
             {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                auth.AddPolicy(PolicyName, new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());

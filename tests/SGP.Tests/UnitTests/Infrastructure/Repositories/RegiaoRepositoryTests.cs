@@ -10,7 +10,7 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
-    [UnitTest(TestCategories.Infrastructure)]
+    [UnitTest]
     public class RegiaoRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;

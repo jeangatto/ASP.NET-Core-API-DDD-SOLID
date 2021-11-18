@@ -8,8 +8,6 @@ namespace SGP.PublicApi.GraphQL.Schemas
     public class EstadoSchema : Schema
     {
         public EstadoSchema(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-            Query = serviceProvider.GetRequiredService<EstadoQuery>();
-        }
+            => Query = serviceProvider.GetRequiredService<EstadoQuery>();
     }
 }

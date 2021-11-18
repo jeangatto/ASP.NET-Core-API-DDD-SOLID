@@ -3,14 +3,13 @@ using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
 using SGP.Shared.Errors;
 using SGP.Shared.Extensions;
-using SGP.Tests.Constants;
 using SGP.Tests.Extensions;
 using Xunit;
 using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Application.Extensions
 {
-    [UnitTest(TestCategories.Shared)]
+    [UnitTest]
     public class BaseRequestExtensionsTests
     {
         [Fact]

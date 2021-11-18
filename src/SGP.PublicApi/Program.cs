@@ -14,13 +14,14 @@ namespace SGP.PublicApi
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            await host.MigrateDbContextAsync();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .CreateLogger();
+
+            await host.MigrateDbContextAsync();
 
             try
             {

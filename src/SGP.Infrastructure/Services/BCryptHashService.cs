@@ -22,7 +22,7 @@ namespace SGP.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Ocorreu um erro ao verificar o HASH com BCrypt; {ex.Message}");
+                _logger.LogError(ex, "Ocorreu um erro ao verificar o HASH com BCrypt");
                 throw;
             }
         }
@@ -37,7 +37,7 @@ namespace SGP.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Ocorreu um erro ao gerar o HASH com BCrypt; {ex.Message}");
+                _logger.LogError(ex, "Ocorreu um erro ao gerar o HASH com BCrypt");
                 throw;
             }
         }

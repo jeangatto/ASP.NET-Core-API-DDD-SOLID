@@ -8,8 +8,6 @@ namespace SGP.PublicApi.GraphQL.Schemas
     public class CidadeSchema : Schema
     {
         public CidadeSchema(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-            Query = serviceProvider.GetRequiredService<CidadeQuery>();
-        }
+            => Query = serviceProvider.GetRequiredService<CidadeQuery>();
     }
 }

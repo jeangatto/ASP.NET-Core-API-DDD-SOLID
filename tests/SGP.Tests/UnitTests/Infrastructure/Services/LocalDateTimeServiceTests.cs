@@ -2,13 +2,12 @@ using System;
 using FluentAssertions;
 using SGP.Infrastructure.Services;
 using SGP.Shared.Interfaces;
-using SGP.Tests.Constants;
 using Xunit;
 using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Services
 {
-    [UnitTest(TestCategories.Infrastructure)]
+    [UnitTest]
     public class LocalDateTimeServiceTests
     {
         [Fact]

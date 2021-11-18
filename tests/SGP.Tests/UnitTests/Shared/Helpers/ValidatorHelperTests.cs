@@ -2,13 +2,12 @@
 using FluentAssertions;
 using SGP.Application.Requests;
 using SGP.Shared.Helpers;
-using SGP.Tests.Constants;
 using Xunit;
 using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Shared.Helpers
 {
-    [Category(TestCategories.Shared)]
+    [UnitTest]
     public class ValidatorHelperTests
     {
         [Fact]

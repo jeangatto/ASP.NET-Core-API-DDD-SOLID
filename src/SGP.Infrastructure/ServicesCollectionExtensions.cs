@@ -19,7 +19,7 @@ namespace SGP.Infrastructure
             // REF: https://github.com/khellang/Scrutor
             services.Scan(scan => scan
                 .FromCallingAssembly()
-                .AddClasses(@class => @class.AssignableTo<IRepository>())
+                .AddClasses(classes => classes.AssignableTo<IRepository>())
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());

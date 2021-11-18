@@ -17,8 +17,6 @@ using SGP.Infrastructure.UoW;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Errors;
 using SGP.Shared.Interfaces;
-using SGP.Tests.Constants;
-using SGP.Tests.DataFakers;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using Xunit;
@@ -26,7 +24,7 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Application.Services
 {
-    [UnitTest(TestCategories.Application)]
+    [UnitTest]
     public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;
@@ -37,15 +35,14 @@ namespace SGP.Tests.UnitTests.Application.Services
         public async Task Devera_RetornarSucessoComToken_AoAutenticar()
         {
             // Arrange
-            var authConfigOptions = OptionsDataFaker.AuthConfigOptions;
-            var jwtConfigOptions = OptionsDataFaker.JwtConfigOptions;
+            var jwtConfig = CreateJwtConfig();
             var dateTime = new LocalDateTimeService();
-            var tokenClaimsService = new IdentityTokenClaimService(jwtConfigOptions, dateTime);
+            var tokenClaimsService = new IdentityTokenClaimService(jwtConfig, dateTime);
             var hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
             var usuarioRepository = new UsuarioRepository(_fixture.Context);
             var unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
             var service = CreateAuthenticationService(
-                authConfigOptions,
+                CreateAuthConfig(),
                 dateTime,
                 hashService,
                 tokenClaimsService,
@@ -70,7 +67,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             tokenResponse.AccessToken.Should().NotBeNullOrWhiteSpace();
             tokenResponse.Expiration.Should().BeAfter(tokenResponse.Created);
             tokenResponse.RefreshToken.Should().NotBeNullOrWhiteSpace();
-            tokenResponse.ExpiresIn.Should().BePositive().And.Be(jwtConfigOptions.Value.Seconds);
+            tokenResponse.ExpiresIn.Should().BePositive().And.Be(jwtConfig.Value.Seconds);
         }
 
         [Fact]
@@ -172,6 +169,25 @@ namespace SGP.Tests.UnitTests.Application.Services
                 tokenClaimsService ?? Mock.Of<ITokenClaimsService>(),
                 usuarioRepository ?? Mock.Of<IUsuarioRepository>(),
                 unitOfWork ?? Mock.Of<IUnitOfWork>());
+        }
+
+        private static IOptions<AuthConfig> CreateAuthConfig()
+        {
+            const short maximumAttempts = 3;
+            const short secondsBlocked = 1000;
+            return Options.Create(AuthConfig.Create(maximumAttempts, secondsBlocked));
+        }
+
+        private static IOptions<JwtConfig> CreateJwtConfig()
+        {
+            const string audience = "Clients-API-SGP";
+            const string issuer = "API-SGP";
+            const string secretKey = "p8SXNddEAEn1cCuyfVJKYA7e6hlagbLd";
+            const short seconds = 21600;
+            const bool validateAudience = true;
+            const bool validateIssuer = true;
+            var jwtConfig = JwtConfig.Create(audience, issuer, seconds, secretKey, validateAudience, validateIssuer);
+            return Options.Create(jwtConfig);
         }
     }
 }

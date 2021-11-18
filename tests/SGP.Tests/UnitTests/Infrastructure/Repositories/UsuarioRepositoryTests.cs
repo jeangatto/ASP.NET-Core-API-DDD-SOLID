@@ -10,7 +10,6 @@ using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Repositories;
 using SGP.Infrastructure.UoW;
 using SGP.Shared.Interfaces;
-using SGP.Tests.Constants;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using Xunit;
@@ -18,7 +17,7 @@ using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Infrastructure.Repositories
 {
-    [Category(TestCategories.Infrastructure)]
+    [UnitTest]
     public class UsuarioRepositoryTests : IClassFixture<EfSqliteFixture>
     {
         private readonly EfSqliteFixture _fixture;

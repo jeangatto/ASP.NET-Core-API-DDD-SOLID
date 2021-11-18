@@ -16,8 +16,10 @@ using SGP.PublicApi.GraphQL.Schemas;
 
 namespace SGP.PublicApi.Extensions
 {
-    public static class ServicesCollectionExtensions
+    public static class GraphQLExtensions
     {
+        private const string LoggerCategoryName = "GraphQL";
+
         public static IServiceCollection AddGraphQLWithSchemas(this IServiceCollection services)
         {
             services
@@ -26,13 +28,11 @@ namespace SGP.PublicApi.Extensions
                 .AddGraphQL((options, provider) =>
                 {
                     options.EnableMetrics = true;
-                    var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
-                    var logger = loggerFactory.CreateLogger("GraphQL");
                     options.UnhandledExceptionDelegate = context =>
                     {
-                        var ex = context.OriginalException;
-                        var message = $"Ocorreu um erro com GraphQL, mensagem: {ex.Message}";
-                        logger.LogError(ex, message);
+                        var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+                        var logger = loggerFactory.CreateLogger(LoggerCategoryName);
+                        logger.LogError(context.OriginalException, "Ocorreu um erro com o serviço do GraphQL");
                     };
                 })
                 .AddDataLoader()
@@ -49,14 +49,19 @@ namespace SGP.PublicApi.Extensions
 
         public static IApplicationBuilder UseGraphQL(this IApplicationBuilder app)
         {
-            // NOTE: Buscar uma forma de fazer via Reflection para evitar repetição de código.
-            app.UseGraphQL<CidadeSchema>(GraphQLApiEndpoints.Cidades);
-            app.UseGraphQLPlayground(new PlaygroundOptions { GraphQLEndPoint = GraphQLApiEndpoints.Cidades },
-                GraphQLPlaygroundEndpoints.Cidades);
+            // TODO: Buscar uma forma de fazer via Reflection para evitar repetição de código.
 
-            app.UseGraphQL<EstadoSchema>(GraphQLApiEndpoints.Estados);
-            app.UseGraphQLPlayground(new PlaygroundOptions { GraphQLEndPoint = GraphQLApiEndpoints.Estados },
-                GraphQLPlaygroundEndpoints.Estados);
+            app.UseGraphQL<CidadeSchema>(EndPoints.Api.Cidades);
+            app.UseGraphQLPlayground(new PlaygroundOptions
+            {
+                GraphQLEndPoint = EndPoints.Api.Cidades
+            }, EndPoints.Ui.Cidades);
+
+            app.UseGraphQL<EstadoSchema>(EndPoints.Api.Estados);
+            app.UseGraphQLPlayground(new PlaygroundOptions
+            {
+                GraphQLEndPoint = EndPoints.Api.Estados
+            }, EndPoints.Ui.Estados);
 
             return app;
         }
@@ -87,7 +92,7 @@ namespace SGP.PublicApi.Extensions
         {
             services.Scan(scan => scan
                 .FromCallingAssembly()
-                .AddClasses(@class => @class.AssignableTo<Schema>())
+                .AddClasses(classes => classes.AssignableTo<Schema>())
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsSelf()
                 .WithScopedLifetime());
