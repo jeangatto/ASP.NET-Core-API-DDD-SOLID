@@ -24,14 +24,14 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             const string ufSaoPaulo = "SP";
             const string queryName = QueryNames.CidadesPorEstado;
 
-            var request = new GraphQuery<CidadeResponse>(queryName)
+            var request = new GraphQLQuery<CidadeResponse>(queryName)
                 .AddArguments(new { uf = ufSaoPaulo })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
                 .AddField(c => c.Nome)
                 .AddField(c => c.Ibge)
-                .ToGraphRequest();
+                .ToGraphQLRequest();
 
             // Act
             var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
@@ -58,10 +58,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             // Arrange
             const string ufNaoExistente = "XX";
 
-            var request = new GraphQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
+            var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
                 .AddArguments(new { uf = ufNaoExistente })
                 .AddField(c => c.Nome)
-                .ToGraphRequest();
+                .ToGraphQLRequest();
 
             // Act
             var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
@@ -71,7 +71,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var errors = await response.Content.GetGraphErrorsAsync();
             errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
 
         [Fact]
@@ -80,10 +80,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             // Arrange
             const int ibgeNaoExistente = 999999999;
 
-            var request = new GraphQuery<CidadeResponse>(QueryNames.CidadePorIbge)
+            var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
                 .AddArguments(new { ibge = ibgeNaoExistente })
                 .AddField(c => c.Ibge)
-                .ToGraphRequest();
+                .ToGraphQLRequest();
 
             // Act
             var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
@@ -93,7 +93,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var errors = await response.Content.GetGraphErrorsAsync();
             errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
 
         [Fact]
@@ -102,10 +102,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             // Arrange
             const int ibgeInvalido = -1;
 
-            var request = new GraphQuery<CidadeResponse>(QueryNames.CidadePorIbge)
+            var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
                 .AddArguments(new { ibge = ibgeInvalido })
                 .AddField(c => c.Ibge)
-                .ToGraphRequest();
+                .ToGraphQLRequest();
 
             // Act
             var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
@@ -115,7 +115,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var errors = await response.Content.GetGraphErrorsAsync();
             errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
 
         [Fact]
@@ -124,10 +124,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             // Arrange
             const string ufInvalido = "XXX.XX_X";
 
-            var request = new GraphQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
+            var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
                 .AddArguments(new { uf = ufInvalido })
                 .AddField(c => c.Nome)
-                .ToGraphRequest();
+                .ToGraphQLRequest();
 
             // Act
             var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
@@ -137,7 +137,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var errors = await response.Content.GetGraphErrorsAsync();
             errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
 
         [Fact]
@@ -147,14 +147,14 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             const int ibgeVotuporanga = 3557105;
             const string queryName = QueryNames.CidadePorIbge;
 
-            var request = new GraphQuery<CidadeResponse>(queryName)
+            var request = new GraphQLQuery<CidadeResponse>(queryName)
                 .AddArguments(new { ibge = ibgeVotuporanga })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
                 .AddField(c => c.Nome)
                 .AddField(c => c.Ibge)
-                .ToGraphRequest();
+                .ToGraphQLRequest();
 
             // Act
             var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);

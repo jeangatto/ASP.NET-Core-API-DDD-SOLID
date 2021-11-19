@@ -5,7 +5,7 @@ namespace SGP.Tests.Extensions
 {
     public static class QueryExtensions
     {
-        public static GraphQLRequest ToGraphRequest(this IQuery query)
+        public static GraphQLRequest ToGraphQLRequest(this IQuery query)
             => new() { Query = "{" + query.Build() + "}" };
     }
 }

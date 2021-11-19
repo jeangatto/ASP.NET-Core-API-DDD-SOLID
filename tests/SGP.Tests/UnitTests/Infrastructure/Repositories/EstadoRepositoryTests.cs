@@ -39,7 +39,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 {
                     e.Id.Should().NotBeEmpty();
                     e.RegiaoId.Should().NotBeEmpty();
-                    e.Nome.Should().NotBeNullOrEmpty();
+                    e.Nome.Should().NotBeNullOrWhiteSpace();
                     e.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
                     e.Regiao.Should().NotBeNull();
                     e.Regiao.Id.Should().NotBeEmpty();
@@ -64,7 +64,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
                 {
                     e.Id.Should().NotBeEmpty();
                     e.RegiaoId.Should().NotBeEmpty();
-                    e.Nome.Should().NotBeNullOrEmpty();
+                    e.Nome.Should().NotBeNullOrWhiteSpace();
                     e.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
                     e.Regiao.Should().NotBeNull();
                     e.Regiao.Id.Should().NotBeEmpty();

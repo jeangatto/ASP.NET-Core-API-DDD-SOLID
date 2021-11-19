@@ -40,7 +40,7 @@ namespace SGP.Tests.UnitTests.Application.Services
                 {
                     e.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
                     e.Regiao.Should().NotBeNullOrWhiteSpace();
-                    e.Nome.Should().NotBeNullOrEmpty();
+                    e.Nome.Should().NotBeNullOrWhiteSpace();
                 });
         }
 

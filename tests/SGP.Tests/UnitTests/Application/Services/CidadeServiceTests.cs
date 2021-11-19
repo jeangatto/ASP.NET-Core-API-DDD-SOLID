@@ -38,7 +38,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.IsFailed.Should().BeTrue();
             actual.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.IsFailed.Should().BeTrue();
             actual.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrEmpty().And.Be(expectedError));
+                .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
         }
 
         [Fact]
@@ -130,7 +130,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.IsFailed.Should().BeTrue();
             actual.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
 
         [Fact]
@@ -150,7 +150,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.IsFailed.Should().BeTrue();
             actual.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrEmpty().And.Be(expectedError));
+                .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
         }
 
         private ICidadeService CriarServico()

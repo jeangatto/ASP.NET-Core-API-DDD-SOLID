@@ -109,7 +109,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.IsFailed.Should().BeTrue();
             actual.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.SatisfyRespectively(error => error.Message.Should().Be(expectedError));
+                .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
 
             usuarioRepositoryMock.Verify(s => s.ObterPorEmailAsync(It.IsNotNull<Email>()), Times.Once);
             dateTimeMock.Verify(s => s.Now, Times.Once);
@@ -131,7 +131,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.IsFailed.Should().BeTrue();
             actual.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
 
         [Fact]
@@ -151,7 +151,7 @@ namespace SGP.Tests.UnitTests.Application.Services
             actual.IsFailed.Should().BeTrue();
             actual.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.SatisfyRespectively(error => error.Message.Should().Be(expectedError));
+                .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
         }
 
         private static IAuthenticationService CreateAuthenticationService(

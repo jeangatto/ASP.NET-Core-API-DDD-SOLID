@@ -38,7 +38,14 @@ namespace SGP.Infrastructure.Context
             // Collation: define o conjunto de regras que o servidor irá utilizar para ordenação e comparação entre textos.
             // NOTE: Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
             modelBuilder.UseCollation("Latin1_General_CI_AI");
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UsuarioMap).Assembly);
+
+            // Configurações dos modelos.
+            modelBuilder.ApplyConfiguration(new CidadeMap());
+            modelBuilder.ApplyConfiguration(new EstadoMap());
+            modelBuilder.ApplyConfiguration(new RegiaoMap());
+            modelBuilder.ApplyConfiguration(new TokenMap());
+            modelBuilder.ApplyConfiguration(new UsuarioMap());
+
             modelBuilder.RemoveCascadeDeleteConvention();
         }
     }

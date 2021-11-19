@@ -41,7 +41,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
             var actual = hashService.Hash(text);
 
             // Assert
-            actual.Should().NotBeNullOrEmpty().And.NotBeSameAs(text);
+            actual.Should().NotBeNullOrWhiteSpace().And.NotBeSameAs(text);
         }
 
         [Fact]

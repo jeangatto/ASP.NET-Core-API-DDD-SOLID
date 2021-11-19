@@ -19,7 +19,7 @@ namespace SGP.Tests.UnitTests.Shared.Extensions
             var actual = user.ToJson();
 
             // Assert
-            actual.Should().NotBeNullOrEmpty().And.BeEquivalentTo(expectedJson);
+            actual.Should().NotBeNullOrWhiteSpace().And.BeEquivalentTo(expectedJson);
         }
 
         [Fact]

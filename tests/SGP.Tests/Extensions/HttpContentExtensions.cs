@@ -11,7 +11,7 @@ namespace SGP.Tests.Extensions
 {
     public static class HttpContentExtensions
     {
-        private static readonly IEnumerable<GraphError> EmptyErrors = Enumerable.Empty<GraphError>();
+        private static readonly IEnumerable<GraphQLError> EmptyErrors = Enumerable.Empty<GraphQLError>();
 
         public static async Task<T> GetGraphDataAsync<T>(this HttpContent httpContent, string fieldName)
         {
@@ -24,14 +24,14 @@ namespace SGP.Tests.Extensions
             return jToken?.HasValues == true ? jToken.ToString().FromJson<T>() : default;
         }
 
-        public static async Task<IEnumerable<GraphError>> GetGraphErrorsAsync(this HttpContent httpContent)
+        public static async Task<IEnumerable<GraphQLError>> GetGraphErrorsAsync(this HttpContent httpContent)
         {
             Guard.Against.Null(httpContent, nameof(httpContent));
 
             var response = await httpContent.ReadAsStringAsync();
             var jObject = JObject.Parse(response);
             var jToken = jObject.SelectToken("errors");
-            return jToken?.HasValues == true ? jToken.ToString().FromJson<IEnumerable<GraphError>>() : EmptyErrors;
+            return jToken?.HasValues == true ? jToken.ToString().FromJson<IEnumerable<GraphQLError>>() : EmptyErrors;
         }
     }
 }

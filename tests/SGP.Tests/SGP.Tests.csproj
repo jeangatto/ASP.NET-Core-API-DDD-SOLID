@@ -17,7 +17,6 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="FluentAssertions" Version="6.2.0" />
-        <PackageReference Include="FluentAssertions.Analyzers" Version="0.13.0" />
         <PackageReference Include="FluentValidation" Version="10.3.4" />
         <PackageReference Include="GraphQL.Query.Builder" Version="1.2.1" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.11" />

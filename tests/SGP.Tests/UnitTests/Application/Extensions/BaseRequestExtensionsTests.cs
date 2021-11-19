@@ -28,7 +28,7 @@ namespace SGP.Tests.UnitTests.Application.Extensions
             actual.IsFailed.Should().BeTrue();
             actual.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace SGP.Tests.UnitTests.Application.Extensions
             actual.IsFailed.Should().BeTrue();
             actual.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
 
         [Fact]

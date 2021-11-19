@@ -85,7 +85,7 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
             apiResponse.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(expectedCount)
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrEmpty());
+                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
 
         [Fact]
