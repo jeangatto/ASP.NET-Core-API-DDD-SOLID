@@ -15,17 +15,14 @@ namespace SGP.Shared.AppSettings
             short seconds,
             string secret,
             bool validateAudience,
-            bool validateIssuer)
+            bool validateIssuer) => new()
         {
-            return new JwtConfig
-            {
-                Audience = audience,
-                Issuer = issuer,
-                Seconds = seconds,
-                Secret = secret,
-                ValidateAudience = validateAudience,
-                ValidateIssuer = validateIssuer
-            };
-        }
+            Audience = audience,
+            Issuer = issuer,
+            Seconds = seconds,
+            Secret = secret,
+            ValidateAudience = validateAudience,
+            ValidateIssuer = validateIssuer
+        };
     }
 }

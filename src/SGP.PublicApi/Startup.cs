@@ -72,9 +72,7 @@ namespace SGP.PublicApi
             IApiVersionDescriptionProvider apiVersionProvider)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
 
             ValidatorOptions.Global.Configure();
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
@@ -98,6 +96,9 @@ namespace SGP.PublicApi
 
         #region ExceptionHandler
 
+        private static readonly ApiError ApiDefaultError =
+            new("Ocorreu um erro interno ao processar a sua solicitação.");
+
         /// <summary>
         /// Middleware nativo para tratamento de exceções.
         /// </summary>
@@ -116,8 +117,7 @@ namespace SGP.PublicApi
                     var logger = loggerFactory.CreateLogger<Startup>();
                     logger.LogError(exceptionHandler.Error, exceptionHandler.Error.Message);
 
-                    var apiError = new ApiError("Ocorreu um erro interno ao processar a sua solicitação.");
-                    var apiResponse = new ApiResponse(StatusCodes.Status500InternalServerError, apiError);
+                    var apiResponse = new ApiResponse(StatusCodes.Status500InternalServerError, ApiDefaultError);
                     await context.Response.WriteAsync(apiResponse.ToJson());
                 }
             });

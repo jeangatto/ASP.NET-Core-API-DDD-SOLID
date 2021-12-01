@@ -44,13 +44,14 @@ namespace SGP.PublicApi
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
-                    webBuilder.UseKestrel(options =>
-                    {
-                        options.AddServerHeader = false;
-                        options.AllowSynchronousIO = true;
-                    });
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                        .UseContentRoot(Directory.GetCurrentDirectory())
+                        .UseKestrel(options =>
+                        {
+                            options.AddServerHeader = false;
+                            options.AllowSynchronousIO = true;
+                        })
+                        .UseStartup<Startup>();
                 })
                 .UseDefaultServiceProvider((context, options) =>
                 {

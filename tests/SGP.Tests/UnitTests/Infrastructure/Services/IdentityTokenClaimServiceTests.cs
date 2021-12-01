@@ -18,12 +18,12 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         public void Should_ReturnsAcessToken_WhenGenerateAccessTokenWithValidClaims()
         {
             // Arrange
-            var faker = new Faker();
+            var faker = new Faker().Person;
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Name, faker.Internet.UserName(), ClaimValueTypes.String),
-                new Claim(ClaimTypes.Email, faker.Internet.Email(), ClaimValueTypes.Email)
+                new Claim(ClaimTypes.Name, faker.UserName, ClaimValueTypes.String),
+                new Claim(ClaimTypes.Email, faker.Email, ClaimValueTypes.Email)
             };
             var service = CreateTokenClaimsService();
 

@@ -6,8 +6,6 @@ namespace SGP.Shared.AppSettings
         public short SecondsBlocked { get; private set; }
 
         public static AuthConfig Create(short maximumAttempts, short secondsBlocked)
-        {
-            return new AuthConfig { MaximumAttempts = maximumAttempts, SecondsBlocked = secondsBlocked };
-        }
+            => new() { MaximumAttempts = maximumAttempts, SecondsBlocked = secondsBlocked };
     }
 }
