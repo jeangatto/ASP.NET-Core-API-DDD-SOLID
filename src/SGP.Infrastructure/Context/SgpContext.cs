@@ -11,8 +11,17 @@ namespace SGP.Infrastructure.Context
     {
         private readonly ILoggerFactory _loggerFactory;
 
-        public SgpContext(DbContextOptions<SgpContext> options, ILoggerFactory loggerFactory) : base(options)
-            => _loggerFactory = loggerFactory;
+        /// <summary>
+        /// Collation: define o conjunto de regras que o servidor irá utilizar para ordenação e comparação entre textos.
+        /// Latin1_General_CI_AI: Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
+        /// </summary>
+        private const string Collation = "Latin1_General_CI_AI";
+
+        public SgpContext(DbContextOptions<SgpContext> options, ILoggerFactory loggerFactory)
+            : base(options)
+        {
+            _loggerFactory = loggerFactory;
+        }
 
         public override ChangeTracker ChangeTracker
         {
@@ -31,21 +40,14 @@ namespace SGP.Infrastructure.Context
         public DbSet<Token> Tokens { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseLoggerFactory(_loggerFactory);
+        {
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Collation: define o conjunto de regras que o servidor irá utilizar para ordenação e comparação entre textos.
-            // NOTE: Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
-            modelBuilder.UseCollation("Latin1_General_CI_AI");
-
-            // Configurações dos modelos.
-            modelBuilder.ApplyConfiguration(new CidadeMap());
-            modelBuilder.ApplyConfiguration(new EstadoMap());
-            modelBuilder.ApplyConfiguration(new RegiaoMap());
-            modelBuilder.ApplyConfiguration(new TokenMap());
-            modelBuilder.ApplyConfiguration(new UsuarioMap());
-
+            modelBuilder.UseCollation(Collation);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UsuarioMap).Assembly);
             modelBuilder.RemoveCascadeDeleteConvention();
         }
     }
