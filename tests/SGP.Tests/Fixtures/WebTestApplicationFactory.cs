@@ -22,23 +22,23 @@ namespace SGP.Tests.Fixtures
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseEnvironment(Environments.Test);
+            builder
+                .UseEnvironment(Environments.Test)
+                .UseDefaultServiceProvider(options => options.ValidateScopes = true)
+                .ConfigureTestServices(services => services.RemoveAll<IHostedService>())
+                .ConfigureServices(services =>
+                {
+                    var descriptor =
+                        services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
 
-            builder.UseDefaultServiceProvider(options => options.ValidateScopes = true);
+                    if (descriptor != null)
+                        services.Remove(descriptor);
 
-            builder.ConfigureTestServices(services => services.RemoveAll<IHostedService>());
+                    _connection = new SqliteConnection(ConnectionString);
+                    _connection.Open();
 
-            builder.ConfigureServices(services =>
-            {
-                var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
-                if (descriptor != null)
-                    services.Remove(descriptor);
-
-                _connection = new SqliteConnection(ConnectionString);
-                _connection.Open();
-
-                services.AddDbContext<SgpContext>(options => options.UseSqlite(_connection));
-            });
+                    services.AddDbContext<SgpContext>(options => options.UseSqlite(_connection));
+                });
         }
 
         protected override void Dispose(bool disposing)

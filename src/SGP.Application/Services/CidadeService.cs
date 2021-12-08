@@ -14,14 +14,10 @@ using SGP.Shared.Extensions;
 
 namespace SGP.Application.Services
 {
-    public class CidadeService :  ICidadeService
+    public class CidadeService : ICidadeService
     {
-        private static readonly string ObterPorIbgeCacheKey =
-            $"{nameof(CidadeService)}__{nameof(ObterPorIbgeAsync)}__{{0}}";
-
-        private static readonly string ObterTodosPorUfCacheKey =
-            $"{nameof(CidadeService)}__{nameof(ObterTodosPorUfAsync)}__{{0}}";
-
+        private const string ObterPorIbgeCacheKey = $"{nameof(CidadeService)}_{nameof(ObterPorIbgeAsync)}_{{0}}";
+        private const string ObterTodosPorUfCacheKey = $"{nameof(CidadeService)}_{nameof(ObterTodosPorUfAsync)}_{{0}}";
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         private readonly ICidadeRepository _repository;
