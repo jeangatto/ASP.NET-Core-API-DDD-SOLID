@@ -17,8 +17,7 @@ namespace SGP.Infrastructure.Context
         /// </summary>
         private const string Collation = "Latin1_General_CI_AI";
 
-        public SgpContext(DbContextOptions<SgpContext> options, ILoggerFactory loggerFactory)
-            : base(options)
+        public SgpContext(DbContextOptions<SgpContext> options, ILoggerFactory loggerFactory) : base(options)
         {
             _loggerFactory = loggerFactory;
         }

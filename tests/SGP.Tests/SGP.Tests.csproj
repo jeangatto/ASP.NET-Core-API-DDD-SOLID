@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <IsPackable>false</IsPackable>
         <SonarQubeTestProject>True</SonarQubeTestProject>
     </PropertyGroup>
@@ -17,11 +17,11 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="FluentAssertions" Version="6.2.0"/>
-        <PackageReference Include="FluentValidation" Version="10.3.5"/>
+        <PackageReference Include="FluentValidation" Version="10.3.6"/>
         <PackageReference Include="GraphQL.Query.Builder" Version="1.2.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.11"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.11"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0"/>
         <PackageReference Include="Moq" Version="4.16.1"/>
         <PackageReference Include="xunit" Version="2.4.1"/>

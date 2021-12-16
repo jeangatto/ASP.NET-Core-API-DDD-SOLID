@@ -49,12 +49,10 @@ namespace SGP.Infrastructure.Services
 
         public string GenerateRefreshToken()
         {
-            using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
-            {
-                var randomBytes = new byte[RefreshTokenBytesLength];
-                cryptoServiceProvider.GetBytes(randomBytes);
-                return Convert.ToBase64String(randomBytes);
-            }
+            using var rnd = RandomNumberGenerator.Create();
+            var randomBytes = new byte[RefreshTokenBytesLength];
+            rnd.GetBytes(randomBytes);
+            return Convert.ToBase64String(randomBytes);
         }
 
         private SigningCredentials CreateSigningCredentials()

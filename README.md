@@ -10,7 +10,7 @@
 [![DevSkim](https://github.com/JeanGatto/SGP/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/devskim-analysis.yml)
 [![License](https://img.shields.io/github/license/JeanGatto/SGP.svg)](LICENSE)
 
-C# 9 + [.NET 5](https://docs.microsoft.com/pt-br/dotnet/core/dotnet-five ".NET 5") + [EF Core 5.0](https://docs.microsoft.com/pt-br/ef/core/what-is-new/ef-core-5.0/whatsnew "EF Core 5.0") + JWT Bearer + OpenAPI (Swagger)
+C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6) + [EF Core 6.0](https://docs.microsoft.com/pt-br/ef/core/what-is-new/ef-core-6.0/whatsnew) + JWT Bearer + OpenAPI (Swagger)
 
 - RESTful API + GraphQL
 - Aplicado os princípios do **S.O.L.I.D.**
