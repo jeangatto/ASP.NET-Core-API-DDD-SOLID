@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Net.Mime;
 using AutoMapper;
 using FluentValidation;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +37,10 @@ namespace SGP.PublicApi
             services
                 .AddCors()
                 .AddHttpContextAccessor()
-                .AddResponseCompression()
+                .AddResponseCompression(options =>
+                {
+                    options.Providers.Add<GzipCompressionProvider>();
+                })
                 .AddMemoryCache()
                 .AddApiVersioningAndApiExplorer()
                 .AddOpenApi()
@@ -45,6 +50,10 @@ namespace SGP.PublicApi
                 .AddInfrastructure()
                 .AddDbContext(services.AddHealthChecks())
                 .AddGraphQLWithSchemas()
+                .Configure<GzipCompressionProviderOptions>(options =>
+                {
+                    options.Level = CompressionLevel.Optimal;
+                })
                 .Configure<ForwardedHeadersOptions>(options =>
                 {
                     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
