@@ -16,7 +16,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="FluentAssertions" Version="6.3.0"/>
+        <PackageReference Include="FluentAssertions" Version="6.4.0"/>
         <PackageReference Include="FluentValidation" Version="10.3.6"/>
         <PackageReference Include="GraphQL.Query.Builder" Version="1.2.1"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.1"/>
