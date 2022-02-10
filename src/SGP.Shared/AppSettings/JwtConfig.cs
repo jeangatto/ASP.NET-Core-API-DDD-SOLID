@@ -16,13 +16,13 @@ namespace SGP.Shared.AppSettings
             string secret,
             bool validateAudience,
             bool validateIssuer) => new()
-        {
-            Audience = audience,
-            Issuer = issuer,
-            Seconds = seconds,
-            Secret = secret,
-            ValidateAudience = validateAudience,
-            ValidateIssuer = validateIssuer
-        };
+            {
+                Audience = audience,
+                Issuer = issuer,
+                Seconds = seconds,
+                Secret = secret,
+                ValidateAudience = validateAudience,
+                ValidateIssuer = validateIssuer
+            };
     }
 }

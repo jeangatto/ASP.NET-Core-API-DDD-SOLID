@@ -121,7 +121,7 @@ namespace SGP.Application.Services
 
             // Verificando se o token de atualização está expirado.
             var token = usuario.Tokens.FirstOrDefault(t => t.Atualizacao == request.Token);
-            if (token == null || !token.EstaValido(_dateTime))
+            if (token?.EstaValido(_dateTime) != true)
                 return Result.Fail<TokenResponse>("O token inválido ou expirado.");
 
             // Gerando as regras (roles).

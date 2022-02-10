@@ -37,10 +37,7 @@ namespace SGP.PublicApi
             services
                 .AddCors()
                 .AddHttpContextAccessor()
-                .AddResponseCompression(options =>
-                {
-                    options.Providers.Add<GzipCompressionProvider>();
-                })
+                .AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>())
                 .AddMemoryCache()
                 .AddApiVersioningAndApiExplorer()
                 .AddOpenApi()
@@ -50,14 +47,8 @@ namespace SGP.PublicApi
                 .AddInfrastructure()
                 .AddDbContext(services.AddHealthChecks())
                 .AddGraphQLWithSchemas()
-                .Configure<GzipCompressionProviderOptions>(options =>
-                {
-                    options.Level = CompressionLevel.Optimal;
-                })
-                .Configure<ForwardedHeadersOptions>(options =>
-                {
-                    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-                })
+                .Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal)
+                .Configure<ForwardedHeadersOptions>(options => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto)
                 .Configure<RouteOptions>(options =>
                 {
                     options.LowercaseUrls = true;

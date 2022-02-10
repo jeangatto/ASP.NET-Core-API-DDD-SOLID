@@ -66,7 +66,7 @@ namespace SGP.Tests.UnitTests.Infrastructure.Services
         public void Should_ThrowsArgumentException_WhenCompareHashIsInvalid(string hash)
         {
             // Arrange
-           const string password = "12345abc";
+            const string password = "12345abc";
             var hashService = CreateHashService();
 
             // Act

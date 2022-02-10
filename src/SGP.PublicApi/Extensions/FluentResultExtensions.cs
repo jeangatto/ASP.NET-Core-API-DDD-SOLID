@@ -23,11 +23,9 @@ namespace SGP.PublicApi.Extensions
             => result.IsFailed ? result.ToHttpNonSuccessResult() : EmptyOkResult;
 
         public static ObjectResult ToHttpResult<T>(this Result<T> result)
-        {
-            return result.IsFailed
+            => result.IsFailed
                 ? result.ToHttpNonSuccessResult()
                 : new OkObjectResult(new ApiResponse<T>(StatusCodes.Status200OK, result.Value));
-        }
 
         private static ObjectResult ToHttpNonSuccessResult(this ResultBase result)
         {
@@ -40,12 +38,6 @@ namespace SGP.PublicApi.Extensions
         }
 
         private static IEnumerable<string> GroupByErrors(this IEnumerable<IError> errors)
-        {
-            return errors
-                .Select(error => error.Message)
-                .Distinct()
-                .OrderBy(message => message)
-                .ToList();
-        }
+            => errors.Select(error => error.Message).Distinct().OrderBy(message => message).ToList();
     }
 }

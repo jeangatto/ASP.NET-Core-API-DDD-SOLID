@@ -9,13 +9,13 @@ namespace SGP.Infrastructure.Context
 {
     public class SgpContext : DbContext
     {
-        private readonly ILoggerFactory _loggerFactory;
-
         /// <summary>
         /// Collation: define o conjunto de regras que o servidor irá utilizar para ordenação e comparação entre textos.
         /// Latin1_General_CI_AI: Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
         /// </summary>
         private const string Collation = "Latin1_General_CI_AI";
+
+        private readonly ILoggerFactory _loggerFactory;
 
         public SgpContext(DbContextOptions<SgpContext> options, ILoggerFactory loggerFactory) : base(options)
         {
@@ -35,13 +35,11 @@ namespace SGP.Infrastructure.Context
         public DbSet<Cidade> Cidades { get; set; }
         public DbSet<Estado> Estados { get; set; }
         public DbSet<Regiao> Regioes { get; set; }
-        public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Token> Tokens { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseLoggerFactory(_loggerFactory);
-        }
+            => optionsBuilder.UseLoggerFactory(_loggerFactory);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

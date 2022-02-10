@@ -49,8 +49,6 @@ namespace SGP.PublicApi.Extensions
 
         public static IApplicationBuilder UseGraphQL(this IApplicationBuilder app)
         {
-            // TODO: Buscar uma forma de fazer via Reflection para evitar repetição de código.
-
             app.UseGraphQL<CidadeSchema>(EndPoints.Api.Cidades);
             app.UseGraphQLPlayground(new PlaygroundOptions
             {

@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using SGP.Infrastructure.Context;
 using SGP.PublicApi;
-using Environments = SGP.Tests.Constants.Environments;
 
 namespace SGP.Tests.Fixtures
 {
@@ -23,14 +22,12 @@ namespace SGP.Tests.Fixtures
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder
-                .UseEnvironment(Environments.Test)
+                .UseEnvironment(Constants.Environments.Test)
                 .UseDefaultServiceProvider(options => options.ValidateScopes = true)
                 .ConfigureTestServices(services => services.RemoveAll<IHostedService>())
                 .ConfigureServices(services =>
                 {
-                    var descriptor =
-                        services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
-
+                    var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
                     if (descriptor != null)
                         services.Remove(descriptor);
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SGP.Infrastructure.Migrations.Migrations
@@ -14,10 +14,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Regioes", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Regioes", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Usuarios",
@@ -31,10 +28,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                     BloqueioExpiraEm = table.Column<DateTime>(type: "datetime2", nullable: true),
                     NumeroFalhasAoAcessar = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Usuarios", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Usuarios", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Estados",
