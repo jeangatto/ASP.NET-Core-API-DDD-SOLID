@@ -14,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using SGP.Application;
 using SGP.Infrastructure;
 using SGP.Infrastructure.Migrations;
@@ -84,9 +83,9 @@ namespace SGP.PublicApi
                 .UseForwardedHeaders()
                 .UseGraphQL()
                 .UseHttpsRedirection()
-                .UseSerilogRequestLogging()
                 .UseHsts()
                 .UseRouting()
+                .UseHttpLogging()
                 .UseResponseCompression()
                 .UseAuthentication()
                 .UseAuthorization()

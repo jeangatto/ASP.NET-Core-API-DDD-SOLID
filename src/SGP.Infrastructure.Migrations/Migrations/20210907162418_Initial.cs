@@ -136,20 +136,11 @@ namespace SGP.Infrastructure.Migrations.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Cidades");
-
-            migrationBuilder.DropTable(
-                name: "Tokens");
-
-            migrationBuilder.DropTable(
-                name: "Estados");
-
-            migrationBuilder.DropTable(
-                name: "Usuarios");
-
-            migrationBuilder.DropTable(
-                name: "Regioes");
+            migrationBuilder.DropTable(name: "Cidades");
+            migrationBuilder.DropTable(name: "Tokens");
+            migrationBuilder.DropTable(name: "Estados");
+            migrationBuilder.DropTable(name: "Usuarios");
+            migrationBuilder.DropTable(name: "Regioes");
         }
     }
 }

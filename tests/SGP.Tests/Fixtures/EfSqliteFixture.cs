@@ -12,12 +12,11 @@ namespace SGP.Tests.Fixtures
     {
         #region Constructor
 
-        private const string ConnectionString = "Data Source=:memory:";
         private readonly SqliteConnection _connection;
 
         public EfSqliteFixture()
         {
-            _connection = new SqliteConnection(ConnectionString);
+            _connection = new SqliteConnection(ConnectionString.Sqlite);
             _connection.Open();
 
             var builder = new DbContextOptionsBuilder<SgpContext>().UseSqlite(_connection);

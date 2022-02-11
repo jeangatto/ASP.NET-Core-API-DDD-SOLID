@@ -1,10 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<SonarQubeTestProject>True</SonarQubeTestProject>
 		<GenerateTargetFrameworkAttribute>true</GenerateTargetFrameworkAttribute>
 	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="appsettings.Test.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="Ardalis.GuardClauses" Version="4.0.0" />
@@ -17,7 +24,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="FluentAssertions" Version="6.4.0" />
+		<PackageReference Include="FluentAssertions" Version="6.5.0" />
 		<PackageReference Include="FluentValidation" Version="10.3.6" />
 		<PackageReference Include="GraphQL.Query.Builder" Version="1.2.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.2" />

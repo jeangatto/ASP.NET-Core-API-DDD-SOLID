@@ -1,10 +1,7 @@
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Events;
 using SGP.PublicApi.Extensions;
 
 namespace SGP.PublicApi
@@ -14,34 +11,12 @@ namespace SGP.PublicApi
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .CreateLogger();
-
             await host.MigrateDbContextAsync();
-
-            try
-            {
-                Log.Information("Starting web host");
-                await host.RunAsync();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Host terminated unexpectedly");
-                throw;
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
+            await host.RunAsync();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
