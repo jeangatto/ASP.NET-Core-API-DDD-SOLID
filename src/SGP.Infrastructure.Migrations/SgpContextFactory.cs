@@ -35,7 +35,11 @@ namespace SGP.Infrastructure.Migrations
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
 
-            var loggerFactory = LoggerFactory.Create(logging => logging.AddConsole());
+            var loggerFactory = LoggerFactory.Create(logging =>
+            {
+                logging.ClearProviders();
+                logging.AddConsole();
+            });
 
             return new SgpContext(builder.Options, loggerFactory);
         }

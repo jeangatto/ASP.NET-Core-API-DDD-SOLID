@@ -26,8 +26,7 @@ namespace SGP.Infrastructure.Migrations
 
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
                 var environment = provider.GetRequiredService<IHostEnvironment>();
-                if (environment.IsDevelopment())
-                    builder.EnableDetailedErrors().EnableSensitiveDataLogging();
+                if (environment.IsDevelopment()) builder.EnableDetailedErrors().EnableSensitiveDataLogging();
             });
 
             // Verificador de saúde da base de dados.
