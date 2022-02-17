@@ -7,12 +7,14 @@ using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using SGP.Tests.Models;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace SGP.Tests.IntegrationTests.GraphQL
 {
     public class CidadeSchemaTests : IntegrationTestBase, IClassFixture<WebTestApplicationFactory>
     {
-        public CidadeSchemaTests(WebTestApplicationFactory factory) : base(factory)
+        public CidadeSchemaTests(WebTestApplicationFactory factory, ITestOutputHelper output)
+            : base(factory, output)
         {
         }
 
@@ -33,8 +35,10 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
+
+
             // Act
-            var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
+            var response = await HttpClient.SendAsync(Output, EndPoints.Api.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -64,7 +68,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphQLRequest();
 
             // Act
-            var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
+            var response = await HttpClient.SendAsync(Output, EndPoints.Api.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -86,7 +90,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphQLRequest();
 
             // Act
-            var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
+            var response = await HttpClient.SendAsync(Output, EndPoints.Api.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -108,7 +112,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphQLRequest();
 
             // Act
-            var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
+            var response = await HttpClient.SendAsync(Output, EndPoints.Api.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -130,7 +134,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphQLRequest();
 
             // Act
-            var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
+            var response = await HttpClient.SendAsync(Output, EndPoints.Api.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -157,7 +161,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphQLRequest();
 
             // Act
-            var response = await HttpClient.SendAsync(EndPoints.Api.Cidades, request);
+            var response = await HttpClient.SendAsync(Output, EndPoints.Api.Cidades, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
