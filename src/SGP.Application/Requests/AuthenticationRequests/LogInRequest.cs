@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using SGP.Shared.Helpers;
 using SGP.Shared.Messages;
 
@@ -22,9 +23,7 @@ namespace SGP.Application.Requests.AuthenticationRequests
         [MinLength(4)]
         public string Password { get; }
 
-        public override void Validate()
-        {
-            ValidationResult = ValidatorHelper.Validate<LogInRequestValidator>(this);
-        }
+        public async override Task ValidateAsync()
+            => ValidationResult = await ValidatorHelper.ValidateAsync<LogInRequestValidator>(this);
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using SGP.Shared.Helpers;
 using SGP.Shared.Messages;
 
@@ -9,9 +10,7 @@ namespace SGP.Application.Requests.CidadeRequests
 
         public int Ibge { get; }
 
-        public override void Validate()
-        {
-            ValidationResult = ValidatorHelper.Validate<ObterPorIbgeRequestValidator>(this);
-        }
+        public async override Task ValidateAsync()
+            => ValidationResult = await ValidatorHelper.ValidateAsync<ObterPorIbgeRequestValidator>(this);
     }
 }

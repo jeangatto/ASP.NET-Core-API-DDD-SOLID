@@ -44,7 +44,7 @@ namespace SGP.Application.Services
                 cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
 
                 // Validando a requisição.
-                request.Validate();
+                await request.ValidateAsync();
                 if (!request.IsValid)
                 {
                     // Retornando os erros da validação.
@@ -76,7 +76,7 @@ namespace SGP.Application.Services
                 cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
 
                 // Validando a requisição.
-                request.Validate();
+                await request.ValidateAsync();
                 if (!request.IsValid)
                 {
                     // Retornando os erros da validação.

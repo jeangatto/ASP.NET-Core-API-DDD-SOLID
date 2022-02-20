@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FluentValidation.Results;
 using Newtonsoft.Json;
 
@@ -8,10 +9,7 @@ namespace SGP.Shared.Messages
     /// </summary>
     public abstract class BaseRequest
     {
-        protected BaseRequest()
-        {
-            ValidationResult = new ValidationResult();
-        }
+        protected BaseRequest() => ValidationResult = new ValidationResult();
 
         [JsonIgnore]
         public ValidationResult ValidationResult { get; protected set; }
@@ -25,6 +23,6 @@ namespace SGP.Shared.Messages
         /// <summary>
         /// Valida a requisição.
         /// </summary>
-        public abstract void Validate();
+        public abstract Task ValidateAsync();
     }
 }

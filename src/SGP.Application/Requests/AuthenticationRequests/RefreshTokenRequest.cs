@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using SGP.Shared.Helpers;
 using SGP.Shared.Messages;
 
@@ -14,9 +15,7 @@ namespace SGP.Application.Requests.AuthenticationRequests
         [Required]
         public string Token { get; }
 
-        public override void Validate()
-        {
-            ValidationResult = ValidatorHelper.Validate<RefreshTokenRequestValidator>(this);
-        }
+        public async override Task ValidateAsync()
+            => ValidationResult = await ValidatorHelper.ValidateAsync<RefreshTokenRequestValidator>(this);
     }
 }

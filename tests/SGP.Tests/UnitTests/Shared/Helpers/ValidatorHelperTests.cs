@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using SGP.Application.Requests;
 using SGP.Shared.Helpers;
@@ -19,6 +20,22 @@ namespace SGP.Tests.UnitTests.Shared.Helpers
 
             // Act
             var actual = ValidatorHelper.Validate<GetByIdRequestValidator>(request);
+
+            // Assert
+            actual.Should().NotBeNull();
+            actual.IsValid.Should().BeTrue();
+            actual.Errors.Should().BeNullOrEmpty();
+        }
+
+        [Fact]
+        public async Task Should_ReturnsValidationResult_WhenValidateAsync()
+        {
+            // Arrange
+            var id = Guid.NewGuid().ToString();
+            var request = new GetByIdRequest(id);
+
+            // Act
+            var actual = await ValidatorHelper.ValidateAsync<GetByIdRequestValidator>(request);
 
             // Assert
             actual.Should().NotBeNull();

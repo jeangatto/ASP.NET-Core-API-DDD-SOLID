@@ -58,7 +58,7 @@ namespace SGP.Application.Services
         public async Task<Result<TokenResponse>> AuthenticateAsync(LogInRequest request)
         {
             // Validando a requisição.
-            request.Validate();
+            await request.ValidateAsync();
             if (!request.IsValid)
             {
                 // Retornando os erros da validação.
@@ -108,7 +108,7 @@ namespace SGP.Application.Services
         public async Task<Result<TokenResponse>> RefreshTokenAsync(RefreshTokenRequest request)
         {
             // Validando a requisição.
-            request.Validate();
+            await request.ValidateAsync();
             if (!request.IsValid)
             {
                 // Retornando os erros da validação.

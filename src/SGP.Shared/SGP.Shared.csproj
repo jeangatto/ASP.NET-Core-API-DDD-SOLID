@@ -3,15 +3,15 @@
         <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Ardalis.GuardClauses" Version="4.0.0"/>
-        <PackageReference Include="FluentResults" Version="3.2.0"/>
-        <PackageReference Include="FluentValidation" Version="10.3.6"/>
-        <PackageReference Include="IL.FluentValidation.Extensions.Options" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+        <PackageReference Include="Ardalis.GuardClauses" Version="4.0.0" />
+        <PackageReference Include="FluentResults" Version="3.2.0" />
+        <PackageReference Include="FluentValidation" Version="10.3.6" />
+        <PackageReference Include="IL.FluentValidation.Extensions.Options" Version="10.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 </Project>

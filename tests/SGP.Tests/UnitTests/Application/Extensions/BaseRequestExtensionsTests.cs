@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FluentAssertions;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Responses;
@@ -13,11 +14,11 @@ namespace SGP.Tests.UnitTests.Application.Extensions
     public class BaseRequestExtensionsTests
     {
         [Fact]
-        public void Should_ReturnResultTypedWithErrors_WhenValidationFail()
+        public async Task Should_ReturnResultTypedWithErrors_WhenValidationFail()
         {
             // Arrange
             var request = new ObterTodosPorUfRequest(string.Empty);
-            request.Validate();
+            await request.ValidateAsync();
 
             // Act
             var actual = request.ToFail<CidadeResponse>();
@@ -32,11 +33,11 @@ namespace SGP.Tests.UnitTests.Application.Extensions
         }
 
         [Fact]
-        public void Should_ReturnResultWithErrors_WhenValidationFail()
+        public async Task Should_ReturnResultWithErrors_WhenValidationFail()
         {
             // Arrange
             var request = new ObterTodosPorUfRequest(string.Empty);
-            request.Validate();
+            await request.ValidateAsync();
 
             // Act
             var actual = request.ToFail();
@@ -51,11 +52,11 @@ namespace SGP.Tests.UnitTests.Application.Extensions
         }
 
         [Fact]
-        public void Should_ReturnResultWithNoErrors_WhenValidationPass()
+        public async Task Should_ReturnResultWithNoErrors_WhenValidationPass()
         {
             // Arrange
             var request = new ObterTodosPorUfRequest("SP");
-            request.Validate();
+            await request.ValidateAsync();
 
             // Act
             var actual = request.ToFail();
