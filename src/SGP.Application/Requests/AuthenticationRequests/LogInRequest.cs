@@ -23,7 +23,9 @@ namespace SGP.Application.Requests.AuthenticationRequests
         [MinLength(4)]
         public string Password { get; }
 
-        public async override Task ValidateAsync()
-            => ValidationResult = await ValidatorHelper.ValidateAsync<LogInRequestValidator>(this);
+        public override async Task ValidateAsync()
+        {
+            ValidationResult = await ValidatorHelper.ValidateAsync<LogInRequestValidator>(this);
+        }
     }
 }

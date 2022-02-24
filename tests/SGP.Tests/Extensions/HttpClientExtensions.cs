@@ -11,7 +11,7 @@ namespace SGP.Tests.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static Task<HttpResponseMessage> SendAsync(
+        public static async Task<HttpResponseMessage> SendAsync(
             this HttpClient httpClient,
             ITestOutputHelper output,
             string endpoint,
@@ -26,7 +26,7 @@ namespace SGP.Tests.Extensions
             output.WriteLine($"HTTP Request: \"{endpoint}\", Body: {requestBody}");
 
             using var httpContent = new StringContent(requestBody, Encoding.UTF8, MediaTypeNames.Application.Json);
-            return httpClient.PostAsync(endpoint, httpContent);
+            return await httpClient.PostAsync(endpoint, httpContent);
         }
     }
 }

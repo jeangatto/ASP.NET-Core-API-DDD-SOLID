@@ -14,7 +14,6 @@ namespace SGP.Infrastructure.Context
         /// Latin1_General_CI_AI: Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
         /// </summary>
         private const string Collation = "Latin1_General_CI_AI";
-
         private readonly ILoggerFactory _loggerFactory;
 
         public SgpContext(DbContextOptions<SgpContext> options, ILoggerFactory loggerFactory) : base(options)
@@ -39,7 +38,9 @@ namespace SGP.Infrastructure.Context
         public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseLoggerFactory(_loggerFactory);
+        {
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -35,8 +35,6 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
-
-
             // Act
             var response = await HttpClient.SendAsync(Output, EndPoints.Api.Cidades, request);
 

@@ -15,7 +15,9 @@ namespace SGP.Application.Requests.AuthenticationRequests
         [Required]
         public string Token { get; }
 
-        public async override Task ValidateAsync()
-            => ValidationResult = await ValidatorHelper.ValidateAsync<RefreshTokenRequestValidator>(this);
+        public override async Task ValidateAsync()
+        {
+            ValidationResult = await ValidatorHelper.ValidateAsync<RefreshTokenRequestValidator>(this);
+        }
     }
 }

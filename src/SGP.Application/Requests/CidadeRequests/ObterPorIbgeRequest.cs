@@ -10,7 +10,9 @@ namespace SGP.Application.Requests.CidadeRequests
 
         public int Ibge { get; }
 
-        public async override Task ValidateAsync()
-            => ValidationResult = await ValidatorHelper.ValidateAsync<ObterPorIbgeRequestValidator>(this);
+        public override async Task ValidateAsync()
+        {
+            ValidationResult = await ValidatorHelper.ValidateAsync<ObterPorIbgeRequestValidator>(this);
+        }
     }
 }

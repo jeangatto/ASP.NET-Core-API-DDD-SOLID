@@ -10,7 +10,9 @@ namespace SGP.Application.Requests.CidadeRequests
 
         public string Uf { get; }
 
-        public async override Task ValidateAsync()
-            => ValidationResult = await ValidatorHelper.ValidateAsync<ObterTodosPorUfRequestValidator>(this);
+        public override async Task ValidateAsync()
+        {
+            ValidationResult = await ValidatorHelper.ValidateAsync<ObterTodosPorUfRequestValidator>(this);
+        }
     }
 }

@@ -47,10 +47,7 @@ namespace SGP.PublicApi
                 .AddDbContext(services.AddHealthChecks())
                 .AddGraphQLWithSchemas()
                 .Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal)
-                .Configure<ForwardedHeadersOptions>(options =>
-                {
-                    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-                })
+                .Configure<ForwardedHeadersOptions>(options => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto)
                 .Configure<RouteOptions>(options =>
                 {
                     options.LowercaseUrls = true;

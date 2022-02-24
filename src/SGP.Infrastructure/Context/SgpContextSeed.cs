@@ -45,8 +45,7 @@ namespace SGP.Infrastructure.Context
             return rowsAffected;
         }
 
-        private static async Task<long> PopularAsync<TEntity>(DbContext context, string jsonFileName)
-            where TEntity : class
+        private static async Task<long> PopularAsync<TEntity>(DbContext context, string jsonFileName) where TEntity : class
         {
             Guard.Against.NullOrWhiteSpace(jsonFileName, nameof(jsonFileName));
 

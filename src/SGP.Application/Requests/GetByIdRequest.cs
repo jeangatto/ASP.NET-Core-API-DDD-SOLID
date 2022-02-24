@@ -13,7 +13,9 @@ namespace SGP.Application.Requests
 
         public Guid Id { get; }
 
-        public async override Task ValidateAsync()
-            => ValidationResult = await ValidatorHelper.ValidateAsync<GetByIdRequestValidator>(this);
+        public override async Task ValidateAsync()
+        {
+            ValidationResult = await ValidatorHelper.ValidateAsync<GetByIdRequestValidator>(this);
+        }
     }
 }
