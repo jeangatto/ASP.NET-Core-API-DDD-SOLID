@@ -13,8 +13,6 @@ namespace SGP.PublicApi.Extensions
 {
     public static class JwtBearerExtensions
     {
-        private const string PolicyName = "Bearer";
-
         public static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
         {
             Guard.Against.Null(configuration, nameof(configuration));
@@ -51,11 +49,10 @@ namespace SGP.PublicApi.Extensions
                 };
             });
 
-            // Ativa o uso do token como forma de autorizar o acesso
-            // a recursos deste projeto.
-            services.AddAuthorization(auth =>
+            // Ativa o uso do token como forma de autorizar o acesso a recursos deste projeto.
+            services.AddAuthorization(authOptions =>
             {
-                auth.AddPolicy(PolicyName, new AuthorizationPolicyBuilder()
+                authOptions.AddPolicy(JwtBearerDefaults.AuthenticationScheme, new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());

@@ -14,7 +14,11 @@ namespace SGP.Infrastructure
             services.AddScoped<IHashService, BCryptHashService>();
             services.AddScoped<ITokenClaimsService, IdentityTokenClaimService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            return services;
+        }
 
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
             // Automatically register services ASP.NET Core DI container
             // REF: https://github.com/khellang/Scrutor
             services.Scan(scan => scan

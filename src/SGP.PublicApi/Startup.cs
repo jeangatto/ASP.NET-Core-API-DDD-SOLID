@@ -44,6 +44,7 @@ namespace SGP.PublicApi
                 .AddJwtBearer(_configuration)
                 .AddServices()
                 .AddInfrastructure()
+                .AddRepositories()
                 .AddDbContext(services.AddHealthChecks())
                 .AddGraphQLWithSchemas()
                 .Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal)
@@ -60,6 +61,14 @@ namespace SGP.PublicApi
                     options.SuppressModelStateInvalidFilter = true;
                 })
                 .AddNewtonsoftJson(options => options.SerializerSettings.Configure());
+
+            // MiniProfiler for .NET            
+            // https://miniprofiler.com/dotnet/
+            services.AddMiniProfiler(options =>
+            {
+                options.RouteBasePath = "/profiler";
+                options.ColorScheme = StackExchange.Profiling.ColorScheme.Dark;
+            }).AddEntityFramework();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,6 +98,7 @@ namespace SGP.PublicApi
                 .UseResponseCompression()
                 .UseAuthentication()
                 .UseAuthorization()
+                .UseMiniProfiler()
                 .UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())
                 .UseEndpoints(endpoints => endpoints.MapControllers());
         }
@@ -114,7 +124,7 @@ namespace SGP.PublicApi
                     context.Response.ContentType = MediaTypeNames.Application.Json;
 
                     var logger = loggerFactory.CreateLogger<Startup>();
-                    logger.LogError(exceptionHandler.Error, exceptionHandler.Error.Message);
+                    logger.LogError(exceptionHandler.Error, "Exceção não esperada: {Message}", exceptionHandler.Error.Message);
 
                     var apiResponse = new ApiResponse(StatusCodes.Status500InternalServerError, ApiDefaultError);
                     await context.Response.WriteAsync(apiResponse.ToJson());

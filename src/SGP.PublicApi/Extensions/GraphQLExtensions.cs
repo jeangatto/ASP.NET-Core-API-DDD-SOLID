@@ -22,6 +22,7 @@ namespace SGP.PublicApi.Extensions
 
         public static IServiceCollection AddGraphQLWithSchemas(this IServiceCollection services)
         {
+#pragma warning disable CS0612
             services
                 .AddSchemas()
                 .AddDocumentExecuter()
@@ -43,6 +44,7 @@ namespace SGP.PublicApi.Extensions
                     var environment = provider.GetRequiredService<IHostEnvironment>();
                     options.ExposeExceptionStackTrace = environment.IsDevelopment();
                 });
+#pragma warning restore CS0612
 
             return services;
         }
