@@ -18,3 +18,4 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 - Padrão de Camada Anticorrupção **(FluentValidation)**
 - Padrão Resultado **(FluentResults)** [Functional C#: Handling failures](https://enterprisecraftsmanship.com/posts/functional-c-handling-failures-input-errors/)
 - Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**
+- Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)

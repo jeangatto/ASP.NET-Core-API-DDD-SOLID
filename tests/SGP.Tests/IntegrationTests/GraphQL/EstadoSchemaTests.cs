@@ -14,8 +14,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 {
     public class EstadoSchemaTests : IntegrationTestBase, IClassFixture<WebTestApplicationFactory>
     {
-        public EstadoSchemaTests(WebTestApplicationFactory factory, ITestOutputHelper output)
-            : base(factory, output)
+        public EstadoSchemaTests(WebTestApplicationFactory factory, ITestOutputHelper output) : base(factory, output)
         {
         }
 

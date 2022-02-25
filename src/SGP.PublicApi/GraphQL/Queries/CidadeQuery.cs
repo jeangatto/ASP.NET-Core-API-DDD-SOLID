@@ -21,7 +21,7 @@ namespace SGP.PublicApi.GraphQL.Queries
                 arguments: new QueryArguments(new QueryArgument<NonNullGraphType<IntGraphType>>
                 {
                     Name = "ibge",
-                    Description = "IBGE da cidade"
+                    Description = "Código de IBGE"
                 }),
                 resolve: async context =>
                 {

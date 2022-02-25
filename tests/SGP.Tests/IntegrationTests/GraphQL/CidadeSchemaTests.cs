@@ -13,21 +13,20 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 {
     public class CidadeSchemaTests : IntegrationTestBase, IClassFixture<WebTestApplicationFactory>
     {
-        public CidadeSchemaTests(WebTestApplicationFactory factory, ITestOutputHelper output)
-            : base(factory, output)
+        public CidadeSchemaTests(WebTestApplicationFactory factory, ITestOutputHelper output) : base(factory, output)
         {
         }
 
         [Fact]
-        public async Task Devera_RetornarCidades_AoObterPorUf()
+        public async Task Devera_RetornarResultadoSucessoComCidades_AoObterPorUf()
         {
             // Arrange
-            const int totalCidades = 645;
-            const string ufSaoPaulo = "SP";
+            const int total = 645;
+            const string uf = "SP";
             const string queryName = QueryNames.CidadesPorEstado;
 
             var request = new GraphQLQuery<CidadeResponse>(queryName)
-                .AddArguments(new { uf = ufSaoPaulo })
+                .AddArguments(new { uf })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
@@ -43,12 +42,12 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             var data = await response.Content.GetGraphDataAsync<IEnumerable<CidadeResponse>>(queryName);
             data.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
-                .And.HaveCount(totalCidades)
+                .And.HaveCount(total)
                 .And.Subject.ForEach(c =>
                 {
                     c.Regiao.Should().NotBeNullOrWhiteSpace();
                     c.Estado.Should().NotBeNullOrWhiteSpace();
-                    c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(ufSaoPaulo);
+                    c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
                     c.Nome.Should().NotBeNullOrWhiteSpace();
                     c.Ibge.Should().BePositive();
                 });
@@ -58,10 +57,8 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroNaoEncontrado_AoObterTodosPorUfInexistente()
         {
             // Arrange
-            const string ufNaoExistente = "XX";
-
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
-                .AddArguments(new { uf = ufNaoExistente })
+                .AddArguments(new { uf = "XX" })
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
 
@@ -80,10 +77,8 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroValidacao_AoObterPorIbgeInexistente()
         {
             // Arrange
-            const int ibgeNaoExistente = 999999999;
-
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
-                .AddArguments(new { ibge = ibgeNaoExistente })
+                .AddArguments(new { ibge = int.MaxValue })
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
@@ -102,10 +97,8 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroValidacao_AoObterPorIbgeInvalido()
         {
             // Arrange
-            const int ibgeInvalido = -1;
-
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
-                .AddArguments(new { ibge = ibgeInvalido })
+                .AddArguments(new { ibge = int.MinValue })
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
@@ -124,10 +117,8 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         public async Task Devera_RetornarErroValidacao_AoObterTodosPorUfInvalido()
         {
             // Arrange
-            const string ufInvalido = "XXX.XX_X";
-
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
-                .AddArguments(new { uf = ufInvalido })
+                .AddArguments(new { uf = "XXX.XX_X" })
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
 
@@ -146,11 +137,11 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         public async Task Devera_RetornarResultadoSucessoComCidade_AoObterPorIbge()
         {
             // Arrange
-            const int ibgeVotuporanga = 3557105;
+            const int ibge = 3557105;
             const string queryName = QueryNames.CidadePorIbge;
 
             var request = new GraphQLQuery<CidadeResponse>(queryName)
-                .AddArguments(new { ibge = ibgeVotuporanga })
+                .AddArguments(new { ibge })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
@@ -169,7 +160,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             data.Estado.Should().NotBeNullOrWhiteSpace();
             data.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
             data.Nome.Should().NotBeNullOrWhiteSpace();
-            data.Ibge.Should().BePositive().And.Be(ibgeVotuporanga);
+            data.Ibge.Should().BePositive().And.Be(ibge);
         }
     }
 }

@@ -24,6 +24,7 @@ namespace SGP.PublicApi.Extensions
             {
                 authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptions.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(bearerOptions =>
             {
                 bearerOptions.RequireHttpsMetadata = false;
@@ -52,7 +53,7 @@ namespace SGP.PublicApi.Extensions
             // Ativa o uso do token como forma de autorizar o acesso a recursos deste projeto.
             services.AddAuthorization(authOptions =>
             {
-                authOptions.AddPolicy(JwtBearerDefaults.AuthenticationScheme, new AuthorizationPolicyBuilder()
+                authOptions.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());

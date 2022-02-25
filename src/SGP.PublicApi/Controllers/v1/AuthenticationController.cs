@@ -1,5 +1,7 @@
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGP.Application.Interfaces;
@@ -29,12 +31,9 @@ namespace SGP.PublicApi.Controllers.v1
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Authenticate([FromBody] LogInRequest request)
-        {
-            var result = await _service.AuthenticateAsync(request);
-            return result.ToHttpResult();
-        }
+            => (await _service.AuthenticateAsync(request)).ToHttpResult();
 
         /// <summary>
         /// Atualiza um token de acesso - AUTH02
@@ -42,17 +41,17 @@ namespace SGP.PublicApi.Controllers.v1
         /// <param name="request">O Token de atualização (RefreshToken).</param>
         /// <response code="200">Retorna um novo token de acesso.</response>
         /// <response code="400">Retorna lista de erros, se a requisição for inválida.</response>
+        /// <response code="401">Sem autorização.</response>
         /// <response code="404">Quando nenhum token de acesso é encontrado.</response>
         [HttpPost("refresh-token")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
-        {
-            var result = await _service.RefreshTokenAsync(request);
-            return result.ToHttpResult();
-        }
+            => (await _service.RefreshTokenAsync(request)).ToHttpResult();
     }
 }
