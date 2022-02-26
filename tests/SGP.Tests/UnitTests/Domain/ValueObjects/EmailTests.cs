@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using SGP.Domain.ValueObjects;
 using Xunit;
 
@@ -17,6 +17,7 @@ namespace SGP.Tests.UnitTests.Domain.ValueObjects
             var actual = new Email(emailAddress);
 
             // Assert
+            actual.Should().NotBeNull();
             actual.Address.Should().NotBeNullOrWhiteSpace().And.Be(expected).And.NotBeUpperCased();
         }
     }
