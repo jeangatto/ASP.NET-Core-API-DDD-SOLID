@@ -4,7 +4,6 @@
 
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=jeangatto.sgp)
 [![wakatime](https://wakatime.com/badge/github/JeanGatto/SGP.svg)](https://wakatime.com/badge/github/JeanGatto/SGP)
-[![codecov](https://codecov.io/gh/JeanGatto/SGP/branch/main/graph/badge.svg)](https://app.codecov.io/gh/JeanGatto/SGP)
 [![.NET](https://github.com/JeanGatto/SGP/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/dotnet.yml)
 [![SonarCloud](https://github.com/JeanGatto/SGP/actions/workflows/sonar-cloud.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/sonar-cloud.yml)
 [![CodeQL](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml)
