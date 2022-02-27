@@ -51,7 +51,7 @@ jobs:
         with:
             dotnet-version: '6.0.x'
             
-      - name: Build and analyze
+      - name: Build, Test and Analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
