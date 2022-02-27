@@ -52,7 +52,7 @@ jobs:
 
     # 5) Test a project or solution.
     - name: Test
-      run: dotnet test --no-build --verbosity minimal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+      run: dotnet test --no-build --no-restore --verbosity normal -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=lcov
 
     - name: Codecov
       uses: codecov/codecov-action@v2
