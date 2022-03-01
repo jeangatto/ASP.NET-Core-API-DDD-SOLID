@@ -7,9 +7,9 @@ namespace SGP.PublicApi.GraphQL.Types
     {
         public EstadoType()
         {
-            Field(cidade => cidade.Regiao).Description("Nome da região");
-            Field(cidade => cidade.Uf).Description("Sigla da unidade federativa (UF)");
-            Field(cidade => cidade.Nome).Description("Nome do estado.");
+            Field(estado => estado.Regiao).Description("Nome da região");
+            Field(estado => estado.Uf).Description("Sigla da unidade federativa (UF)");
+            Field(estado => estado.Nome).Description("Nome do estado.");
         }
     }
 }

@@ -20,35 +20,37 @@ namespace SGP.PublicApi.Extensions
             var jwtConfig = configuration.GetWithNonPublicProperties<JwtConfig>();
             var secretKey = Encoding.ASCII.GetBytes(jwtConfig.Secret);
 
-            services.AddAuthentication(authOptions =>
-            {
-                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                authOptions.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(bearerOptions =>
-            {
-                bearerOptions.RequireHttpsMetadata = false;
-                bearerOptions.SaveToken = true;
-                bearerOptions.TokenValidationParameters = new TokenValidationParameters
+            services
+                .AddAuthentication(authOptions =>
                 {
-                    ValidateIssuer = jwtConfig.ValidateIssuer,
-                    ValidateAudience = jwtConfig.ValidateAudience,
-                    ValidIssuer = jwtConfig.Issuer,
-                    ValidAudience = jwtConfig.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+                    authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    authOptions.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(bearerOptions =>
+                {
+                    bearerOptions.RequireHttpsMetadata = false;
+                    bearerOptions.SaveToken = true;
+                    bearerOptions.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = jwtConfig.ValidateIssuer,
+                        ValidateAudience = jwtConfig.ValidateAudience,
+                        ValidIssuer = jwtConfig.Issuer,
+                        ValidAudience = jwtConfig.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(secretKey),
 
-                    // Valida a assinatura de um token recebido.
-                    ValidateIssuerSigningKey = true,
+                        // Valida a assinatura de um token recebido.
+                        ValidateIssuerSigningKey = true,
 
-                    // Verifica se um token recebido ainda é válido.
-                    ValidateLifetime = true,
+                        // Verifica se um token recebido ainda é válido.
+                        ValidateLifetime = true,
 
-                    // Tempo de tolerância para a expiração de um token (utilizado
-                    // caso haja problemas de sincronismo de horário entre diferentes
-                    // computadores envolvidos no processo de comunicação).
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+                        // Tempo de tolerância para a expiração de um token (utilizado
+                        // caso haja problemas de sincronismo de horário entre diferentes
+                        // computadores envolvidos no processo de comunicação).
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
             // Ativa o uso do token como forma de autorizar o acesso a recursos deste projeto.
             services.AddAuthorization(authOptions =>

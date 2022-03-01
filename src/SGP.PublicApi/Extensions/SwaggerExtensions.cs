@@ -17,55 +17,53 @@ namespace SGP.PublicApi.Extensions
     {
         public static IServiceCollection AddOpenApi(this IServiceCollection services)
         {
-            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-
-            services.AddSwaggerGen(options =>
-            {
-                options.OperationFilter<SwaggerDefaultValuesFilter>();
-
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            services
+                .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>()
+                .AddSwaggerGen(options =>
                 {
-                    Description =
-                        "JWT Authorization Header - utilizado com Bearer Authentication.\r\n\r\n" +
-                        "Digite 'Bearer' [espaço] e então seu token no campo abaixo.\r\n\r\n" +
-                        "Exemplo (informar sem as aspas): 'Bearer 12345abcdef'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                });
+                    options.OperationFilter<SwaggerDefaultValuesFilter>();
 
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                     {
-                        new OpenApiSecurityScheme
+                        Description =
+                            "JWT Authorization Header - utilizado com Bearer Authentication.\r\n\r\n" +
+                            "Digite 'Bearer' [espaço] e então seu token no campo abaixo.\r\n\r\n" +
+                            "Exemplo (informar sem as aspas): 'Bearer 12345abcdef'",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer",
+                        BearerFormat = "JWT",
+                    });
+
+                    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
                         {
-                            Reference = new OpenApiReference
+                            new OpenApiSecurityScheme
                             {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            Array.Empty<string>()
+                        }
+                    });
 
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath, true);
-            });
+                    // Set the comments path for the Swagger JSON and UI.
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    options.IncludeXmlComments(xmlPath, true);
+                })
+                .AddSwaggerGenNewtonsoftSupport();
 
-            services.AddSwaggerGenNewtonsoftSupport();
             return services;
         }
 
-        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app,
-            IApiVersionDescriptionProvider provider)
+        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
+            app.UseSwagger().UseSwaggerUI(options =>
             {
                 // build a swagger endpoint for each discovered API version
                 foreach (var groupName in provider.ApiVersionDescriptions.Select(description => description.GroupName))
