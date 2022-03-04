@@ -12,6 +12,7 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+		<WarningsAsErrors>CS4014;</WarningsAsErrors>
 		<NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;S1144;</NoWarn>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
