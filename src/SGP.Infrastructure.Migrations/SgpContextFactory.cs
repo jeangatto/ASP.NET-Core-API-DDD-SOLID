@@ -14,6 +14,16 @@ namespace SGP.Infrastructure.Migrations
 {
     public class SgpContextFactory : IDesignTimeDbContextFactory<SgpContext>
     {
+        // =======================================================
+        // CLI-commands (https://www.entityframeworktutorial.net/efcore/cli-commands-for-ef-core-migration.aspx)
+        // dotnet tool install --global dotnet-ef
+        // dotnet tool update --global dotnet-ef
+        // dotnet ef dbcontext info -p "./src/SGP.Infrastructure.Migrations"
+        // dotnet ef dbcontext list -p "./src/SGP.Infrastructure.Migrations"
+        // dotnet ef migrations list -p "./src/SGP.Infrastructure.Migrations"
+        // dotnet ef migrations add "NomeMigracao" -p "./src/SGP.Infrastructure.Migrations"
+        // =======================================================
+
         private static readonly string ApiBasePath = Directory.GetCurrentDirectory() + "\\..\\SGP.PublicApi\\";
         private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
@@ -23,7 +33,7 @@ namespace SGP.Infrastructure.Migrations
 
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(ApiBasePath)
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.json", false)
                 .AddJsonFile($"appsettings.{environmentName ?? Environments.Development}.json", true)
                 .AddEnvironmentVariables()
                 .Build();

@@ -5,6 +5,10 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
+		<Content Remove="appsettings.Development.json" />
+		<Content Remove="appsettings.json" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="Ardalis.GuardClauses" Version="4.0.0" />
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="GraphQL" Version="4.7.1" />
@@ -36,12 +40,13 @@
 		<ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<Content Update="appsettings.Development.json">
+		<None Include="appsettings.Development.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<Content Update="appsettings.json">
+		</None>
+		<None Include="appsettings.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
+			<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+		</None>
 		<None Include="appsettings.Test.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
