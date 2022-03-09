@@ -80,9 +80,8 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
 
             // Assert
             actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
-            actual.Value.Should().NotBeNull().And.BeOfType<ApiResponse>();
-            var apiResponse = (ApiResponse)actual.Value;
-            apiResponse.Errors.Should().NotBeNullOrEmpty()
+            actual.Value.Should().NotBeNull().And.BeOfType<ApiResponse>()
+                .Subject.Errors.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(expectedCount)
                 .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());

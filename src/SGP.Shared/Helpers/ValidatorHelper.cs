@@ -10,14 +10,16 @@ namespace SGP.Shared.Helpers
     {
         private static readonly ConcurrentDictionary<string, IValidator> Cache = new();
 
-        public static ValidationResult Validate<TValidator>(object instanceToValidate) where TValidator : IValidator
+        public static ValidationResult Validate<TValidator>(object instanceToValidate)
+            where TValidator : IValidator
         {
             var context = new ValidationContext<object>(instanceToValidate);
             var validator = CreateOrGetValidatorInstance<TValidator>();
             return validator.Validate(context);
         }
 
-        public static async Task<ValidationResult> ValidateAsync<TValidator>(object instanceToValidate) where TValidator : IValidator
+        public static async Task<ValidationResult> ValidateAsync<TValidator>(object instanceToValidate)
+            where TValidator : IValidator
         {
             var context = new ValidationContext<object>(instanceToValidate);
             var validator = CreateOrGetValidatorInstance<TValidator>();

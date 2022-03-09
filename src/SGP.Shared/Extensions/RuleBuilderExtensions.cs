@@ -13,10 +13,8 @@ namespace SGP.Shared.Extensions
         /// <param name="ruleBuilder">The rule builder on which the validator should be defined</param>
         /// <returns></returns>
         public static IRuleBuilderOptions<T, string> IsValidEmailAddress<T>(this IRuleBuilder<T, string> ruleBuilder)
-        {
-            return ruleBuilder
+            => ruleBuilder
                 .Matches(RegexPatterns.EmailRegexPattern)
                 .WithMessage("'{PropertyName}' é um endereço de e-mail inválido.");
-        }
     }
 }

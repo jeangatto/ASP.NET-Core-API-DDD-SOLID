@@ -10,8 +10,7 @@ namespace SGP.Shared.ValueObjects
             if (obj == null || obj.GetType() != GetType())
                 return false;
 
-            var other = obj as ValueObject;
-            return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+            return obj is ValueObject other && GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
         }
 
         public override int GetHashCode()

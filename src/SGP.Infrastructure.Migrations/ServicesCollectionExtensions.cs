@@ -21,8 +21,9 @@ namespace SGP.Infrastructure.Migrations
 
             services.AddDbContext<SgpContext>((provider, builder) =>
             {
-                builder.UseSqlServer(provider.GetConnectionString(),
-                    options => options.MigrationsAssembly(AssemblyName).EnableRetryOnFailure()).EnableServiceProviderCaching();
+                builder.UseSqlServer(provider.GetConnectionString(), options
+                        => options.MigrationsAssembly(AssemblyName).EnableRetryOnFailure())
+                    .EnableServiceProviderCaching();
 
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
                 var environment = provider.GetRequiredService<IHostEnvironment>();

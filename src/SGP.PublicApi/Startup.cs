@@ -48,7 +48,8 @@ namespace SGP.PublicApi
                 .AddDbContext(services.AddHealthChecks())
                 .AddGraphQLWithSchemas()
                 .Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal)
-                .Configure<ForwardedHeadersOptions>(options => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto)
+                .Configure<ForwardedHeadersOptions>(options
+                    => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto)
                 .Configure<RouteOptions>(options =>
                 {
                     options.LowercaseUrls = true;
@@ -62,7 +63,7 @@ namespace SGP.PublicApi
                 })
                 .AddNewtonsoftJson(options => options.SerializerSettings.Configure());
 
-            // MiniProfiler for .NET            
+            // MiniProfiler for .NET
             // https://miniprofiler.com/dotnet/
             services.AddMiniProfiler(options =>
             {
