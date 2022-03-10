@@ -14,11 +14,7 @@ namespace SGP.Shared.ValueObjects
         }
 
         public override int GetHashCode()
-        {
-            return GetEqualityComponents()
-                .Select(obj => (obj?.GetHashCode()) ?? 0)
-                .Aggregate((x, y) => x ^ y);
-        }
+            => GetEqualityComponents().Select(obj => (obj?.GetHashCode()) ?? 0).Aggregate((x, y) => x ^ y);
 
         private static bool EqualOperator(ValueObject left, ValueObject right)
         {

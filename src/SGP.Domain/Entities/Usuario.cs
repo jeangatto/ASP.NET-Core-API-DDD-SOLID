@@ -32,6 +32,8 @@ namespace SGP.Domain.Entities
 
         public void AdicionarToken(Token token) => _tokens.Add(token);
 
+        public void DefinirUltimoAcesso(DateTime dataUltimoAcesso) => UltimoAcessoEm = dataUltimoAcesso;
+
         /// <summary>
         /// Indica se a conta do usuário está bloqueada.
         /// </summary>
