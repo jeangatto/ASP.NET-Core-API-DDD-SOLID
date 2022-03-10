@@ -16,10 +16,6 @@ namespace SGP.Shared.Extensions
         private static readonly IContractResolver DefaultContractResolver
             = new PrivateSetterContractResolver(DefaultNamingStrategy);
 
-        /// <summary>
-        /// Configuração do serializador em JSON otimizado para gerar um JSON menor, resultando em uma melhor performance.
-        /// </summary>
-        /// <param name="settings"></param>
         public static JsonSerializerSettings Configure(this JsonSerializerSettings settings)
         {
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

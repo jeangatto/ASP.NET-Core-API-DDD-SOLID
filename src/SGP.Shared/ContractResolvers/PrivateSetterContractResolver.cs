@@ -12,8 +12,7 @@ namespace SGP.Shared.ContractResolvers
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var jProperty = base.CreateProperty(member, memberSerialization);
-            if (jProperty.Writable)
-                return jProperty;
+            if (jProperty.Writable) return jProperty;
 
             var property = member as PropertyInfo;
             jProperty.Writable = property?.SetMethod != null;

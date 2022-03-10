@@ -1,9 +1,11 @@
 using FluentAssertions;
 using SGP.Domain.ValueObjects;
 using Xunit;
+using Xunit.Categories;
 
 namespace SGP.Tests.UnitTests.Domain.ValueObjects
 {
+    [UnitTest]
     public class EmailTests
     {
         [Fact]

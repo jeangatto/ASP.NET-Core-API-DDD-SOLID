@@ -21,6 +21,7 @@ using SGP.PublicApi.Extensions;
 using SGP.PublicApi.Models;
 using SGP.Shared;
 using SGP.Shared.Extensions;
+using StackExchange.Profiling;
 
 namespace SGP.PublicApi
 {
@@ -67,8 +68,10 @@ namespace SGP.PublicApi
             // https://miniprofiler.com/dotnet/
             services.AddMiniProfiler(options =>
             {
+                // Route: /profiler/results-index
                 options.RouteBasePath = "/profiler";
-                options.ColorScheme = StackExchange.Profiling.ColorScheme.Dark;
+                options.EnableServerTimingHeader = true;
+                options.ColorScheme = ColorScheme.Dark;
             }).AddEntityFramework();
         }
 
