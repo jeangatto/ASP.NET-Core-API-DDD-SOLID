@@ -1,6 +1,6 @@
 # SGP
 
-###### Sistema Gerenciador de Pedidos (Online)
+###### Sistema Gerenciador de Pedidos
 
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=jeangatto.sgp)
 [![wakatime](https://wakatime.com/badge/github/JeanGatto/SGP.svg)](https://wakatime.com/badge/github/JeanGatto/SGP)
