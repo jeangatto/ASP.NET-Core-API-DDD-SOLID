@@ -22,7 +22,10 @@ namespace SGP.Tests.UnitTests.Infrastructure.Repositories
         [InlineData(3557105, "Votuporanga", "SP", "Sudeste")]
         [InlineData(3304557, "Rio de Janeiro", "RJ", "Sudeste")]
         [InlineData(4205407, "Florianópolis", "SC", "Sul")]
-        public async Task Devera_RetornarCidade_AoObterPorIbge(int ibge, string cidadeEsperada, string ufEsperada,
+        public async Task Devera_RetornarCidade_AoObterPorIbge(
+            int ibge,
+            string cidadeEsperada,
+            string ufEsperada,
             string regiaoEsperada)
         {
             // Arrange

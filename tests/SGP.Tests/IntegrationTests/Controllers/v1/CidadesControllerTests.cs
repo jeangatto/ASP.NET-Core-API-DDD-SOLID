@@ -11,7 +11,7 @@ namespace SGP.Tests.IntegrationTests.Controllers.v1
 {
     public class CidadesControllerTests : IntegrationTestBase, IClassFixture<WebTestApplicationFactory>
     {
-        public CidadesControllerTests(WebTestApplicationFactory factory, ITestOutputHelper output) : base(factory, output)
+        public CidadesControllerTests(WebTestApplicationFactory factory, ITestOutputHelper outputHelper) : base(factory, outputHelper)
         {
         }
 

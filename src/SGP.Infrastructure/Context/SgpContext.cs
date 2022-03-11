@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Logging;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Extensions;
 using SGP.Infrastructure.Mappings;
@@ -14,11 +13,9 @@ namespace SGP.Infrastructure.Context
         /// Latin1_General_CI_AI: Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
         /// </summary>
         private const string Collation = "Latin1_General_CI_AI";
-        private readonly ILoggerFactory _loggerFactory;
 
-        public SgpContext(DbContextOptions<SgpContext> options, ILoggerFactory loggerFactory) : base(options)
+        public SgpContext(DbContextOptions<SgpContext> options) : base(options)
         {
-            _loggerFactory = loggerFactory;
         }
 
         public override ChangeTracker ChangeTracker
@@ -37,16 +34,10 @@ namespace SGP.Infrastructure.Context
         public DbSet<Token> Tokens { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseLoggerFactory(_loggerFactory);
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.UseCollation(Collation);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UsuarioMap).Assembly);
-            modelBuilder.RemoveCascadeDeleteConvention();
-        }
+            => modelBuilder
+                .UseCollation(Collation)
+                .ApplyConfigurationsFromAssembly(typeof(UsuarioMap).Assembly)
+                .RemoveCascadeDeleteConvention();
     }
 }

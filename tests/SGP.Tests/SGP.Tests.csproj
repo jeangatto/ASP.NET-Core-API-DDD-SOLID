@@ -18,7 +18,7 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="FluentAssertions" Version="6.5.1" />
-		<PackageReference Include="FluentValidation" Version="10.3.6" />
+		<PackageReference Include="FluentValidation" Version="10.4.0" />
 		<PackageReference Include="GraphQL.Query.Builder" Version="1.2.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
@@ -40,5 +40,10 @@
 		<ProjectReference Include="..\..\src\SGP.Infrastructure\SGP.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\src\SGP.PublicApi\SGP.PublicApi.csproj" />
 		<ProjectReference Include="..\..\src\SGP.Shared\SGP.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="xunit.runner.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

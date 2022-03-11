@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
@@ -45,8 +44,7 @@ namespace SGP.Infrastructure.Migrations
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
 
-            var defaultLoggerFactory = LoggerFactory.Create(logging => logging.ClearProviders().AddConsole());
-            return new SgpContext(builder.Options, defaultLoggerFactory);
+            return new SgpContext(builder.Options);
         }
     }
 }

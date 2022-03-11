@@ -17,13 +17,13 @@ namespace SGP.Tests.IntegrationTests
 
         private readonly WebTestApplicationFactory _factory;
         protected readonly HttpClient HttpClient;
-        protected readonly ITestOutputHelper Output;
+        protected readonly ITestOutputHelper OutputHelper;
 
-        protected IntegrationTestBase(WebTestApplicationFactory factory, ITestOutputHelper output)
+        protected IntegrationTestBase(WebTestApplicationFactory factory, ITestOutputHelper outputHelper)
         {
-            HttpClient = factory.Server.CreateClient();
             _factory = factory;
-            Output = output;
+            HttpClient = factory.Server.CreateClient();
+            OutputHelper = outputHelper;
         }
 
         #endregion
@@ -35,7 +35,7 @@ namespace SGP.Tests.IntegrationTests
             using (var scope = _factory.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
-                Output.WriteLine($"Integration Test DbConnection: \"{context.Database.GetConnectionString()}\"");
+                OutputHelper.WriteLine($"Integration Test DbConnection: \"{context.Database.GetConnectionString()}\"");
                 await context.Database.EnsureDeletedAsync();
                 await context.Database.EnsureCreatedAsync();
                 await context.EnsureSeedDataAsync();

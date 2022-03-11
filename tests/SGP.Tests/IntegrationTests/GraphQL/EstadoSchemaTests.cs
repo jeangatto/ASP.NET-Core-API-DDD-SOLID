@@ -14,7 +14,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 {
     public class EstadoSchemaTests : IntegrationTestBase, IClassFixture<WebTestApplicationFactory>
     {
-        public EstadoSchemaTests(WebTestApplicationFactory factory, ITestOutputHelper output) : base(factory, output)
+        public EstadoSchemaTests(WebTestApplicationFactory factory, ITestOutputHelper outputHelper) : base(factory, outputHelper)
         {
         }
 
@@ -31,7 +31,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphQLRequest();
 
             // Act
-            var response = await HttpClient.SendAsync(Output, EndPoints.Api.Estados, request);
+            var response = await HttpClient.SendAsync(OutputHelper, EndPoints.Api.Estados, request);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299

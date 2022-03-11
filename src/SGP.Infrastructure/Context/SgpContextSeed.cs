@@ -45,19 +45,19 @@ namespace SGP.Infrastructure.Context
             return rowsAffected;
         }
 
-        private static async Task<long> PopularAsync<TEntity>(DbContext context, string jsonFileName)
+        private static async Task<long> PopularAsync<TEntity>(DbContext context, string fileName)
             where TEntity : class
         {
-            Guard.Against.NullOrWhiteSpace(jsonFileName, nameof(jsonFileName));
+            Guard.Against.NullOrWhiteSpace(fileName, nameof(fileName));
 
             var dbSet = context.Set<TEntity>();
 
             var totalRows = await dbSet.AsNoTracking().LongCountAsync();
             if (totalRows == 0)
             {
-                var filePath = Path.Combine(FolderPath, jsonFileName);
+                var filePath = Path.Combine(FolderPath, fileName);
                 if (!File.Exists(filePath))
-                    throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", jsonFileName);
+                    throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", fileName);
 
                 var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
                 dbSet.AddRange(entitiesJson.FromJson<IEnumerable<TEntity>>());
