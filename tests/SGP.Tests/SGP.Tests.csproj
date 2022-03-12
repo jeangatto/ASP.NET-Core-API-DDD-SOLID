@@ -42,8 +42,8 @@
 		<ProjectReference Include="..\..\src\SGP.Shared\SGP.Shared.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="xunit.runner.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="xunit.runner.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>
