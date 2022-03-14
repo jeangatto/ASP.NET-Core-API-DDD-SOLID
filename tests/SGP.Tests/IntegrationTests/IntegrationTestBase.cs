@@ -42,7 +42,11 @@ namespace SGP.Tests.IntegrationTests
             }
         }
 
-        public Task DisposeAsync() => Task.CompletedTask;
+        public Task DisposeAsync()
+        {
+            HttpClient.Dispose();
+            return Task.CompletedTask;
+        }
 
         #endregion
     }

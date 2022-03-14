@@ -12,7 +12,7 @@ namespace SGP.Infrastructure.Context
         /// Collation: define o conjunto de regras que o servidor irá utilizar para ordenação e comparação entre textos.
         /// Latin1_General_CI_AI: Configurado para ignorar o "Case Insensitive (CI)" e os acentos "Accent Insensitive (AI)".
         /// </summary>
-        private const string Collation = "Latin1_General_CI_AI";
+        private const string DbCollation = "Latin1_General_CI_AI";
 
         public SgpContext(DbContextOptions<SgpContext> options) : base(options)
         {
@@ -36,7 +36,7 @@ namespace SGP.Infrastructure.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder
-                .UseCollation(Collation)
+                .UseCollation(DbCollation)
                 .ApplyConfigurationsFromAssembly(typeof(UsuarioMap).Assembly)
                 .RemoveCascadeDeleteConvention();
     }
