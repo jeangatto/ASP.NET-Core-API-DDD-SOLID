@@ -15,7 +15,7 @@
 
 C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6) + [EF Core 6.0](https://docs.microsoft.com/pt-br/ef/core/what-is-new/ef-core-6.0/whatsnew) + JWT Bearer + OpenAPI (Swagger)
 
-> Nota: Projeto focado no BackEnd
+> Nota: projeto focado em **Back-End**
 
 - RESTful API + GraphQL
 - Aplicado os princípios do **S.O.L.I.D.**
