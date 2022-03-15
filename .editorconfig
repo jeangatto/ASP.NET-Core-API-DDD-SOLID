@@ -2,11 +2,14 @@
 # Core EditorConfig Options   #
 ###############################
 root = true
+
 # All files
 [*]
+end_of_line = lf
 charset = utf-8
 indent_style = space
 trim_trailing_whitespace = true
+guidelines = 120 1px solid 333333
 
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
@@ -24,6 +27,7 @@ indent_size = 2
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
 insert_final_newline = false
+
 ###############################
 # .NET Coding Conventions     #
 ###############################
@@ -58,6 +62,7 @@ dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 dotnet_style_prefer_auto_properties = true:silent
 dotnet_style_prefer_conditional_expression_over_assignment = true:silent
 dotnet_style_prefer_conditional_expression_over_return = true:silent
+
 ###############################
 # Naming Conventions          #
 ###############################
@@ -70,6 +75,7 @@ dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_
 dotnet_naming_symbols.constant_fields.applicable_kinds            = field
 dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
 dotnet_naming_symbols.constant_fields.required_modifiers          = const
+
 ###############################
 # C# Coding Conventions       #
 ###############################
@@ -99,6 +105,7 @@ csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_pattern_local_over_anonymous_function = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
+
 ###############################
 # C# Formatting Rules         #
 ###############################
@@ -129,6 +136,7 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
+
 ###############################
 # VB Coding Conventions       #
 ###############################

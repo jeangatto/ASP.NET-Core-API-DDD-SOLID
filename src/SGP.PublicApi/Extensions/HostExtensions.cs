@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
@@ -18,7 +18,7 @@ namespace SGP.PublicApi.Extensions
         {
             Guard.Against.Null(host, nameof(host));
 
-            using (var scope = host.Services.CreateScope())
+            using (var scope = host.Services.CreateAsyncScope())
             {
                 var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                 var logger = loggerFactory.CreateLogger(LoggerCategoryName);

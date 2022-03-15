@@ -90,14 +90,14 @@ namespace SGP.PublicApi.Extensions
 
         private static IServiceCollection AddSchemas(this IServiceCollection services)
         {
-            services.Scan(scan => scan
+            // Automatically register services ASP.NET Core DI container
+            // REF: https://github.com/khellang/Scrutor
+            return services.Scan(scan => scan
                 .FromCallingAssembly()
                 .AddClasses(classes => classes.AssignableTo<Schema>())
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsSelf()
                 .WithScopedLifetime());
-
-            return services;
         }
     }
 }

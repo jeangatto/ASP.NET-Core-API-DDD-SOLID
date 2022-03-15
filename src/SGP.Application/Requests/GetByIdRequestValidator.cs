@@ -5,10 +5,6 @@ namespace SGP.Application.Requests
     public class GetByIdRequestValidator : AbstractValidator<GetByIdRequest>
     {
         public GetByIdRequestValidator()
-        {
-            RuleFor(x => x.Id)
-                .NotNull()
-                .NotEmpty();
-        }
+            => RuleFor(x => x.Id).NotNull().NotEmpty();
     }
 }

@@ -13,7 +13,8 @@ namespace SGP.Tests.IntegrationTests.GraphQL
 {
     public class CidadeSchemaTests : IntegrationTestBase, IClassFixture<WebTestApplicationFactory>
     {
-        public CidadeSchemaTests(WebTestApplicationFactory factory, ITestOutputHelper outputHelper) : base(factory, outputHelper)
+        public CidadeSchemaTests(WebTestApplicationFactory factory, ITestOutputHelper outputHelper)
+            : base(factory, outputHelper)
         {
         }
 
