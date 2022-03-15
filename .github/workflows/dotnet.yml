@@ -1,6 +1,6 @@
 # .NET 💜 GitHub Actions
 # https://devblogs.microsoft.com/dotnet/dotnet-loves-github-actions/
-name: .NET Core
+name: Build
 
 # Trigger this workflow on a push, or pull request to
 # the main branch, when either C# or project files changed
