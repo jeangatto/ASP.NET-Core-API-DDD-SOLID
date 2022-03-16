@@ -3,12 +3,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Ardalis.GuardClauses;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Interfaces;
 using SGP.Shared.Records;
+using Throw;
 
 namespace SGP.Infrastructure.Services
 {
@@ -26,7 +26,7 @@ namespace SGP.Infrastructure.Services
 
         public AccessToken GenerateAccessToken(Claim[] claims)
         {
-            Guard.Against.NullOrEmpty(claims, nameof(claims));
+            claims.ThrowIfNull().IfEmpty();
 
             var createdAt = _dateTime.Now;
             var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);

@@ -2,9 +2,9 @@ using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using Ardalis.GuardClauses;
 using GraphQL.Server;
 using SGP.Shared.Extensions;
+using Throw;
 using Xunit.Abstractions;
 
 namespace SGP.Tests.Extensions
@@ -13,17 +13,17 @@ namespace SGP.Tests.Extensions
     {
         public static async Task<HttpResponseMessage> SendAsync(
             this HttpClient httpClient,
-            ITestOutputHelper output,
+            ITestOutputHelper outputHelper,
             string endpoint,
             GraphQLRequest request)
         {
-            Guard.Against.Null(httpClient, nameof(httpClient));
-            Guard.Against.Null(output, nameof(output));
-            Guard.Against.NullOrWhiteSpace(endpoint, nameof(endpoint));
-            Guard.Against.Null(request, nameof(request));
+            httpClient.ThrowIfNull();
+            outputHelper.ThrowIfNull();
+            endpoint.ThrowIfNull().IfEmpty().IfWhiteSpace();
+            request.ThrowIfNull();
 
             var requestBody = request.ToJson();
-            output.WriteLine($"HTTP Request: \"{endpoint}\", Body: {requestBody}");
+            outputHelper.WriteLine($"HTTP Request: \"{endpoint}\", Body: {requestBody}");
 
             using var httpContent = new StringContent(requestBody, Encoding.UTF8, MediaTypeNames.Application.Json);
             return await httpClient.PostAsync(endpoint, httpContent);

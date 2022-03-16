@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,14 +9,12 @@ using SGP.Infrastructure.Context;
 
 namespace SGP.PublicApi.Extensions
 {
-    public static class HostExtensions
+    internal static class HostExtensions
     {
         private const string LoggerCategoryName = "MigrateDbContext";
 
         internal static async Task MigrateDbContextAsync(this IHost host)
         {
-            Guard.Against.Null(host, nameof(host));
-
             using (var scope = host.Services.CreateAsyncScope())
             {
                 var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();

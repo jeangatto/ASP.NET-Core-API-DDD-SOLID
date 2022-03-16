@@ -16,15 +16,11 @@ namespace SGP.Infrastructure
                 .AddScoped<IUnitOfWork, UnitOfWork>();
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
-        {
-            // Automatically register services ASP.NET Core DI container
-            // REF: https://github.com/khellang/Scrutor
-            return services.Scan(scan => scan
+            => services.Scan(scan => scan
                 .FromCallingAssembly()
                 .AddClasses(classes => classes.AssignableTo<IRepository>())
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
-        }
     }
 }
