@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Bogus;
 using FluentAssertions;
 using SGP.Domain.Entities;

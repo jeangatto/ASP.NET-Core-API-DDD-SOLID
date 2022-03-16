@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -8,16 +7,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
+using Throw;
 
 namespace SGP.PublicApi.Extensions
 {
-    public static class JwtBearerExtensions
+    internal static class JwtBearerExtensions
     {
-        public static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
+        internal static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
         {
-            Guard.Against.Null(configuration, nameof(configuration));
+            configuration.ThrowIfNull();
 
             var jwtConfig = configuration.GetWithNonPublicProperties<JwtConfig>();
+
+            jwtConfig.ThrowIfNull().IfNullOrEmpty(x => x.Secret);
+
             var secretKey = Encoding.ASCII.GetBytes(jwtConfig.Secret);
 
             services

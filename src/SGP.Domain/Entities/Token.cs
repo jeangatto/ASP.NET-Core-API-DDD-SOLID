@@ -60,7 +60,7 @@ namespace SGP.Domain.Entities
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns>Verdadeiro se o token estiver expirado ou revogado; caso contrário, falso.</returns>
-        public bool EstaValido(IDateTime dateTime) => dateTime.Now >= ExpiraEm || EstaRevogado;
+        public bool EstaValido(IDateTime dateTime) => ExpiraEm >= dateTime.Now || EstaRevogado;
 
         /// <summary>
         /// Revoga (cancela) o token.

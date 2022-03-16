@@ -10,14 +10,14 @@ using Microsoft.OpenApi.Models;
 using SGP.PublicApi.Filters;
 using SGP.PublicApi.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Throw;
 
 namespace SGP.PublicApi.Extensions
 {
-    public static class SwaggerExtensions
+    internal static class SwaggerExtensions
     {
-        public static IServiceCollection AddOpenApi(this IServiceCollection services)
-        {
-            services
+        internal static IServiceCollection AddOpenApi(this IServiceCollection services)
+            => services
                 .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>()
                 .AddSwaggerGen(options =>
                 {
@@ -58,11 +58,11 @@ namespace SGP.PublicApi.Extensions
                 })
                 .AddSwaggerGenNewtonsoftSupport();
 
-            return services;
-        }
-
-        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
+        internal static IApplicationBuilder UseOpenApi(this IApplicationBuilder app,
+            IApiVersionDescriptionProvider provider)
         {
+            provider.ThrowIfNull();
+
             app.UseSwagger().UseSwaggerUI(options =>
             {
                 // build a swagger endpoint for each discovered API version

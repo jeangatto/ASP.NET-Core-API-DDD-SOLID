@@ -1,12 +1,12 @@
 using System;
 using System.Reflection;
-using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
+using Throw;
 
 namespace SGP.Infrastructure.Migrations
 {
@@ -17,13 +17,12 @@ namespace SGP.Infrastructure.Migrations
         public static IServiceCollection AddDbContext(this IServiceCollection services,
             IHealthChecksBuilder healthChecksBuilder)
         {
-            Guard.Against.Null(healthChecksBuilder, nameof(healthChecksBuilder));
+            healthChecksBuilder.ThrowIfNull();
 
             services.AddDbContext<SgpContext>((provider, builder) =>
             {
-                builder.UseSqlServer(provider.GetConnectionString(), options
-                        => options.MigrationsAssembly(AssemblyName).EnableRetryOnFailure())
-                    .EnableServiceProviderCaching();
+                builder.UseSqlServer(provider.GetConnectionString(),
+                    options => options.MigrationsAssembly(AssemblyName).EnableRetryOnFailure());
 
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
                 var environment = provider.GetRequiredService<IHostEnvironment>();

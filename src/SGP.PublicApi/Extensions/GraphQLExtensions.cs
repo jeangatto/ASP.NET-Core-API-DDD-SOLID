@@ -16,11 +16,11 @@ using SGP.PublicApi.GraphQL.Schemas;
 
 namespace SGP.PublicApi.Extensions
 {
-    public static class GraphQLExtensions
+    internal static class GraphQLExtensions
     {
         private const string LoggerCategoryName = "GraphQL";
 
-        public static IServiceCollection AddGraphQLWithSchemas(this IServiceCollection services)
+        internal static IServiceCollection AddGraphQLWithSchemas(this IServiceCollection services)
         {
 #pragma warning disable CS0612
             services
@@ -49,19 +49,19 @@ namespace SGP.PublicApi.Extensions
             return services;
         }
 
-        public static IApplicationBuilder UseGraphQL(this IApplicationBuilder app)
+        internal static IApplicationBuilder UseGraphQL(this IApplicationBuilder app)
         {
-            app.UseGraphQL<CidadeSchema>(EndPoints.Api.Cidades);
-            app.UseGraphQLPlayground(new PlaygroundOptions
-            {
-                GraphQLEndPoint = EndPoints.Api.Cidades
-            }, EndPoints.Ui.Cidades);
+            app.UseGraphQL<CidadeSchema>(EndPoints.Api.Cidades)
+               .UseGraphQLPlayground(new PlaygroundOptions
+               {
+                   GraphQLEndPoint = EndPoints.Api.Cidades
+               }, EndPoints.Ui.Cidades);
 
-            app.UseGraphQL<EstadoSchema>(EndPoints.Api.Estados);
-            app.UseGraphQLPlayground(new PlaygroundOptions
-            {
-                GraphQLEndPoint = EndPoints.Api.Estados
-            }, EndPoints.Ui.Estados);
+            app.UseGraphQL<EstadoSchema>(EndPoints.Api.Estados)
+               .UseGraphQLPlayground(new PlaygroundOptions
+               {
+                   GraphQLEndPoint = EndPoints.Api.Estados
+               }, EndPoints.Ui.Estados);
 
             return app;
         }
@@ -89,15 +89,11 @@ namespace SGP.PublicApi.Extensions
         }
 
         private static IServiceCollection AddSchemas(this IServiceCollection services)
-        {
-            // Automatically register services ASP.NET Core DI container
-            // REF: https://github.com/khellang/Scrutor
-            return services.Scan(scan => scan
+            => services.Scan(scan => scan
                 .FromCallingAssembly()
                 .AddClasses(classes => classes.AssignableTo<Schema>())
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsSelf()
                 .WithScopedLifetime());
-        }
     }
 }
