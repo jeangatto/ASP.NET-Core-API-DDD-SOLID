@@ -72,10 +72,10 @@ namespace SGP.PublicApi.Extensions
             // REF: https://graphql-dotnet.github.io/docs/guides/document-caching/
             var documentCache = new MemoryDocumentCache(new MemoryDocumentCacheOptions
             {
-                // maximum total cached query length of 1,000,000 bytes (assume 10x memory usage
+                // Maximum total cached query length of 1,000,000 bytes (assume 10x memory usage
                 // for 10MB maximum memory use by the cache)
                 SizeLimit = 1000000,
-                // no expiration of cached queries (cached queries are only ejected when the cache is full)
+                // No expiration of cached queries (cached queries are only ejected when the cache is full)
                 SlidingExpiration = null
             });
 

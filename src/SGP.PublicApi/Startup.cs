@@ -16,7 +16,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SGP.Application;
 using SGP.Infrastructure;
-using SGP.Infrastructure.Migrations;
 using SGP.PublicApi.Extensions;
 using SGP.PublicApi.Models;
 using SGP.Shared;
@@ -128,7 +127,8 @@ namespace SGP.PublicApi
                     context.Response.ContentType = MediaTypeNames.Application.Json;
 
                     var logger = loggerFactory.CreateLogger<Startup>();
-                    logger.LogError(exceptionHandler.Error, "Exceção não esperada: {Message}", exceptionHandler.Error.Message);
+                    logger.LogError(exceptionHandler.Error,
+                        "Exceção não esperada: {Message}", exceptionHandler.Error.Message);
 
                     var apiResponse = new ApiResponse(StatusCodes.Status500InternalServerError, ApiDefaultError);
                     await context.Response.WriteAsync(apiResponse.ToJson());

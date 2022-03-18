@@ -3,22 +3,27 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SGP.Infrastructure.Context;
 
-namespace SGP.Infrastructure.Migrations.Migrations
+#nullable disable
+
+namespace SGP.PublicApi.Migrations
 {
     [DbContext(typeof(SgpContext))]
-    partial class SgpContextModelSnapshot : ModelSnapshot
+    [Migration("20220317181812_Inicial")]
+    partial class Inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:Collation", "Latin1_General_CI_AI")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.9")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .UseCollation("Latin1_General_CI_AI")
+                .HasAnnotation("ProductVersion", "6.0.3")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("SGP.Domain.Entities.Cidade", b =>
                 {
@@ -40,6 +45,8 @@ namespace SGP.Infrastructure.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EstadoId");
+
+                    SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex("EstadoId"), new[] { "Nome", "Ibge" });
 
                     b.HasIndex("Ibge")
                         .IsUnique();
@@ -66,7 +73,7 @@ namespace SGP.Infrastructure.Migrations.Migrations
                         .HasMaxLength(2)
                         .IsUnicode(false)
                         .HasColumnType("char(2)")
-                        .IsFixedLength(true);
+                        .IsFixedLength();
 
                     b.HasKey("Id");
 

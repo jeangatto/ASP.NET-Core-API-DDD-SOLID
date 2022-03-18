@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,13 +7,11 @@ using SGP.Infrastructure.Context;
 using SGP.Shared.AppSettings;
 using Throw;
 
-namespace SGP.Infrastructure.Migrations
+namespace SGP.PublicApi.Extensions
 {
-    public static class ServicesCollectionExtensions
+    internal static class DbContextExtensions
     {
-        private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-
-        public static IServiceCollection AddDbContext(this IServiceCollection services,
+        internal static IServiceCollection AddDbContext(this IServiceCollection services,
             IHealthChecksBuilder healthChecksBuilder)
         {
             healthChecksBuilder.ThrowIfNull();
@@ -22,18 +19,16 @@ namespace SGP.Infrastructure.Migrations
             services.AddDbContext<SgpContext>((provider, builder) =>
             {
                 builder.UseSqlServer(provider.GetConnectionString(),
-                    options => options.MigrationsAssembly(AssemblyName).EnableRetryOnFailure());
+                    options => options.MigrationsAssembly(typeof(Startup).Namespace));
 
                 // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
                 var environment = provider.GetRequiredService<IHostEnvironment>();
-                if (environment.IsDevelopment()) builder.EnableDetailedErrors().EnableSensitiveDataLogging();
+                if (environment.IsDevelopment())
+                    builder.EnableDetailedErrors().EnableSensitiveDataLogging();
             });
 
             // Verificador de saúde da base de dados.
-            healthChecksBuilder.AddDbContextCheck<SgpContext>(
-                tags: new[] { "database" },
-                customTestQuery: (context, cancellationToken) =>
-                    context.Estados.AsNoTracking().AnyAsync(cancellationToken));
+            healthChecksBuilder.AddDbContextCheck<SgpContext>(tags: new[] { "database" });
 
             return services;
         }

@@ -1,9 +1,11 @@
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SGP.Infrastructure.Migrations.Migrations
+#nullable disable
+
+namespace SGP.PublicApi.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -96,7 +98,8 @@ namespace SGP.Infrastructure.Migrations.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Cidades_EstadoId",
                 table: "Cidades",
-                column: "EstadoId");
+                column: "EstadoId")
+                .Annotation("SqlServer:Include", new[] { "Nome", "Ibge" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cidades_Ibge",
@@ -136,11 +139,20 @@ namespace SGP.Infrastructure.Migrations.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "Cidades");
-            migrationBuilder.DropTable(name: "Tokens");
-            migrationBuilder.DropTable(name: "Estados");
-            migrationBuilder.DropTable(name: "Usuarios");
-            migrationBuilder.DropTable(name: "Regioes");
+            migrationBuilder.DropTable(
+                name: "Cidades");
+
+            migrationBuilder.DropTable(
+                name: "Tokens");
+
+            migrationBuilder.DropTable(
+                name: "Estados");
+
+            migrationBuilder.DropTable(
+                name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Regioes");
         }
     }
 }

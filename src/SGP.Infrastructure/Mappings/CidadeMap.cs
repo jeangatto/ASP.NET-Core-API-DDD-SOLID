@@ -25,6 +25,9 @@ namespace SGP.Infrastructure.Mappings
             builder.HasIndex(cidade => cidade.Ibge)
                 .IsUnique();
 
+            builder.HasIndex(cidade => cidade.EstadoId)
+                .IncludeProperties(cidade => new { cidade.Nome, cidade.Ibge });
+
             builder.HasOne(cidade => cidade.Estado)
                 .WithMany(estado => estado.Cidades)
                 .HasForeignKey(cidade => cidade.EstadoId);

@@ -15,7 +15,8 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "hotReloadEnabled": true
     },
     "SGP.PublicApi": {
       "commandName": "Project",
@@ -25,7 +26,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
-      "dotnetRunMessages": "true"
+      "dotnetRunMessages": true,
+      "hotReloadEnabled": true
     }
   }
 }
