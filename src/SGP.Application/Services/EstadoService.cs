@@ -12,7 +12,7 @@ namespace SGP.Application.Services
 {
     public class EstadoService : IEstadoService
     {
-        private static readonly string ObterTodosCacheKey = $"{nameof(EstadoService)}__{nameof(ObterTodosAsync)}";
+        private const string ObterTodosCacheKey = $"{nameof(EstadoService)}__{nameof(ObterTodosAsync)}";
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         private readonly IEstadoRepository _repository;
