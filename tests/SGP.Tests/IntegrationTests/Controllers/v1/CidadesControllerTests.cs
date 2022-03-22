@@ -24,7 +24,7 @@ namespace SGP.Tests.IntegrationTests.Controllers.v1
             const string uf = "SP";
 
             // Act
-            var response = await HttpClient.GetAsync($"/api/cidades/{uf}");
+            using var response = await HttpClient.GetAsync($"/api/cidades/{uf}");
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
@@ -49,7 +49,7 @@ namespace SGP.Tests.IntegrationTests.Controllers.v1
             const int ibge = 3557105;
 
             // Act
-            var response = await HttpClient.GetAsync($"/api/cidades/{ibge}");
+            using var response = await HttpClient.GetAsync($"/api/cidades/{ibge}");
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299

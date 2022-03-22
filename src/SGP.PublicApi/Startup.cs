@@ -69,7 +69,6 @@ namespace SGP.PublicApi
             {
                 // Route: /profiler/results-index
                 options.RouteBasePath = "/profiler";
-                options.EnableServerTimingHeader = true;
                 options.ColorScheme = ColorScheme.Dark;
             }).AddEntityFramework();
         }
@@ -117,8 +116,7 @@ namespace SGP.PublicApi
         /// <param name="builder"></param>
         /// <param name="loggerFactory"></param>
         private static void ExceptionHandler(IApplicationBuilder builder, ILoggerFactory loggerFactory)
-        {
-            builder.Run(async context =>
+            => builder.Run(async context =>
             {
                 var exceptionHandler = context.Features.Get<IExceptionHandlerFeature>();
                 if (exceptionHandler != null)
@@ -134,7 +132,6 @@ namespace SGP.PublicApi
                     await context.Response.WriteAsync(apiResponse.ToJson());
                 }
             });
-        }
 
         #endregion
     }
