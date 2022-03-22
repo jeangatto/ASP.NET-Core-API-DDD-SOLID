@@ -65,6 +65,8 @@ namespace SGP.PublicApi.Extensions
 
             app.UseSwagger().UseSwaggerUI(options =>
             {
+                options.DisplayRequestDuration();
+
                 // build a swagger endpoint for each discovered API version
                 foreach (var groupName in provider.ApiVersionDescriptions.Select(description => description.GroupName))
                     options.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant());
