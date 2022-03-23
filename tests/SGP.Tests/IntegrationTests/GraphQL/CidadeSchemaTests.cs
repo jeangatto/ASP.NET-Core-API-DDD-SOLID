@@ -27,7 +27,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             const string queryName = QueryNames.CidadesPorEstado;
 
             var request = new GraphQLQuery<CidadeResponse>(queryName)
-                .AddArguments(new { uf })
+                .AddArguments(new {uf})
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
@@ -36,12 +36,12 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphQLRequest();
 
             // Act
-            using var response = await HttpClient.SendAsync(OutputHelper, EndPoints.Api.Cidades, request);
+            var result
+                = await HttpClient.SendAndDeserializeAsync<IEnumerable<CidadeResponse>>(
+                    OutputHelper, EndPoints.Api.Cidades, request, queryName);
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var data = await response.Content.GetGraphDataAsync<IEnumerable<CidadeResponse>>(queryName);
-            data.Should().NotBeNullOrEmpty()
+            result.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(total)
                 .And.Subject.ForEach(c =>
@@ -59,17 +59,15 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
-                .AddArguments(new { uf = "XX" })
+                .AddArguments(new {uf = "XX"})
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
 
             // Act
-            using var response = await HttpClient.SendAsync(OutputHelper, EndPoints.Api.Cidades, request);
+            var result = await HttpClient.SendAndGetErrorsAsync(OutputHelper, EndPoints.Api.Cidades, request);
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var errors = await response.Content.GetGraphErrorsAsync();
-            errors.Should().NotBeNullOrEmpty()
+            result.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
@@ -79,17 +77,15 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
-                .AddArguments(new { ibge = int.MaxValue })
+                .AddArguments(new {ibge = int.MaxValue})
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
             // Act
-            using var response = await HttpClient.SendAsync(OutputHelper, EndPoints.Api.Cidades, request);
+            var result = await HttpClient.SendAndGetErrorsAsync(OutputHelper, EndPoints.Api.Cidades, request);
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var errors = await response.Content.GetGraphErrorsAsync();
-            errors.Should().NotBeNullOrEmpty()
+            result.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
@@ -99,17 +95,15 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
-                .AddArguments(new { ibge = int.MinValue })
+                .AddArguments(new {ibge = int.MinValue})
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
             // Act
-            using var response = await HttpClient.SendAsync(OutputHelper, EndPoints.Api.Cidades, request);
+            var result = await HttpClient.SendAndGetErrorsAsync(OutputHelper, EndPoints.Api.Cidades, request);
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var errors = await response.Content.GetGraphErrorsAsync();
-            errors.Should().NotBeNullOrEmpty()
+            result.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
@@ -119,17 +113,15 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
-                .AddArguments(new { uf = "XXX.XX_X" })
+                .AddArguments(new {uf = "XXX.XX_X"})
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
 
             // Act
-            using var response = await HttpClient.SendAsync(OutputHelper, EndPoints.Api.Cidades, request);
+            var result = await HttpClient.SendAndGetErrorsAsync(OutputHelper, EndPoints.Api.Cidades, request);
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var errors = await response.Content.GetGraphErrorsAsync();
-            errors.Should().NotBeNullOrEmpty()
+            result.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
         }
@@ -142,7 +134,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             const string queryName = QueryNames.CidadePorIbge;
 
             var request = new GraphQLQuery<CidadeResponse>(queryName)
-                .AddArguments(new { ibge })
+                .AddArguments(new {ibge})
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
@@ -151,17 +143,17 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphQLRequest();
 
             // Act
-            using var response = await HttpClient.SendAsync(OutputHelper, EndPoints.Api.Cidades, request);
+            var result
+                = await HttpClient.SendAndDeserializeAsync<CidadeResponse>(
+                    OutputHelper, EndPoints.Api.Cidades, request, queryName);
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var data = await response.Content.GetGraphDataAsync<CidadeResponse>(queryName);
-            data.Should().NotBeNull();
-            data.Regiao.Should().NotBeNullOrWhiteSpace();
-            data.Estado.Should().NotBeNullOrWhiteSpace();
-            data.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
-            data.Nome.Should().NotBeNullOrWhiteSpace();
-            data.Ibge.Should().BePositive().And.Be(ibge);
+            result.Should().NotBeNull();
+            result.Regiao.Should().NotBeNullOrWhiteSpace();
+            result.Estado.Should().NotBeNullOrWhiteSpace();
+            result.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+            result.Nome.Should().NotBeNullOrWhiteSpace();
+            result.Ibge.Should().BePositive().And.Be(ibge);
         }
     }
 }

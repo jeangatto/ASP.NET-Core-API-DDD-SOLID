@@ -24,12 +24,12 @@ namespace SGP.Tests.IntegrationTests.Controllers.v1
             const string uf = "SP";
 
             // Act
-            using var response = await HttpClient.GetAsync($"/api/cidades/{uf}");
+            var result
+                = await HttpClient.SendAndDeserializeAsync<IEnumerable<CidadeResponse>>(
+                    OutputHelper, $"/api/cidades/{uf}");
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var data = await response.Content.GetApiDataAsync<IEnumerable<CidadeResponse>>();
-            data.Should().NotBeNullOrEmpty()
+            result.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(total)
                 .And.Subject.ForEach(c =>
@@ -49,17 +49,16 @@ namespace SGP.Tests.IntegrationTests.Controllers.v1
             const int ibge = 3557105;
 
             // Act
-            using var response = await HttpClient.GetAsync($"/api/cidades/{ibge}");
+            var result
+                = await HttpClient.SendAndDeserializeAsync<CidadeResponse>(OutputHelper, $"/api/cidades/{ibge}");
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var data = await response.Content.GetApiDataAsync<CidadeResponse>();
-            data.Should().NotBeNull();
-            data.Regiao.Should().NotBeNullOrWhiteSpace();
-            data.Estado.Should().NotBeNullOrWhiteSpace();
-            data.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
-            data.Nome.Should().NotBeNullOrWhiteSpace();
-            data.Ibge.Should().BePositive().And.Be(ibge);
+            result.Should().NotBeNull();
+            result.Regiao.Should().NotBeNullOrWhiteSpace();
+            result.Estado.Should().NotBeNullOrWhiteSpace();
+            result.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+            result.Nome.Should().NotBeNullOrWhiteSpace();
+            result.Ibge.Should().BePositive().And.Be(ibge);
         }
     }
 }

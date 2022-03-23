@@ -32,12 +32,12 @@ namespace SGP.Tests.IntegrationTests.GraphQL
                 .ToGraphQLRequest();
 
             // Act
-            using var response = await HttpClient.SendAsync(OutputHelper, EndPoints.Api.Estados, request);
+            var result
+                = await HttpClient.SendAndDeserializeAsync<IEnumerable<EstadoResponse>>(
+                    OutputHelper, EndPoints.Api.Estados, request, queryName);
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            var data = await response.Content.GetGraphDataAsync<IEnumerable<EstadoResponse>>(queryName);
-            data.Should().NotBeNullOrEmpty()
+            result.Should().NotBeNullOrEmpty()
                 .And.OnlyHaveUniqueItems()
                 .And.HaveCount(Totais.Estados)
                 .And.Subject.ForEach(e =>
