@@ -30,9 +30,9 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 - Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**
 - Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)
 
-### Banco de dados
+### Configurando Banco de dados
 
-Alterar o valor da chave no arquivo `appsettings.Development.json`
+Por padrão é utilizado o SQL Server LocalDB, para alterar a conexão, modifique o valor da chave `DefaultConnection` no arquivo `appsettings.Development.json`
 
 ```json
 {
