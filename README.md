@@ -26,6 +26,57 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 - Aplicado a abordagem de modelagem de software **DDD (Domain Driven Design)**
 - Padrão de Camada Anticorrupção **(FluentValidation)**
 - Padrão Resultado **(FluentResults)** [Functional C#: Handling failures](https://enterprisecraftsmanship.com/posts/functional-c-handling-failures-input-errors/)
-- [Scrutor](https://github.com/khellang/Scrutor) automaticamente registrando os serviços no ASP.NET Core DI 
+- [Scrutor](https://github.com/khellang/Scrutor) automaticamente registrando os serviços no ASP.NET Core DI
 - Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**
 - Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)
+
+### Banco de dados
+
+Alterar o valor da chave no arquivo `appsettings.Development.json`
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=SgpContext;Trusted_Connection=True;MultipleActiveResultSets=true;"
+  }
+}
+```
+
+Ao iniciar a aplicação o banco de dados será criado automaticamente e efetuado as migrações pendentenes,
+também será populado o arquivo de seed.
+
+```c#
+    internal static class HostExtensions
+    {
+        private const string LoggerCategoryName = "MigrateDbContext";
+
+        internal static async Task MigrateDbContextAsync(this IHost host)
+        {
+            await using var scope = host.Services.CreateAsyncScope();
+            var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
+            var logger = loggerFactory.CreateLogger(LoggerCategoryName);
+            var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
+
+            try
+            {
+                logger.LogInformation("Connection: {ConnectionString}", context.Database.GetConnectionString());
+
+                if ((await context.Database.GetPendingMigrationsAsync()).Any())
+                {
+                    // Aplica de maneira assíncrona quaisquer migrações pendentes do contexto.
+                    // Criará o banco de dados, se ainda não existir.
+                    await context.Database.MigrateAsync();
+                }
+
+                // Populando a base de dados com estados, cidades...
+                await context.EnsureSeedDataAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Ocorreu um erro ao popular o banco de dados");
+                throw;
+            }
+        }
+    }
+```
+

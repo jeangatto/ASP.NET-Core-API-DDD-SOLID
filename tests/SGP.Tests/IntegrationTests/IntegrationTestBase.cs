@@ -36,6 +36,7 @@ namespace SGP.Tests.IntegrationTests
             await using var scope = _factory.Services.CreateAsyncScope();
             var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
             OutputHelper.WriteLine($"Integration Test DbConnection: \"{context.Database.GetConnectionString()}\"");
+
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
             await context.EnsureSeedDataAsync();

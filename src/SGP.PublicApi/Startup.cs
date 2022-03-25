@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
@@ -48,8 +47,6 @@ namespace SGP.PublicApi
                 .AddDbContext(services.AddHealthChecks())
                 .AddGraphQLWithSchemas()
                 .Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal)
-                .Configure<ForwardedHeadersOptions>(options
-                    => options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto)
                 .Configure<RouteOptions>(options =>
                 {
                     options.LowercaseUrls = true;
@@ -118,15 +115,14 @@ namespace SGP.PublicApi
         private static void ExceptionHandler(IApplicationBuilder builder, ILoggerFactory loggerFactory)
             => builder.Run(async context =>
             {
-                var exceptionHandler = context.Features.Get<IExceptionHandlerFeature>();
-                if (exceptionHandler != null)
+                var handler = context.Features.Get<IExceptionHandlerFeature>();
+                if (handler != null)
                 {
                     context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                     context.Response.ContentType = MediaTypeNames.Application.Json;
 
                     var logger = loggerFactory.CreateLogger<Startup>();
-                    logger.LogError(exceptionHandler.Error,
-                        "Exceção não esperada: {Message}", exceptionHandler.Error.Message);
+                    logger.LogError(handler.Error, "Exceção não esperada: {Message}", handler.Error.Message);
 
                     var apiResponse = new ApiResponse(StatusCodes.Status500InternalServerError, ApiDefaultError);
                     await context.Response.WriteAsync(apiResponse.ToJson());
