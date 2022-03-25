@@ -18,10 +18,7 @@ namespace SGP.PublicApi.Extensions
             configuration.ThrowIfNull();
 
             var jwtConfig = configuration.GetWithNonPublicProperties<JwtConfig>();
-
             jwtConfig.ThrowIfNull().IfNullOrEmpty(x => x.Secret);
-
-            var secretKey = Encoding.ASCII.GetBytes(jwtConfig.Secret);
 
             services
                 .AddAuthentication(authOptions =>
@@ -40,7 +37,7 @@ namespace SGP.PublicApi.Extensions
                         ValidateAudience = jwtConfig.ValidateAudience,
                         ValidIssuer = jwtConfig.Issuer,
                         ValidAudience = jwtConfig.Audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
 
                         // Valida a assinatura de um token recebido.
                         ValidateIssuerSigningKey = true,

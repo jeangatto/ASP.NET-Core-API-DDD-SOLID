@@ -27,7 +27,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             const string queryName = QueryNames.CidadesPorEstado;
 
             var request = new GraphQLQuery<CidadeResponse>(queryName)
-                .AddArguments(new {uf})
+                .AddArguments(new { uf })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
@@ -59,7 +59,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
-                .AddArguments(new {uf = "XX"})
+                .AddArguments(new { uf = "XX" })
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
 
@@ -77,7 +77,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
-                .AddArguments(new {ibge = int.MaxValue})
+                .AddArguments(new { ibge = int.MaxValue })
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
@@ -95,7 +95,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadePorIbge)
-                .AddArguments(new {ibge = int.MinValue})
+                .AddArguments(new { ibge = int.MinValue })
                 .AddField(c => c.Ibge)
                 .ToGraphQLRequest();
 
@@ -113,7 +113,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
         {
             // Arrange
             var request = new GraphQLQuery<CidadeResponse>(QueryNames.CidadesPorEstado)
-                .AddArguments(new {uf = "XXX.XX_X"})
+                .AddArguments(new { uf = "XXX.XX_X" })
                 .AddField(c => c.Nome)
                 .ToGraphQLRequest();
 
@@ -134,7 +134,7 @@ namespace SGP.Tests.IntegrationTests.GraphQL
             const string queryName = QueryNames.CidadePorIbge;
 
             var request = new GraphQLQuery<CidadeResponse>(queryName)
-                .AddArguments(new {ibge})
+                .AddArguments(new { ibge })
                 .AddField(c => c.Regiao)
                 .AddField(c => c.Estado)
                 .AddField(c => c.Uf)
