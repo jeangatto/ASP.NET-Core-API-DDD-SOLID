@@ -1,4 +1,3 @@
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -20,7 +19,6 @@ namespace SGP.PublicApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-                        .UseContentRoot(Directory.GetCurrentDirectory())
                         .UseKestrel(options =>
                         {
                             options.AddServerHeader = false;
