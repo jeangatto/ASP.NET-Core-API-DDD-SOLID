@@ -1,7 +1,7 @@
-﻿namespace SGP.Tests.Constants
+namespace SGP.Tests.Constants
 {
     public static class Environments
     {
-        public const string Test = "Test";
+        public const string Testing = "Testing";
     }
 }

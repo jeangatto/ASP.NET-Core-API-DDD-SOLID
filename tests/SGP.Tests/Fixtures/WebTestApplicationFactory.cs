@@ -21,7 +21,7 @@ namespace SGP.Tests.Fixtures
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
             => builder
-                .UseEnvironment(Environments.Test)
+                .UseEnvironment(Environments.Testing)
                 .UseDefaultServiceProvider(options => options.ValidateScopes = true)
                 .ConfigureTestServices(services => services.RemoveAll<IHostedService>())
                 .ConfigureServices(services =>
