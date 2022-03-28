@@ -1,0 +1,27 @@
+version: '3.9'
+
+networks:
+  dockersql-network:
+    driver: bridge
+
+services:
+
+  sgppublicapi:
+    image: ${DOCKER_REGISTRY-}sgppublicapi
+    build:
+      context: .
+      dockerfile: src/SGP.PublicApi/Dockerfile
+    networks:
+      - dockersql-network
+    depends_on:
+      - "sqlserver"
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    ports:
+      - "1433:1433"
+    environment:
+      - SA_PASSWORD=Sxc56Nu9V
+      - ACCEPT_EULA=Y
+    networks:
+      - dockersql-network
