@@ -48,6 +48,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\sonar-cloud.yml = .github\workflows\sonar-cloud.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{018766F4-6284-488F-8F31-771848322B65}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		docker-compose.yml = docker-compose.yml
+		docker-compose.override.yml = docker-compose.override.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +102,7 @@ Global
 		{354FFA12-4DEF-49A6-88B1-83B45F35350A} = {A8EF6B26-C567-488A-9F6E-5200FDEB64B6}
 		{3FB54454-0FC3-4BB9-87A1-92AD63745C53} = {C3E53C44-C421-44E4-834C-AB622D660DF5}
 		{17C9636E-57FC-4E6B-8A4E-B69268BCBF7D} = {A862AD49-3494-4025-9CA7-EAB7E387F738}
+		{018766F4-6284-488F-8F31-771848322B65} = {A862AD49-3494-4025-9CA7-EAB7E387F738}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF8C8DEB-5FA2-4E59-9A6A-A6CE89524075}
