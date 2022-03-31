@@ -28,11 +28,11 @@ namespace SGP.Infrastructure.Context
             }
         }
 
-        public DbSet<Cidade> Cidades { get; set; }
-        public DbSet<Estado> Estados { get; set; }
-        public DbSet<Regiao> Regioes { get; set; }
-        public DbSet<Token> Tokens { get; set; }
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Cidade> Cidades => Set<Cidade>();
+        public DbSet<Estado> Estados => Set<Estado>();
+        public DbSet<Regiao> Regioes => Set<Regiao>();
+        public DbSet<Token> Tokens => Set<Token>();
+        public DbSet<Usuario> Usuarios => Set<Usuario>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder

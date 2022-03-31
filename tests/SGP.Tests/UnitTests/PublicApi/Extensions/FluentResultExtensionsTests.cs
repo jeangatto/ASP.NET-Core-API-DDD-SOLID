@@ -1,6 +1,5 @@
 using FluentAssertions;
 using FluentResults;
-using GraphQL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGP.PublicApi.Extensions;
@@ -15,23 +14,6 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions
     [UnitTest]
     public class FluentResultExtensionsTests
     {
-        [Fact]
-        public void Should_AddErrorsInGraphQL_WhenResultHasError()
-        {
-            // Arrange
-            const string errorMessage = "Requisição inválida.";
-            var result = new Result<string>().WithError(new Error(errorMessage));
-            var resolveFieldContext = new ResolveFieldContext { Errors = new ExecutionErrors() };
-
-            // Act
-            result.ToExecutionError(resolveFieldContext);
-
-            // Assert
-            resolveFieldContext.Errors.Should().NotBeNullOrEmpty()
-                .And.OnlyHaveUniqueItems()
-                .And.ContainEquivalentOf(new ExecutionError(errorMessage));
-        }
-
         [Fact]
         public void Should_ReturnsBadRequestResult_WhenResultHasError()
         {

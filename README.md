@@ -19,7 +19,7 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 
 > Nota: projeto focado em **Back-End**
 
-- RESTful API + GraphQL
+- RESTful API
 - Aplicado os princípios do **S.O.L.I.D.**
 - Aplicado a abordagem de modelagem de software **DDD (Domain Driven Design)**
 - Padrão de Camada Anticorrupção **(FluentValidation)**

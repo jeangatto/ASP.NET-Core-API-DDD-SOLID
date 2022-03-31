@@ -14,15 +14,18 @@ namespace SGP.Shared
 
             services.AddOptions<AuthConfig>()
                 .BindConfiguration(nameof(AuthConfig), BinderOptions)
-                .FluentValidate().With<AuthConfigValidator>();
+                .FluentValidate()
+                .With<AuthConfigValidator>();
 
             services.AddOptions<JwtConfig>()
                 .BindConfiguration(nameof(JwtConfig), BinderOptions)
-                .FluentValidate().With<JwtConfigValidator>();
+                .FluentValidate()
+                .With<JwtConfigValidator>();
 
             services.AddOptions<ConnectionStrings>()
                 .BindConfiguration(nameof(ConnectionStrings), BinderOptions)
-                .FluentValidate().With<ConnectionStringsValidator>();
+                .FluentValidate()
+                .With<ConnectionStringsValidator>();
 
             return services;
         }

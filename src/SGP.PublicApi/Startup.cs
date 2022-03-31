@@ -45,7 +45,6 @@ namespace SGP.PublicApi
                 .AddInfrastructure()
                 .AddRepositories()
                 .AddDbContext(services.AddHealthChecks())
-                .AddGraphQLWithSchemas()
                 .Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal)
                 .Configure<RouteOptions>(options =>
                 {
@@ -89,7 +88,6 @@ namespace SGP.PublicApi
                 .UseOpenApi(apiVersionProvider)
                 .UseHealthChecks()
                 .UseForwardedHeaders()
-                .UseGraphQL()
                 .UseHttpsRedirection()
                 .UseHsts()
                 .UseRouting()

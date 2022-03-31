@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentResults;
-using GraphQL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGP.PublicApi.Models;
@@ -12,12 +11,6 @@ namespace SGP.PublicApi.Extensions
     public static class FluentResultExtensions
     {
         private static readonly OkObjectResult EmptyOkResult = new(new ApiResponse(StatusCodes.Status200OK));
-
-        public static void ToExecutionError<T>(this Result<T> result, IResolveFieldContext<object> context)
-        {
-            foreach (var errorMessage in result.Errors.GroupByErrors())
-                context.Errors.Add(new ExecutionError(errorMessage));
-        }
 
         public static ObjectResult ToHttpResult(this Result result)
             => result.IsFailed ? result.ToHttpNonSuccessResult() : EmptyOkResult;
