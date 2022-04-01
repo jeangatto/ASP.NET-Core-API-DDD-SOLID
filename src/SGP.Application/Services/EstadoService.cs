@@ -8,35 +8,34 @@ using SGP.Application.Interfaces;
 using SGP.Application.Responses;
 using SGP.Domain.Repositories;
 
-namespace SGP.Application.Services
+namespace SGP.Application.Services;
+
+public class EstadoService : IEstadoService
 {
-    public class EstadoService : IEstadoService
+    private const string ServiceName = nameof(EstadoService);
+    private const string ObterTodosCacheKey = $"{ServiceName}__{nameof(ObterTodosAsync)}";
+
+    private readonly IMapper _mapper;
+    private readonly IMemoryCache _memoryCache;
+    private readonly IEstadoRepository _repository;
+
+    public EstadoService(IMapper mapper, IMemoryCache memoryCache, IEstadoRepository repository)
     {
-        private const string ServiceName = nameof(EstadoService);
-        private const string ObterTodosCacheKey = $"{ServiceName}__{nameof(ObterTodosAsync)}";
+        _mapper = mapper;
+        _memoryCache = memoryCache;
+        _repository = repository;
+    }
 
-        private readonly IMapper _mapper;
-        private readonly IMemoryCache _memoryCache;
-        private readonly IEstadoRepository _repository;
-
-        public EstadoService(IMapper mapper, IMemoryCache memoryCache, IEstadoRepository repository)
+    public async Task<Result<IEnumerable<EstadoResponse>>> ObterTodosAsync()
+    {
+        return await _memoryCache.GetOrCreateAsync(ObterTodosCacheKey, async cacheEntry =>
         {
-            _mapper = mapper;
-            _memoryCache = memoryCache;
-            _repository = repository;
-        }
+            // Aplicando a configuração do cache.
+            cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(60);
+            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
 
-        public async Task<Result<IEnumerable<EstadoResponse>>> ObterTodosAsync()
-        {
-            return await _memoryCache.GetOrCreateAsync(ObterTodosCacheKey, async cacheEntry =>
-            {
-                // Aplicando a configuração do cache.
-                cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(60);
-                cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
-
-                var estados = await _repository.ObterTodosAsync();
-                return Result.Ok(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
-            });
-        }
+            var estados = await _repository.ObterTodosAsync();
+            return Result.Ok(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
+        });
     }
 }

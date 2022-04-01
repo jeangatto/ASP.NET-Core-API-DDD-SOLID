@@ -6,16 +6,15 @@ using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
 
-namespace SGP.Infrastructure.Repositories
+namespace SGP.Infrastructure.Repositories;
+
+public class RegiaoRepository : IRegiaoRepository
 {
-    public class RegiaoRepository : IRegiaoRepository
-    {
-        private readonly DbSet<Regiao> _dbSet;
+    private readonly DbSet<Regiao> _dbSet;
 
-        public RegiaoRepository(SgpContext context)
-            => _dbSet = context.Regioes;
+    public RegiaoRepository(SgpContext context)
+        => _dbSet = context.Regioes;
 
-        public async Task<IEnumerable<Regiao>> ObterTodosAsync()
-            => await _dbSet.AsNoTracking().OrderBy(r => r.Nome).ToListAsync();
-    }
+    public async Task<IEnumerable<Regiao>> ObterTodosAsync()
+        => await _dbSet.AsNoTracking().OrderBy(r => r.Nome).ToListAsync();
 }

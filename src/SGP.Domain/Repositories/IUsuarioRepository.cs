@@ -3,12 +3,11 @@ using SGP.Domain.Entities;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Interfaces;
 
-namespace SGP.Domain.Repositories
+namespace SGP.Domain.Repositories;
+
+public interface IUsuarioRepository : IAsyncRepository<Usuario>
 {
-    public interface IUsuarioRepository : IAsyncRepository<Usuario>
-    {
-        Task<Usuario> ObterPorEmailAsync(Email email);
-        Task<Usuario> ObterPorTokenAtualizacaoAsync(string tokenAtualizacao);
-        Task<bool> VerificarSeEmailExisteAsync(Email email);
-    }
+    Task<Usuario> ObterPorEmailAsync(Email email);
+    Task<Usuario> ObterPorTokenAtualizacaoAsync(string tokenAtualizacao);
+    Task<bool> VerificarSeEmailExisteAsync(Email email);
 }

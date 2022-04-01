@@ -3,43 +3,42 @@ using Microsoft.Extensions.Logging;
 using SGP.Shared.Interfaces;
 using Throw;
 
-namespace SGP.Infrastructure.Services
+namespace SGP.Infrastructure.Services;
+
+public class BCryptHashService : IHashService
 {
-    public class BCryptHashService : IHashService
+    private readonly ILogger<BCryptHashService> _logger;
+
+    public BCryptHashService(ILogger<BCryptHashService> logger) => _logger = logger;
+
+    public bool Compare(string text, string hash)
     {
-        private readonly ILogger<BCryptHashService> _logger;
+        text.ThrowIfNull().IfEmpty().IfWhiteSpace();
+        hash.ThrowIfNull().IfEmpty().IfWhiteSpace();
 
-        public BCryptHashService(ILogger<BCryptHashService> logger) => _logger = logger;
-
-        public bool Compare(string text, string hash)
+        try
         {
-            text.ThrowIfNull().IfEmpty().IfWhiteSpace();
-            hash.ThrowIfNull().IfEmpty().IfWhiteSpace();
-
-            try
-            {
-                return BCrypt.Net.BCrypt.EnhancedVerify(text, hash);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ocorreu um erro ao verificar o HASH com BCrypt");
-                throw;
-            }
+            return BCrypt.Net.BCrypt.EnhancedVerify(text, hash);
         }
-
-        public string Hash(string text)
+        catch (Exception ex)
         {
-            text.ThrowIfNull().IfEmpty().IfWhiteSpace();
+            _logger.LogError(ex, "Ocorreu um erro ao verificar o HASH com BCrypt");
+            throw;
+        }
+    }
 
-            try
-            {
-                return BCrypt.Net.BCrypt.EnhancedHashPassword(text);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ocorreu um erro ao gerar o HASH com BCrypt");
-                throw;
-            }
+    public string Hash(string text)
+    {
+        text.ThrowIfNull().IfEmpty().IfWhiteSpace();
+
+        try
+        {
+            return BCrypt.Net.BCrypt.EnhancedHashPassword(text);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ocorreu um erro ao gerar o HASH com BCrypt");
+            throw;
         }
     }
 }

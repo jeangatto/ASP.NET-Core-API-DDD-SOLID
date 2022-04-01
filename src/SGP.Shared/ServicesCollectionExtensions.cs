@@ -4,30 +4,29 @@ using Microsoft.Extensions.DependencyInjection;
 using SGP.Shared.AppSettings;
 using SGP.Shared.AppSettings.OptionsValidators;
 
-namespace SGP.Shared
+namespace SGP.Shared;
+
+public static class ServicesCollectionExtensions
 {
-    public static class ServicesCollectionExtensions
+    public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
     {
-        public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
-        {
-            static void BinderOptions(BinderOptions options) => options.BindNonPublicProperties = true;
+        static void BinderOptions(BinderOptions options) => options.BindNonPublicProperties = true;
 
-            services.AddOptions<AuthConfig>()
-                .BindConfiguration(nameof(AuthConfig), BinderOptions)
-                .FluentValidate()
-                .With<AuthConfigValidator>();
+        services.AddOptions<AuthConfig>()
+            .BindConfiguration(nameof(AuthConfig), BinderOptions)
+            .FluentValidate()
+            .With<AuthConfigValidator>();
 
-            services.AddOptions<JwtConfig>()
-                .BindConfiguration(nameof(JwtConfig), BinderOptions)
-                .FluentValidate()
-                .With<JwtConfigValidator>();
+        services.AddOptions<JwtConfig>()
+            .BindConfiguration(nameof(JwtConfig), BinderOptions)
+            .FluentValidate()
+            .With<JwtConfigValidator>();
 
-            services.AddOptions<ConnectionStrings>()
-                .BindConfiguration(nameof(ConnectionStrings), BinderOptions)
-                .FluentValidate()
-                .With<ConnectionStringsValidator>();
+        services.AddOptions<ConnectionStrings>()
+            .BindConfiguration(nameof(ConnectionStrings), BinderOptions)
+            .FluentValidate()
+            .With<ConnectionStringsValidator>();
 
-            return services;
-        }
+        return services;
     }
 }

@@ -3,22 +3,21 @@ using SGP.Application.Mapper;
 using Xunit;
 using Xunit.Categories;
 
-namespace SGP.Tests.UnitTests.Application
+namespace SGP.Tests.UnitTests.Application;
+
+[UnitTest]
+public class DomainToResponseMapperTests
 {
-    [UnitTest]
-    public class DomainToResponseMapperTests
+    [Fact]
+    public void Should_Mapper_ConfigurationIsValid()
     {
-        [Fact]
-        public void Should_Mapper_ConfigurationIsValid()
-        {
-            // Arrange
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>());
+        // Arrange
+        var configuration = new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>());
 
-            // Act
-            var mapper = new Mapper(configuration);
+        // Act
+        var mapper = new Mapper(configuration);
 
-            // Assert
-            mapper.ConfigurationProvider.AssertConfigurationIsValid();
-        }
+        // Assert
+        mapper.ConfigurationProvider.AssertConfigurationIsValid();
     }
 }

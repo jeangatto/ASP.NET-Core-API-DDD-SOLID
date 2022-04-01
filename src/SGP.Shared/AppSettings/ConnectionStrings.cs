@@ -1,10 +1,9 @@
-namespace SGP.Shared.AppSettings
+namespace SGP.Shared.AppSettings;
+
+public sealed class ConnectionStrings
 {
-    public sealed class ConnectionStrings
-    {
-        /// <summary>
-        /// String da conexão padrão.
-        /// </summary>
-        public string DefaultConnection { get; private set; }
-    }
+    /// <summary>
+    /// String da conexão padrão.
+    /// </summary>
+    public string DefaultConnection { get; private set; }
 }

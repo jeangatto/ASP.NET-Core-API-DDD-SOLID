@@ -8,63 +8,62 @@ using SGP.Domain.Entities;
 using SGP.Shared.Extensions;
 using Throw;
 
-namespace SGP.Infrastructure.Context
+namespace SGP.Infrastructure.Context;
+
+/// <summary>
+/// Responsável por popular a base de dados.
+/// </summary>
+public static class SgpContextSeed
 {
     /// <summary>
-    /// Responsável por popular a base de dados.
+    /// Caminho da pasta raiz da aplicação.
     /// </summary>
-    public static class SgpContextSeed
+    private static readonly string RootFolderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+    /// <summary>
+    /// Nome da pasta que contém os arquivos de seeds.
+    /// </summary>
+    private const string SeedFolderName = "Seeds";
+
+    /// <summary>
+    /// Caminho da pasta que contém os arquivos de seeds.
+    /// </summary>
+    private static readonly string FolderPath = Path.Combine(RootFolderPath, SeedFolderName);
+
+    /// <summary>
+    /// Popula a base de dados.
+    /// </summary>
+    /// <param name="context">Contexto da base de dados.</param>
+    /// <returns>Retorna o número de linhas afetadas na base de dados.</returns>
+    public static async Task<long> EnsureSeedDataAsync(this SgpContext context)
     {
-        /// <summary>
-        /// Caminho da pasta raiz da aplicação.
-        /// </summary>
-        private static readonly string RootFolderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        context.ThrowIfNull();
 
-        /// <summary>
-        /// Nome da pasta que contém os arquivos de seeds.
-        /// </summary>
-        private const string SeedFolderName = "Seeds";
+        var rowsAffected = await PopularAsync<Regiao>(context, "regioes.json");
+        rowsAffected += await PopularAsync<Estado>(context, "estados.json");
+        rowsAffected += await PopularAsync<Cidade>(context, "cidades.json");
+        return rowsAffected;
+    }
 
-        /// <summary>
-        /// Caminho da pasta que contém os arquivos de seeds.
-        /// </summary>
-        private static readonly string FolderPath = Path.Combine(RootFolderPath, SeedFolderName);
+    private static async Task<long> PopularAsync<TEntity>(DbContext context, string fileName) where TEntity : class
+    {
+        fileName.ThrowIfNull().IfEmpty().IfWhiteSpace();
 
-        /// <summary>
-        /// Popula a base de dados.
-        /// </summary>
-        /// <param name="context">Contexto da base de dados.</param>
-        /// <returns>Retorna o número de linhas afetadas na base de dados.</returns>
-        public static async Task<long> EnsureSeedDataAsync(this SgpContext context)
+        var dbSet = context.Set<TEntity>();
+
+        var totalRows = await dbSet.AsNoTracking().LongCountAsync();
+        if (totalRows == 0)
         {
-            context.ThrowIfNull();
+            var filePath = Path.Combine(FolderPath, fileName);
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", fileName);
 
-            var rowsAffected = await PopularAsync<Regiao>(context, "regioes.json");
-            rowsAffected += await PopularAsync<Estado>(context, "estados.json");
-            rowsAffected += await PopularAsync<Cidade>(context, "cidades.json");
-            return rowsAffected;
+            var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
+            dbSet.AddRange(entitiesJson.FromJson<IEnumerable<TEntity>>());
+
+            totalRows = await context.SaveChangesAsync();
         }
 
-        private static async Task<long> PopularAsync<TEntity>(DbContext context, string fileName) where TEntity : class
-        {
-            fileName.ThrowIfNull().IfEmpty().IfWhiteSpace();
-
-            var dbSet = context.Set<TEntity>();
-
-            var totalRows = await dbSet.AsNoTracking().LongCountAsync();
-            if (totalRows == 0)
-            {
-                var filePath = Path.Combine(FolderPath, fileName);
-                if (!File.Exists(filePath))
-                    throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", fileName);
-
-                var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
-                dbSet.AddRange(entitiesJson.FromJson<IEnumerable<TEntity>>());
-
-                totalRows = await context.SaveChangesAsync();
-            }
-
-            return totalRows;
-        }
+        return totalRows;
     }
 }

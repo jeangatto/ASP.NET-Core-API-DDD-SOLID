@@ -6,35 +6,34 @@ using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
 using SGP.Shared.Interfaces;
 
-namespace SGP.Infrastructure.UoW
+namespace SGP.Infrastructure.UoW;
+
+public sealed class UnitOfWork : IUnitOfWork
 {
-    public sealed class UnitOfWork : IUnitOfWork
+    private readonly SgpContext _context;
+    private readonly ILogger<UnitOfWork> _logger;
+
+    public UnitOfWork(SgpContext context, ILogger<UnitOfWork> logger)
     {
-        private readonly SgpContext _context;
-        private readonly ILogger<UnitOfWork> _logger;
+        _context = context;
+        _logger = logger;
+    }
 
-        public UnitOfWork(SgpContext context, ILogger<UnitOfWork> logger)
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        try
         {
-            _context = context;
-            _logger = logger;
+            return await _context.SaveChangesAsync(cancellationToken);
         }
-
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        catch (DbUpdateConcurrencyException ex)
         {
-            try
-            {
-                return await _context.SaveChangesAsync(cancellationToken);
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                _logger.LogError(ex, "Ocorreu um erro (concorrência) ao salvar as informações na base de dados");
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados");
-                throw;
-            }
+            _logger.LogError(ex, "Ocorreu um erro (concorrência) ao salvar as informações na base de dados");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados");
+            throw;
         }
     }
 }

@@ -6,34 +6,33 @@ using SGP.Infrastructure.Context;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 
-namespace SGP.Infrastructure.Repositories.Common
+namespace SGP.Infrastructure.Repositories.Common;
+
+public abstract class EfRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : BaseEntity, IAggregateRoot
 {
-    public abstract class EfRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : BaseEntity, IAggregateRoot
-    {
-        protected readonly DbSet<TEntity> DbSet;
+    protected readonly DbSet<TEntity> DbSet;
 
-        protected EfRepository(SgpContext context)
-            => DbSet = context.Set<TEntity>();
+    protected EfRepository(SgpContext context)
+        => DbSet = context.Set<TEntity>();
 
-        public void Add(TEntity entity)
-            => DbSet.Add(entity);
+    public void Add(TEntity entity)
+        => DbSet.Add(entity);
 
-        public void AddRange(IEnumerable<TEntity> entities)
-            => DbSet.AddRange(entities);
+    public void AddRange(IEnumerable<TEntity> entities)
+        => DbSet.AddRange(entities);
 
-        public void Update(TEntity entity)
-            => DbSet.Update(entity);
+    public void Update(TEntity entity)
+        => DbSet.Update(entity);
 
-        public void UpdateRange(IEnumerable<TEntity> entities)
-            => DbSet.UpdateRange(entities);
+    public void UpdateRange(IEnumerable<TEntity> entities)
+        => DbSet.UpdateRange(entities);
 
-        public void Remove(TEntity entity)
-            => DbSet.Remove(entity);
+    public void Remove(TEntity entity)
+        => DbSet.Remove(entity);
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
-            => DbSet.RemoveRange(entities);
+    public void RemoveRange(IEnumerable<TEntity> entities)
+        => DbSet.RemoveRange(entities);
 
-        public virtual async Task<TEntity> GetByIdAsync(Guid id)
-            => await DbSet.FindAsync(id);
-    }
+    public virtual async Task<TEntity> GetByIdAsync(Guid id)
+        => await DbSet.FindAsync(id);
 }

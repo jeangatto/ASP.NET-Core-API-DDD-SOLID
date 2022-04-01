@@ -1,9 +1,8 @@
 using System;
 
-namespace SGP.Shared.Interfaces
+namespace SGP.Shared.Interfaces;
+
+public interface IDateTime
 {
-    public interface IDateTime
-    {
-        DateTime Now { get; }
-    }
+    DateTime Now { get; }
 }

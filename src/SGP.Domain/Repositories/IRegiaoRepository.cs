@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using SGP.Domain.Entities;
 using SGP.Shared.Interfaces;
 
-namespace SGP.Domain.Repositories
+namespace SGP.Domain.Repositories;
+
+public interface IRegiaoRepository : IRepository
 {
-    public interface IRegiaoRepository : IRepository
-    {
-        Task<IEnumerable<Regiao>> ObterTodosAsync();
-    }
+    Task<IEnumerable<Regiao>> ObterTodosAsync();
 }

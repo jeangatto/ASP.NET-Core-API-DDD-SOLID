@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace SGP.Tests.Extensions
+namespace SGP.Tests.Extensions;
+
+public static class EnumerableExtensions
 {
-    public static class EnumerableExtensions
+    public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
     {
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
-        {
-            foreach (var item in source)
-                action(item);
-        }
+        foreach (var item in source)
+            action(item);
     }
 }

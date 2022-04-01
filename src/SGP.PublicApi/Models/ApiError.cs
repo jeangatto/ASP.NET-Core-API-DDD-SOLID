@@ -1,4 +1,3 @@
-namespace SGP.PublicApi.Models
-{
-    public sealed record ApiError(string Message);
-}
+namespace SGP.PublicApi.Models;
+
+public sealed record ApiError(string Message);

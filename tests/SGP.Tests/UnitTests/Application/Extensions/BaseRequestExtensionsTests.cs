@@ -8,62 +8,61 @@ using SGP.Tests.Extensions;
 using Xunit;
 using Xunit.Categories;
 
-namespace SGP.Tests.UnitTests.Application.Extensions
+namespace SGP.Tests.UnitTests.Application.Extensions;
+
+[UnitTest]
+public class BaseRequestExtensionsTests
 {
-    [UnitTest]
-    public class BaseRequestExtensionsTests
+    [Fact]
+    public async Task Should_ReturnResultTypedWithErrors_WhenValidationFail()
     {
-        [Fact]
-        public async Task Should_ReturnResultTypedWithErrors_WhenValidationFail()
-        {
-            // Arrange
-            var request = new ObterTodosPorUfRequest(string.Empty);
-            await request.ValidateAsync();
+        // Arrange
+        var request = new ObterTodosPorUfRequest(string.Empty);
+        await request.ValidateAsync();
 
-            // Act
-            var actual = request.ToFail<CidadeResponse>();
+        // Act
+        var actual = request.ToFail<CidadeResponse>();
 
-            // Assert
-            actual.Should().NotBeNull();
-            actual.HasError<ValidationError>().Should().BeTrue();
-            actual.IsFailed.Should().BeTrue();
-            actual.Errors.Should().NotBeNullOrEmpty()
-                .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
-        }
+        // Assert
+        actual.Should().NotBeNull();
+        actual.HasError<ValidationError>().Should().BeTrue();
+        actual.IsFailed.Should().BeTrue();
+        actual.Errors.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
+    }
 
-        [Fact]
-        public async Task Should_ReturnResultWithErrors_WhenValidationFail()
-        {
-            // Arrange
-            var request = new ObterTodosPorUfRequest(string.Empty);
-            await request.ValidateAsync();
+    [Fact]
+    public async Task Should_ReturnResultWithErrors_WhenValidationFail()
+    {
+        // Arrange
+        var request = new ObterTodosPorUfRequest(string.Empty);
+        await request.ValidateAsync();
 
-            // Act
-            var actual = request.ToFail();
+        // Act
+        var actual = request.ToFail();
 
-            // Assert
-            actual.Should().NotBeNull();
-            actual.HasError<ValidationError>().Should().BeTrue();
-            actual.IsFailed.Should().BeTrue();
-            actual.Errors.Should().NotBeNullOrEmpty()
-                .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
-        }
+        // Assert
+        actual.Should().NotBeNull();
+        actual.HasError<ValidationError>().Should().BeTrue();
+        actual.IsFailed.Should().BeTrue();
+        actual.Errors.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
+    }
 
-        [Fact]
-        public async Task Should_ReturnResultWithNoErrors_WhenValidationPass()
-        {
-            // Arrange
-            var request = new ObterTodosPorUfRequest("SP");
-            await request.ValidateAsync();
+    [Fact]
+    public async Task Should_ReturnResultWithNoErrors_WhenValidationPass()
+    {
+        // Arrange
+        var request = new ObterTodosPorUfRequest("SP");
+        await request.ValidateAsync();
 
-            // Act
-            var actual = request.ToFail();
+        // Act
+        var actual = request.ToFail();
 
-            // Assert
-            actual.Should().NotBeNull();
-            actual.IsSuccess.Should().BeTrue();
-        }
+        // Assert
+        actual.Should().NotBeNull();
+        actual.IsSuccess.Should().BeTrue();
     }
 }

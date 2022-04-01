@@ -1,10 +1,9 @@
 using FluentValidation;
 
-namespace SGP.Application.Requests.CidadeRequests
+namespace SGP.Application.Requests.CidadeRequests;
+
+public class ObterTodosPorUfRequestValidator : AbstractValidator<ObterTodosPorUfRequest>
 {
-    public class ObterTodosPorUfRequestValidator : AbstractValidator<ObterTodosPorUfRequest>
-    {
-        public ObterTodosPorUfRequestValidator()
-            => RuleFor(x => x.Uf).NotEmpty().Length(2);
-    }
+    public ObterTodosPorUfRequestValidator()
+        => RuleFor(x => x.Uf).NotEmpty().Length(2);
 }

@@ -3,24 +3,23 @@ using SGP.Domain.ValueObjects;
 using Xunit;
 using Xunit.Categories;
 
-namespace SGP.Tests.UnitTests.Domain.ValueObjects
+namespace SGP.Tests.UnitTests.Domain.ValueObjects;
+
+[UnitTest]
+public class EmailTests
 {
-    [UnitTest]
-    public class EmailTests
+    [Fact]
+    public void Should_TrimAndLowerAddress_WhenInstantiateEmail()
     {
-        [Fact]
-        public void Should_TrimAndLowerAddress_WhenInstantiateEmail()
-        {
-            // Arrange
-            const string emailAddress = "  john.doe@HOTMAIL.COM   ";
-            const string expected = "john.doe@hotmail.com";
+        // Arrange
+        const string emailAddress = "  john.doe@HOTMAIL.COM   ";
+        const string expected = "john.doe@hotmail.com";
 
-            // Act
-            var actual = new Email(emailAddress);
+        // Act
+        var actual = new Email(emailAddress);
 
-            // Assert
-            actual.Should().NotBeNull();
-            actual.Address.Should().NotBeNullOrWhiteSpace().And.Be(expected).And.NotBeUpperCased();
-        }
+        // Assert
+        actual.Should().NotBeNull();
+        actual.Address.Should().NotBeNullOrWhiteSpace().And.Be(expected).And.NotBeUpperCased();
     }
 }

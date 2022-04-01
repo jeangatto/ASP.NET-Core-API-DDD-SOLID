@@ -10,56 +10,55 @@ using SGP.Shared.Interfaces;
 using SGP.Shared.Records;
 using Throw;
 
-namespace SGP.Infrastructure.Services
+namespace SGP.Infrastructure.Services;
+
+public class IdentityTokenClaimService : ITokenClaimsService
 {
-    public class IdentityTokenClaimService : ITokenClaimsService
+    private const short RefreshTokenBytesLength = 64;
+    private readonly JwtConfig _jwtConfig;
+    private readonly IDateTime _dateTime;
+
+    public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTime dateTime)
     {
-        private const short RefreshTokenBytesLength = 64;
-        private readonly JwtConfig _jwtConfig;
-        private readonly IDateTime _dateTime;
+        _jwtConfig = jwtOptions.Value;
+        _dateTime = dateTime;
+    }
 
-        public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTime dateTime)
+    public AccessToken GenerateAccessToken(Claim[] claims)
+    {
+        claims.ThrowIfNull().IfEmpty();
+
+        var createdAt = _dateTime.Now;
+        var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
         {
-            _jwtConfig = jwtOptions.Value;
-            _dateTime = dateTime;
-        }
+            Audience = _jwtConfig.Audience,
+            Issuer = _jwtConfig.Issuer,
+            NotBefore = createdAt,
+            Expires = expiresAt,
+            Subject = new ClaimsIdentity(claims),
+            SigningCredentials = CreateSigningCredentials()
+        };
 
-        public AccessToken GenerateAccessToken(Claim[] claims)
-        {
-            claims.ThrowIfNull().IfEmpty();
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+        var token = tokenHandler.WriteToken(securityToken);
+        return new AccessToken(token, createdAt, expiresAt);
+    }
 
-            var createdAt = _dateTime.Now;
-            var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);
+    public string GenerateRefreshToken()
+    {
+        using var rnd = RandomNumberGenerator.Create();
+        var randomBytes = new byte[RefreshTokenBytesLength];
+        rnd.GetBytes(randomBytes);
+        return Convert.ToBase64String(randomBytes);
+    }
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Audience = _jwtConfig.Audience,
-                Issuer = _jwtConfig.Issuer,
-                NotBefore = createdAt,
-                Expires = expiresAt,
-                Subject = new ClaimsIdentity(claims),
-                SigningCredentials = CreateSigningCredentials()
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-            var token = tokenHandler.WriteToken(securityToken);
-            return new AccessToken(token, createdAt, expiresAt);
-        }
-
-        public string GenerateRefreshToken()
-        {
-            using var rnd = RandomNumberGenerator.Create();
-            var randomBytes = new byte[RefreshTokenBytesLength];
-            rnd.GetBytes(randomBytes);
-            return Convert.ToBase64String(randomBytes);
-        }
-
-        private SigningCredentials CreateSigningCredentials()
-        {
-            var secretKey = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
-            var securityKey = new SymmetricSecurityKey(secretKey);
-            return new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-        }
+    private SigningCredentials CreateSigningCredentials()
+    {
+        var secretKey = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
+        var securityKey = new SymmetricSecurityKey(secretKey);
+        return new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
     }
 }

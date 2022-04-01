@@ -12,44 +12,43 @@ using SGP.Tests.Fixtures;
 using Xunit;
 using Xunit.Categories;
 
-namespace SGP.Tests.UnitTests.Application.Services
+namespace SGP.Tests.UnitTests.Application.Services;
+
+[UnitTest]
+public class EstadoServiceTests : IClassFixture<EfSqliteFixture>
 {
-    [UnitTest]
-    public class EstadoServiceTests : IClassFixture<EfSqliteFixture>
+    private readonly EfSqliteFixture _fixture;
+
+    public EstadoServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
+
+    [Fact]
+    public async Task Devera_RetornarResultadoSucessoComEstados_AoObterTodos()
     {
-        private readonly EfSqliteFixture _fixture;
+        // Arrange
+        var service = CriarServico();
 
-        public EstadoServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
+        // Act
+        var actual = await service.ObterTodosAsync();
 
-        [Fact]
-        public async Task Devera_RetornarResultadoSucessoComEstados_AoObterTodos()
-        {
-            // Arrange
-            var service = CriarServico();
+        // Assert
+        actual.Should().NotBeNull();
+        actual.IsSuccess.Should().BeTrue();
+        actual.Value.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.HaveCount(Totais.Estados)
+            .And.Subject.ForEach(e =>
+            {
+                e.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+                e.Regiao.Should().NotBeNullOrWhiteSpace();
+                e.Nome.Should().NotBeNullOrWhiteSpace();
+            });
+    }
 
-            // Act
-            var actual = await service.ObterTodosAsync();
-
-            // Assert
-            actual.Should().NotBeNull();
-            actual.IsSuccess.Should().BeTrue();
-            actual.Value.Should().NotBeNullOrEmpty()
-                .And.OnlyHaveUniqueItems()
-                .And.HaveCount(Totais.Estados)
-                .And.Subject.ForEach(e =>
-                {
-                    e.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
-                    e.Regiao.Should().NotBeNullOrWhiteSpace();
-                    e.Nome.Should().NotBeNullOrWhiteSpace();
-                });
-        }
-
-        private IEstadoService CriarServico()
-        {
-            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
-            var memoryCache = new MemoryCache(new MemoryCacheOptions());
-            var repositorio = new EstadoRepository(_fixture.Context);
-            return new EstadoService(mapper, memoryCache, repositorio);
-        }
+    private IEstadoService CriarServico()
+    {
+        var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
+        var memoryCache = new MemoryCache(new MemoryCacheOptions());
+        var repositorio = new EstadoRepository(_fixture.Context);
+        return new EstadoService(mapper, memoryCache, repositorio);
     }
 }

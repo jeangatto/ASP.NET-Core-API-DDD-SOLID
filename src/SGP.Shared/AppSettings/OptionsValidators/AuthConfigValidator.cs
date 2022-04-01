@@ -1,18 +1,17 @@
 using FluentValidation;
 
-namespace SGP.Shared.AppSettings.OptionsValidators
+namespace SGP.Shared.AppSettings.OptionsValidators;
+
+public class AuthConfigValidator : AbstractValidator<AuthConfig>
 {
-    public class AuthConfigValidator : AbstractValidator<AuthConfig>
+    private const short Zero = 0;
+
+    public AuthConfigValidator()
     {
-        private const short Zero = 0;
+        RuleFor(options => options.MaximumAttempts)
+            .GreaterThan(Zero);
 
-        public AuthConfigValidator()
-        {
-            RuleFor(options => options.MaximumAttempts)
-                .GreaterThan(Zero);
-
-            RuleFor(options => options.SecondsBlocked)
-                .GreaterThan(Zero);
-        }
+        RuleFor(options => options.SecondsBlocked)
+            .GreaterThan(Zero);
     }
 }

@@ -3,22 +3,21 @@ using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using SGP.Shared.Interfaces;
 
-namespace SGP.Application
+namespace SGP.Application;
+
+public static class ServicesCollectionExtensions
 {
-    public static class ServicesCollectionExtensions
+    public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
-        {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.Scan(scan => scan
-                .FromCallingAssembly()
-                .AddClasses(classes => classes.AssignableTo<IAppService>())
-                .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-                .AsImplementedInterfaces()
-                .WithScopedLifetime());
+        services.Scan(scan => scan
+            .FromCallingAssembly()
+            .AddClasses(classes => classes.AssignableTo<IAppService>())
+            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
 
-            return services;
-        }
+        return services;
     }
 }

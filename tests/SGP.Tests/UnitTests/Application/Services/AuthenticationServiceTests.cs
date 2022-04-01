@@ -22,172 +22,171 @@ using SGP.Tests.Fixtures;
 using Xunit;
 using Xunit.Categories;
 
-namespace SGP.Tests.UnitTests.Application.Services
+namespace SGP.Tests.UnitTests.Application.Services;
+
+[UnitTest]
+public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
 {
-    [UnitTest]
-    public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
+    private readonly EfSqliteFixture _fixture;
+
+    public AuthenticationServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
+
+    [Fact]
+    public async Task Devera_RetornarSucessoComToken_AoAutenticar()
     {
-        private readonly EfSqliteFixture _fixture;
+        // Arrange
+        var jwtConfig = CreateJwtConfig();
+        var dateTime = new LocalDateTimeService();
+        var tokenClaimsService = new IdentityTokenClaimService(jwtConfig, dateTime);
+        var hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
+        var usuarioRepository = new UsuarioRepository(_fixture.Context);
+        var unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
+        var service = CreateAuthenticationService(
+            CreateAuthConfig(),
+            dateTime,
+            hashService,
+            tokenClaimsService,
+            usuarioRepository,
+            unitOfWork);
 
-        public AuthenticationServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
+        const string nome = "Gatto";
+        const string email = "jean_gatto@hotmail.com";
+        const string senha = "VWBMx1bVqP01";
+        usuarioRepository.Add(new Usuario(nome, new Email(email), hashService.Hash(senha)));
+        await unitOfWork.SaveChangesAsync();
+        var request = new LogInRequest(email, senha);
 
-        [Fact]
-        public async Task Devera_RetornarSucessoComToken_AoAutenticar()
-        {
-            // Arrange
-            var jwtConfig = CreateJwtConfig();
-            var dateTime = new LocalDateTimeService();
-            var tokenClaimsService = new IdentityTokenClaimService(jwtConfig, dateTime);
-            var hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
-            var usuarioRepository = new UsuarioRepository(_fixture.Context);
-            var unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
-            var service = CreateAuthenticationService(
-                CreateAuthConfig(),
-                dateTime,
-                hashService,
-                tokenClaimsService,
-                usuarioRepository,
-                unitOfWork);
+        // Act
+        var actual = await service.AuthenticateAsync(request);
 
-            const string nome = "Gatto";
-            const string email = "jean_gatto@hotmail.com";
-            const string senha = "VWBMx1bVqP01";
-            usuarioRepository.Add(new Usuario(nome, new Email(email), hashService.Hash(senha)));
-            await unitOfWork.SaveChangesAsync();
-            var request = new LogInRequest(email, senha);
+        // Assert
+        actual.Should().NotBeNull();
+        actual.IsSuccess.Should().BeTrue();
+        actual.Value.Should().NotBeNull();
+        var tokenResponse = actual.Value;
+        tokenResponse.AccessToken.Should().NotBeNullOrWhiteSpace();
+        tokenResponse.Expiration.Should().BeAfter(tokenResponse.Created);
+        tokenResponse.RefreshToken.Should().NotBeNullOrWhiteSpace();
+        tokenResponse.ExpiresIn.Should().BePositive().And.Be(jwtConfig.Value.Seconds);
+    }
 
-            // Act
-            var actual = await service.AuthenticateAsync(request);
+    [Fact]
+    public async Task Devera_RetornarErroValidacao_AoAutenticarContaBloqueada()
+    {
+        // Arrange
+        const string expectedError = "A sua conta está bloqueada, entre em contato com o nosso suporte.";
 
-            // Assert
-            actual.Should().NotBeNull();
-            actual.IsSuccess.Should().BeTrue();
-            actual.Value.Should().NotBeNull();
-            var tokenResponse = actual.Value;
-            tokenResponse.AccessToken.Should().NotBeNullOrWhiteSpace();
-            tokenResponse.Expiration.Should().BeAfter(tokenResponse.Created);
-            tokenResponse.RefreshToken.Should().NotBeNullOrWhiteSpace();
-            tokenResponse.ExpiresIn.Should().BePositive().And.Be(jwtConfig.Value.Seconds);
-        }
+        var usuario = new Faker<Usuario>()
+            .UsePrivateConstructor()
+            .RuleFor(usuario => usuario.Id, faker => faker.Random.Guid())
+            .RuleFor(usuario => usuario.Nome, faker => faker.Person.FullName)
+            .RuleFor(usuario => usuario.Email, faker => new Email(faker.Person.Email))
+            .RuleFor(usuario => usuario.HashSenha, faker => faker.Internet.Password())
+            .RuleFor(usuario => usuario.UltimoAcessoEm, faker => faker.Date.Past())
+            .RuleFor(usuario => usuario.BloqueioExpiraEm, faker => faker.Date.Future())
+            .RuleFor(usuario => usuario.NumeroFalhasAoAcessar, faker => faker.Random.Int(1, 10))
+            .Generate();
 
-        [Fact]
-        public async Task Devera_RetornarErroValidacao_AoAutenticarContaBloqueada()
-        {
-            // Arrange
-            const string expectedError = "A sua conta está bloqueada, entre em contato com o nosso suporte.";
+        var logInRequest = new LogInRequest(usuario.Email.Address, usuario.HashSenha);
 
-            var usuario = new Faker<Usuario>()
-                .UsePrivateConstructor()
-                .RuleFor(usuario => usuario.Id, faker => faker.Random.Guid())
-                .RuleFor(usuario => usuario.Nome, faker => faker.Person.FullName)
-                .RuleFor(usuario => usuario.Email, faker => new Email(faker.Person.Email))
-                .RuleFor(usuario => usuario.HashSenha, faker => faker.Internet.Password())
-                .RuleFor(usuario => usuario.UltimoAcessoEm, faker => faker.Date.Past())
-                .RuleFor(usuario => usuario.BloqueioExpiraEm, faker => faker.Date.Future())
-                .RuleFor(usuario => usuario.NumeroFalhasAoAcessar, faker => faker.Random.Int(1, 10))
-                .Generate();
+        var usuarioRepositoryMock = new Mock<IUsuarioRepository>();
+        usuarioRepositoryMock
+            .Setup(s => s.ObterPorEmailAsync(It.IsNotNull<Email>()))
+            .ReturnsAsync(usuario);
 
-            var logInRequest = new LogInRequest(usuario.Email.Address, usuario.HashSenha);
+        var dateTimeMock = new Mock<IDateTime>();
+        dateTimeMock.SetupGet(s => s.Now).Returns(DateTime.Now);
 
-            var usuarioRepositoryMock = new Mock<IUsuarioRepository>();
-            usuarioRepositoryMock
-                .Setup(s => s.ObterPorEmailAsync(It.IsNotNull<Email>()))
-                .ReturnsAsync(usuario);
+        var service = CreateAuthenticationService(
+            dateTime: dateTimeMock.Object,
+            usuarioRepository: usuarioRepositoryMock.Object);
 
-            var dateTimeMock = new Mock<IDateTime>();
-            dateTimeMock.SetupGet(s => s.Now).Returns(DateTime.Now);
+        // Act
+        var actual = await service.AuthenticateAsync(logInRequest);
 
-            var service = CreateAuthenticationService(
-                dateTime: dateTimeMock.Object,
-                usuarioRepository: usuarioRepositoryMock.Object);
+        // Assert
+        actual.Should().NotBeNull();
+        actual.IsFailed.Should().BeTrue();
+        actual.Errors.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
 
-            // Act
-            var actual = await service.AuthenticateAsync(logInRequest);
+        usuarioRepositoryMock.Verify(s => s.ObterPorEmailAsync(It.IsNotNull<Email>()), Times.Once);
+        dateTimeMock.Verify(s => s.Now, Times.Once);
+    }
 
-            // Assert
-            actual.Should().NotBeNull();
-            actual.IsFailed.Should().BeTrue();
-            actual.Errors.Should().NotBeNullOrEmpty()
-                .And.OnlyHaveUniqueItems()
-                .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
+    [Fact]
+    public async Task Devera_RetornarErroValidacao_AoAutenticarLogInInvalido()
+    {
+        // Arrange
+        var logInRequest = new LogInRequest(string.Empty, string.Empty);
+        var service = CreateAuthenticationService();
 
-            usuarioRepositoryMock.Verify(s => s.ObterPorEmailAsync(It.IsNotNull<Email>()), Times.Once);
-            dateTimeMock.Verify(s => s.Now, Times.Once);
-        }
+        // Act
+        var actual = await service.AuthenticateAsync(logInRequest);
 
-        [Fact]
-        public async Task Devera_RetornarErroValidacao_AoAutenticarLogInInvalido()
-        {
-            // Arrange
-            var logInRequest = new LogInRequest(string.Empty, string.Empty);
-            var service = CreateAuthenticationService();
+        // Assert
+        actual.Should().NotBeNull();
+        actual.HasError<ValidationError>().Should().BeTrue();
+        actual.IsFailed.Should().BeTrue();
+        actual.Errors.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
+    }
 
-            // Act
-            var actual = await service.AuthenticateAsync(logInRequest);
+    [Fact]
+    public async Task Devera_RetornarErroValidacao_AoAutenticarLogInInexistente()
+    {
+        // Arrange
+        const string expectedError = "A conta informada não existe.";
+        var logInRequest = new LogInRequest("joao.ninguem@gmail.com", "gUoCA3#d1oKB");
+        var service = CreateAuthenticationService();
 
-            // Assert
-            actual.Should().NotBeNull();
-            actual.HasError<ValidationError>().Should().BeTrue();
-            actual.IsFailed.Should().BeTrue();
-            actual.Errors.Should().NotBeNullOrEmpty()
-                .And.OnlyHaveUniqueItems()
-                .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
-        }
+        // Act
+        var actual = await service.AuthenticateAsync(logInRequest);
 
-        [Fact]
-        public async Task Devera_RetornarErroValidacao_AoAutenticarLogInInexistente()
-        {
-            // Arrange
-            const string expectedError = "A conta informada não existe.";
-            var logInRequest = new LogInRequest("joao.ninguem@gmail.com", "gUoCA3#d1oKB");
-            var service = CreateAuthenticationService();
+        // Assert
+        actual.Should().NotBeNull();
+        actual.HasError<NotFoundError>().Should().BeTrue();
+        actual.IsFailed.Should().BeTrue();
+        actual.Errors.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
+    }
 
-            // Act
-            var actual = await service.AuthenticateAsync(logInRequest);
+    private static IAuthenticationService CreateAuthenticationService(
+        IOptions<AuthConfig> authOptions = null,
+        IDateTime dateTime = null,
+        IHashService hashService = null,
+        ITokenClaimsService tokenClaimsService = null,
+        IUsuarioRepository usuarioRepository = null,
+        IUnitOfWork unitOfWork = null)
+    {
+        return new AuthenticationService(
+            authOptions ?? Mock.Of<IOptions<AuthConfig>>(),
+            dateTime ?? Mock.Of<IDateTime>(),
+            hashService ?? Mock.Of<IHashService>(),
+            tokenClaimsService ?? Mock.Of<ITokenClaimsService>(),
+            usuarioRepository ?? Mock.Of<IUsuarioRepository>(),
+            unitOfWork ?? Mock.Of<IUnitOfWork>());
+    }
 
-            // Assert
-            actual.Should().NotBeNull();
-            actual.HasError<NotFoundError>().Should().BeTrue();
-            actual.IsFailed.Should().BeTrue();
-            actual.Errors.Should().NotBeNullOrEmpty()
-                .And.OnlyHaveUniqueItems()
-                .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
-        }
+    private static IOptions<AuthConfig> CreateAuthConfig()
+    {
+        const short maximumAttempts = 3;
+        const short secondsBlocked = 1000;
+        return Options.Create(AuthConfig.Create(maximumAttempts, secondsBlocked));
+    }
 
-        private static IAuthenticationService CreateAuthenticationService(
-            IOptions<AuthConfig> authOptions = null,
-            IDateTime dateTime = null,
-            IHashService hashService = null,
-            ITokenClaimsService tokenClaimsService = null,
-            IUsuarioRepository usuarioRepository = null,
-            IUnitOfWork unitOfWork = null)
-        {
-            return new AuthenticationService(
-                authOptions ?? Mock.Of<IOptions<AuthConfig>>(),
-                dateTime ?? Mock.Of<IDateTime>(),
-                hashService ?? Mock.Of<IHashService>(),
-                tokenClaimsService ?? Mock.Of<ITokenClaimsService>(),
-                usuarioRepository ?? Mock.Of<IUsuarioRepository>(),
-                unitOfWork ?? Mock.Of<IUnitOfWork>());
-        }
-
-        private static IOptions<AuthConfig> CreateAuthConfig()
-        {
-            const short maximumAttempts = 3;
-            const short secondsBlocked = 1000;
-            return Options.Create(AuthConfig.Create(maximumAttempts, secondsBlocked));
-        }
-
-        private static IOptions<JwtConfig> CreateJwtConfig()
-        {
-            const string audience = "Clients-API-SGP";
-            const string issuer = "API-SGP";
-            const string secretKey = "p8SXNddEAEn1cCuyfVJKYA7e6hlagbLd";
-            const short seconds = 21600;
-            const bool validateAudience = true;
-            const bool validateIssuer = true;
-            var jwtConfig = JwtConfig.Create(audience, issuer, seconds, secretKey, validateAudience, validateIssuer);
-            return Options.Create(jwtConfig);
-        }
+    private static IOptions<JwtConfig> CreateJwtConfig()
+    {
+        const string audience = "Clients-API-SGP";
+        const string issuer = "API-SGP";
+        const string secretKey = "p8SXNddEAEn1cCuyfVJKYA7e6hlagbLd";
+        const short seconds = 21600;
+        const bool validateAudience = true;
+        const bool validateIssuer = true;
+        var jwtConfig = JwtConfig.Create(audience, issuer, seconds, secretKey, validateAudience, validateIssuer);
+        return Options.Create(jwtConfig);
     }
 }

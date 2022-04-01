@@ -4,10 +4,9 @@ using FluentResults;
 using SGP.Application.Responses;
 using SGP.Shared.Interfaces;
 
-namespace SGP.Application.Interfaces
+namespace SGP.Application.Interfaces;
+
+public interface IEstadoService : IAppService
 {
-    public interface IEstadoService : IAppService
-    {
-        Task<Result<IEnumerable<EstadoResponse>>> ObterTodosAsync();
-    }
+    Task<Result<IEnumerable<EstadoResponse>>> ObterTodosAsync();
 }

@@ -6,28 +6,27 @@ using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Context;
 
-namespace SGP.Infrastructure.Repositories
+namespace SGP.Infrastructure.Repositories;
+
+public class EstadoRepository : IEstadoRepository
 {
-    public class EstadoRepository : IEstadoRepository
-    {
-        private readonly DbSet<Estado> _dbSet;
+    private readonly DbSet<Estado> _dbSet;
 
-        public EstadoRepository(SgpContext context)
-            => _dbSet = context.Estados;
+    public EstadoRepository(SgpContext context)
+        => _dbSet = context.Estados;
 
-        public async Task<IEnumerable<Estado>> ObterTodosAsync()
-            => await _dbSet
-                .AsNoTrackingWithIdentityResolution()
-                .Include(e => e.Regiao)
-                .OrderBy(e => e.Nome)
-                .ToListAsync();
+    public async Task<IEnumerable<Estado>> ObterTodosAsync()
+        => await _dbSet
+            .AsNoTrackingWithIdentityResolution()
+            .Include(e => e.Regiao)
+            .OrderBy(e => e.Nome)
+            .ToListAsync();
 
-        public async Task<IEnumerable<Estado>> ObterTodosPorRegiaoAsync(string regiao)
-            => await _dbSet
-                .AsNoTrackingWithIdentityResolution()
-                .Include(e => e.Regiao)
-                .Where(e => e.Regiao.Nome == regiao)
-                .OrderBy(e => e.Nome)
-                .ToListAsync();
-    }
+    public async Task<IEnumerable<Estado>> ObterTodosPorRegiaoAsync(string regiao)
+        => await _dbSet
+            .AsNoTrackingWithIdentityResolution()
+            .Include(e => e.Regiao)
+            .Where(e => e.Regiao.Nome == regiao)
+            .OrderBy(e => e.Nome)
+            .ToListAsync();
 }

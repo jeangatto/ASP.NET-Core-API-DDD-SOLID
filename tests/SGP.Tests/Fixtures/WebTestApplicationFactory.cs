@@ -11,41 +11,40 @@ using SGP.Infrastructure.Context;
 using SGP.PublicApi;
 using Environments = SGP.Tests.Constants.Environments;
 
-namespace SGP.Tests.Fixtures
+namespace SGP.Tests.Fixtures;
+
+public class WebTestApplicationFactory : WebApplicationFactory<Startup>
 {
-    public class WebTestApplicationFactory : WebApplicationFactory<Startup>
-    {
-        private SqliteConnection _connection;
+    private SqliteConnection _connection;
 
-        public WebTestApplicationFactory()
-            => Server.AllowSynchronousIO = true;
+    public WebTestApplicationFactory()
+        => Server.AllowSynchronousIO = true;
 
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-            => builder
-                .UseEnvironment(Environments.Testing)
-                .UseDefaultServiceProvider(options => options.ValidateScopes = true)
-                .ConfigureTestServices(services => services.RemoveAll<IHostedService>())
-                .ConfigureServices(services =>
-                {
-                    var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
-                    if (descriptor != null)
-                        services.Remove(descriptor);
-
-                    _connection = new SqliteConnection(ConnectionString.Sqlite);
-                    _connection.Open();
-
-                    services.AddDbContext<SgpContext>(options => options.UseSqlite(_connection));
-                });
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+        => builder
+            .UseEnvironment(Environments.Testing)
+            .UseDefaultServiceProvider(options => options.ValidateScopes = true)
+            .ConfigureTestServices(services => services.RemoveAll<IHostedService>())
+            .ConfigureServices(services =>
             {
-                _connection?.Dispose();
-                _connection = null;
-            }
+                var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(DbContextOptions<SgpContext>));
+                if (descriptor != null)
+                    services.Remove(descriptor);
 
-            base.Dispose(disposing);
+                _connection = new SqliteConnection(ConnectionString.Sqlite);
+                _connection.Open();
+
+                services.AddDbContext<SgpContext>(options => options.UseSqlite(_connection));
+            });
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _connection?.Dispose();
+            _connection = null;
         }
+
+        base.Dispose(disposing);
     }
 }
