@@ -17,9 +17,6 @@ public class WebTestApplicationFactory : WebApplicationFactory<Startup>
 {
     private SqliteConnection _connection;
 
-    public WebTestApplicationFactory()
-        => Server.AllowSynchronousIO = true;
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
         => builder
             .UseEnvironment(Environments.Testing)

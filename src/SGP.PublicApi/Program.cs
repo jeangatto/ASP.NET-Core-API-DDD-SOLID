@@ -19,11 +19,7 @@ public static class Program
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder
-                    .UseKestrel(options =>
-                    {
-                        options.AddServerHeader = false;
-                        options.AllowSynchronousIO = true;
-                    })
+                    .UseKestrel(options => options.AddServerHeader = false)
                     .UseStartup<Startup>();
             })
             .UseDefaultServiceProvider((context, options) =>

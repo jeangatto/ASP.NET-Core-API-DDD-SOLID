@@ -22,11 +22,10 @@ public class CidadesControllerTests : IntegrationTestBase, IClassFixture<WebTest
         // Arrange
         const int total = 645;
         const string uf = "SP";
+        const string endPoint = $"/api/cidades/{uf}";
 
         // Act
-        var result
-            = await HttpClient.SendAndDeserializeAsync<IEnumerable<CidadeResponse>>(
-                OutputHelper, $"/api/cidades/{uf}");
+        var result = await HttpClient.GetAsync<IEnumerable<CidadeResponse>>(OutputHelper, endPoint);
 
         // Assert
         result.Should().NotBeNullOrEmpty()
@@ -47,10 +46,10 @@ public class CidadesControllerTests : IntegrationTestBase, IClassFixture<WebTest
     {
         // Arrange
         const int ibge = 3557105;
+        var endPoint = $"/api/cidades/{ibge}";
 
         // Act
-        var result
-            = await HttpClient.SendAndDeserializeAsync<CidadeResponse>(OutputHelper, $"/api/cidades/{ibge}");
+        var result = await HttpClient.GetAsync<CidadeResponse>(OutputHelper, endPoint);
 
         // Assert
         result.Should().NotBeNull();
