@@ -36,6 +36,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
+    <InternalsVisibleTo Include="SGP.Tests"/>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SGP.Application\SGP.Application.csproj"/>
     <ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj"/>
     <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj"/>
