@@ -19,7 +19,7 @@ internal static class DbContextExtensions
         services.AddDbContext<SgpContext>((provider, builder) =>
         {
             builder.UseSqlServer(provider.GetConnectionString(),
-                options => options.MigrationsAssembly(typeof(Startup).Namespace));
+                options => options.MigrationsAssembly(typeof(Program).Namespace));
 
             // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
             var environment = provider.GetRequiredService<IHostEnvironment>();
