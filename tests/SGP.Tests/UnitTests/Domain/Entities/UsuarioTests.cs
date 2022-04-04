@@ -27,7 +27,7 @@ public class UsuarioTests
 
         // Assert
         act.Should().BeTrue();
-        usuario.BloqueioExpiraEm.Should().NotBeNull().And.BeSameDateAs(DateTime.Now);
+        usuario.BloqueioExpiraEm.Should().NotBeNull();
         usuario.NumeroFalhasAoAcessar.Should().Be(0);
     }
 
