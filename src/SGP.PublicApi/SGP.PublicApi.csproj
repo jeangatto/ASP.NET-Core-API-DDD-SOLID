@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
     <InternalsVisibleTo Include="SGP.Tests"/>
   </ItemGroup>
 

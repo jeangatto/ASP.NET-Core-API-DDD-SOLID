@@ -22,6 +22,7 @@ using StackExchange.Profiling;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Services
     .AddCors()
     .AddHttpContextAccessor()
@@ -69,8 +70,12 @@ builder.WebHost
 var app = builder.Build();
 app.Logger.LogInformation("PublicApi App created...");
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
+{
     app.UseDeveloperExceptionPage();
+    app.UseOpenApi(app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
+}
 
 ValidatorOptions.Global.Configure();
 
@@ -96,9 +101,7 @@ app.UseExceptionHandler(appBuilder =>
             }
         });
     })
-    .UseOpenApi(app.Services.GetRequiredService<IApiVersionDescriptionProvider>())
     .UseHealthChecks()
-    .UseForwardedHeaders()
     .UseHttpsRedirection()
     .UseHsts()
     .UseRouting()
@@ -117,7 +120,10 @@ app.Logger.LogInformation("Launching PublicApi...");
 await app.RunAsync();
 
 #pragma warning disable CA1050
-public partial class Program
+namespace SGP.PublicApi
 {
+    public partial class Program
+    {
+    }
 }
 #pragma warning restore CA1050
