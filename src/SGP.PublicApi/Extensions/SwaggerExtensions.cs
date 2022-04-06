@@ -58,7 +58,7 @@ internal static class SwaggerExtensions
             })
             .AddSwaggerGenNewtonsoftSupport();
 
-    internal static void UseOpenApi(this IApplicationBuilder app,
+    internal static IApplicationBuilder UseOpenApi(this IApplicationBuilder app,
         IApiVersionDescriptionProvider provider)
     {
         provider.ThrowIfNull();
@@ -71,5 +71,7 @@ internal static class SwaggerExtensions
             foreach (var groupName in provider.ApiVersionDescriptions.Select(description => description.GroupName))
                 options.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant());
         });
+
+        return app;
     }
 }

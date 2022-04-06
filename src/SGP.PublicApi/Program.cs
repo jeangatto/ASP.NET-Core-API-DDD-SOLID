@@ -72,10 +72,7 @@ app.Logger.LogInformation("PublicApi App created...");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{
     app.UseDeveloperExceptionPage();
-    app.UseOpenApi(app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
-}
 
 ValidatorOptions.Global.Configure();
 
@@ -101,6 +98,7 @@ app.UseExceptionHandler(appBuilder =>
             }
         });
     })
+    .UseOpenApi(app.Services.GetRequiredService<IApiVersionDescriptionProvider>())
     .UseHealthChecks()
     .UseHttpsRedirection()
     .UseHsts()
