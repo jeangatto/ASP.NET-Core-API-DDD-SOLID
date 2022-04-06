@@ -11,6 +11,8 @@ namespace SGP.PublicApi.Extensions;
 
 internal static class DbContextExtensions
 {
+    private static readonly string AssemblyName = typeof(Program).Assembly.GetName().Name;
+
     internal static IServiceCollection AddDbContext(this IServiceCollection services,
         IHealthChecksBuilder healthChecksBuilder)
     {
@@ -19,7 +21,7 @@ internal static class DbContextExtensions
         services.AddDbContext<SgpContext>((provider, builder) =>
         {
             builder.UseSqlServer(provider.GetConnectionString(),
-                options => options.MigrationsAssembly(typeof(Program).Namespace));
+                options => options.MigrationsAssembly(AssemblyName).EnableRetryOnFailure());
 
             // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
             var environment = provider.GetRequiredService<IHostEnvironment>();
@@ -28,8 +30,7 @@ internal static class DbContextExtensions
         });
 
         // Verificador de saúde da base de dados.
-        healthChecksBuilder.AddDbContextCheck<SgpContext>(tags: new[] { "database" });
-
+        healthChecksBuilder.AddDbContextCheck<SgpContext>(tags: new[] {"database"});
         return services;
     }
 
