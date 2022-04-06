@@ -16,50 +16,48 @@ namespace SGP.PublicApi.Extensions;
 
 internal static class SwaggerExtensions
 {
-    internal static IServiceCollection AddOpenApi(this IServiceCollection services)
-        => services
-            .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>()
-            .AddSwaggerGen(options =>
+    internal static void AddOpenApi(this IServiceCollection services)
+    {
+        services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
+        services.AddSwaggerGen(options =>
+        {
+            options.OperationFilter<SwaggerDefaultValuesFilter>();
+
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                options.OperationFilter<SwaggerDefaultValuesFilter>();
+                Description =
+                    "JWT Authorization Header - utilizado com Bearer Authentication.\r\n\r\n" +
+                    "Digite 'Bearer' [espaço] e então seu token no campo abaixo.\r\n\r\n" +
+                    "Exemplo (informar sem as aspas): 'Bearer 12345abcdef'",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+            });
 
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
                 {
-                    Description =
-                        "JWT Authorization Header - utilizado com Bearer Authentication.\r\n\r\n" +
-                        "Digite 'Bearer' [espaço] e então seu token no campo abaixo.\r\n\r\n" +
-                        "Exemplo (informar sem as aspas): 'Bearer 12345abcdef'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                });
-
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                    new OpenApiSecurityScheme
                     {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
+                        Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "Bearer"}
+                    },
+                    Array.Empty<string>()
+                }
+            });
 
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath, true);
-            })
-            .AddSwaggerGenNewtonsoftSupport();
+            // Set the comments path for the Swagger JSON and UI.
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            options.IncludeXmlComments(xmlPath, true);
+        });
 
-    internal static IApplicationBuilder UseOpenApi(this IApplicationBuilder app,
-        IApiVersionDescriptionProvider provider)
+        services.AddSwaggerGenNewtonsoftSupport();
+    }
+
+    internal static void UseOpenApi(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
     {
         provider.ThrowIfNull();
 
@@ -71,7 +69,5 @@ internal static class SwaggerExtensions
             foreach (var groupName in provider.ApiVersionDescriptions.Select(description => description.GroupName))
                 options.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant());
         });
-
-        return app;
     }
 }

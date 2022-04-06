@@ -13,8 +13,7 @@ internal static class DbContextExtensions
 {
     private static readonly string AssemblyName = typeof(Program).Assembly.GetName().Name;
 
-    internal static IServiceCollection AddDbContext(this IServiceCollection services,
-        IHealthChecksBuilder healthChecksBuilder)
+    internal static void AddDbContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
     {
         healthChecksBuilder.ThrowIfNull();
 
@@ -30,8 +29,9 @@ internal static class DbContextExtensions
         });
 
         // Verificador de saúde da base de dados.
-        healthChecksBuilder.AddDbContextCheck<SgpContext>(tags: new[] {"database"});
-        return services;
+        healthChecksBuilder.AddDbContextCheck<SgpContext>(
+            tags: new[] {"database"},
+            customTestQuery: (context, token) => context.Cidades.AsNoTracking().AnyAsync(token));
     }
 
     private static string GetConnectionString(this IServiceProvider provider)

@@ -7,7 +7,7 @@ namespace SGP.Application;
 
 public static class ServicesCollectionExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static void AddServices(this IServiceCollection services)
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -17,7 +17,5 @@ public static class ServicesCollectionExtensions
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsImplementedInterfaces()
             .WithScopedLifetime());
-
-        return services;
     }
 }

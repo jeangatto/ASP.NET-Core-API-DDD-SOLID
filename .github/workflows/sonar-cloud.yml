@@ -3,8 +3,8 @@ name: SonarCloud
 on:
   push:
   pull_request:
-    types: [opened, synchronize, reopened]
-    branches: [main]
+    types: [ opened, synchronize, reopened ]
+    branches: [ main ]
     paths-ignore:
       - "README.md"
 

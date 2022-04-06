@@ -14,7 +14,7 @@ internal static class HostExtensions
     internal static async Task MigrateDbContextAsync(this WebApplication app)
     {
         await using var scope = app.Services.CreateAsyncScope();
-        var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
+        await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
 
         try
         {

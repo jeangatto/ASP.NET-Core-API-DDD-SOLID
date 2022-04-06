@@ -39,13 +39,13 @@ public static class SgpContextSeed
     {
         context.ThrowIfNull();
 
-        var rowsAffected = await PopularAsync<Regiao>(context, "regioes.json");
-        rowsAffected += await PopularAsync<Estado>(context, "estados.json");
-        rowsAffected += await PopularAsync<Cidade>(context, "cidades.json");
+        var rowsAffected = await SeedAsync<Regiao>(context, "regioes.json");
+        rowsAffected += await SeedAsync<Estado>(context, "estados.json");
+        rowsAffected += await SeedAsync<Cidade>(context, "cidades.json");
         return rowsAffected;
     }
 
-    private static async Task<long> PopularAsync<TEntity>(DbContext context, string fileName) where TEntity : class
+    private static async Task<long> SeedAsync<TEntity>(DbContext context, string fileName) where TEntity : class
     {
         fileName.ThrowIfNull().IfEmpty().IfWhiteSpace();
 
