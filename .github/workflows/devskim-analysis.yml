@@ -8,11 +8,11 @@ name: DevSkim
 on:
   push:
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-    - 'README.md'
+      - "README.md"
   schedule:
-    - cron: '34 13 * * 5'
+    - cron: "34 13 * * 5"
 
 jobs:
   lint:
