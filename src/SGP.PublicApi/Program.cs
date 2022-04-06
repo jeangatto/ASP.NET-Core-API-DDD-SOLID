@@ -120,10 +120,5 @@ app.Logger.LogInformation("Launching PublicApi...");
 await app.RunAsync();
 
 #pragma warning disable CA1050
-namespace SGP.PublicApi
-{
-    public partial class Program
-    {
-    }
-}
+public partial class Program { }
 #pragma warning restore CA1050

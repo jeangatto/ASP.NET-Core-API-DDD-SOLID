@@ -12,7 +12,7 @@ using Environments = SGP.Tests.Constants.Environments;
 
 namespace SGP.Tests.Fixtures;
 
-public class WebTestApplicationFactory : WebApplicationFactory<PublicApi.Program>
+public class WebTestApplicationFactory : WebApplicationFactory<Program>
 {
     private SqliteConnection _connection;
 
