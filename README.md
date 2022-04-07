@@ -52,32 +52,23 @@ também será populado o arquivo de seed.
 ```c#
 internal static class HostExtensions
 {
-    private const string LoggerCategoryName = "MigrateDbContext";
-
-    internal static async Task MigrateDbContextAsync(this IHost host)
+    internal static async Task MigrateDbContextAsync(this WebApplication app)
     {
-        await using var scope = host.Services.CreateAsyncScope();
-        var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
-        var logger = loggerFactory.CreateLogger(LoggerCategoryName);
-        var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
+        await using var scope = app.Services.CreateAsyncScope();
+        await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
 
         try
         {
-            logger.LogInformation("Connection: {ConnectionString}", context.Database.GetConnectionString());
+            app.Logger.LogInformation("Connection: {ConnectionString}", context.Database.GetConnectionString());
 
             if ((await context.Database.GetPendingMigrationsAsync()).Any())
-            {
-                // Aplica de maneira assíncrona quaisquer migrações pendentes do contexto.
-                // Criará o banco de dados, se ainda não existir.
                 await context.Database.MigrateAsync();
-            }
 
-            // Populando a base de dados com estados, cidades...
             await context.EnsureSeedDataAsync();
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Ocorreu um erro ao popular o banco de dados");
+            app.Logger.LogError(ex, "An error occurred while populating the database");
             throw;
         }
     }

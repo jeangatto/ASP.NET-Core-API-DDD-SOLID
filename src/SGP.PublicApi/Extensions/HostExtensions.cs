@@ -21,13 +21,8 @@ internal static class HostExtensions
             app.Logger.LogInformation("Connection: {ConnectionString}", context.Database.GetConnectionString());
 
             if ((await context.Database.GetPendingMigrationsAsync()).Any())
-            {
-                // Aplica de maneira assíncrona quaisquer migrações pendentes do contexto.
-                // Criará o banco de dados, se ainda não existir.
                 await context.Database.MigrateAsync();
-            }
 
-            // Populando a base de dados com estados, cidades...
             await context.EnsureSeedDataAsync();
         }
         catch (Exception ex)
