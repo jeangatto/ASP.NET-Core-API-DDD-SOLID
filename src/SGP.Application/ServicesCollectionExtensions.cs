@@ -8,14 +8,12 @@ namespace SGP.Application;
 public static class ServicesCollectionExtensions
 {
     public static void AddServices(this IServiceCollection services)
-    {
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-        services.Scan(scan => scan
-            .FromCallingAssembly()
-            .AddClasses(classes => classes.AssignableTo<IAppService>())
-            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
-    }
+        => services
+            .AddAutoMapper(Assembly.GetExecutingAssembly())
+            .Scan(scan => scan
+                .FromCallingAssembly()
+                .AddClasses(classes => classes.AssignableTo<IAppService>())
+                .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
 }

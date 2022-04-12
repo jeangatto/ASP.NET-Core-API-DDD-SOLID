@@ -10,8 +10,6 @@ public static class ServicesCollectionExtensions
 {
     public static void ConfigureAppSettings(this IServiceCollection services)
     {
-        static void BinderOptions(BinderOptions options) => options.BindNonPublicProperties = true;
-
         services.AddOptions<AuthConfig>()
             .BindConfiguration(nameof(AuthConfig), BinderOptions)
             .FluentValidate()
@@ -27,4 +25,6 @@ public static class ServicesCollectionExtensions
             .FluentValidate()
             .With<ConnectionStringsValidator>();
     }
+
+    private static void BinderOptions(BinderOptions options) => options.BindNonPublicProperties = true;
 }
