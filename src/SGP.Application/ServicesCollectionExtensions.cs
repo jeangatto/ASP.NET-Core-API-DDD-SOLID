@@ -7,7 +7,7 @@ namespace SGP.Application;
 
 public static class ServicesCollectionExtensions
 {
-    public static void AddServices(this IServiceCollection services)
+    public static IServiceCollection AddServices(this IServiceCollection services)
         => services
             .AddAutoMapper(Assembly.GetExecutingAssembly())
             .Scan(scan => scan

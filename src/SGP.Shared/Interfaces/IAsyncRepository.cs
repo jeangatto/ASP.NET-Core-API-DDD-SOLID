@@ -13,5 +13,5 @@ public interface IAsyncRepository<TEntity> : IRepository where TEntity : BaseEnt
     void UpdateRange(IEnumerable<TEntity> entities);
     void Remove(TEntity entity);
     void RemoveRange(IEnumerable<TEntity> entities);
-    Task<TEntity> GetByIdAsync(Guid id);
+    Task<TEntity> GetByIdAsync(Guid id, bool readOnly = false);
 }

@@ -16,10 +16,13 @@ public class UsuarioRepository : EfRepository<Usuario>, IUsuarioRepository
     {
     }
 
-    public override async Task<Usuario> GetByIdAsync(Guid id)
-        => await DbSet
+    public override async Task<Usuario> GetByIdAsync(Guid id, bool readOnly = false)
+    {
+        var query = readOnly ? DbSet.AsNoTracking() : DbSet.AsQueryable();
+        return await query
             .Include(u => u.Tokens.OrderByDescending(t => t.ExpiraEm))
             .FirstOrDefaultAsync(u => u.Id == id);
+    }
 
     public async Task<Usuario> ObterPorEmailAsync(Email email)
         => await DbSet

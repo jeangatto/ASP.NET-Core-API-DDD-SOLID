@@ -8,7 +8,7 @@ namespace SGP.Shared;
 
 public static class ServicesCollectionExtensions
 {
-    public static void ConfigureAppSettings(this IServiceCollection services)
+    public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
     {
         services.AddOptions<AuthConfig>()
             .BindConfiguration(nameof(AuthConfig), BinderOptions)
@@ -24,6 +24,8 @@ public static class ServicesCollectionExtensions
             .BindConfiguration(nameof(ConnectionStrings), BinderOptions)
             .FluentValidate()
             .With<ConnectionStringsValidator>();
+
+        return services;
     }
 
     private static void BinderOptions(BinderOptions options) => options.BindNonPublicProperties = true;

@@ -8,11 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using SGP.Infrastructure.Context;
+using SGP.PublicApi;
 using Environments = SGP.Tests.Constants.Environments;
 
 namespace SGP.Tests.Fixtures;
 
-public class WebTestApplicationFactory : WebApplicationFactory<Program>
+public class WebTestApplicationFactory : WebApplicationFactory<Startup>
 {
     private SqliteConnection _connection;
 
@@ -31,12 +32,6 @@ public class WebTestApplicationFactory : WebApplicationFactory<Program>
                 _connection.Open();
 
                 services.AddDbContext<SgpContext>(options => options.UseSqlite(_connection));
-
-                var serviceProvider = services.BuildServiceProvider(true);
-                using var serviceScope = serviceProvider.CreateScope();
-                using var context = serviceScope.ServiceProvider.GetRequiredService<SgpContext>();
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
             });
 
     protected override void Dispose(bool disposing)

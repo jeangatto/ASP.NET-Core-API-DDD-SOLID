@@ -28,6 +28,8 @@ public abstract class IntegrationTestBase : IAsyncLifetime
     {
         await using var serviceScope = ServiceProvider.CreateAsyncScope();
         await using var context = serviceScope.ServiceProvider.GetRequiredService<SgpContext>();
+        await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureCreatedAsync();
         await context.EnsureSeedDataAsync();
     }
 
