@@ -117,19 +117,19 @@ app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin(
 app.UseEndpoints(endpoints => endpoints.MapControllers());
 app.UseExceptionHandler(applicationBuilder =>
 {
-    applicationBuilder.Run(async context =>
+    applicationBuilder.Run(async httpContext =>
     {
-        var handler = context.Features.Get<IExceptionHandlerFeature>();
+        var handler = httpContext.Features.Get<IExceptionHandlerFeature>();
         if (handler != null)
         {
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            context.Response.ContentType = MediaTypeNames.Application.Json;
+            httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            httpContext.Response.ContentType = MediaTypeNames.Application.Json;
 
             app.Logger.LogError(handler.Error, "Exceção não esperada: {Message}", handler.Error.Message);
 
             const string message = "Ocorreu um erro interno ao processar a sua solicitação.";
             var apiResponse = new ApiResponse(StatusCodes.Status500InternalServerError, message);
-            await context.Response.WriteAsync(apiResponse.ToJson());
+            await httpContext.Response.WriteAsync(apiResponse.ToJson());
         }
     });
 });
