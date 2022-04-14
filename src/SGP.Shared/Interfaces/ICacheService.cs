@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace SGP.Shared.Interfaces
+namespace SGP.Shared.Interfaces;
+
+public interface ICacheService
 {
-    public interface ICacheService
-    {
-        Task<TItem> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<TItem>> factory);
-    }
+    Task<TItem> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<TItem>> factory);
 }
