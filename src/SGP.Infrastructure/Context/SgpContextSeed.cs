@@ -3,10 +3,10 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using SGP.Domain.Entities;
 using SGP.Shared.Extensions;
-using Throw;
 
 namespace SGP.Infrastructure.Context;
 
@@ -37,7 +37,7 @@ public static class SgpContextSeed
     /// <returns>Retorna o número de linhas afetadas na base de dados.</returns>
     public static async Task<long> EnsureSeedDataAsync(this SgpContext context)
     {
-        context.ThrowIfNull();
+        Guard.Against.Null(context, nameof(context));
 
         var rowsAffected = await SeedAsync<Regiao>(context, "regioes.json");
         rowsAffected += await SeedAsync<Estado>(context, "estados.json");
@@ -47,7 +47,7 @@ public static class SgpContextSeed
 
     private static async Task<long> SeedAsync<TEntity>(DbContext context, string fileName) where TEntity : class
     {
-        fileName.ThrowIfNull().IfEmpty().IfWhiteSpace();
+        Guard.Against.NullOrWhiteSpace(fileName, nameof(fileName));
 
         var dbSet = context.Set<TEntity>();
 

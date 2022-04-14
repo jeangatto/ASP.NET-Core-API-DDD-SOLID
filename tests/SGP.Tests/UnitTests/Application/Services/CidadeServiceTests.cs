@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
-using Microsoft.Extensions.Caching.Memory;
 using SGP.Application.Interfaces;
 using SGP.Application.Mapper;
 using SGP.Application.Requests.CidadeRequests;
@@ -156,8 +155,7 @@ public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
     private ICidadeService CriarServico()
     {
         var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
-        var memoryCache = new MemoryCache(new MemoryCacheOptions());
         var repositorio = new CidadeRepository(_fixture.Context);
-        return new CidadeService(mapper, memoryCache, repositorio);
+        return new CidadeService(mapper, repositorio);
     }
 }

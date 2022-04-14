@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -7,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
-using Throw;
 
 namespace SGP.PublicApi.Extensions;
 
@@ -15,10 +15,10 @@ internal static class JwtBearerExtensions
 {
     internal static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
     {
-        configuration.ThrowIfNull();
-
+        Guard.Against.Null(configuration, nameof(configuration));
         var jwtConfig = configuration.GetWithNonPublicProperties<JwtConfig>();
-        jwtConfig.ThrowIfNull().IfNullOrEmpty(x => x.Secret);
+        Guard.Against.Null(jwtConfig, nameof(jwtConfig));
+        Guard.Against.NullOrWhiteSpace(jwtConfig.Secret, nameof(jwtConfig.Secret));
 
         services
             .AddAuthentication(authOptions =>

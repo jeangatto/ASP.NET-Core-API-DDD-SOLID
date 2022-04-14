@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,6 @@ using Microsoft.OpenApi.Models;
 using SGP.PublicApi.Filters;
 using SGP.PublicApi.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Throw;
 
 namespace SGP.PublicApi.Extensions;
 
@@ -61,7 +61,7 @@ internal static class SwaggerExtensions
     internal static IApplicationBuilder UseOpenApi(this IApplicationBuilder app,
         IApiVersionDescriptionProvider provider)
     {
-        provider.ThrowIfNull();
+        Guard.Against.Null(provider, nameof(provider));
 
         app.UseSwagger().UseSwaggerUI(options =>
         {

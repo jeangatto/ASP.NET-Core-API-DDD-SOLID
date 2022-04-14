@@ -1,41 +1,54 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentResults;
-using Microsoft.Extensions.Caching.Memory;
 using SGP.Application.Interfaces;
+using SGP.Application.Requests.EstadoRequests;
 using SGP.Application.Responses;
 using SGP.Domain.Repositories;
+using SGP.Shared.Errors;
+using SGP.Shared.Extensions;
 
 namespace SGP.Application.Services;
 
 public class EstadoService : IEstadoService
 {
-    private const string ServiceName = nameof(EstadoService);
-    private const string ObterTodosCacheKey = $"{ServiceName}__{nameof(ObterTodosAsync)}";
-
     private readonly IMapper _mapper;
-    private readonly IMemoryCache _memoryCache;
     private readonly IEstadoRepository _repository;
 
-    public EstadoService(IMapper mapper, IMemoryCache memoryCache, IEstadoRepository repository)
+    public EstadoService(IMapper mapper, IEstadoRepository repository)
     {
         _mapper = mapper;
-        _memoryCache = memoryCache;
         _repository = repository;
     }
 
     public async Task<Result<IEnumerable<EstadoResponse>>> ObterTodosAsync()
     {
-        return await _memoryCache.GetOrCreateAsync(ObterTodosCacheKey, async cacheEntry =>
-        {
-            // Aplicando a configuração do cache.
-            cacheEntry.SlidingExpiration = TimeSpan.FromSeconds(60);
-            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2);
+        var estados = await _repository.ObterTodosAsync();
+        return Result.Ok(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
+    }
 
-            var estados = await _repository.ObterTodosAsync();
-            return Result.Ok(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
-        });
+    public async Task<Result<IEnumerable<EstadoResponse>>> ObterTodosPorRegiaoAsync(ObterTodosPorRegiaoRequest request)
+    {
+        // Validando a requisição.
+        await request.ValidateAsync();
+        if (!request.IsValid)
+        {
+            // Retornando os erros da validação.
+            return request.ToFail<IEnumerable<EstadoResponse>>();
+        }
+
+        // Obtendo as cidades pelo UF.
+        var estados = await _repository.ObterTodosPorRegiaoAsync(request.Regiao);
+        if (!estados.Any())
+        {
+            // Retornando não encontrado.
+            return Result.Fail<IEnumerable<EstadoResponse>>(
+                new NotFoundError($"Nenhum estado encontrado pela região: {request.Regiao}"));
+        }
+
+        // Mapeando domínio para resposta (DTO).
+        return Result.Ok(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
     }
 }
