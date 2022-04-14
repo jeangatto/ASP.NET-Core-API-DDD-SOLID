@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
-using Microsoft.Extensions.Caching.Memory;
 using SGP.Application.Interfaces;
 using SGP.Application.Mapper;
 using SGP.Application.Services;
@@ -47,8 +46,7 @@ public class EstadoServiceTests : IClassFixture<EfSqliteFixture>
     private IEstadoService CriarServico()
     {
         var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
-        var memoryCache = new MemoryCache(new MemoryCacheOptions());
         var repositorio = new EstadoRepository(_fixture.Context);
-        return new EstadoService(mapper, memoryCache, repositorio);
+        return new EstadoService(mapper, repositorio);
     }
 }

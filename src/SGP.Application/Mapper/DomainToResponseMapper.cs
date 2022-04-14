@@ -15,5 +15,7 @@ public class DomainToResponseMapper : Profile
 
         CreateMap<Estado, EstadoResponse>(MemberList.Destination)
             .ForMember(dest => dest.Regiao, opt => opt.MapFrom(src => src.Regiao.Nome));
+
+        CreateMap<Regiao, RegiaoResponse>(MemberList.Destination);
     }
 }

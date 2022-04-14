@@ -1,8 +1,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using Newtonsoft.Json.Linq;
 using SGP.Shared.Extensions;
-using Throw;
 using Xunit.Abstractions;
 
 namespace SGP.Tests.Extensions;
@@ -14,9 +14,9 @@ public static class HttpClientExtensions
         ITestOutputHelper outputHelper,
         string endpoint)
     {
-        httpClient.ThrowIfNull();
-        outputHelper.ThrowIfNull();
-        endpoint.ThrowIfNull().IfEmpty().IfWhiteSpace();
+        Guard.Against.Null(httpClient, nameof(httpClient));
+        Guard.Against.Null(outputHelper, nameof(outputHelper));
+        Guard.Against.NullOrWhiteSpace(endpoint, nameof(endpoint));
 
         outputHelper.WriteLine($"HTTP Request: \"{endpoint}\"");
         using var httpResponseMessage = await httpClient.GetAsync(endpoint);
@@ -29,10 +29,10 @@ public static class HttpClientExtensions
         string endpoint,
         HttpContent httpContent)
     {
-        httpClient.ThrowIfNull();
-        outputHelper.ThrowIfNull();
-        endpoint.ThrowIfNull().IfEmpty().IfWhiteSpace();
-        httpContent.ThrowIfNull();
+        Guard.Against.Null(httpClient, nameof(httpClient));
+        Guard.Against.Null(outputHelper, nameof(outputHelper));
+        Guard.Against.NullOrWhiteSpace(endpoint, nameof(endpoint));
+        Guard.Against.Null(httpContent, nameof(httpContent));
 
         outputHelper.WriteLine($"HTTP Request: \"{endpoint}\"");
         using var httpResponseMessage = await httpClient.PostAsync(endpoint, httpContent);

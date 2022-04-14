@@ -18,7 +18,7 @@ public class CidadesController : ControllerBase
     public CidadesController(ICidadeService service) => _service = service;
 
     /// <summary>
-    /// Listar as cidades por UF - CID01
+    /// Obtém uma lista de cidades pelo código UF - CID01
     /// </summary>
     /// <param name="uf">Sigla da unidade federativa (UF).</param>
     /// <response code="200">Retorna a lista de cidades.</response>
@@ -34,7 +34,7 @@ public class CidadesController : ControllerBase
         => (await _service.ObterTodosPorUfAsync(new ObterTodosPorUfRequest(uf))).ToHttpResult();
 
     /// <summary>
-    /// Obter a cidade pelo código de IBGE - CID02
+    /// Obtém a cidade pelo código de IBGE - CID02
     /// </summary>
     /// <param name="ibge">Código de IBGE.</param>
     /// <response code="200">Retorna a cidade.</response>

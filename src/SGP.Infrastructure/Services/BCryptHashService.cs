@@ -1,7 +1,7 @@
 using System;
+using Ardalis.GuardClauses;
 using Microsoft.Extensions.Logging;
 using SGP.Shared.Interfaces;
-using Throw;
 
 namespace SGP.Infrastructure.Services;
 
@@ -13,8 +13,8 @@ public class BCryptHashService : IHashService
 
     public bool Compare(string text, string hash)
     {
-        text.ThrowIfNull().IfEmpty().IfWhiteSpace();
-        hash.ThrowIfNull().IfEmpty().IfWhiteSpace();
+        Guard.Against.NullOrWhiteSpace(text, nameof(text));
+        Guard.Against.NullOrWhiteSpace(hash, nameof(hash));
 
         try
         {
@@ -29,7 +29,7 @@ public class BCryptHashService : IHashService
 
     public string Hash(string text)
     {
-        text.ThrowIfNull().IfEmpty().IfWhiteSpace();
+        Guard.Against.NullOrWhiteSpace(text, nameof(text));
 
         try
         {
