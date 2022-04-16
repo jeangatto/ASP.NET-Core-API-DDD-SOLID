@@ -1,4 +1,5 @@
 using System.Linq;
+using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 
 namespace SGP.Infrastructure.Extensions;
@@ -11,6 +12,8 @@ public static class ModelBuilderExtensions
     /// <param name="modelBuilder">The model builder.</param>
     public static void RemoveCascadeDeleteConvention(this ModelBuilder modelBuilder)
     {
+        Guard.Against.Null(modelBuilder, nameof(modelBuilder));
+
         var foreignKeys = modelBuilder.Model
             .GetEntityTypes()
             .SelectMany(entity => entity.GetForeignKeys())

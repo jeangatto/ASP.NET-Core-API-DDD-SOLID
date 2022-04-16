@@ -2,7 +2,7 @@ using System;
 
 namespace SGP.Shared.Interfaces;
 
-public interface IDateTime
+public interface IDateTimeService
 {
     DateTime Now { get; }
 }

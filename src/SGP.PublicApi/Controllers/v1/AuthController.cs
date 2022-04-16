@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthenticationRequests;
+using SGP.Application.Responses;
 using SGP.PublicApi.Extensions;
 
 namespace SGP.PublicApi.Controllers.v1;
@@ -13,14 +14,14 @@ namespace SGP.PublicApi.Controllers.v1;
 [Route("api/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]
-public class AuthenticationController : ControllerBase
+public class AuthController : ControllerBase
 {
     private readonly IAuthenticationService _service;
 
-    public AuthenticationController(IAuthenticationService service) => _service = service;
+    public AuthController(IAuthenticationService service) => _service = service;
 
     /// <summary>
-    /// Autenticar um usuário - AUTH01
+    /// Efetua a autenticação.
     /// </summary>
     /// <param name="request">Endereço de e-mail e senha.</param>
     /// <response code="200">Retorna o token de acesso.</response>
@@ -29,14 +30,14 @@ public class AuthenticationController : ControllerBase
     [HttpPost("authenticate")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Authenticate([FromBody] LogInRequest request)
         => (await _service.AuthenticateAsync(request)).ToHttpResult();
 
     /// <summary>
-    /// Atualiza um token de acesso - AUTH02
+    /// Atualiza um token de acesso.
     /// </summary>
     /// <param name="request">O Token de atualização (RefreshToken).</param>
     /// <response code="200">Retorna um novo token de acesso.</response>
@@ -47,7 +48,7 @@ public class AuthenticationController : ControllerBase
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

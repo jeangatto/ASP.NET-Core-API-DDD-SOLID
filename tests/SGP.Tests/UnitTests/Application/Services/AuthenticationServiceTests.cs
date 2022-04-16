@@ -36,7 +36,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
     {
         // Arrange
         var jwtConfig = CreateJwtConfig();
-        var dateTime = new LocalDateTimeService();
+        var dateTime = new DateTimeService();
         var tokenClaimsService = new IdentityTokenClaimService(jwtConfig, dateTime);
         var hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
         var usuarioRepository = new UsuarioRepository(_fixture.Context);
@@ -94,11 +94,11 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
             .Setup(s => s.ObterPorEmailAsync(It.IsNotNull<Email>()))
             .ReturnsAsync(usuario);
 
-        var dateTimeMock = new Mock<IDateTime>();
+        var dateTimeMock = new Mock<IDateTimeService>();
         dateTimeMock.SetupGet(s => s.Now).Returns(DateTime.Now);
 
         var service = CreateAuthenticationService(
-            dateTime: dateTimeMock.Object,
+            dateTimeService: dateTimeMock.Object,
             usuarioRepository: usuarioRepositoryMock.Object);
 
         // Act
@@ -156,7 +156,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
 
     private static IAuthenticationService CreateAuthenticationService(
         IOptions<AuthConfig> authOptions = null,
-        IDateTime dateTime = null,
+        IDateTimeService dateTimeService = null,
         IHashService hashService = null,
         ITokenClaimsService tokenClaimsService = null,
         IUsuarioRepository usuarioRepository = null,
@@ -164,7 +164,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
     {
         return new AuthenticationService(
             authOptions ?? Mock.Of<IOptions<AuthConfig>>(),
-            dateTime ?? Mock.Of<IDateTime>(),
+            dateTimeService ?? Mock.Of<IDateTimeService>(),
             hashService ?? Mock.Of<IHashService>(),
             tokenClaimsService ?? Mock.Of<ITokenClaimsService>(),
             usuarioRepository ?? Mock.Of<IUsuarioRepository>(),

@@ -2,7 +2,7 @@ using IL.FluentValidation.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SGP.Shared.AppSettings;
-using SGP.Shared.AppSettings.OptionsValidators;
+using SGP.Shared.AppSettings.Validators;
 
 namespace SGP.Shared;
 
@@ -15,15 +15,20 @@ public static class ServicesCollectionExtensions
             .FluentValidate()
             .With<AuthConfigValidator>();
 
-        services.AddOptions<JwtConfig>()
-            .BindConfiguration(nameof(JwtConfig), BinderOptions)
+        services.AddOptions<CacheConfig>()
+            .BindConfiguration(nameof(CacheConfig), BinderOptions)
             .FluentValidate()
-            .With<JwtConfigValidator>();
+            .With<CacheConfigValidator>();
 
         services.AddOptions<ConnectionStrings>()
             .BindConfiguration(nameof(ConnectionStrings), BinderOptions)
             .FluentValidate()
             .With<ConnectionStringsValidator>();
+
+        services.AddOptions<JwtConfig>()
+            .BindConfiguration(nameof(JwtConfig), BinderOptions)
+            .FluentValidate()
+            .With<JwtConfigValidator>();
 
         return services;
     }

@@ -18,7 +18,7 @@ public class UsuarioTests
         // Arrange
         var faker = new Faker();
         var usuario = new Usuario(faker.Person.FullName, new Email(faker.Person.Email), faker.Internet.Password());
-        var dateTimeService = new LocalDateTimeService();
+        var dateTimeService = new DateTimeService();
         const int numeroTentativas = 1;
         usuario.IncrementarFalhas(dateTimeService, numeroTentativas, TimeSpan.FromMinutes(30));
 
@@ -37,7 +37,7 @@ public class UsuarioTests
         // Arrange
         var faker = new Faker();
         var usuario = new Usuario(faker.Person.FullName, new Email(faker.Person.Email), faker.Internet.Password());
-        var dateTimeService = new LocalDateTimeService();
+        var dateTimeService = new DateTimeService();
         const int numeroTentativas = 3;
         usuario.IncrementarFalhas(dateTimeService, numeroTentativas, TimeSpan.FromMinutes(30));
 

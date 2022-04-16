@@ -16,19 +16,19 @@ public class IdentityTokenClaimService : ITokenClaimsService
 {
     private const short RefreshTokenBytesLength = 64;
     private readonly JwtConfig _jwtConfig;
-    private readonly IDateTime _dateTime;
+    private readonly IDateTimeService _dateTimeService;
 
-    public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTime dateTime)
+    public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTimeService dateTimeService)
     {
         _jwtConfig = jwtOptions.Value;
-        _dateTime = dateTime;
+        _dateTimeService = dateTimeService;
     }
 
     public AccessToken GenerateAccessToken(Claim[] claims)
     {
         Guard.Against.NullOrEmpty(claims, nameof(claims));
 
-        var createdAt = _dateTime.Now;
+        var createdAt = _dateTimeService.Now;
         var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);
 
         var tokenDescriptor = new SecurityTokenDescriptor

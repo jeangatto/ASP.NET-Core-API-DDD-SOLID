@@ -45,25 +45,27 @@ public static class SgpContextSeed
         return rowsAffected;
     }
 
-    private static async Task<long> SeedAsync<TEntity>(DbContext context, string fileName) where TEntity : class
+    private static async Task<long> SeedAsync<T>(DbContext context, string fileName) where T : class
     {
         Guard.Against.NullOrWhiteSpace(fileName, nameof(fileName));
 
-        var dbSet = context.Set<TEntity>();
-
-        var totalRows = await dbSet.AsNoTracking().LongCountAsync();
+        var totalRows = await context.Set<T>().AsNoTracking().LongCountAsync();
         if (totalRows == 0)
         {
-            var filePath = Path.Combine(FolderPath, fileName);
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", fileName);
-
-            var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
-            dbSet.AddRange(entitiesJson.FromJson<IEnumerable<TEntity>>());
-
+            context.AddRange(await GetEntitiesFromJsonAsync<T>(fileName));
             totalRows = await context.SaveChangesAsync();
         }
 
         return totalRows;
+    }
+
+    private static async Task<IEnumerable<T>> GetEntitiesFromJsonAsync<T>(string fileName) where T : class
+    {
+        var filePath = Path.Combine(FolderPath, fileName);
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", fileName);
+
+        var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
+        return entitiesJson.FromJson<IEnumerable<T>>();
     }
 }

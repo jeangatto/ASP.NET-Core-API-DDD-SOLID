@@ -23,7 +23,7 @@ public class AuthenticationService : IAuthenticationService
     #region Fields
 
     private readonly AuthConfig _authConfig;
-    private readonly IDateTime _dateTime;
+    private readonly IDateTimeService _dateTimeService;
     private readonly IHashService _hashService;
     private readonly ITokenClaimsService _tokenClaimsService;
     private readonly IUsuarioRepository _repository;
@@ -36,7 +36,7 @@ public class AuthenticationService : IAuthenticationService
     public AuthenticationService
     (
         IOptions<AuthConfig> authOptions,
-        IDateTime dateTime,
+        IDateTimeService dateTimeService,
         IHashService hashService,
         ITokenClaimsService tokenClaimsService,
         IUsuarioRepository repository,
@@ -44,7 +44,7 @@ public class AuthenticationService : IAuthenticationService
     )
     {
         _authConfig = authOptions.Value;
-        _dateTime = dateTime;
+        _dateTimeService = dateTimeService;
         _hashService = hashService;
         _tokenClaimsService = tokenClaimsService;
         _repository = repository;
@@ -70,7 +70,7 @@ public class AuthenticationService : IAuthenticationService
             return Result.Fail<TokenResponse>(new NotFoundError("A conta informada não existe."));
 
         // Verificando se a conta está bloqueada.
-        if (usuario.EstaBloqueado(_dateTime))
+        if (usuario.EstaBloqueado(_dateTimeService))
             return Result.Fail<TokenResponse>("A sua conta está bloqueada, entre em contato com o nosso suporte.");
 
         // Verificando se a senha corresponde a senha criptografada gravada na base de dados.
@@ -97,7 +97,7 @@ public class AuthenticationService : IAuthenticationService
         // Se o login for inválido, será incrementado o número de falhas,
         // se atingido o limite de tentativas de acesso a conta será bloqueada por um determinado tempo.
         var lockedTimeSpan = TimeSpan.FromSeconds(_authConfig.SecondsBlocked);
-        usuario.IncrementarFalhas(_dateTime, _authConfig.MaximumAttempts, lockedTimeSpan);
+        usuario.IncrementarFalhas(_dateTimeService, _authConfig.MaximumAttempts, lockedTimeSpan);
 
         _repository.Update(usuario);
         await _uow.SaveChangesAsync();
@@ -121,7 +121,7 @@ public class AuthenticationService : IAuthenticationService
 
         // Verificando se o token de atualização está expirado.
         var token = usuario.Tokens.FirstOrDefault(t => t.Atualizacao == request.Token);
-        if (token?.EstaValido(_dateTime) != true)
+        if (token?.EstaValido(_dateTimeService) != true)
             return Result.Fail<TokenResponse>("O token inválido ou expirado.");
 
         // Gerando as regras (roles).

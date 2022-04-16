@@ -6,11 +6,10 @@ using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Context;
-using SGP.Infrastructure.Repositories.Common;
 
 namespace SGP.Infrastructure.Repositories;
 
-public class UsuarioRepository : EfRepository<Usuario>, IUsuarioRepository
+public class UsuarioRepository : AsyncRepository<Usuario>, IUsuarioRepository
 {
     public UsuarioRepository(SgpContext context) : base(context)
     {

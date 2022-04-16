@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.CidadeRequests;
+using SGP.Application.Responses;
 using SGP.PublicApi.Extensions;
 
 namespace SGP.PublicApi.Controllers.v1;
@@ -18,7 +20,7 @@ public class CidadesController : ControllerBase
     public CidadesController(ICidadeService service) => _service = service;
 
     /// <summary>
-    /// Obtém uma lista de cidades pelo código UF - CID01
+    /// Obtém uma lista de cidades pelo código UF.
     /// </summary>
     /// <param name="uf">Sigla da unidade federativa (UF).</param>
     /// <response code="200">Retorna a lista de cidades.</response>
@@ -27,14 +29,14 @@ public class CidadesController : ControllerBase
     [HttpGet("{uf:alpha}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<CidadeResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> ObterTodosPorUfAsync([FromRoute] string uf)
         => (await _service.ObterTodosPorUfAsync(new ObterTodosPorUfRequest(uf))).ToHttpResult();
 
     /// <summary>
-    /// Obtém a cidade pelo código de IBGE - CID02
+    /// Obtém a cidade pelo código de IBGE.
     /// </summary>
     /// <param name="ibge">Código de IBGE.</param>
     /// <response code="200">Retorna a cidade.</response>
@@ -43,7 +45,7 @@ public class CidadesController : ControllerBase
     [HttpGet("{ibge:int}")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CidadeResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> ObterPorIbgeAsync([FromRoute] int ibge)

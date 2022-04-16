@@ -23,5 +23,5 @@ public class LocalDateTimeServiceTests
         actual.Should().BeSameDateAs(DateTime.Now);
     }
 
-    private static IDateTime CreateDateTime() => new LocalDateTimeService();
+    private static IDateTimeService CreateDateTime() => new DateTimeService();
 }

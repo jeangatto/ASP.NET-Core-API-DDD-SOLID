@@ -6,4 +6,5 @@ namespace SGP.Shared.Interfaces;
 public interface ICacheService
 {
     Task<TItem> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<TItem>> factory);
+    void Remove(string cacheKey);
 }

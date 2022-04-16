@@ -22,5 +22,5 @@ public class Estado : BaseEntity
     public string Uf { get; private set; }
 
     public Regiao Regiao { get; private set; }
-    public IReadOnlyList<Cidade> Cidades { get; private set; }
+    public List<Cidade> Cidades { get; set; }
 }

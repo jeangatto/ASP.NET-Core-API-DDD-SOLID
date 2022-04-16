@@ -24,7 +24,7 @@ public class TokenTests
         var criadoEm = DateTime.Now;
         var expiraEm = criadoEm.AddDays(7);
         var token = new Token(accessToken, refreshToken, criadoEm, expiraEm);
-        var dateTimeService = new LocalDateTimeService();
+        var dateTimeService = new DateTimeService();
 
         // Act
         var act = token.EstaValido(dateTimeService);
@@ -43,7 +43,7 @@ public class TokenTests
         var criadoEm = DateTime.Now;
         var expiraEm = criadoEm.AddDays(7);
         var token = new Token(accessToken, refreshToken, criadoEm, expiraEm);
-        var dateTimeMock = new Mock<IDateTime>();
+        var dateTimeMock = new Mock<IDateTimeService>();
         dateTimeMock.Setup(s => s.Now).Returns(DateTime.Now.AddDays(8));
 
         // Act

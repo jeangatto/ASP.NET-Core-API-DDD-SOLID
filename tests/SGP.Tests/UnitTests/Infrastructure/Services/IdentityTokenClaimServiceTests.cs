@@ -78,8 +78,8 @@ public class IdentityTokenClaimServiceTests
     private static ITokenClaimsService CreateTokenClaimsService()
         => new IdentityTokenClaimService(CreateJwtConfig(), CreateDateTimeService());
 
-    private static IDateTime CreateDateTimeService()
-        => new LocalDateTimeService();
+    private static IDateTimeService CreateDateTimeService()
+        => new DateTimeService();
 
     private static IOptions<JwtConfig> CreateJwtConfig()
     {

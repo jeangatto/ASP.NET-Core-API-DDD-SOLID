@@ -6,13 +6,13 @@ using SGP.Infrastructure.Context;
 using SGP.Shared.Entities;
 using SGP.Shared.Interfaces;
 
-namespace SGP.Infrastructure.Repositories.Common;
+namespace SGP.Infrastructure.Repositories;
 
-public abstract class EfRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : BaseEntity, IAggregateRoot
+public abstract class AsyncRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : BaseEntity, IAggregateRoot
 {
     protected readonly DbSet<TEntity> DbSet;
 
-    protected EfRepository(SgpContext context)
+    protected AsyncRepository(SgpContext context)
         => DbSet = context.Set<TEntity>();
 
     public void Add(TEntity entity)

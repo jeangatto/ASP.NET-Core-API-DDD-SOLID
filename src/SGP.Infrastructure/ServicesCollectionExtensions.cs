@@ -13,7 +13,7 @@ public static class ServicesCollectionExtensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         => services
             .AddScoped<ICacheService, MemoryCacheService>()
-            .AddScoped<IDateTime, LocalDateTimeService>()
+            .AddScoped<IDateTimeService, DateTimeService>()
             .AddScoped<IHashService, BCryptHashService>()
             .AddScoped<ITokenClaimsService, IdentityTokenClaimService>()
             .AddScoped<IUnitOfWork, UnitOfWork>();

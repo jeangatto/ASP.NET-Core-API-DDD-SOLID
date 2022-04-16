@@ -16,5 +16,5 @@ public class Regiao : BaseEntity
 
     public string Nome { get; private set; }
 
-    public IReadOnlyList<Estado> Estados { get; private set; }
+    public List<Estado> Estados { get;  set; }
 }

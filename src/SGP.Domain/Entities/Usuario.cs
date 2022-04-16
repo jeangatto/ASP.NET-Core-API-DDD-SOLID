@@ -37,20 +37,20 @@ public class Usuario : BaseEntity, IAggregateRoot
     /// <summary>
     /// Indica se a conta do usuário está bloqueada.
     /// </summary>
-    /// <param name="dateTime"></param>
+    /// <param name="dateTimeService"></param>
     /// <returns>Verdadeiro se a conta estiver bloqueada; caso contrário, falso.</returns>
-    public bool EstaBloqueado(IDateTime dateTime) => BloqueioExpiraEm > dateTime.Now;
+    public bool EstaBloqueado(IDateTimeService dateTimeService) => BloqueioExpiraEm > dateTimeService.Now;
 
     /// <summary>
     /// Incremenenta o número de acessos que falharam.
     /// Quando é atingido o limite de acessos a conta será bloqueada por um tempo.
     /// </summary>
-    /// <param name="dateTime"></param>
+    /// <param name="dateTimeService"></param>
     /// <param name="numeroTentativas">Número máximo de tentativas até a conta ser bloqueada.</param>
     /// <param name="lockedTimeSpan">Determinado tempo em que a conta ficará bloqueada.</param>
-    public void IncrementarFalhas(IDateTime dateTime, short numeroTentativas, TimeSpan lockedTimeSpan)
+    public void IncrementarFalhas(IDateTimeService dateTimeService, int numeroTentativas, TimeSpan lockedTimeSpan)
     {
-        if (EstaBloqueado(dateTime))
+        if (EstaBloqueado(dateTimeService))
             return;
 
         NumeroFalhasAoAcessar++;
@@ -58,7 +58,7 @@ public class Usuario : BaseEntity, IAggregateRoot
         if (NumeroFalhasAoAcessar == numeroTentativas)
         {
             NumeroFalhasAoAcessar = 0;
-            BloqueioExpiraEm = dateTime.Now.Add(lockedTimeSpan);
+            BloqueioExpiraEm = dateTimeService.Now.Add(lockedTimeSpan);
         }
     }
 }

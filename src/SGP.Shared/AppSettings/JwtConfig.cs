@@ -4,7 +4,7 @@ public sealed class JwtConfig
 {
     public string Audience { get; private set; }
     public string Issuer { get; private set; }
-    public short Seconds { get; private set; }
+    public int Seconds { get; private set; }
     public string Secret { get; private set; }
     public bool ValidateAudience { get; private set; }
     public bool ValidateIssuer { get; private set; }
@@ -12,7 +12,7 @@ public sealed class JwtConfig
     public static JwtConfig Create(
         string audience,
         string issuer,
-        short seconds,
+        int seconds,
         string secret,
         bool validateAudience,
         bool validateIssuer) => new()

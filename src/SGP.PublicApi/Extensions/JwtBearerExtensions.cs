@@ -38,16 +38,8 @@ internal static class JwtBearerExtensions
                     ValidIssuer = jwtConfig.Issuer,
                     ValidAudience = jwtConfig.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
-
-                    // Valida a assinatura de um token recebido.
                     ValidateIssuerSigningKey = true,
-
-                    // Verifica se um token recebido ainda é válido.
                     ValidateLifetime = true,
-
-                    // Tempo de tolerância para a expiração de um token (utilizado
-                    // caso haja problemas de sincronismo de horário entre diferentes
-                    // computadores envolvidos no processo de comunicação).
                     ClockSkew = TimeSpan.Zero
                 };
             });
