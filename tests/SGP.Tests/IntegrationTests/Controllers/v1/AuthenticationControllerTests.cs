@@ -32,7 +32,7 @@ public class AuthenticationControllerTests : IntegrationTestBase, IClassFixture<
     public async Task Devera_RetornarResultadoSucessoComToken_AoAutenticar()
     {
         // Arrange
-        const string endPoint = "/api/authentication/authenticate";
+        const string endPoint = "/api/auth/authenticate";
         var usuario = await CriarUsuarioAsync();
         var request = new LogInRequest(usuario.Email.Address, SenhaPadrao);
         var httpContent = new StringContent(request.ToJson(), Encoding.UTF8, MediaTypeNames.Application.Json);
