@@ -39,7 +39,7 @@ public class EstadoService : IEstadoService
             return request.ToFail<IEnumerable<EstadoResponse>>();
         }
 
-        // Obtendo as cidades pelo UF.
+        // Obtendo os estados pela região.
         var estados = await _repository.ObterTodosPorRegiaoAsync(request.Regiao);
         if (!estados.Any())
         {
