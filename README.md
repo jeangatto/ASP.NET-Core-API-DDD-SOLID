@@ -25,10 +25,10 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 > Nota: projeto focado em **Back-End**
 
 - RESTful API
-- Aplicado os princípios do **S.O.L.I.D.**
-- Aplicado a abordagem de modelagem de software **DDD (Domain Driven Design)**
-- Repository-Service Pattern
-- Padrão de Camada Anticorrupção **(FluentValidation)**
+- Princípios do **S.O.L.I.D.**
+- Conceitos de modelagem de software do **DDD (Domain Driven Design)**
+- Padrão Repository-Service (Repository-Service Pattern)
+- Padrão de Camada-Anticorrupção (Anti-Corruption Layer) **(FluentValidation)**
 - Padrão Resultado **(FluentResults)** [Functional C#: Handling failures](https://enterprisecraftsmanship.com/posts/functional-c-handling-failures-input-errors/)
 - [Scrutor](https://github.com/khellang/Scrutor) automaticamente registrando os serviços no ASP.NET Core DI
 - Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**
