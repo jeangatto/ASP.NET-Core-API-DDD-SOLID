@@ -1,8 +1,8 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Extensions;
-using SGP.Infrastructure.Mappings;
 
 namespace SGP.Infrastructure.Context;
 
@@ -37,6 +37,6 @@ public class SgpContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         => modelBuilder
             .UseCollation(DbCollation)
-            .ApplyConfigurationsFromAssembly(typeof(UsuarioMap).Assembly)
+            .ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly())
             .RemoveCascadeDeleteConvention();
 }

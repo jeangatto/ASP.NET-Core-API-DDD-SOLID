@@ -34,38 +34,37 @@ public static class SgpContextSeed
     /// Popula a base de dados.
     /// </summary>
     /// <param name="context">Contexto da base de dados.</param>
-    /// <returns>Retorna o número de linhas afetadas na base de dados.</returns>
-    public static async Task<long> EnsureSeedDataAsync(this SgpContext context)
+    public static async Task EnsureSeedDataAsync(this SgpContext context)
     {
         Guard.Against.Null(context, nameof(context));
 
-        var rowsAffected = await SeedAsync<Regiao>(context, "regioes.json");
-        rowsAffected += await SeedAsync<Estado>(context, "estados.json");
-        rowsAffected += await SeedAsync<Cidade>(context, "cidades.json");
-        return rowsAffected;
+        // NOTE: desabilitando alguns recursos do EF Core em prol da performance (BulkInsert)
+        context.ChangeTracker.AutoDetectChangesEnabled = false;
+        context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+        await AddEntitiesIfNotExistsAsync<Regiao>(context, "regioes.json");
+        await AddEntitiesIfNotExistsAsync<Estado>(context, "estados.json");
+        await AddEntitiesIfNotExistsAsync<Cidade>(context, "cidades.json");
+        await context.SaveChangesAsync();
+
+        // NOTE: habilitando novamente o comportamento padrão do EF Core
+        context.ChangeTracker.AutoDetectChangesEnabled = true;
+        context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
     }
 
-    private static async Task<long> SeedAsync<T>(DbContext context, string fileName) where T : class
+    private static async Task AddEntitiesIfNotExistsAsync<TEntity>(DbContext context, string fileName)
+        where TEntity : class
     {
         Guard.Against.NullOrWhiteSpace(fileName, nameof(fileName));
 
-        var totalRows = await context.Set<T>().AsNoTracking().LongCountAsync();
-        if (totalRows == 0)
+        if (!await context.Set<TEntity>().AsNoTracking().AnyAsync())
         {
-            context.AddRange(await GetEntitiesFromJsonAsync<T>(fileName));
-            totalRows = await context.SaveChangesAsync();
+            var filePath = Path.Combine(FolderPath, fileName);
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", fileName);
+
+            var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
+            context.AddRange(entitiesJson.FromJson<IEnumerable<TEntity>>());
         }
-
-        return totalRows;
-    }
-
-    private static async Task<IEnumerable<T>> GetEntitiesFromJsonAsync<T>(string fileName) where T : class
-    {
-        var filePath = Path.Combine(FolderPath, fileName);
-        if (!File.Exists(filePath))
-            throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", fileName);
-
-        var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
-        return entitiesJson.FromJson<IEnumerable<T>>();
     }
 }

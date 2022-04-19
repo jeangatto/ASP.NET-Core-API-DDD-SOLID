@@ -23,15 +23,16 @@ public class SgpContextSeedTests : IClassFixture<EfSqliteFixture>
         var context = _fixture.Context;
 
         // Act
-        var actual = await context.EnsureSeedDataAsync();
+        await context.EnsureSeedDataAsync();
         var totalRegioes = await context.Regioes.AsNoTracking().CountAsync();
         var totalEstados = await context.Estados.AsNoTracking().CountAsync();
         var totalCidades = await context.Cidades.AsNoTracking().CountAsync();
+        var totalInserido = totalRegioes + totalEstados + totalCidades;
 
         // Assert
-        actual.Should().Be(totalRegioes + totalEstados + totalCidades);
         totalRegioes.Should().Be(Totais.Regioes);
         totalEstados.Should().Be(Totais.Estados);
         totalCidades.Should().Be(Totais.Cidades);
+        totalInserido.Should().Be(totalRegioes + totalEstados + totalCidades);
     }
 }
