@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Ardalis.GuardClauses;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using SGP.Shared.AppSettings;
@@ -34,9 +33,5 @@ public class MemoryCacheService : ICacheService
         return (TItem)value;
     }
 
-    public void Remove(string cacheKey)
-    {
-        Guard.Against.NullOrWhiteSpace(cacheKey, nameof(cacheKey));
-        _memoryCache.Remove(cacheKey);
-    }
+    public void Remove(string cacheKey) => _memoryCache.Remove(cacheKey);
 }
