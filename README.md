@@ -31,8 +31,10 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 - Padrão de Camada-Anticorrupção (Anti-Corruption Layer) **(FluentValidation)**
 - Padrão Resultado **(FluentResults)** [Functional C#: Handling failures](https://enterprisecraftsmanship.com/posts/functional-c-handling-failures-input-errors/)
 - [Scrutor](https://github.com/khellang/Scrutor) automaticamente registrando os serviços no ASP.NET Core DI
-- Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**
+- Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq** <br/>
+    => [Melhores práticas de teste de unidade com .NET Core](https://docs.microsoft.com/pt-br/dotnet/core/testing/unit-testing-best-practices)
 - Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)
+- [SonarCloud](https://sonarcloud.io/) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
 
 ## Executando a aplicação usando o Docker
 Após executar o comando no terminal `docker-compose up --build`, abrir a url no navegador: `http://localhost:8000/swagger/`
