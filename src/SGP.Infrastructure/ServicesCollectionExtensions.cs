@@ -15,7 +15,7 @@ public static class ServicesCollectionExtensions
             .AddScoped<ICacheService, MemoryCacheService>()
             .AddScoped<IDateTimeService, DateTimeService>()
             .AddScoped<IHashService, BCryptHashService>()
-            .AddScoped<ITokenClaimsService, IdentityTokenClaimService>()
+            .AddScoped<ITokenClaimsService, JwtClaimService>()
             .AddScoped<IUnitOfWork, UnitOfWork>();
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)

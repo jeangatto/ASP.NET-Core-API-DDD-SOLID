@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.GuardClauses" Version="4.0.1"/>
-    <PackageReference Include="AutoMapper" Version="11.0.1"/>
-    <PackageReference Include="Bogus" Version="34.0.2"/>
+    <PackageReference Include="Ardalis.GuardClauses" Version="4.0.1" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="coverlet.collector" Version="3.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -19,16 +19,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="FluentAssertions" Version="6.6.0"/>
-    <PackageReference Include="FluentValidation" Version="10.4.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.4"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.4"/>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0"/>
-    <PackageReference Include="Moq" Version="4.17.2"/>
-    <PackageReference Include="xunit" Version="2.4.1"/>
-    <PackageReference Include="xunit.analyzers" Version="0.10.0"/>
-    <PackageReference Include="xunit.categories" Version="2.0.6"/>
+    <PackageReference Include="FluentAssertions" Version="6.6.0" />
+    <PackageReference Include="FluentValidation" Version="10.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Moq" Version="4.17.2" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.analyzers" Version="0.10.0" />
+    <PackageReference Include="xunit.categories" Version="2.0.6" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -36,11 +36,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SGP.Application\SGP.Application.csproj"/>
-    <ProjectReference Include="..\..\src\SGP.Domain\SGP.Domain.csproj"/>
-    <ProjectReference Include="..\..\src\SGP.Infrastructure\SGP.Infrastructure.csproj"/>
-    <ProjectReference Include="..\..\src\SGP.PublicApi\SGP.PublicApi.csproj"/>
-    <ProjectReference Include="..\..\src\SGP.Shared\SGP.Shared.csproj"/>
+    <ProjectReference Include="..\..\src\SGP.Application\SGP.Application.csproj" />
+    <ProjectReference Include="..\..\src\SGP.Domain\SGP.Domain.csproj" />
+    <ProjectReference Include="..\..\src\SGP.Infrastructure\SGP.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\SGP.PublicApi\SGP.PublicApi.csproj" />
+    <ProjectReference Include="..\..\src\SGP.Shared\SGP.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

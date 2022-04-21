@@ -3,22 +3,26 @@ using System.Text;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
-using SGP.Shared.Extensions;
 
 namespace SGP.PublicApi.Extensions;
 
 internal static class JwtBearerExtensions
 {
-    internal static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddJwtBearer(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        IWebHostEnvironment environment)
     {
         Guard.Against.Null(configuration, nameof(configuration));
-        var jwtConfig = configuration.GetWithNonPublicProperties<JwtConfig>();
-        Guard.Against.Null(jwtConfig, nameof(jwtConfig));
-        Guard.Against.NullOrWhiteSpace(jwtConfig.Secret, nameof(jwtConfig.Secret));
+        Guard.Against.Null(environment, nameof(environment));
+
+        var jwtConfig = GetJwtConfig(configuration);
 
         services
             .AddAuthentication(authOptions =>
@@ -29,18 +33,19 @@ internal static class JwtBearerExtensions
             })
             .AddJwtBearer(bearerOptions =>
             {
-                bearerOptions.RequireHttpsMetadata = false;
+                // Note: RequireHttpsMetadata deve estar sempre habilitado no ambiente de produção.
+                bearerOptions.RequireHttpsMetadata = environment.IsProduction();
                 bearerOptions.SaveToken = true;
                 bearerOptions.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = jwtConfig.ValidateIssuer,
-                    ValidateAudience = jwtConfig.ValidateAudience,
-                    ValidIssuer = jwtConfig.Issuer,
-                    ValidAudience = jwtConfig.Audience,
+                    ClockSkew = TimeSpan.Zero,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
+                    ValidAudience = jwtConfig.Audience,
+                    ValidIssuer = jwtConfig.Issuer
                 };
             });
 
@@ -55,4 +60,9 @@ internal static class JwtBearerExtensions
 
         return services;
     }
+
+    private static JwtConfig GetJwtConfig(IConfiguration configuration)
+        => configuration
+            .GetSection(nameof(JwtConfig))
+            .Get<JwtConfig>(options => options.BindNonPublicProperties = true);
 }

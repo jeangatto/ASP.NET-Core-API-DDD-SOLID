@@ -26,8 +26,13 @@ namespace SGP.PublicApi;
 public class Startup
 {
     private readonly IConfiguration _configuration;
+    private readonly IWebHostEnvironment _environment;
 
-    public Startup(IConfiguration configuration) => _configuration = configuration;
+    public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+    {
+        _configuration = configuration;
+        _environment = environment;
+    }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -41,7 +46,7 @@ public class Startup
             .AddApiVersioningAndApiExplorer()
             .AddOpenApi()
             .ConfigureAppSettings()
-            .AddJwtBearer(_configuration)
+            .AddJwtBearer(_configuration, _environment)
             .AddServices()
             .AddInfrastructure()
             .AddRepositories()

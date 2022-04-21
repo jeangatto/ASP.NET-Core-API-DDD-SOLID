@@ -12,7 +12,7 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Services;
 
 [UnitTest]
-public class IdentityTokenClaimServiceTests
+public class JwtClaimServiceTests
 {
     [Fact]
     public void Should_ReturnsAcessToken_WhenGenerateAccessTokenWithValidClaims()
@@ -76,7 +76,7 @@ public class IdentityTokenClaimServiceTests
     }
 
     private static ITokenClaimsService CreateTokenClaimsService()
-        => new IdentityTokenClaimService(CreateJwtConfig(), CreateDateTimeService());
+        => new JwtClaimService(CreateJwtConfig(), CreateDateTimeService());
 
     private static IDateTimeService CreateDateTimeService()
         => new DateTimeService();
@@ -87,9 +87,7 @@ public class IdentityTokenClaimServiceTests
         const string issuer = "API-SGP";
         const string secretKey = "p8SXNddEAEn1cCuyfVJKYA7e6hlagbLd";
         const short seconds = 21600;
-        const bool validateAudience = true;
-        const bool validateIssuer = true;
-        var jwtConfig = JwtConfig.Create(audience, issuer, seconds, secretKey, validateAudience, validateIssuer);
+        var jwtConfig = JwtConfig.Create(audience, issuer, seconds, secretKey);
         return Options.Create(jwtConfig);
     }
 }

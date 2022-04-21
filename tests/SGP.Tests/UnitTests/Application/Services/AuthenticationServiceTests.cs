@@ -37,7 +37,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
         // Arrange
         var jwtConfig = CreateJwtConfig();
         var dateTime = new DateTimeService();
-        var tokenClaimsService = new IdentityTokenClaimService(jwtConfig, dateTime);
+        var tokenClaimsService = new JwtClaimService(jwtConfig, dateTime);
         var hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
         var usuarioRepository = new UsuarioRepository(_fixture.Context);
         var unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
@@ -184,9 +184,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
         const string issuer = "API-SGP";
         const string secretKey = "p8SXNddEAEn1cCuyfVJKYA7e6hlagbLd";
         const short seconds = 21600;
-        const bool validateAudience = true;
-        const bool validateIssuer = true;
-        var jwtConfig = JwtConfig.Create(audience, issuer, seconds, secretKey, validateAudience, validateIssuer);
+        var jwtConfig = JwtConfig.Create(audience, issuer, seconds, secretKey);
         return Options.Create(jwtConfig);
     }
 }

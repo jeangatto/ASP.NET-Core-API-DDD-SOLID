@@ -12,13 +12,13 @@ using SGP.Shared.Records;
 
 namespace SGP.Infrastructure.Services;
 
-public class IdentityTokenClaimService : ITokenClaimsService
+public class JwtClaimService : ITokenClaimsService
 {
     private const short RefreshTokenBytesLength = 64;
     private readonly JwtConfig _jwtConfig;
     private readonly IDateTimeService _dateTimeService;
 
-    public IdentityTokenClaimService(IOptions<JwtConfig> jwtOptions, IDateTimeService dateTimeService)
+    public JwtClaimService(IOptions<JwtConfig> jwtOptions, IDateTimeService dateTimeService)
     {
         _jwtConfig = jwtOptions.Value;
         _dateTimeService = dateTimeService;
@@ -30,8 +30,8 @@ public class IdentityTokenClaimService : ITokenClaimsService
 
         var createdAt = _dateTimeService.Now;
         var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);
-
-        var tokenDescriptor = new SecurityTokenDescriptor
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var securityToken = tokenHandler.CreateToken(new SecurityTokenDescriptor
         {
             Audience = _jwtConfig.Audience,
             Issuer = _jwtConfig.Issuer,
@@ -39,10 +39,7 @@ public class IdentityTokenClaimService : ITokenClaimsService
             Expires = expiresAt,
             Subject = new ClaimsIdentity(claims),
             SigningCredentials = CreateSigningCredentials()
-        };
-
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+        });
         var token = tokenHandler.WriteToken(securityToken);
         return new AccessToken(token, createdAt, expiresAt);
     }
