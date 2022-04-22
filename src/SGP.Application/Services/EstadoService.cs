@@ -31,24 +31,15 @@ public class EstadoService : IEstadoService
 
     public async Task<Result<IEnumerable<EstadoResponse>>> ObterTodosPorRegiaoAsync(ObterTodosPorRegiaoRequest request)
     {
-        // Validando a requisição.
         await request.ValidateAsync();
         if (!request.IsValid)
-        {
-            // Retornando os erros da validação.
             return request.ToFail<IEnumerable<EstadoResponse>>();
-        }
 
-        // Obtendo os estados pela região.
         var estados = await _repository.ObterTodosPorRegiaoAsync(request.Regiao);
         if (!estados.Any())
-        {
-            // Retornando não encontrado.
             return Result.Fail<IEnumerable<EstadoResponse>>(
                 new NotFoundError($"Nenhum estado encontrado pela região: {request.Regiao}"));
-        }
 
-        // Mapeando domínio para resposta (DTO).
         return Result.Ok(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
     }
 }

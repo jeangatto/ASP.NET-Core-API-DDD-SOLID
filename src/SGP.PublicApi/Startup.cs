@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
@@ -53,13 +54,14 @@ public class Startup
             .AddDbContext(services.AddHealthChecks())
             .Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal)
             .Configure<RouteOptions>(options => options.LowercaseUrls = true)
+            .Configure<MvcNewtonsoftJsonOptions>(options => options.SerializerSettings.Configure())
             .AddControllers()
             .ConfigureApiBehaviorOptions(options =>
             {
                 options.SuppressMapClientErrors = true;
                 options.SuppressModelStateInvalidFilter = true;
             })
-            .AddNewtonsoftJson(options => options.SerializerSettings.Configure());
+            .AddNewtonsoftJson();
 
         // MiniProfiler for .NET
         // https://miniprofiler.com/dotnet/

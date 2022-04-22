@@ -28,44 +28,27 @@ public class CidadeService : ICidadeService
         // Validando a requisição.
         await request.ValidateAsync();
         if (!request.IsValid)
-        {
-            // Retornando os erros da validação.
             return request.ToFail<CidadeResponse>();
-        }
 
-        // Obtendo a cidade pelo IBGE.
         var cidade = await _repository.ObterPorIbgeAsync(request.Ibge);
         if (cidade == null)
-        {
-            // Retornando não encontrado.
             return Result.Fail<CidadeResponse>(
                 new NotFoundError($"Nenhuma cidade encontrada pelo IBGE: {request.Ibge}"));
-        }
 
-        // Mapeando domínio para resposta (DTO).
         return Result.Ok(_mapper.Map<CidadeResponse>(cidade));
     }
 
     public async Task<Result<IEnumerable<CidadeResponse>>> ObterTodosPorUfAsync(ObterTodosPorUfRequest request)
     {
-        // Validando a requisição.
         await request.ValidateAsync();
         if (!request.IsValid)
-        {
-            // Retornando os erros da validação.
             return request.ToFail<IEnumerable<CidadeResponse>>();
-        }
 
-        // Obtendo as cidades pelo UF.
         var cidades = await _repository.ObterTodosPorUfAsync(request.Uf);
         if (!cidades.Any())
-        {
-            // Retornando não encontrado.
             return Result.Fail<IEnumerable<CidadeResponse>>(
                 new NotFoundError($"Nenhuma cidade encontrada pelo UF: {request.Uf}"));
-        }
 
-        // Mapeando domínio para resposta (DTO).
         return Result.Ok(_mapper.Map<IEnumerable<CidadeResponse>>(cidades));
     }
 }

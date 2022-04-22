@@ -57,13 +57,9 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<Result<TokenResponse>> AuthenticateAsync(LogInRequest request)
     {
-        // Validando a requisição.
         await request.ValidateAsync();
         if (!request.IsValid)
-        {
-            // Retornando os erros da validação.
             return request.ToFail<TokenResponse>();
-        }
 
         var usuario = await _repository.ObterPorEmailAsync(new Email(request.Email));
         if (usuario == null)
@@ -107,13 +103,9 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<Result<TokenResponse>> RefreshTokenAsync(RefreshTokenRequest request)
     {
-        // Validando a requisição.
         await request.ValidateAsync();
         if (!request.IsValid)
-        {
-            // Retornando os erros da validação.
             return request.ToFail<TokenResponse>();
-        }
 
         var usuario = await _repository.ObterPorTokenAtualizacaoAsync(request.Token);
         if (usuario == null)
