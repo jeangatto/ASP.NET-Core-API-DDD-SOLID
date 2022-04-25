@@ -19,7 +19,6 @@ Criado com o [Rider: o IDE .NET de plataforma cruzada da JetBrains](https://www.
 
 ![Rider logo](https://resources.jetbrains.com/storage/products/company/brand/logos/Rider_icon.svg)
 
-
 C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6) + [EF Core 6.0](https://docs.microsoft.com/pt-br/ef/core/what-is-new/ef-core-6.0/whatsnew) + JWT Bearer + OpenAPI (Swagger)
 
 > Nota: projeto focado em **Back-End**
@@ -31,15 +30,17 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 - Padrão de Camada-Anticorrupção (Anti-Corruption Layer) **(FluentValidation)**
 - Padrão Resultado **(FluentResults)** [Functional C#: Handling failures](https://enterprisecraftsmanship.com/posts/functional-c-handling-failures-input-errors/)
 - [Scrutor](https://github.com/khellang/Scrutor) automaticamente registrando os serviços no ASP.NET Core DI
-- Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq** <br/>
+- Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**\
     => [Melhores práticas de teste de unidade com .NET Core](https://docs.microsoft.com/pt-br/dotnet/core/testing/unit-testing-best-practices)
 - Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)
 - [SonarCloud](https://sonarcloud.io/) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
 
 ## Executando a aplicação usando o Docker
+
 Após executar o comando no terminal `docker-compose up --build`, abrir a url no navegador: `http://localhost:8000/swagger/`
 
 ## Configurando Banco de dados
+
 Por padrão é utilizado o SQL Server LocalDB, para alterar a conexão, modifique o valor da chave `DefaultConnection` no arquivo `appsettings.Development.json`
 
 ```json
@@ -96,4 +97,5 @@ internal static class HostExtensions
 ```
 
 ## License
-* [MIT License](https://github.com/JeanGatto/SGP/blob/main/LICENSE)
+
+- [MIT License](https://github.com/JeanGatto/SGP/blob/main/LICENSE)
