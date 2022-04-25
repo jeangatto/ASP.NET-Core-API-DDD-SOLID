@@ -33,6 +33,10 @@ insert_final_newline = false
 [*.{cs,vb}]
 # Organize usings
 dotnet_sort_system_directives_first = true
+# IDE0002: Name can be simplified
+dotnet_diagnostic.IDE0002.severity = suggestion
+# IDE0005: Remove unnecessary imports
+dotnet_diagnostic.IDE0005.severity = suggestion
 # this. preferences
 dotnet_style_qualification_for_field = false:silent
 dotnet_style_qualification_for_property = false:silent
@@ -142,7 +146,7 @@ csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_style_namespace_declarations = block_scoped:silent
+csharp_style_namespace_declarations = file_scoped:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 csharp_style_prefer_null_check_over_type_check = true:suggestion
