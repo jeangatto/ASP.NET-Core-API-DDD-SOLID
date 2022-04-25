@@ -1,8 +1,7 @@
-﻿namespace SGP.Shared.AppSettings
+﻿namespace SGP.Shared.AppSettings;
+
+public class CacheConfig
 {
-    public class CacheConfig
-    {
-        public int AbsoluteExpirationInHours { get; private set; }
-        public int SlidingExpirationInSeconds { get; private set; }
-    }
+    public int AbsoluteExpirationInHours { get; private set; }
+    public int SlidingExpirationInSeconds { get; private set; }
 }

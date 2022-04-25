@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
 
-namespace SGP.Shared.AppSettings.Validators
+namespace SGP.Shared.AppSettings.Validators;
+
+public class CacheConfigValidator : AbstractValidator<CacheConfig>
 {
-    public class CacheConfigValidator : AbstractValidator<CacheConfig>
+    public CacheConfigValidator()
     {
-        public CacheConfigValidator()
-        {
-            RuleFor(options => options.AbsoluteExpirationInHours).NotEmpty();
-            RuleFor(options => options.SlidingExpirationInSeconds).NotEmpty();
-        }
+        RuleFor(options => options.AbsoluteExpirationInHours).NotEmpty();
+        RuleFor(options => options.SlidingExpirationInSeconds).NotEmpty();
     }
 }
