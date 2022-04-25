@@ -11,7 +11,6 @@ public static class RuleBuilderExtensions
     /// </summary>
     /// <typeparam name="T">Type of object being validated</typeparam>
     /// <param name="ruleBuilder">The rule builder on which the validator should be defined</param>
-    /// <returns></returns>
     public static IRuleBuilderOptions<T, string> IsValidEmailAddress<T>(this IRuleBuilder<T, string> ruleBuilder)
         => ruleBuilder
             .Matches(RegexPatterns.EmailRegexPattern)
