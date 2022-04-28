@@ -105,9 +105,6 @@ public class Startup
 
     #region ExceptionHandler
 
-    private static readonly ApiError ApiDefaultError =
-        new("Ocorreu um erro interno ao processar a sua solicitação.");
-
     /// <summary>
     /// Middleware nativo para tratamento de exceções.
     /// </summary>
@@ -119,14 +116,12 @@ public class Startup
             var handler = httpContext.Features.Get<IExceptionHandlerFeature>();
             if (handler != null)
             {
-                httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                httpContext.Response.ContentType = MediaTypeNames.Application.Json;
-
                 var logger = loggerFactory.CreateLogger<Startup>();
                 logger.LogError(handler.Error, "Exceção não esperada: {Message}", handler.Error.Message);
 
-                var apiResponse = new ApiResponse(StatusCodes.Status500InternalServerError, ApiDefaultError);
-                await httpContext.Response.WriteAsync(apiResponse.ToJson());
+                httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                httpContext.Response.ContentType = MediaTypeNames.Application.Json;
+                await httpContext.Response.WriteAsync(ApiResponse.DefaultErrorResponse.ToJson());
             }
         });
 
