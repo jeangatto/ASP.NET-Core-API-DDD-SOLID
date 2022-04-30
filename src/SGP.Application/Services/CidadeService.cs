@@ -25,15 +25,16 @@ public class CidadeService : ICidadeService
 
     public async Task<Result<CidadeResponse>> ObterPorIbgeAsync(ObterPorIbgeRequest request)
     {
-        // Validando a requisição.
         await request.ValidateAsync();
         if (!request.IsValid)
             return request.ToFail<CidadeResponse>();
 
         var cidade = await _repository.ObterPorIbgeAsync(request.Ibge);
         if (cidade == null)
+        {
             return Result.Fail<CidadeResponse>(
                 new NotFoundError($"Nenhuma cidade encontrada pelo IBGE: {request.Ibge}"));
+        }
 
         return Result.Ok(_mapper.Map<CidadeResponse>(cidade));
     }
@@ -46,8 +47,10 @@ public class CidadeService : ICidadeService
 
         var cidades = await _repository.ObterTodosPorUfAsync(request.Uf);
         if (!cidades.Any())
+        {
             return Result.Fail<IEnumerable<CidadeResponse>>(
                 new NotFoundError($"Nenhuma cidade encontrada pelo UF: {request.Uf}"));
+        }
 
         return Result.Ok(_mapper.Map<IEnumerable<CidadeResponse>>(cidades));
     }

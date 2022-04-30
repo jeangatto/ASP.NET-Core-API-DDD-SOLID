@@ -37,8 +37,10 @@ public class EstadoService : IEstadoService
 
         var estados = await _repository.ObterTodosPorRegiaoAsync(request.Regiao);
         if (!estados.Any())
+        {
             return Result.Fail<IEnumerable<EstadoResponse>>(
                 new NotFoundError($"Nenhum estado encontrado pela região: {request.Regiao}"));
+        }
 
         return Result.Ok(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
     }
