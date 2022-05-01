@@ -1,6 +1,6 @@
 namespace SGP.Tests.Constants;
 
-public static class Environments
+internal static class Environments
 {
-    public const string Testing = "Testing";
+    internal const string Testing = "Testing";
 }
