@@ -25,8 +25,8 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
     {
         var openApiInfo = new OpenApiInfo
         {
-            Title = "SGP",
-            Description = "Sistema Gerenciador de Pedidos (SGP)",
+            Title = "Sistema Gerenciador de Pedidos (SGP)",
+            Description = "ASP.NET Core C# com conceitos de DDD, Princípios SOLID e Clean Architecture",
             Version = description.ApiVersion.ToString(),
             Contact = new OpenApiContact
             {
