@@ -24,8 +24,8 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 > Nota: projeto focado em **Back-End**
 
 - RESTful API
-- Princípios **S.O.L.I.D.**
 - Clean Architecture
+- Princípios **S.O.L.I.D.**
 - Conceitos de modelagem de software **DDD (Domain Driven Design)**
 - Padrão Repository-Service (Repository-Service Pattern)
 - Padrão de Camada-Anticorrupção (Anti-Corruption Layer) **(FluentValidation)**
