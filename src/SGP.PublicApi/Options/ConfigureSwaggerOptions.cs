@@ -26,7 +26,7 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
         var openApiInfo = new OpenApiInfo
         {
             Title = "Sistema Gerenciador de Pedidos (SGP)",
-            Description = "ASP.NET Core C# com conceitos de DDD, Princípios SOLID e Clean Architecture",
+            Description = "ASP.NET Core C# REST API, DDD, Princípios SOLID e Clean Architecture",
             Version = description.ApiVersion.ToString(),
             Contact = new OpenApiContact
             {
@@ -37,7 +37,7 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
             License = new OpenApiLicense
             {
                 Name = "MIT License",
-                Url = new Uri("https://github.com/JeanGatto/SGP/blob/main/LICENSE")
+                Url = new Uri("https://github.com/JeanGatto/asp-net-core-ddd-solid-api/blob/main/LICENSE")
             }
         };
 
