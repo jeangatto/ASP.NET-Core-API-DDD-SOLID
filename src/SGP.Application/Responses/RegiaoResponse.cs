@@ -1,4 +1,4 @@
-﻿using SGP.Shared.Messages;
+using SGP.Shared.Messages;
 
 namespace SGP.Application.Responses;
 

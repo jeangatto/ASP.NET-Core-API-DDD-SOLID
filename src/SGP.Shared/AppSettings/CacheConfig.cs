@@ -1,4 +1,4 @@
-﻿namespace SGP.Shared.AppSettings;
+namespace SGP.Shared.AppSettings;
 
 public class CacheConfig
 {

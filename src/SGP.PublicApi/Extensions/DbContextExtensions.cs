@@ -28,7 +28,7 @@ internal static class DbContextExtensions
 
         // Verificador de saúde da base de dados.
         healthChecksBuilder.AddDbContextCheck<SgpContext>(
-            tags: new[] {"database"},
+            tags: new[] { "database" },
             customTestQuery: (context, token) => context.Cidades.AsNoTracking().AnyAsync(token));
 
         return services;

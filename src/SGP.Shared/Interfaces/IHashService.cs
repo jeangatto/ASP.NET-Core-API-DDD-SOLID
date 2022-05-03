@@ -1,4 +1,4 @@
-﻿namespace SGP.Shared.Interfaces;
+namespace SGP.Shared.Interfaces;
 
 /// <summary>
 /// O hash é uma função unilateral que embaralha o texto simples para produzir um resumo da mensagem exclusivo.

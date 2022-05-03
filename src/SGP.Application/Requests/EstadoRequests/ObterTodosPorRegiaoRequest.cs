@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using SGP.Shared.Helpers;
 using SGP.Shared.Messages;
 

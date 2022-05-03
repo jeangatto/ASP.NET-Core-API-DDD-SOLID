@@ -21,6 +21,9 @@ public sealed class JwtConfig
 
     public static JwtConfig Create(string audience, string issuer, int seconds, string secret) => new()
     {
-        Audience = audience, Issuer = issuer, Seconds = seconds, Secret = secret
+        Audience = audience,
+        Issuer = issuer,
+        Seconds = seconds,
+        Secret = secret
     };
 }

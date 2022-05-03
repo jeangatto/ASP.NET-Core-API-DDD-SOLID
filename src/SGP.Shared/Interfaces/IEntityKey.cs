@@ -1,4 +1,4 @@
-﻿namespace SGP.Shared.Interfaces;
+namespace SGP.Shared.Interfaces;
 
 /// <summary>
 /// Chave da Entidade.

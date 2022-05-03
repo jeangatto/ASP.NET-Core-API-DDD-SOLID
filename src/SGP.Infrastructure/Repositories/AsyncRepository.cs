@@ -34,5 +34,5 @@ public abstract class AsyncRepository<TEntity> : IAsyncRepository<TEntity> where
         => DbSet.RemoveRange(entities);
 
     public virtual async Task<TEntity> GetByIdAsync(Guid id, bool readOnly = false)
-        =>  readOnly ? await DbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id) : await DbSet.FindAsync(id);
+        => readOnly ? await DbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id) : await DbSet.FindAsync(id);
 }

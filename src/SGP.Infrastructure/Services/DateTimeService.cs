@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SGP.Shared.Interfaces;
 
 namespace SGP.Infrastructure.Services;
