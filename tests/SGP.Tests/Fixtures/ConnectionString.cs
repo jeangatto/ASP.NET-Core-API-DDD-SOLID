@@ -1,6 +1,6 @@
 namespace SGP.Tests.Fixtures;
 
-public static class ConnectionString
+internal static class ConnectionString
 {
-    public const string Sqlite = "Data Source=:memory:";
+    internal const string Sqlite = "Data Source=:memory:";
 }
