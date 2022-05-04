@@ -89,8 +89,14 @@ dotnet_diagnostic.IDE2003.severity = warning
 # csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental
 dotnet_diagnostic.IDE2004.severity = warning
 
-# IDE0003: Name can be simplified"
+# IDE0003: Name can be simplified
 dotnet_diagnostic.IDE0003.severity = warning
+
+# IDE0034: Simplify 'default' expression
+dotnet_diagnostic.IDE0034.severity = warning
+
+# IDE0071: Simplify interpolation
+dotnet_diagnostic.IDE0071.severity = warning
 
 ###############################
 # .NET Coding Conventions     #
@@ -137,10 +143,8 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 ###############################
 # Naming Conventions          #
 ###############################
-
 # Style Definitions
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
-
 # Use PascalCase for constant fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
@@ -193,7 +197,6 @@ csharp_style_inlined_variable_declaration = true:suggestion
 ###############################
 # C# Formatting Rules         #
 ###############################
-
 # New line preferences
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
@@ -234,7 +237,6 @@ csharp_style_prefer_null_check_over_type_check = true:suggestion
 ###############################
 # VB Coding Conventions       #
 ###############################
-
 [*.vb]
 # Modifier preferences
 visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public,Friend,NotOverridable,Overridable,MustOverride,Overloads,Overrides,MustInherit,NotInheritable,Static,Shared,Shadows,ReadOnly,WriteOnly,Dim,Const,WithEvents,Widening,Narrowing,Custom,Async:suggestion
