@@ -31,72 +31,62 @@ trim_trailing_whitespace = true
 # .NET Diagnostic             #
 ###############################
 
-# IDE0002: Name can be simplified
-dotnet_diagnostic.IDE0002.severity = warning
-
-# IDE0005: Remove unnecessary imports
-dotnet_diagnostic.IDE0005.severity = warning
-
-# IDE0040: Add accessibility modifiers
-dotnet_diagnostic.IDE0040.severity = warning
-
-# IDE0035: Remove unreachable code
-dotnet_diagnostic.IDE0035.severity = warning
-
-# IDE0036: Order modifiers
-dotnet_diagnostic.IDE0036.severity = warning
-
-# IDE0043: Format string contains invalid placeholder
-dotnet_diagnostic.IDE0043.severity = warning
-
-# IDE0044: Make field readonly
-dotnet_diagnostic.IDE0044.severity = warning
-
-# IDE0040: Add accessibility modifiers
-dotnet_diagnostic.IDE0040.severity = warning
-
-# CONSIDER: Are IDE0051 and IDE0052 too noisy to be warnings for IDE editing scenarios? Should they be made build-only warnings?
-# IDE0051: Remove unused private member
-dotnet_diagnostic.IDE0051.severity = warning
-
-# IDE0052: Remove unread private member
-dotnet_diagnostic.IDE0052.severity = warning
-
-# IDE0059: Unnecessary assignment to a value
-dotnet_diagnostic.IDE0059.severity = warning
-
-# IDE0060: Remove unused parameter
-dotnet_diagnostic.IDE0060.severity = warning
-
 # CA1012: Abstract types should not have public constructors
 dotnet_diagnostic.CA1012.severity = warning
 
 # CA1822: Make member static
-dotnet_diagnostic.CA1822.severity = warning
+dotnet_diagnostic.CA1822.severity = warning 
 
-# dotnet_style_allow_multiple_blank_lines_experimental
-dotnet_diagnostic.IDE2000.severity = warning
-
-# csharp_style_allow_embedded_statements_on_same_line_experimental
-dotnet_diagnostic.IDE2001.severity = warning
-
-# csharp_style_allow_blank_lines_between_consecutive_braces_experimental
-dotnet_diagnostic.IDE2002.severity = warning
-
-# dotnet_style_allow_statement_immediately_after_block_experimental
-dotnet_diagnostic.IDE2003.severity = warning
-
-# csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental
-dotnet_diagnostic.IDE2004.severity = warning
+# IDE0002: Name can be simplified
+dotnet_diagnostic.IDE0002.severity = warning 
 
 # IDE0003: Name can be simplified
-dotnet_diagnostic.IDE0003.severity = warning
+dotnet_diagnostic.IDE0003.severity = warning 
+
+# IDE0005: Remove unnecessary imports
+dotnet_diagnostic.IDE0005.severity = warning 
+
+# IDE0028: Collection initialization can be simplified
+dotnet_diagnostic.IDE0028.severity = warning 
 
 # IDE0034: Simplify 'default' expression
-dotnet_diagnostic.IDE0034.severity = warning
+dotnet_diagnostic.IDE0034.severity = warning 
+
+# IDE0035: Remove unreachable code
+dotnet_diagnostic.IDE0035.severity = warning 
+
+# IDE0036: Order modifiers
+dotnet_diagnostic.IDE0036.severity = warning 
+
+# IDE0040: Add accessibility modifiers
+dotnet_diagnostic.IDE0040.severity = warning 
+
+# IDE0043: Format string contains invalid placeholder
+dotnet_diagnostic.IDE0043.severity = warning 
+
+# IDE0044: Make field readonly
+dotnet_diagnostic.IDE0044.severity = warning 
+
+# IDE0051: Remove unused private member
+dotnet_diagnostic.IDE0051.severity = warning 
+
+# IDE0052: Remove unread private member
+dotnet_diagnostic.IDE0052.severity = warning 
+
+# IDE0059: Unnecessary assignment to a value
+dotnet_diagnostic.IDE0059.severity = warning 
+
+# IDE0060: Remove unused parameter
+dotnet_diagnostic.IDE0060.severity = warning 
+
+# IDE0063: Use simple 'using' statement
+dotnet_diagnostic.IDE0063.severity = warning 
 
 # IDE0071: Simplify interpolation
-dotnet_diagnostic.IDE0071.severity = warning
+dotnet_diagnostic.IDE0071.severity = warning 
+
+# IDE0090: Simplify new expression
+dotnet_diagnostic.IDE0090.severity = warning 
 
 ###############################
 # .NET Coding Conventions     #
@@ -143,8 +133,10 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 ###############################
 # Naming Conventions          #
 ###############################
+
 # Style Definitions
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
 # Use PascalCase for constant fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
@@ -197,6 +189,7 @@ csharp_style_inlined_variable_declaration = true:suggestion
 ###############################
 # C# Formatting Rules         #
 ###############################
+
 # New line preferences
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
@@ -237,6 +230,7 @@ csharp_style_prefer_null_check_over_type_check = true:suggestion
 ###############################
 # VB Coding Conventions       #
 ###############################
+
 [*.vb]
 # Modifier preferences
 visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public,Friend,NotOverridable,Overridable,MustOverride,Overloads,Overrides,MustInherit,NotInheritable,Static,Shared,Shadows,ReadOnly,WriteOnly,Dim,Const,WithEvents,Widening,Narrowing,Custom,Async:suggestion
