@@ -7,14 +7,9 @@ namespace SGP.Shared.Extensions;
 
 public static class JsonSettingsExtensions
 {
-    private static readonly NamingStrategy DefaultNamingStrategy
-        = new CamelCaseNamingStrategy();
-
-    private static readonly JsonConverter DefaultEnumConverter
-        = new StringEnumConverter(DefaultNamingStrategy);
-
-    private static readonly IContractResolver DefaultContractResolver
-        = new PrivateSetterContractResolver(DefaultNamingStrategy);
+    private static readonly CamelCaseNamingStrategy NamingStrategy = new();
+    private static readonly StringEnumConverter StringEnumConverter = new(NamingStrategy);
+    private static readonly PrivateSetterContractResolver ContractResolver = new(NamingStrategy);
 
     public static JsonSerializerSettings Configure(this JsonSerializerSettings settings)
     {
@@ -22,8 +17,8 @@ public static class JsonSettingsExtensions
         settings.PreserveReferencesHandling = PreserveReferencesHandling.None;
         settings.NullValueHandling = NullValueHandling.Ignore;
         settings.Formatting = Formatting.None;
-        settings.ContractResolver = DefaultContractResolver;
-        settings.Converters.Add(DefaultEnumConverter);
+        settings.ContractResolver = ContractResolver;
+        settings.Converters.Add(StringEnumConverter);
         return settings;
     }
 }
