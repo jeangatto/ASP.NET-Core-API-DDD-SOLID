@@ -88,6 +88,9 @@ dotnet_diagnostic.IDE0071.severity = warning
 # IDE0090: Simplify new expression
 dotnet_diagnostic.IDE0090.severity = warning 
 
+# IDE0161: Convert to file-scoped namespace
+dotnet_diagnostic.IDE0161.severity = warning 
+
 ###############################
 # .NET Coding Conventions     #
 ###############################
