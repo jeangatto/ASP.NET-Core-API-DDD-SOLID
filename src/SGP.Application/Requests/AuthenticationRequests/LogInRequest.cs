@@ -14,13 +14,13 @@ public class LogInRequest : BaseRequest
     }
 
     [Required]
-    [DataType(DataType.EmailAddress)]
     [MaxLength(100)]
+    [DataType(DataType.EmailAddress)]
     public string Email { get; }
 
     [Required]
-    [DataType(DataType.Password)]
     [MinLength(4)]
+    [DataType(DataType.Password)]
     public string Password { get; }
 
     public override async Task ValidateAsync()

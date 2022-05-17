@@ -30,7 +30,7 @@ public class MemoryCacheService : ICacheService
 
     public async Task<TItem> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<TItem>> factory)
     {
-        if (!_memoryCache.TryGetValue(cacheKey, out object value))
+        if (!_memoryCache.TryGetValue(cacheKey, out var value))
         {
             _logger.LogInformation("Added to cache: '{CacheKey}'", cacheKey);
             value = await factory().ConfigureAwait(false);
