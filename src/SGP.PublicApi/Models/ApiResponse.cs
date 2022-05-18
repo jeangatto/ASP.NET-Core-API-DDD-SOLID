@@ -1,14 +1,10 @@
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
 using SGP.Shared.Messages;
 
 namespace SGP.PublicApi.Models;
 
 public class ApiResponse : BaseResponse
 {
-    public static readonly ApiResponse DefaultErrorResponse
-        = new(false, StatusCodes.Status500InternalServerError, new ApiError("Ocorreu um erro interno ao processar a sua solicitação."));
-
     public ApiResponse(bool success, int statusCode)
     {
         Success = success;

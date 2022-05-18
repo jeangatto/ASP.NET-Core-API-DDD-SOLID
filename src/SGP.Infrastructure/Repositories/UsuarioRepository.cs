@@ -9,7 +9,7 @@ using SGP.Infrastructure.Context;
 
 namespace SGP.Infrastructure.Repositories;
 
-public class UsuarioRepository : AsyncRepository<Usuario>, IUsuarioRepository
+public class UsuarioRepository : EfRepository<Usuario>, IUsuarioRepository
 {
     public UsuarioRepository(SgpContext context) : base(context)
     {

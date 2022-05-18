@@ -8,12 +8,12 @@ using SGP.Shared.Interfaces;
 
 namespace SGP.Infrastructure.Repositories;
 
-public abstract class AsyncRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : BaseEntity, IAggregateRoot
+public abstract class EfRepository<TEntity> : RepositoryBase<TEntity>, IAsyncRepository<TEntity>
+    where TEntity : BaseEntity, IAggregateRoot
 {
-    protected readonly DbSet<TEntity> DbSet;
-
-    protected AsyncRepository(SgpContext context)
-        => DbSet = context.Set<TEntity>();
+    protected EfRepository(SgpContext context) : base(context)
+    {
+    }
 
     public void Add(TEntity entity)
         => DbSet.Add(entity);

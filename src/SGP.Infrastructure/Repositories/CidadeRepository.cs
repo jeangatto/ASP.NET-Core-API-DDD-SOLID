@@ -8,22 +8,21 @@ using SGP.Infrastructure.Context;
 
 namespace SGP.Infrastructure.Repositories;
 
-public class CidadeRepository : ICidadeRepository
+public class CidadeRepository : RepositoryBase<Cidade>, ICidadeRepository
 {
-    private readonly DbSet<Cidade> _dbSet;
-
-    public CidadeRepository(SgpContext context)
-        => _dbSet = context.Cidades;
+    public CidadeRepository(SgpContext context) : base(context)
+    {
+    }
 
     public async Task<Cidade> ObterPorIbgeAsync(int ibge)
-        => await _dbSet
+        => await DbSet
             .AsNoTracking()
             .Include(c => c.Estado)
             .ThenInclude(e => e.Regiao)
             .FirstOrDefaultAsync(c => c.Ibge == ibge);
 
     public async Task<IEnumerable<Cidade>> ObterTodosPorUfAsync(string uf)
-        => await _dbSet
+        => await DbSet
             .AsNoTrackingWithIdentityResolution()
             .Include(c => c.Estado)
             .ThenInclude(e => e.Regiao)

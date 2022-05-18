@@ -105,11 +105,12 @@ public class Startup
 
     #region ExceptionHandler
 
+    public static readonly ApiResponse ApiDefaultError
+        = new(false, StatusCodes.Status500InternalServerError, "Ocorreu um erro interno ao processar a sua solicitação.");
+
     /// <summary>
     /// Middleware nativo para tratamento de exceções.
     /// </summary>
-    /// <param name="applicationBuilder"></param>
-    /// <param name="loggerFactory"></param>
     private static void ExceptionHandler(IApplicationBuilder applicationBuilder, ILoggerFactory loggerFactory)
         => applicationBuilder.Run(async httpContext =>
         {
@@ -121,7 +122,7 @@ public class Startup
 
                 httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 httpContext.Response.ContentType = MediaTypeNames.Application.Json;
-                await httpContext.Response.WriteAsync(ApiResponse.DefaultErrorResponse.ToJson());
+                await httpContext.Response.WriteAsync(ApiDefaultError.ToJson());
             }
         });
 
