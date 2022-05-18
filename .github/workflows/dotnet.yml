@@ -3,8 +3,8 @@ name: Build
 on:
   push:
   pull_request:
-    types: [ opened, synchronize, reopened ]
-    branches: [ main ]
+    types: [opened, synchronize, reopened]
+    branches: [main]
     paths-ignore:
       - "README.md"
 
@@ -17,13 +17,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macOS-latest ]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -34,4 +34,4 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Test
-        run: dotnet test --no-build --no-restore --verbosity normal
+        run: dotnet test --no-build --no-restore --verbosity normal --logger "console;verbosity=detailed"
