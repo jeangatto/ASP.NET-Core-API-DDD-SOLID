@@ -20,7 +20,7 @@ public class FluentResultExtensionsTests
         // Act
         const int expectedStatusCode = StatusCodes.Status400BadRequest;
         const string errorMessage = "Requisição inválida.";
-        var expectedApiResponse = new ApiResponse(expectedStatusCode, new ApiError(errorMessage));
+        var expectedApiResponse = new ApiResponse(false, expectedStatusCode, new ApiError(errorMessage));
         var result = new Result().WithError(new Error(errorMessage));
 
         // Arrange
@@ -38,7 +38,7 @@ public class FluentResultExtensionsTests
         // Act
         const int expectedStatusCode = StatusCodes.Status400BadRequest;
         const string errorMessage = "Requisição inválida.";
-        var expectedApiResponse = new ApiResponse(expectedStatusCode, new ApiError(errorMessage));
+        var expectedApiResponse = new ApiResponse(false, expectedStatusCode, new ApiError(errorMessage));
         var result = new Result<string>().WithError(new Error(errorMessage));
 
         // Arrange
@@ -75,7 +75,7 @@ public class FluentResultExtensionsTests
         // Act
         const int expectedStatusCode = StatusCodes.Status404NotFound;
         const string errorMessage = "Nenhum registro encontrado.";
-        var expectedApiResponse = new ApiResponse(expectedStatusCode, new ApiError(errorMessage));
+        var expectedApiResponse = new ApiResponse(false, expectedStatusCode, new ApiError(errorMessage));
         var result = new Result().WithError(new NotFoundError(errorMessage));
 
         // Arrange
@@ -93,7 +93,7 @@ public class FluentResultExtensionsTests
         // Act
         const int expectedStatusCode = StatusCodes.Status404NotFound;
         const string errorMessage = "Nenhum registro encontrado.";
-        var expectedApiResponse = new ApiResponse(expectedStatusCode, new ApiError(errorMessage));
+        var expectedApiResponse = new ApiResponse(false, expectedStatusCode, new ApiError(errorMessage));
         var result = new Result<string>().WithError(new NotFoundError(errorMessage));
 
         // Arrange
@@ -110,7 +110,7 @@ public class FluentResultExtensionsTests
     {
         // Act
         const int expectedStatusCode = StatusCodes.Status200OK;
-        var expectedApiResponse = new ApiResponse(expectedStatusCode);
+        var expectedApiResponse = new ApiResponse(true, expectedStatusCode);
         var result = new Result();
 
         // Arrange
@@ -128,7 +128,7 @@ public class FluentResultExtensionsTests
         // Act
         const string value = "Hello World!!!";
         const int expectedStatusCode = StatusCodes.Status200OK;
-        var expectedApiResponse = new ApiResponse<string>(expectedStatusCode, value);
+        var expectedApiResponse = new ApiResponse<string>(true, expectedStatusCode, value);
         var result = new Result<string>().WithValue(value);
 
         // Arrange

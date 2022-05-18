@@ -92,10 +92,11 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
         var usuarioRepositoryMock = new Mock<IUsuarioRepository>();
         usuarioRepositoryMock
             .Setup(s => s.ObterPorEmailAsync(It.IsNotNull<Email>()))
-            .ReturnsAsync(usuario);
+            .ReturnsAsync(usuario)
+            .Verifiable();
 
         var dateTimeMock = new Mock<IDateTimeService>();
-        dateTimeMock.SetupGet(s => s.Now).Returns(DateTime.Now);
+        dateTimeMock.SetupGet(s => s.Now).Returns(DateTime.Now).Verifiable();
 
         var service = CreateAuthenticationService(
             dateTimeService: dateTimeMock.Object,

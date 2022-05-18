@@ -98,8 +98,7 @@ public partial class Inicial : Migration
         migrationBuilder.CreateIndex(
             name: "IX_Cidades_EstadoId",
             table: "Cidades",
-            column: "EstadoId")
-            .Annotation("SqlServer:Include", new[] { "Nome", "Ibge" });
+            column: "EstadoId").Annotation("SqlServer:Include", new[] { "Nome", "Ibge" });
 
         migrationBuilder.CreateIndex(
             name: "IX_Cidades_Ibge",
@@ -139,19 +138,10 @@ public partial class Inicial : Migration
 
     protected override void Down(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.DropTable(
-            name: "Cidades");
-
-        migrationBuilder.DropTable(
-            name: "Tokens");
-
-        migrationBuilder.DropTable(
-            name: "Estados");
-
-        migrationBuilder.DropTable(
-            name: "Usuarios");
-
-        migrationBuilder.DropTable(
-            name: "Regioes");
+        migrationBuilder.DropTable(name: "Cidades");
+        migrationBuilder.DropTable(name: "Tokens");
+        migrationBuilder.DropTable(name: "Estados");
+        migrationBuilder.DropTable(name: "Usuarios");
+        migrationBuilder.DropTable(name: "Regioes");
     }
 }

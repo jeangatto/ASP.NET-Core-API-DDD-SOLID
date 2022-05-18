@@ -10,7 +10,7 @@ namespace SGP.PublicApi.Extensions;
 
 public static class FluentResultExtensions
 {
-    private static readonly OkObjectResult EmptyOkResult = new(new ApiResponse(StatusCodes.Status200OK));
+    private static readonly OkObjectResult EmptyOkResult = new(new ApiResponse(true, StatusCodes.Status200OK));
 
     public static ObjectResult ToHttpResult(this Result result)
         => result.IsFailed ? result.ToHttpNonSuccessResult() : EmptyOkResult;
@@ -18,16 +18,16 @@ public static class FluentResultExtensions
     public static ObjectResult ToHttpResult<T>(this Result<T> result)
         => result.IsFailed
             ? result.ToHttpNonSuccessResult()
-            : new OkObjectResult(new ApiResponse<T>(StatusCodes.Status200OK, result.Value));
+            : new OkObjectResult(new ApiResponse<T>(true, StatusCodes.Status200OK, result.Value));
 
     private static ObjectResult ToHttpNonSuccessResult(this ResultBase result)
     {
-        var apiErrors = result.Errors.GroupByErrors().Select(message => new ApiError(message));
+        var errors = result.Errors.GroupByErrors().Select(message => new ApiError(message));
 
         if (result.HasError<NotFoundError>())
-            return new NotFoundObjectResult(new ApiResponse(StatusCodes.Status404NotFound, apiErrors));
+            return new NotFoundObjectResult(new ApiResponse(false, StatusCodes.Status404NotFound, errors));
 
-        return new BadRequestObjectResult(new ApiResponse(StatusCodes.Status400BadRequest, apiErrors));
+        return new BadRequestObjectResult(new ApiResponse(false, StatusCodes.Status400BadRequest, errors));
     }
 
     private static IEnumerable<string> GroupByErrors(this IEnumerable<IError> errors)

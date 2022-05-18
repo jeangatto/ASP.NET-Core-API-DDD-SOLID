@@ -44,7 +44,7 @@ public class TokenTests
         var expiraEm = criadoEm.AddDays(7);
         var token = new Token(accessToken, refreshToken, criadoEm, expiraEm);
         var dateTimeMock = new Mock<IDateTimeService>();
-        dateTimeMock.Setup(s => s.Now).Returns(DateTime.Now.AddDays(8));
+        dateTimeMock.Setup(s => s.Now).Returns(DateTime.Now.AddDays(8)).Verifiable();
 
         // Act
         var act = token.EstaValido(dateTimeMock.Object);

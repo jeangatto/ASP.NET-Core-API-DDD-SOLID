@@ -189,7 +189,7 @@ dotnet_naming_rule.constants_should_be_pascal_case.symbols = constants
 dotnet_naming_rule.constants_should_be_pascal_case.style = constant_style
 dotnet_naming_symbols.constants.applicable_kinds = field, local
 dotnet_naming_symbols.constants.required_modifiers = const
-dotnet_naming_style.constant_style.capitalization = pascal_case
+dotnet_naming_style.constant_style.capitalization = camel_case
 
 # Static fields are camelCase
 dotnet_naming_rule.static_fields_should_be_camel_case.severity = suggestion
