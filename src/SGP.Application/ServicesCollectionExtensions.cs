@@ -7,11 +7,11 @@ namespace SGP.Application;
 
 public static class ServicesCollectionExtensions
 {
-    private static readonly Assembly[] Assemblies = new[] { Assembly.GetExecutingAssembly() };
+    private static readonly Assembly[] AssembliesToScan = new[] { Assembly.GetExecutingAssembly() };
 
     public static IServiceCollection AddServices(this IServiceCollection services)
         => services
-            .AddAutoMapper(cfg => cfg.DisableConstructorMapping(), Assemblies, ServiceLifetime.Scoped)
+            .AddAutoMapper(cfg => cfg.DisableConstructorMapping(), AssembliesToScan, ServiceLifetime.Scoped)
             .Scan(scan => scan
                 .FromCallingAssembly()
                 .AddClasses(classes => classes.AssignableTo<IAppService>())
