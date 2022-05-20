@@ -11,9 +11,9 @@
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1"/>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0"/>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
-		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.17.0"/>
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.18.0"/>
 		<PackageReference Include="Scrutor" Version="4.1.0"/>
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0"/>
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.18.0"/>
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj"/>

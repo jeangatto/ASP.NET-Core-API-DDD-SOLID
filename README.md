@@ -34,11 +34,17 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 - Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**\
     => [Melhores práticas de teste de unidade com .NET Core](https://docs.microsoft.com/pt-br/dotnet/core/testing/unit-testing-best-practices)
 - Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)
+- Verificações de integridade da aplicação com [HealthChecks](https://docs.microsoft.com/pt-br/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-6.0)
 - [SonarCloud](https://sonarcloud.io/) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
 
 ## Executando a aplicação usando o Docker
 
-Após executar o comando no terminal `docker-compose up --build`, abrir a url no navegador: `http://localhost:8000/swagger/`
+Após executar o comando no terminal `docker-compose up --build`, basta abrir a url no navegador: `http://localhost:8000/swagger/`
+
+## MiniProfiler for .NET
+
+Para acessar a página com os indicadores de desempenho e performance:
+`http://localhost:8000/profiler/results-index`
 
 ## Configurando Banco de dados
 
@@ -56,44 +62,35 @@ Ao iniciar a aplicação o banco de dados será criado automaticamente e efetuad
 também será populado o arquivo de seed.
 
 ```c#
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using SGP.Infrastructure.Context;
-
-namespace SGP.PublicApi.Extensions;
-
-internal static class HostExtensions
+public static async Task Main(string[] args)
 {
-    internal static async Task MigrateDbContextAsync(this IHost host)
+    var host = CreateHostBuilder(args).Build();
+
+    await using var scope = host.Services.CreateAsyncScope();
+    await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
+
+    try
     {
-        await using var scope = host.Services.CreateAsyncScope();
-        await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
+        logger.LogInformation("Database Connection: {ConnectionString}", context.Database.GetConnectionString());
 
-        try
+        if ((await context.Database.GetPendingMigrationsAsync()).Any())
         {
-            logger.LogInformation("Connection: {ConnectionString}", context.Database.GetConnectionString());
-
-            if ((await context.Database.GetPendingMigrationsAsync()).Any())
-            {
-                logger.LogInformation("Creating and migrating the database...");
-                await context.Database.MigrateAsync();
-            }
-
-            logger.LogInformation("Seeding database...");
-            await context.EnsureSeedDataAsync();
+            logger.LogInformation("Creating and migrating the database...");
+            await context.Database.MigrateAsync();
         }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred while populating the database");
-            throw;
-        }
+
+        logger.LogInformation("Seeding database...");
+        await context.EnsureSeedDataAsync();
     }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred while populating the database");
+        throw;
+    }
+
+    logger.LogInformation("Starting the application...");
+    await host.RunAsync();
 }
 ```
 

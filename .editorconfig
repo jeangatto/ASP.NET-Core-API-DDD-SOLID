@@ -49,6 +49,9 @@ dotnet_diagnostic.IDE0005.severity = warning
 # IDE0007: Prefer "var" everywhere
 dotnet_diagnostic.IDE0007.severity = warning
 
+# IDE0017: Use object initializers
+dotnet_diagnostic.IDE0017.severity = warning
+
 # IDE0028: Collection initialization can be simplified
 dotnet_diagnostic.IDE0028.severity = warning 
 
@@ -72,6 +75,9 @@ dotnet_diagnostic.IDE0044.severity = warning
 
 # IDE0047: Parentheses can be removed
 dotnet_diagnostic.IDE0047.severity = warning
+
+# IDE0049: Use language keywords instead of framework type names for type references
+dotnet_diagnostic.IDE0049.severity = warning
 
 # IDE0051: Remove unused private member
 dotnet_diagnostic.IDE0051.severity = warning 
