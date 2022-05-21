@@ -1,11 +1,8 @@
 using System.IO.Compression;
-using System.Net.Mime;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -17,7 +14,7 @@ using Microsoft.Extensions.Logging;
 using SGP.Application;
 using SGP.Infrastructure;
 using SGP.PublicApi.Extensions;
-using SGP.PublicApi.Models;
+using SGP.PublicApi.Middlewares;
 using SGP.Shared;
 using SGP.Shared.Extensions;
 using StackExchange.Profiling;
@@ -39,7 +36,6 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services
-            .AddCors()
             .AddHttpClient()
             .AddHttpContextAccessor()
             .AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>())
@@ -77,7 +73,6 @@ public class Startup
     public static void Configure(
         IApplicationBuilder app,
         IWebHostEnvironment env,
-        ILoggerFactory loggerFactory,
         IMapper mapper,
         IApiVersionDescriptionProvider apiVersionProvider)
     {
@@ -88,7 +83,7 @@ public class Startup
         mapper.ConfigurationProvider.AssertConfigurationIsValid();
         mapper.ConfigurationProvider.CompileMappings();
 
-        app.UseExceptionHandler(builder => ExceptionHandler(builder, loggerFactory))
+        app.UseMiddleware<ErrorHandlerMiddleware>()
             .UseOpenApi(apiVersionProvider)
             .UseHealthChecks()
             .UseHttpsRedirection()
@@ -99,32 +94,6 @@ public class Startup
             .UseAuthentication()
             .UseAuthorization()
             .UseMiniProfiler()
-            .UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())
             .UseEndpoints(endpoints => endpoints.MapControllers());
     }
-
-    #region ExceptionHandler
-
-    public static readonly ApiResponse ApiDefaultError
-        = new(false, StatusCodes.Status500InternalServerError, "Ocorreu um erro interno ao processar a sua solicitação.");
-
-    /// <summary>
-    /// Middleware nativo para tratamento de exceções.
-    /// </summary>
-    private static void ExceptionHandler(IApplicationBuilder applicationBuilder, ILoggerFactory loggerFactory)
-        => applicationBuilder.Run(async httpContext =>
-        {
-            var handler = httpContext.Features.Get<IExceptionHandlerFeature>();
-            if (handler != null)
-            {
-                var logger = loggerFactory.CreateLogger<Startup>();
-                logger.LogError(handler.Error, "Exceção não esperada: {Message}", handler.Error.Message);
-
-                httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                httpContext.Response.ContentType = MediaTypeNames.Application.Json;
-                await httpContext.Response.WriteAsync(ApiDefaultError.ToJson());
-            }
-        });
-
-    #endregion
 }
