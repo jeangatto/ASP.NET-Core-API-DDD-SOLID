@@ -125,7 +125,7 @@ public class UsuarioRepositoryTests : IClassFixture<EfSqliteFixture>
         var repositorio = CriarRepositorio();
         repositorio.Add(usuario);
         var unitOfWork = CriarUoW();
-        await unitOfWork.SaveChangesAsync();
+        await unitOfWork.CommitAsync();
         return (repositorio, usuario);
     }
 

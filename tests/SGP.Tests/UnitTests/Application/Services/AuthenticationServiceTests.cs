@@ -53,7 +53,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
         const string email = "jean_gatto@hotmail.com";
         const string senha = "VWBMx1bVqP01";
         usuarioRepository.Add(new Usuario(nome, new Email(email), hashService.Hash(senha)));
-        await unitOfWork.SaveChangesAsync();
+        await unitOfWork.CommitAsync();
         var request = new LogInRequest(email, senha);
 
         // Act

@@ -8,7 +8,7 @@ using SGP.Shared.Interfaces;
 
 namespace SGP.Infrastructure.UoW;
 
-public sealed class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork
 {
     private readonly SgpContext _context;
     private readonly ILogger<UnitOfWork> _logger;
@@ -19,11 +19,13 @@ public sealed class UnitOfWork : IUnitOfWork
         _logger = logger;
     }
 
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            return await _context.SaveChangesAsync(cancellationToken);
+            var rowsAffected = await _context.SaveChangesAsync(cancellationToken);
+            _logger.LogInformation("Row(s) affected: {RowsAffected}", rowsAffected);
+            return rowsAffected;
         }
         catch (DbUpdateConcurrencyException ex)
         {
@@ -36,4 +38,37 @@ public sealed class UnitOfWork : IUnitOfWork
             throw;
         }
     }
+
+    #region IDisposable
+
+    // To detect redundant calls.
+    private bool _disposed;
+
+    // Public implementation of Dispose pattern callable by consumers.
+    ~UnitOfWork()
+    {
+        Dispose(false);
+    }
+
+    // Public implementation of Dispose pattern callable by consumers.
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    // Protected implementation of Dispose pattern.
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        // Dispose managed state (managed objects).
+        if (disposing)
+            _context.Dispose();
+
+        _disposed = true;
+    }
+
+    #endregion
 }

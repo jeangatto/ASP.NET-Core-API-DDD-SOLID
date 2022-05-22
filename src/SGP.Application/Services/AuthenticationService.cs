@@ -85,7 +85,7 @@ public class AuthenticationService : IAuthenticationService
             usuario.AdicionarToken(new Token(accessToken, refreshToken, createdAt, expiresAt));
 
             _repository.Update(usuario);
-            await _uow.SaveChangesAsync();
+            await _uow.CommitAsync();
 
             return Result.Ok(new TokenResponse(accessToken, createdAt, expiresAt, refreshToken));
         }
@@ -96,7 +96,7 @@ public class AuthenticationService : IAuthenticationService
         usuario.IncrementarFalhas(_dateTimeService, _authConfig.MaximumAttempts, lockedTimeSpan);
 
         _repository.Update(usuario);
-        await _uow.SaveChangesAsync();
+        await _uow.CommitAsync();
 
         return Result.Fail<TokenResponse>("O e-mail ou senha está incorreta.");
     }
@@ -132,7 +132,7 @@ public class AuthenticationService : IAuthenticationService
         usuario.AdicionarToken(new Token(accessToken, newRefreshToken, createdAt, expiresAt));
 
         _repository.Update(usuario);
-        await _uow.SaveChangesAsync();
+        await _uow.CommitAsync();
 
         return Result.Ok(new TokenResponse(accessToken, createdAt, expiresAt, newRefreshToken));
     }

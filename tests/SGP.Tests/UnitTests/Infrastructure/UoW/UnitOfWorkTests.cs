@@ -29,7 +29,7 @@ public class UnitOfWorkTests : IClassFixture<EfSqliteFixture>
         context.Add(new Regiao("Meio-Oeste"));
 
         // Act
-        var actual = await unitOfWork.SaveChangesAsync();
+        var actual = await unitOfWork.CommitAsync();
 
         // Assert
         actual.Should().BePositive();
@@ -44,7 +44,7 @@ public class UnitOfWorkTests : IClassFixture<EfSqliteFixture>
         context.AddRange(new Regiao("Sul"), new Regiao("Sul")); // Duplicate Index
 
         // Act
-        Func<Task> actual = async () => await unitOfWork.SaveChangesAsync();
+        Func<Task> actual = async () => await unitOfWork.CommitAsync();
 
         // Assert
         await actual.Should().ThrowAsync<Exception>();
