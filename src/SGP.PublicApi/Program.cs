@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Context;
-using SGP.PublicApi.Extensions;
 
 namespace SGP.PublicApi;
 
