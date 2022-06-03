@@ -4,7 +4,7 @@
     <Authors>Jean Gatto</Authors>
     <MaintainerEmail>jean_gatto@hotmail.com</MaintainerEmail>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/JeanGatto/SGP</RepositoryUrl>
+    <RepositoryUrl>https://github.com/jeangatto/asp-net-core-ddd-solid-api</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
@@ -13,12 +13,6 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <WarningsAsErrors>CS4014;</WarningsAsErrors>
     <NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;S1144;</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <Deterministic>true</Deterministic>
-    <Optimize>true</Optimize>
   </PropertyGroup>
 
 </Project>
