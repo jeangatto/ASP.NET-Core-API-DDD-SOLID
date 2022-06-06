@@ -37,7 +37,7 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
             License = new OpenApiLicense
             {
                 Name = "MIT License",
-                Url = new Uri("https://github.com/JeanGatto/asp-net-core-ddd-solid-api/blob/main/LICENSE")
+                Url = new Uri("https://github.com/jeangatto/asp-net-core-ddd-solid-api/blob/main/LICENSE")
             }
         };
 
