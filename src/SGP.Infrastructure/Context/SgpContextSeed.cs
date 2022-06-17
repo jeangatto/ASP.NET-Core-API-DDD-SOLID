@@ -63,8 +63,7 @@ public static class SgpContextSeed
             if (!File.Exists(filePath))
                 throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", fileName);
 
-            var entitiesJson = await File.ReadAllTextAsync(filePath, Encoding.UTF8);
-            context.AddRange(entitiesJson.FromJson<IEnumerable<TEntity>>());
+            context.AddRange((await File.ReadAllTextAsync(filePath, Encoding.UTF8)).FromJson<IEnumerable<TEntity>>());
         }
     }
 }
