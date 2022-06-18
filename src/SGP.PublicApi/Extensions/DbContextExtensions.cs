@@ -15,15 +15,20 @@ internal static class DbContextExtensions
     internal static IServiceCollection AddDbContext(this IServiceCollection services,
         IHealthChecksBuilder healthChecksBuilder)
     {
-        services.AddDbContext<SgpContext>((provider, builder) =>
+        services.AddDbContext<SgpContext>((sp, dbContextbuilder) =>
         {
-            builder.UseSqlServer(provider.GetConnectionString(),
-                options => options.MigrationsAssembly(AssemblyName).EnableRetryOnFailure());
+            dbContextbuilder.UseSqlServer(sp.GetConnectionString(), sqlOptions =>
+            {
+                sqlOptions.MigrationsAssembly(AssemblyName);
+
+                // Configurando a resiliência da conexão: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
+                sqlOptions.EnableRetryOnFailure();
+            });
 
             // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
-            var environment = provider.GetRequiredService<IHostEnvironment>();
+            var environment = sp.GetRequiredService<IHostEnvironment>();
             if (environment.IsDevelopment())
-                builder.EnableDetailedErrors().EnableSensitiveDataLogging();
+                dbContextbuilder.EnableDetailedErrors().EnableSensitiveDataLogging();
         });
 
         // Verificador de saúde da base de dados.

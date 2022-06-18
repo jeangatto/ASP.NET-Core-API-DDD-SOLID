@@ -14,8 +14,10 @@ public class GCInfoHealthCheck : IHealthCheck
 
     public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
-        var allocated = GC.GetTotalMemory(forceFullCollection: false);
         var memoryInfo = GC.GetGCMemoryInfo();
+
+        var allocated = GC.GetTotalMemory(forceFullCollection: false);
+
         var data = new Dictionary<string, object>()
         {
             { "Allocated", SizeSuffix(allocated) },
