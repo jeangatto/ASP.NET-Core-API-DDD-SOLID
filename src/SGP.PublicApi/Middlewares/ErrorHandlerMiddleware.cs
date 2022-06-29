@@ -12,7 +12,6 @@ public class ErrorHandlerMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<ErrorHandlerMiddleware> _logger;
-    private const int ErrorStatusCode = StatusCodes.Status500InternalServerError;
     private const string ErrorMessage = "Ocorreu um erro interno ao processar a sua solicitação.";
 
     public ErrorHandlerMiddleware(RequestDelegate next, ILogger<ErrorHandlerMiddleware> logger)
@@ -32,8 +31,10 @@ public class ErrorHandlerMiddleware
             _logger.LogError(ex, "Foi gerada uma exceção não esperada: {Message}", ex.Message);
 
             context.Response.ContentType = MediaTypeNames.Application.Json;
-            context.Response.StatusCode = ErrorStatusCode;
-            await context.Response.WriteAsync(new ApiResponse(false, ErrorStatusCode, ErrorMessage).ToJson());
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+            var response = new ApiResponse(false, StatusCodes.Status500InternalServerError, ErrorMessage).ToJson();
+            await context.Response.WriteAsync(response);
         }
     }
 }

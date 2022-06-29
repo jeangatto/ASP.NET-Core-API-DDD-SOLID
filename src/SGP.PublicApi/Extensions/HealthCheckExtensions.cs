@@ -11,6 +11,7 @@ internal static class HealthCheckExtensions
         => app.UseHealthChecks("/health", new HealthCheckOptions
         {
             Predicate = (_) => true,
+            AllowCachingResponses = false,
             ResponseWriter = (context, healthReport) => context.Response.WriteAsync(healthReport.ToJson())
         });
 }

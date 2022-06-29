@@ -42,7 +42,11 @@ internal static class SwaggerExtensions
                 {
                     new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "Bearer"}
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
                     },
                     Array.Empty<string>()
                 }
@@ -67,7 +71,7 @@ internal static class SwaggerExtensions
         {
             options.DisplayRequestDuration();
 
-            // build a swagger endpoint for each discovered API version
+            // Build a swagger endpoint for each discovered API version
             foreach (var groupName in provider.ApiVersionDescriptions.Select(description => description.GroupName))
                 options.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant());
         });
