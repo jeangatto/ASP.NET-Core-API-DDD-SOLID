@@ -3,7 +3,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="FluentResults" Version="3.7.0"/>
+		<PackageReference Include="FluentResults" Version="3.8.0"/>
 		<PackageReference Include="FluentValidation" Version="11.1.0"/>
 		<PackageReference Include="IL.FluentValidation.Extensions.Options" Version="10.0.1"/>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6"/>
