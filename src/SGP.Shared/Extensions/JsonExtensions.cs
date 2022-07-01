@@ -23,7 +23,7 @@ public static class JsonExtensions
     /// <param name="value">O objeto a ser desserializado.</param>
     /// <returns>O objeto desserializado da string JSON.</returns>
     public static T FromJson<T>(this string value)
-        => JsonConvert.DeserializeObject<T>(value, JsonSettings);
+        => value != null ? JsonConvert.DeserializeObject<T>(value, JsonSettings) : default;
 
     /// <summary>
     /// Desserializa o JSON para o tipo especificado.
@@ -32,7 +32,7 @@ public static class JsonExtensions
     /// <param name="type">O tipo de objeto para o qual desserializar.</param>
     /// <returns>O objeto desserializado da string JSON.</returns>
     public static object FromJson(this string value, Type type)
-        => JsonConvert.DeserializeObject(value, type, JsonSettings);
+        => value != null ? JsonConvert.DeserializeObject(value, type, JsonSettings) : default;
 
     /// <summary>
     /// Serializa o objeto especificado em uma string JSON.
@@ -40,7 +40,7 @@ public static class JsonExtensions
     /// <param name="value">O objeto a ser serializado.</param>
     /// <returns>Uma representação de string JSON do objeto.</returns>
     public static string ToJson<T>(this T value)
-        => JsonConvert.SerializeObject(value, JsonSettings);
+        => value != null ? JsonConvert.SerializeObject(value, JsonSettings) : default;
 
     public static JsonSerializerSettings Configure(this JsonSerializerSettings settings)
     {
