@@ -18,7 +18,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Build with dotnet
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build --configuration Release
 
       - uses: microsoft/RichCodeNavIndexer@v0.1
         with:
