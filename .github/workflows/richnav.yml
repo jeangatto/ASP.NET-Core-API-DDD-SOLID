@@ -7,7 +7,7 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -17,10 +17,7 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
+      - name: Build with dotnet
         run: dotnet build --no-restore --configuration Release
 
       - uses: microsoft/RichCodeNavIndexer@v0.1
