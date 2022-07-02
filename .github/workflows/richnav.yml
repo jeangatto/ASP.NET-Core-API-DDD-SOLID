@@ -1,0 +1,28 @@
+name: Rich Code Navigation
+
+on: [push, pull_request, workflow_dispatch]
+
+env:
+  DOTNET_VERSION: "6.0.x"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - uses: microsoft/RichCodeNavIndexer@v0.1
+        with:
+          repo-token: ${{ github.token }}
