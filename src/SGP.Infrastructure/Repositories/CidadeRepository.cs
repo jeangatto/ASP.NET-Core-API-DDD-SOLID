@@ -16,7 +16,7 @@ public class CidadeRepository : RepositoryBase<Cidade>, ICidadeRepository
 
     public async Task<Cidade> ObterPorIbgeAsync(int ibge)
         => await DbSet
-            .AsNoTracking()
+            .AsNoTrackingWithIdentityResolution()
             .Include(c => c.Estado)
             .ThenInclude(e => e.Regiao)
             .FirstOrDefaultAsync(c => c.Ibge == ibge);
