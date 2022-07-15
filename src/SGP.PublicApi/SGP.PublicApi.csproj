@@ -19,7 +19,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6"/>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -29,7 +29,7 @@
 		<PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.2.22"/>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1"/>
-		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.3.1"/>
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.3.2"/>
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0"/>
 	</ItemGroup>
 	<ItemGroup>
