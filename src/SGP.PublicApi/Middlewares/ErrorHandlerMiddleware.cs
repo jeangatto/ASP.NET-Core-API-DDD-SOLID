@@ -2,6 +2,7 @@ using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SGP.PublicApi.Models;
 using SGP.Shared.Extensions;
@@ -10,14 +11,20 @@ namespace SGP.PublicApi.Middlewares;
 
 public class ErrorHandlerMiddleware
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ErrorHandlerMiddleware> _logger;
     private const string ErrorMessage = "Ocorreu um erro interno ao processar a sua solicitação.";
 
-    public ErrorHandlerMiddleware(RequestDelegate next, ILogger<ErrorHandlerMiddleware> logger)
+    private readonly RequestDelegate _next;
+    private readonly ILogger<ErrorHandlerMiddleware> _logger;
+    private readonly IHostEnvironment _environment;
+
+    public ErrorHandlerMiddleware(
+        RequestDelegate next,
+        ILogger<ErrorHandlerMiddleware> logger,
+        IHostEnvironment environment)
     {
         _next = next;
         _logger = logger;
+        _environment = environment;
     }
 
     public async Task Invoke(HttpContext context)
@@ -33,7 +40,11 @@ public class ErrorHandlerMiddleware
             context.Response.ContentType = MediaTypeNames.Application.Json;
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-            var response = new ApiResponse(false, StatusCodes.Status500InternalServerError, ErrorMessage).ToJson();
+            // NOTE: Quando for ambiente de desenvolvimento, será exibida a stack trace completa da exception.
+            var response = _environment.IsDevelopment()
+                ? new ApiResponse(false, StatusCodes.Status500InternalServerError, ex.ToJson()).ToJson()
+                : new ApiResponse(false, StatusCodes.Status500InternalServerError, ErrorMessage).ToJson();
+
             await context.Response.WriteAsync(response);
         }
     }

@@ -12,23 +12,23 @@ internal static class DbContextExtensions
 {
     private static readonly string AssemblyName = typeof(Program).Assembly.GetName().Name;
 
-    internal static IServiceCollection AddDbContext(this IServiceCollection services,
+    internal static IServiceCollection AddSpgContext(this IServiceCollection services,
         IHealthChecksBuilder healthChecksBuilder)
     {
-        services.AddDbContext<SgpContext>((sp, dbContextbuilder) =>
+        services.AddDbContext<SgpContext>((serviceProvider, optionsBuilder) =>
         {
-            dbContextbuilder.UseSqlServer(sp.GetConnectionString(), sqlOptions =>
+            optionsBuilder.UseSqlServer(serviceProvider.GetConnectionString(), sqlOptions =>
             {
                 sqlOptions.MigrationsAssembly(AssemblyName);
 
                 // Configurando a resiliência da conexão: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
-                sqlOptions.EnableRetryOnFailure();
+                sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
             });
 
             // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
-            var environment = sp.GetRequiredService<IHostEnvironment>();
+            var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
             if (environment.IsDevelopment())
-                dbContextbuilder.EnableDetailedErrors().EnableSensitiveDataLogging();
+                optionsBuilder.EnableDetailedErrors().EnableSensitiveDataLogging();
         });
 
         // Verificador de saúde da base de dados.

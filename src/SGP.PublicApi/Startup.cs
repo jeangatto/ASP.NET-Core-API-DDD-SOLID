@@ -46,7 +46,7 @@ public class Startup
             .AddServices()
             .AddInfrastructure()
             .AddRepositories()
-            .AddDbContext(services.AddHealthChecks().AddGCInfoCheck())
+            .AddSpgContext(services.AddHealthChecks().AddGCInfoCheck())
             .Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal)
             .Configure<RouteOptions>(options => options.LowercaseUrls = true)
             .Configure<MvcNewtonsoftJsonOptions>(options => options.SerializerSettings.Configure())
