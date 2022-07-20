@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,7 +16,10 @@ internal static class DbContextExtensions
     {
         services.AddDbContext<SgpContext>((serviceProvider, optionsBuilder) =>
         {
-            optionsBuilder.UseSqlServer(serviceProvider.GetConnectionString(), sqlOptions =>
+            var connectionString
+                = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>().Value.DefaultConnection;
+
+            optionsBuilder.UseSqlServer(connectionString, sqlOptions =>
             {
                 sqlOptions.MigrationsAssembly(AssemblyName);
 
@@ -38,7 +40,4 @@ internal static class DbContextExtensions
 
         return services;
     }
-
-    private static string GetConnectionString(this IServiceProvider provider)
-        => provider.GetRequiredService<IOptions<ConnectionStrings>>().Value.DefaultConnection;
 }

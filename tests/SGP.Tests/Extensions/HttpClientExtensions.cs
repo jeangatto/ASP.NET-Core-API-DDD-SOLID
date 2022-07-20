@@ -47,7 +47,7 @@ public static class HttpClientExtensions
         var stringResponse = await responseMessage.Content.ReadAsStringAsync();
         outputHelper.WriteLine($"HTTP Response: \"{stringResponse}\"");
         var jObject = JObject.Parse(stringResponse);
-        var jToken = jObject.SelectToken("result");
+        var jToken = jObject.SelectToken("result", errorWhenNoMatch: false);
         return jToken?.HasValues == true ? jToken.ToString().FromJson<TResponse>() : default;
     }
 }
