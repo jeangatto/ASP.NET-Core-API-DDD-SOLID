@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using SGP.Infrastructure.Context;
+using SGP.Infrastructure.Data.Context;
 using Xunit;
 
 namespace SGP.Tests.Fixtures;

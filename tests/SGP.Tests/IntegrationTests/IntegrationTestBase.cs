@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using SGP.Infrastructure.Context;
+using SGP.Infrastructure.Data.Context;
 using SGP.Tests.Fixtures;
 using Xunit;
 using Xunit.Abstractions;

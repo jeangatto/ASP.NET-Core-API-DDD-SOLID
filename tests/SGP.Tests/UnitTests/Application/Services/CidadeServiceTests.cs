@@ -5,7 +5,7 @@ using SGP.Application.Interfaces;
 using SGP.Application.Mapper;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Services;
-using SGP.Infrastructure.Repositories;
+using SGP.Infrastructure.Data.Repositories;
 using SGP.Shared.Errors;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;

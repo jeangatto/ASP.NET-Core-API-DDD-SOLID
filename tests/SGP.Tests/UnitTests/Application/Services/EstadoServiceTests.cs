@@ -4,7 +4,7 @@ using FluentAssertions;
 using SGP.Application.Interfaces;
 using SGP.Application.Mapper;
 using SGP.Application.Services;
-using SGP.Infrastructure.Repositories;
+using SGP.Infrastructure.Data.Repositories;
 using SGP.Tests.Constants;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;

@@ -1,8 +1,8 @@
 using System;
+using JsonNet.ContractResolvers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using SGP.Shared.ContractResolvers;
 
 namespace SGP.Shared.Extensions;
 
@@ -13,7 +13,10 @@ public static class JsonExtensions
 {
     private static readonly CamelCaseNamingStrategy NamingStrategy = new();
     private static readonly StringEnumConverter EnumConverter = new(NamingStrategy);
-    private static readonly PrivateSetterContractResolver ContractResolver = new(NamingStrategy);
+    private static readonly IContractResolver ContractResolver = new PrivateSetterContractResolver
+    {
+        NamingStrategy = NamingStrategy
+    };
     private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings().Configure();
 
     /// <summary>

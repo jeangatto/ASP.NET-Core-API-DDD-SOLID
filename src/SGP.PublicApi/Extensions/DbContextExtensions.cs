@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using SGP.Infrastructure.Context;
+using SGP.Infrastructure.Data.Context;
 using SGP.Shared.AppSettings;
 
 namespace SGP.PublicApi.Extensions;

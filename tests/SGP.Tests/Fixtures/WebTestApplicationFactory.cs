@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using SGP.Infrastructure.Context;
+using SGP.Infrastructure.Data.Context;
 using SGP.PublicApi;
 using Environments = SGP.Tests.Constants.Environments;
 

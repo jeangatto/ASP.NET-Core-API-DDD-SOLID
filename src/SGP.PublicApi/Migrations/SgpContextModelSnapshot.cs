@@ -2,7 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using SGP.Infrastructure.Context;
+using SGP.Infrastructure.Data.Context;
 
 #nullable disable
 

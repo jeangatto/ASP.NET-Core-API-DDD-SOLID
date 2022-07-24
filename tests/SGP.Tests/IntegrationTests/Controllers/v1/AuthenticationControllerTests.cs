@@ -9,7 +9,7 @@ using SGP.Application.Requests.AuthenticationRequests;
 using SGP.Application.Responses;
 using SGP.Domain.Entities;
 using SGP.Domain.ValueObjects;
-using SGP.Infrastructure.Context;
+using SGP.Infrastructure.Data.Context;
 using SGP.Shared.Extensions;
 using SGP.Shared.Interfaces;
 using SGP.Tests.Extensions;
