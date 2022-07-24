@@ -24,7 +24,7 @@ public class UnitOfWork : IUnitOfWork
         try
         {
             var rowsAffected = await _context.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("Row(s) affected: {RowsAffected}", rowsAffected);
+            _logger.LogInformation("----- Row(s) affected: {RowsAffected}", rowsAffected);
             return rowsAffected;
         }
         catch (DbUpdateConcurrencyException ex)

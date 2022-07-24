@@ -1,7 +1,7 @@
 using System;
 using SGP.Shared.Interfaces;
 
-namespace SGP.Infrastructure.Data.Repositories.Cached.Common;
+namespace SGP.Infrastructure.Data.Repositories.Common;
 
 public abstract class CachedRepositoryBase<TRepository> : IDisposable where TRepository : IRepository
 {

@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Data.Context;
+using SGP.Shared.AppSettings;
 
 namespace SGP.PublicApi;
 
@@ -19,18 +21,19 @@ public static class Program
         await using var scope = host.Services.CreateAsyncScope();
         await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
+        var connection = scope.ServiceProvider.GetRequiredService<IOptions<ConnectionStrings>>().Value;
 
         try
         {
-            logger.LogInformation("Database Connection: {ConnectionString}", context.Database.GetConnectionString());
+            logger.LogInformation("----- Connection: {Connection}, Collation: {Collation}", connection.DefaultConnection, connection.Collation);
 
             if ((await context.Database.GetPendingMigrationsAsync()).Any())
             {
-                logger.LogInformation("Creating and migrating the database...");
+                logger.LogInformation("----- Creating and migrating the database...");
                 await context.Database.MigrateAsync();
             }
 
-            logger.LogInformation("Seeding database...");
+            logger.LogInformation("----- Seeding database...");
             await context.EnsureSeedDataAsync();
         }
         catch (Exception ex)
@@ -39,7 +42,7 @@ public static class Program
             throw;
         }
 
-        logger.LogInformation("Starting the application...");
+        logger.LogInformation("----- Starting the application...");
         await host.RunAsync();
     }
 

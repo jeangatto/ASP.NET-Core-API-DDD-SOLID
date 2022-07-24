@@ -32,19 +32,19 @@ public class MemoryCacheService : ICacheService
     {
         if (!_memoryCache.TryGetValue(cacheKey, out var value))
         {
-            _logger.LogInformation("Added to cache: '{CacheKey}'", cacheKey);
+            _logger.LogInformation("----- Added to cache: '{CacheKey}'", cacheKey);
             value = await factory().ConfigureAwait(false);
             _memoryCache.Set(cacheKey, value, _cacheOptions);
             return (TItem)value;
         }
 
-        _logger.LogInformation("Fetched from cache: '{CacheKey}'", cacheKey);
+        _logger.LogInformation("----- Fetched from cache: '{CacheKey}'", cacheKey);
         return (TItem)value;
     }
 
     public void Remove(string cacheKey)
     {
-        _logger.LogInformation("Removed from cache: '{CacheKey}'", cacheKey);
+        _logger.LogInformation("----- Removed from cache: '{CacheKey}'", cacheKey);
         _memoryCache.Remove(cacheKey);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
-using SGP.Infrastructure.Data.Repositories.Cached.Common;
+using SGP.Infrastructure.Data.Repositories.Common;
 using SGP.Shared.Interfaces;
 
 namespace SGP.Infrastructure.Data.Repositories.Cached;
