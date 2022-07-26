@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,15 +56,15 @@ public static class SgpContextSeed
     private static async Task AddEntitiesIfNotExistsAsync<TEntity>(DbContext context, string fileName)
         where TEntity : class
     {
-        Guard.Against.NullOrWhiteSpace(fileName, nameof(fileName));
-
         if (!await context.Set<TEntity>().AsNoTracking().AnyAsync())
         {
             var filePath = Path.Combine(FolderPath, fileName);
             if (!File.Exists(filePath))
                 throw new FileNotFoundException($"O arquivo de seed '{filePath}' não foi encontrado.", fileName);
 
-            context.AddRange((await File.ReadAllTextAsync(filePath, Encoding.UTF8)).FromJson<IEnumerable<TEntity>>());
+            var entities = (await File.ReadAllTextAsync(filePath, Encoding.UTF8)).FromJson<IEnumerable<TEntity>>();
+            if (entities?.Any() == true)
+                context.AddRange(entities);
         }
     }
 }

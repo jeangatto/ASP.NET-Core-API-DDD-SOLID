@@ -13,10 +13,7 @@ public static class JsonExtensions
 {
     private static readonly CamelCaseNamingStrategy NamingStrategy = new();
     private static readonly StringEnumConverter EnumConverter = new(NamingStrategy);
-    private static readonly IContractResolver ContractResolver = new PrivateSetterContractResolver
-    {
-        NamingStrategy = NamingStrategy
-    };
+    private static readonly PrivateSetterContractResolver ContractResolver = new() { NamingStrategy = NamingStrategy };
     private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings().Configure();
 
     /// <summary>
