@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.GuardClauses" Version="4.0.*"/>
-    <PackageReference Include="BCrypt.Net-Next" Version="4.0.*"/>
+    <PackageReference Include="Ardalis.GuardClauses" Version="4.*"/>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.*"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.*"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.*"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.*"/>
@@ -14,7 +14,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.*"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.*"/>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.*"/>
-    <PackageReference Include="Scrutor" Version="4.2.*"/>
+    <PackageReference Include="Scrutor" Version="4.*"/>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.*"/>
   </ItemGroup>
 
