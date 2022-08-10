@@ -30,6 +30,7 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 - Padrão Repository-Service (Repository-Service Pattern)
 - Padrão de Camada-Anticorrupção (Anti-Corruption Layer) **(FluentValidation)**
 - Padrão Resultado **(FluentResults)** [Functional C#: Handling failures](https://enterprisecraftsmanship.com/posts/functional-c-handling-failures-input-errors/)
+- Utilizando **Floating Versions** (wildcard) nos pacotes NuGet
 - [Scrutor](https://github.com/khellang/Scrutor) automaticamente registrando os serviços no ASP.NET Core DI
 - Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**\
     => [Melhores práticas de teste de unidade com .NET Core](https://docs.microsoft.com/pt-br/dotnet/core/testing/unit-testing-best-practices)
