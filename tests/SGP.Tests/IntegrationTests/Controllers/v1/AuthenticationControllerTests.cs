@@ -15,7 +15,6 @@ using SGP.Shared.Interfaces;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace SGP.Tests.IntegrationTests.Controllers.v1;
 
@@ -23,8 +22,7 @@ public class AuthenticationControllerTests : IntegrationTestBase, IClassFixture<
 {
     private const string SenhaPadrao = "@JiL8@cUA%pV";
 
-    public AuthenticationControllerTests(WebTestApplicationFactory factory, ITestOutputHelper outputHelper)
-        : base(factory, outputHelper)
+    public AuthenticationControllerTests(WebTestApplicationFactory factory) : base(factory)
     {
     }
 
@@ -38,15 +36,15 @@ public class AuthenticationControllerTests : IntegrationTestBase, IClassFixture<
         var httpContent = new StringContent(request.ToJson(), Encoding.UTF8, MediaTypeNames.Application.Json);
 
         // Act
-        var result = await HttpClient.PostAsync<TokenResponse>(OutputHelper, endPoint, httpContent);
+        var act = await HttpClient.PostAsync<TokenResponse>(endPoint, httpContent);
 
         // Assert
-        result.Should().NotBeNull();
-        result.AccessToken.Should().NotBeNullOrWhiteSpace();
-        result.RefreshToken.Should().NotBeNullOrWhiteSpace();
-        result.ExpiresIn.Should().BePositive();
-        result.Expiration.Should().BeAfter(result.Created);
-        result.Created.Should().BeSameDateAs(DateTime.Now);
+        act.Should().NotBeNull();
+        act.AccessToken.Should().NotBeNullOrWhiteSpace();
+        act.RefreshToken.Should().NotBeNullOrWhiteSpace();
+        act.ExpiresIn.Should().BePositive();
+        act.Expiration.Should().BeAfter(act.Created);
+        act.Created.Should().BeSameDateAs(DateTime.Now);
     }
 
     private async Task<Usuario> CriarUsuarioAsync()

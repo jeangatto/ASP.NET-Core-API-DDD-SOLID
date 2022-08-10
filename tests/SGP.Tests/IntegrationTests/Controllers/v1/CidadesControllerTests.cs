@@ -5,14 +5,12 @@ using SGP.Application.Responses;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace SGP.Tests.IntegrationTests.Controllers.v1;
 
 public class CidadesControllerTests : IntegrationTestBase, IClassFixture<WebTestApplicationFactory>
 {
-    public CidadesControllerTests(WebTestApplicationFactory factory, ITestOutputHelper outputHelper)
-        : base(factory, outputHelper)
+    public CidadesControllerTests(WebTestApplicationFactory factory) : base(factory)
     {
     }
 
@@ -25,10 +23,10 @@ public class CidadesControllerTests : IntegrationTestBase, IClassFixture<WebTest
         const string endPoint = $"/api/cidades/{uf}";
 
         // Act
-        var result = await HttpClient.GetAsync<IEnumerable<CidadeResponse>>(OutputHelper, endPoint);
+        var act = await HttpClient.GetAsync<IEnumerable<CidadeResponse>>(endPoint);
 
         // Assert
-        result.Should().NotBeNullOrEmpty()
+        act.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.HaveCount(total)
             .And.Subject.ForEach(c =>
@@ -49,14 +47,14 @@ public class CidadesControllerTests : IntegrationTestBase, IClassFixture<WebTest
         var endPoint = $"/api/cidades/{ibge}";
 
         // Act
-        var result = await HttpClient.GetAsync<CidadeResponse>(OutputHelper, endPoint);
+        var act = await HttpClient.GetAsync<CidadeResponse>(endPoint);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Regiao.Should().NotBeNullOrWhiteSpace();
-        result.Estado.Should().NotBeNullOrWhiteSpace();
-        result.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
-        result.Nome.Should().NotBeNullOrWhiteSpace();
-        result.Ibge.Should().BePositive().And.Be(ibge);
+        act.Should().NotBeNull();
+        act.Regiao.Should().NotBeNullOrWhiteSpace();
+        act.Estado.Should().NotBeNullOrWhiteSpace();
+        act.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2);
+        act.Nome.Should().NotBeNullOrWhiteSpace();
+        act.Ibge.Should().BePositive().And.Be(ibge);
     }
 }
