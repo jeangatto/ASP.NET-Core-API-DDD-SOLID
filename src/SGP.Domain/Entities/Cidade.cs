@@ -16,9 +16,9 @@ public class Cidade : BaseEntity
     {
     }
 
-    public Guid EstadoId { get; private set; }
-    public string Nome { get; private set; }
-    public int Ibge { get; private set; }
+    public Guid EstadoId { get; private init; }
+    public string Nome { get; private init; }
+    public int Ibge { get; private init; }
 
-    public Estado Estado { get; private set; }
+    public Estado Estado { get; private init; }
 }

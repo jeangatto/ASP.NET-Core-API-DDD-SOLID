@@ -21,9 +21,9 @@ public class Usuario : BaseEntity, IAggregateRoot
     {
     }
 
-    public string Nome { get; private set; }
-    public Email Email { get; private set; }
-    public string HashSenha { get; private set; }
+    public string Nome { get; private init; }
+    public Email Email { get; private init; }
+    public string HashSenha { get; private init; }
     public DateTime? UltimoAcessoEm { get; private set; }
     public DateTime? BloqueioExpiraEm { get; private set; }
     public int NumeroFalhasAoAcessar { get; private set; }

@@ -17,10 +17,10 @@ public class Estado : BaseEntity
     {
     }
 
-    public Guid RegiaoId { get; private set; }
-    public string Nome { get; private set; }
-    public string Uf { get; private set; }
+    public Guid RegiaoId { get; private init; }
+    public string Nome { get; private init; }
+    public string Uf { get; private init; }
 
-    public Regiao Regiao { get; private set; }
-    public IReadOnlyList<Cidade> Cidades { get; private set; }
+    public Regiao Regiao { get; private init; }
+    public IReadOnlyList<Cidade> Cidades { get; private init; }
 }

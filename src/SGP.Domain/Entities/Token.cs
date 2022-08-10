@@ -21,34 +21,34 @@ public class Token : BaseEntity
     /// <summary>
     /// Identificação do usuário.
     /// </summary>
-    public Guid UsuarioId { get; private set; }
+    public Guid UsuarioId { get; private init; }
 
     /// <summary>
     /// Token de acesso (AccessToken), utilizado para acessar o sistema.
     /// </summary>
-    public string Acesso { get; private set; }
+    public string Acesso { get; private init; }
 
     /// <summary>
     /// Token de atualização (RefreshToken), utilizado para gerar um novo token.
     /// </summary>
-    public string Atualizacao { get; private set; }
+    public string Atualizacao { get; private init; }
 
     /// <summary>
     /// Data da criação do Token.
     /// </summary>
-    public DateTime CriadoEm { get; private set; }
+    public DateTime CriadoEm { get; private init; }
 
     /// <summary>
     /// Data do vencimento do token.
     /// </summary>
-    public DateTime ExpiraEm { get; private set; }
+    public DateTime ExpiraEm { get; private init; }
 
     /// <summary>
     /// Data da revogação (cancelamento) do token.
     /// </summary>
     public DateTime? RevogadoEm { get; private set; }
 
-    public Usuario Usuario { get; private set; }
+    public Usuario Usuario { get; private init; }
 
     /// <summary>
     /// Indica se o Token foi revogado (cancelado).
