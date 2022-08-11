@@ -2,14 +2,16 @@ using SGP.Shared.Validation;
 
 namespace SGP.Shared.AppSettings;
 
-public sealed class AuthConfig
+public sealed class AuthOptions
 {
+    public const string ConfigSectionPath = "AuthConfig";
+
     [RequiredGreaterThanZero]
     public int MaximumAttempts { get; private init; }
 
     [RequiredGreaterThanZero]
     public int SecondsBlocked { get; private init; }
 
-    public static AuthConfig Create(int maximumAttempts, int secondsBlocked)
+    public static AuthOptions Create(int maximumAttempts, int secondsBlocked)
         => new() { MaximumAttempts = maximumAttempts, SecondsBlocked = secondsBlocked };
 }

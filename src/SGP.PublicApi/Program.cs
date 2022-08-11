@@ -21,11 +21,14 @@ public static class Program
         await using var scope = host.Services.CreateAsyncScope();
         await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
-        var connection = scope.ServiceProvider.GetRequiredService<IOptions<ConnectionStrings>>().Value;
+        var connectionOptions = scope.ServiceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
 
         try
         {
-            logger.LogInformation("----- Connection: {Connection}, Collation: {Collation}", connection.DefaultConnection, connection.Collation);
+            logger.LogInformation(
+                "----- Connection: {Connection}, Collation: {Collation}",
+                connectionOptions.DefaultConnection,
+                connectionOptions.Collation);
 
             if ((await context.Database.GetPendingMigrationsAsync()).Any())
             {

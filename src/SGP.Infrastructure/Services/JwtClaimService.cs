@@ -15,10 +15,10 @@ namespace SGP.Infrastructure.Services;
 public class JwtClaimService : ITokenClaimsService
 {
     private const short RefreshTokenBytesLength = 64;
-    private readonly JwtConfig _jwtConfig;
+    private readonly JwtOptions _jwtConfig;
     private readonly IDateTimeService _dateTimeService;
 
-    public JwtClaimService(IOptions<JwtConfig> jwtOptions, IDateTimeService dateTimeService)
+    public JwtClaimService(IOptions<JwtOptions> jwtOptions, IDateTimeService dateTimeService)
     {
         _jwtConfig = jwtOptions.Value;
         _dateTimeService = dateTimeService;

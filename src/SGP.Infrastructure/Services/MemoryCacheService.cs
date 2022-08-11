@@ -12,19 +12,19 @@ public class MemoryCacheService : ICacheService
 {
     private readonly IMemoryCache _memoryCache;
     private readonly ILogger<MemoryCacheService> _logger;
-    private readonly MemoryCacheEntryOptions _cacheOptions;
+    private readonly MemoryCacheEntryOptions _memoryCacheOptions;
 
     public MemoryCacheService(
         ILogger<MemoryCacheService> logger,
         IMemoryCache memoryCache,
-        IOptions<CacheConfig> options)
+        IOptions<CacheOptions> cacheOptions)
     {
         _logger = logger;
         _memoryCache = memoryCache;
-        _cacheOptions = new MemoryCacheEntryOptions
+        _memoryCacheOptions = new MemoryCacheEntryOptions
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(options.Value.AbsoluteExpirationInHours),
-            SlidingExpiration = TimeSpan.FromSeconds(options.Value.SlidingExpirationInSeconds)
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(cacheOptions.Value.AbsoluteExpirationInHours),
+            SlidingExpiration = TimeSpan.FromSeconds(cacheOptions.Value.SlidingExpirationInSeconds)
         };
     }
 
@@ -34,7 +34,7 @@ public class MemoryCacheService : ICacheService
         {
             _logger.LogInformation("----- Added to cache: '{CacheKey}'", cacheKey);
             value = await factory().ConfigureAwait(false);
-            _memoryCache.Set(cacheKey, value, _cacheOptions);
+            _memoryCache.Set(cacheKey, value, _memoryCacheOptions);
             return (TItem)value;
         }
 

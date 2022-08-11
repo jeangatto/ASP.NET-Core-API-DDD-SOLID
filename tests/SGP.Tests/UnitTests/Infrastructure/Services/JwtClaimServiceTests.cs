@@ -81,13 +81,13 @@ public class JwtClaimServiceTests
     private static IDateTimeService CreateDateTimeService()
         => new DateTimeService();
 
-    private static IOptions<JwtConfig> CreateJwtConfig()
+    private static IOptions<JwtOptions> CreateJwtConfig()
     {
         const string audience = "Clients-API-SGP";
         const string issuer = "API-SGP";
         const string secretKey = "p8SXNddEAEn1cCuyfVJKYA7e6hlagbLd";
         const short seconds = 21600;
-        var jwtConfig = JwtConfig.Create(audience, issuer, seconds, secretKey);
+        var jwtConfig = JwtOptions.Create(audience, issuer, seconds, secretKey);
         return Options.Create(jwtConfig);
     }
 }

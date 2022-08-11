@@ -22,7 +22,7 @@ public class AuthenticationService : IAuthenticationService
 {
     #region Fields
 
-    private readonly AuthConfig _authConfig;
+    private readonly AuthOptions _authOptions;
     private readonly IDateTimeService _dateTimeService;
     private readonly IHashService _hashService;
     private readonly ITokenClaimsService _tokenClaimsService;
@@ -35,7 +35,7 @@ public class AuthenticationService : IAuthenticationService
 
     public AuthenticationService
     (
-        IOptions<AuthConfig> authOptions,
+        IOptions<AuthOptions> authOptions,
         IDateTimeService dateTimeService,
         IHashService hashService,
         ITokenClaimsService tokenClaimsService,
@@ -43,7 +43,7 @@ public class AuthenticationService : IAuthenticationService
         IUnitOfWork uow
     )
     {
-        _authConfig = authOptions.Value;
+        _authOptions = authOptions.Value;
         _dateTimeService = dateTimeService;
         _hashService = hashService;
         _tokenClaimsService = tokenClaimsService;
@@ -92,8 +92,8 @@ public class AuthenticationService : IAuthenticationService
 
         // Se o login for inválido, será incrementado o número de falhas,
         // se atingido o limite de tentativas de acesso a conta será bloqueada por um determinado tempo.
-        var lockedTimeSpan = TimeSpan.FromSeconds(_authConfig.SecondsBlocked);
-        usuario.IncrementarFalhas(_dateTimeService, _authConfig.MaximumAttempts, lockedTimeSpan);
+        var lockedTimeSpan = TimeSpan.FromSeconds(_authOptions.SecondsBlocked);
+        usuario.IncrementarFalhas(_dateTimeService, _authOptions.MaximumAttempts, lockedTimeSpan);
 
         _repository.Update(usuario);
         await _uow.CommitAsync();

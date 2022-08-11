@@ -17,7 +17,7 @@ public class SgpContext : DbContext
         ChangeTracker.LazyLoadingEnabled = false;
     }
 
-    public SgpContext(IOptions<ConnectionStrings> options, DbContextOptions<SgpContext> dbOptions) : this(dbOptions)
+    public SgpContext(IOptions<ConnectionOptions> options, DbContextOptions<SgpContext> dbOptions) : this(dbOptions)
     {
         _collation = options.Value.Collation;
     }

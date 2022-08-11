@@ -18,10 +18,9 @@ internal static class DbContextExtensions
     {
         services.AddDbContext<SgpContext>((serviceProvider, optionsBuilder) =>
         {
-            var connectionString
-                = serviceProvider.GetRequiredService<IOptions<ConnectionStrings>>().Value.DefaultConnection;
+            var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
 
-            optionsBuilder.UseSqlServer(connectionString, sqlOptions =>
+            optionsBuilder.UseSqlServer(connectionOptions.DefaultConnection, sqlOptions =>
             {
                 sqlOptions.MigrationsAssembly(AssemblyName);
 

@@ -22,7 +22,7 @@ internal static class JwtBearerExtensions
         Guard.Against.Null(configuration, nameof(configuration));
         Guard.Against.Null(environment, nameof(environment));
 
-        var jwtConfig = GetJwtConfig(configuration);
+        var jwtOptions = GetJwtOptionsFromAppSettings(configuration);
 
         services
             .AddAuthentication(authOptions =>
@@ -39,13 +39,13 @@ internal static class JwtBearerExtensions
                 bearerOptions.TokenValidationParameters = new TokenValidationParameters
                 {
                     ClockSkew = TimeSpan.Zero,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret)),
                     ValidateAudience = true,
                     ValidateIssuer = true,
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
-                    ValidAudience = jwtConfig.Audience,
-                    ValidIssuer = jwtConfig.Issuer
+                    ValidAudience = jwtOptions.Audience,
+                    ValidIssuer = jwtOptions.Issuer
                 };
             });
 
@@ -61,8 +61,8 @@ internal static class JwtBearerExtensions
         return services;
     }
 
-    private static JwtConfig GetJwtConfig(IConfiguration configuration)
+    private static JwtOptions GetJwtOptionsFromAppSettings(IConfiguration configuration)
         => configuration
-            .GetSection(nameof(JwtConfig))
-            .Get<JwtConfig>(options => options.BindNonPublicProperties = true);
+            .GetSection(JwtOptions.ConfigSectionPath)
+            .Get<JwtOptions>(options => options.BindNonPublicProperties = true);
 }

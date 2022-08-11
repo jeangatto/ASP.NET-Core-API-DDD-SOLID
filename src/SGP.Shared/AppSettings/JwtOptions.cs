@@ -3,8 +3,10 @@ using SGP.Shared.Validation;
 
 namespace SGP.Shared.AppSettings;
 
-public sealed class JwtConfig
+public sealed class JwtOptions
 {
+    public const string ConfigSectionPath = "JwtConfig";
+
     /// <summary>
     /// aud: Define quem pode usar o token.
     /// </summary>
@@ -26,7 +28,7 @@ public sealed class JwtConfig
     [Required]
     public string Secret { get; private init; }
 
-    public static JwtConfig Create(string audience, string issuer, int seconds, string secret) => new()
+    public static JwtOptions Create(string audience, string issuer, int seconds, string secret) => new()
     {
         Audience = audience,
         Issuer = issuer,

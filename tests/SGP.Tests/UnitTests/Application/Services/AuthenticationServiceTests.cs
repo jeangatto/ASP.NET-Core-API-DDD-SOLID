@@ -35,14 +35,14 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
     public async Task Devera_RetornarSucessoComToken_AoAutenticar()
     {
         // Arrange
-        var jwtConfig = CreateJwtConfig();
+        var jwtOptions = CreateJwtOptions();
         var dateTime = new DateTimeService();
-        var tokenClaimsService = new JwtClaimService(jwtConfig, dateTime);
+        var tokenClaimsService = new JwtClaimService(jwtOptions, dateTime);
         var hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
         var usuarioRepository = new UsuarioRepository(_fixture.Context);
         var unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
         var service = CreateAuthenticationService(
-            CreateAuthConfig(),
+            CreateAuthOptions(),
             dateTime,
             hashService,
             tokenClaimsService,
@@ -67,7 +67,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
         tokenResponse.AccessToken.Should().NotBeNullOrWhiteSpace();
         tokenResponse.Expiration.Should().BeAfter(tokenResponse.Created);
         tokenResponse.RefreshToken.Should().NotBeNullOrWhiteSpace();
-        tokenResponse.ExpiresIn.Should().BePositive().And.Be(jwtConfig.Value.Seconds);
+        tokenResponse.ExpiresIn.Should().BePositive().And.Be(jwtOptions.Value.Seconds);
     }
 
     [Fact]
@@ -156,7 +156,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
     }
 
     private static IAuthenticationService CreateAuthenticationService(
-        IOptions<AuthConfig> authOptions = null,
+        IOptions<AuthOptions> authOptions = null,
         IDateTimeService dateTimeService = null,
         IHashService hashService = null,
         ITokenClaimsService tokenClaimsService = null,
@@ -164,7 +164,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
         IUnitOfWork unitOfWork = null)
     {
         return new AuthenticationService(
-            authOptions ?? Mock.Of<IOptions<AuthConfig>>(),
+            authOptions ?? Mock.Of<IOptions<AuthOptions>>(),
             dateTimeService ?? Mock.Of<IDateTimeService>(),
             hashService ?? Mock.Of<IHashService>(),
             tokenClaimsService ?? Mock.Of<ITokenClaimsService>(),
@@ -172,20 +172,20 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
             unitOfWork ?? Mock.Of<IUnitOfWork>());
     }
 
-    private static IOptions<AuthConfig> CreateAuthConfig()
+    private static IOptions<AuthOptions> CreateAuthOptions()
     {
         const short maximumAttempts = 3;
         const short secondsBlocked = 1000;
-        return Options.Create(AuthConfig.Create(maximumAttempts, secondsBlocked));
+        return Options.Create(AuthOptions.Create(maximumAttempts, secondsBlocked));
     }
 
-    private static IOptions<JwtConfig> CreateJwtConfig()
+    private static IOptions<JwtOptions> CreateJwtOptions()
     {
         const string audience = "Clients-API-SGP";
         const string issuer = "API-SGP";
         const string secretKey = "p8SXNddEAEn1cCuyfVJKYA7e6hlagbLd";
         const short seconds = 21600;
-        var jwtConfig = JwtConfig.Create(audience, issuer, seconds, secretKey);
+        var jwtConfig = JwtOptions.Create(audience, issuer, seconds, secretKey);
         return Options.Create(jwtConfig);
     }
 }
