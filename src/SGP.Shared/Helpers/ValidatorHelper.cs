@@ -15,16 +15,16 @@ public static class ValidatorHelper
         where TValidator : IValidator
     {
         var context = new ValidationContext<object>(instanceToValidate);
-        var validator = CreateOrGetValidatorInstance<TValidator>();
-        return validator.Value.Validate(context);
+        var lazyValidator = CreateOrGetValidatorInstance<TValidator>();
+        return lazyValidator.Value.Validate(context);
     }
 
     public static async Task<ValidationResult> ValidateAsync<TValidator>(object instanceToValidate)
         where TValidator : IValidator
     {
         var context = new ValidationContext<object>(instanceToValidate);
-        var validator = CreateOrGetValidatorInstance<TValidator>();
-        return await validator.Value.ValidateAsync(context);
+        var lazyValidator = CreateOrGetValidatorInstance<TValidator>();
+        return await lazyValidator.Value.ValidateAsync(context);
     }
 
     private static Lazy<IValidator> CreateOrGetValidatorInstance<TValidator>() where TValidator : IValidator
