@@ -139,6 +139,7 @@ public class AuthenticationService : IAuthenticationService
 
     private static Claim[] GenerateClaims(Usuario usuario) => new[]
     {
+        new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
         new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Id.ToString()),
         new Claim(JwtRegisteredClaimNames.Sub, usuario.Nome, ClaimValueTypes.String),
