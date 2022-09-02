@@ -31,5 +31,9 @@ public static class FluentResultExtensions
     }
 
     private static IEnumerable<string> GroupByErrors(this IEnumerable<IError> errors)
-        => errors.Select(error => error.Message).Distinct().OrderBy(message => message).ToList();
+        => errors
+            .Select(error => error.Message)
+            .Distinct()
+            .OrderBy(message => message)
+            .ToList();
 }
