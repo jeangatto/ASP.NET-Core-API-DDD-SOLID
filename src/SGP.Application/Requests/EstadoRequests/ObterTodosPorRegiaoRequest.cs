@@ -11,7 +11,5 @@ public class ObterTodosPorRegiaoRequest : BaseRequest
     public string Regiao { get; }
 
     public override async Task ValidateAsync()
-    {
-        ValidationResult = await ValidatorHelper.ValidateAsync<ObterTodosPorRegiaoRequestValidator>(this);
-    }
+        => ValidationResult = await ValidatorHelper.ValidateAsync<ObterTodosPorRegiaoRequestValidator>(this);
 }

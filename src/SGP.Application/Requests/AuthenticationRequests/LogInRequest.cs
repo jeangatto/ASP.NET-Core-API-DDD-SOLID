@@ -24,7 +24,5 @@ public class LogInRequest : BaseRequest
     public string Password { get; }
 
     public override async Task ValidateAsync()
-    {
-        ValidationResult = await ValidatorHelper.ValidateAsync<LogInRequestValidator>(this);
-    }
+        => ValidationResult = await ValidatorHelper.ValidateAsync<LogInRequestValidator>(this);
 }

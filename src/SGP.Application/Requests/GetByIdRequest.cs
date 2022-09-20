@@ -14,7 +14,5 @@ public class GetByIdRequest : BaseRequest
     public Guid Id { get; }
 
     public override async Task ValidateAsync()
-    {
-        ValidationResult = await ValidatorHelper.ValidateAsync<GetByIdRequestValidator>(this);
-    }
+        => ValidationResult = await ValidatorHelper.ValidateAsync<GetByIdRequestValidator>(this);
 }

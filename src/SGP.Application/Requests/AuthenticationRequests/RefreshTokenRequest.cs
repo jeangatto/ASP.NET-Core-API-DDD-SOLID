@@ -16,7 +16,5 @@ public class RefreshTokenRequest : BaseRequest
     public string Token { get; }
 
     public override async Task ValidateAsync()
-    {
-        ValidationResult = await ValidatorHelper.ValidateAsync<RefreshTokenRequestValidator>(this);
-    }
+        => ValidationResult = await ValidatorHelper.ValidateAsync<RefreshTokenRequestValidator>(this);
 }
