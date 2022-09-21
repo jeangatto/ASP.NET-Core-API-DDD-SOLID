@@ -52,6 +52,8 @@ internal static class SwaggerExtensions
                 }
             });
 
+            options.ResolveConflictingActions(apiDescription => apiDescription.FirstOrDefault());
+
             // Set the comments path for the Swagger JSON and UI.
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -62,12 +64,13 @@ internal static class SwaggerExtensions
         return services;
     }
 
-    internal static IApplicationBuilder UseOpenApi(this IApplicationBuilder app,
+    internal static IApplicationBuilder UseSwaggerAndUI(this IApplicationBuilder app,
         IApiVersionDescriptionProvider provider)
     {
         Guard.Against.Null(provider, nameof(provider));
 
-        app.UseSwagger().UseSwaggerUI(options =>
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
         {
             options.DisplayRequestDuration();
 

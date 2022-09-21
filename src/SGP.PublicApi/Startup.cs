@@ -83,7 +83,7 @@ public class Startup
         mapper.ConfigurationProvider.CompileMappings();
 
         app.UseMiddleware<ErrorHandlerMiddleware>()
-            .UseOpenApi(apiVersionProvider)
+            .UseSwaggerAndUI(apiVersionProvider)
             .UseHealthChecks()
             .UseHttpsRedirection()
             .UseHsts()
