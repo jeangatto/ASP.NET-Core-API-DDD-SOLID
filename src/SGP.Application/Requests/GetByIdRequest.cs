@@ -5,7 +5,7 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests;
 
-public class GetByIdRequest : BaseRequest
+public class GetByIdRequest : BaseRequestWithValidation
 {
     public GetByIdRequest(Guid id) => Id = id;
 

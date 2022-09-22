@@ -4,7 +4,7 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.EstadoRequests;
 
-public class ObterTodosPorRegiaoRequest : BaseRequest
+public class ObterTodosPorRegiaoRequest : BaseRequestWithValidation
 {
     public ObterTodosPorRegiaoRequest(string regiao) => Regiao = regiao;
 

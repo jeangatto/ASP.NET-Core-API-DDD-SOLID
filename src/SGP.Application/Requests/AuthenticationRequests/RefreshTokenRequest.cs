@@ -5,7 +5,7 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.AuthenticationRequests;
 
-public class RefreshTokenRequest : BaseRequest
+public class RefreshTokenRequest : BaseRequestWithValidation
 {
     public RefreshTokenRequest(string token) => Token = token;
 

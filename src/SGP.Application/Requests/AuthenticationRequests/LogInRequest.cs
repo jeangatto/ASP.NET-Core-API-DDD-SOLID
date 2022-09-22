@@ -5,7 +5,7 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.AuthenticationRequests;
 
-public class LogInRequest : BaseRequest
+public class LogInRequest : BaseRequestWithValidation
 {
     public LogInRequest(string email, string password)
     {

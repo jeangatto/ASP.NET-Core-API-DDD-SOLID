@@ -4,14 +4,12 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.CidadeRequests;
 
-public class ObterPorIbgeRequest : BaseRequest
+public class ObterPorIbgeRequest : BaseRequestWithValidation
 {
     public ObterPorIbgeRequest(int ibge) => Ibge = ibge;
 
     public int Ibge { get; }
 
     public override async Task ValidateAsync()
-    {
-        ValidationResult = await ValidatorHelper.ValidateAsync<ObterPorIbgeRequestValidator>(this);
-    }
+        => ValidationResult = await ValidatorHelper.ValidateAsync<ObterPorIbgeRequestValidator>(this);
 }

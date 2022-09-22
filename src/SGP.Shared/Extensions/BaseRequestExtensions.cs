@@ -11,10 +11,10 @@ public static class BaseRequestExtensions
 {
     private static readonly IEnumerable<Error> EmptyErrors = Enumerable.Empty<Error>();
 
-    public static Result ToFail(this BaseRequest request)
+    public static Result ToFail(this BaseRequestWithValidation request)
         => new Result().WithErrors(request.ValidationResult.ToErrors());
 
-    public static Result<TResponse> ToFail<TResponse>(this BaseRequest request)
+    public static Result<TResponse> ToFail<TResponse>(this BaseRequestWithValidation request)
         => new Result<TResponse>().WithErrors(request.ValidationResult.ToErrors());
 
     private static IEnumerable<Error> ToErrors(this ValidationResult result)

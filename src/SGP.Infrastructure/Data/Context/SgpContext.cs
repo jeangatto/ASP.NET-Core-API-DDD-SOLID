@@ -1,6 +1,5 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Options;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Extensions;
@@ -8,7 +7,7 @@ using SGP.Shared.AppSettings;
 
 namespace SGP.Infrastructure.Data.Context;
 
-public class SgpContext : DbContext
+public sealed class SgpContext : DbContext
 {
     private readonly string _collation;
 

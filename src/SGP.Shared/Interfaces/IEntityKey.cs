@@ -1,13 +1,17 @@
 namespace SGP.Shared.Interfaces;
 
 /// <summary>
-/// Chave da Entidade.
+/// Interface marcadora para representar uma entidade.
+/// </summary>
+public interface IEntity
+{
+}
+
+/// <summary>
+/// Interface marcadora para representar uma entidade.
 /// </summary>
 /// <typeparam name="TKey">O tipo da chave.</typeparam>
-public interface IEntityKey<out TKey>
+public interface IEntityKey<out TKey> : IEntity where TKey : notnull
 {
-    /// <summary>
-    /// Chave - Identificação Única (PK).
-    /// </summary>
     TKey Id { get; }
 }

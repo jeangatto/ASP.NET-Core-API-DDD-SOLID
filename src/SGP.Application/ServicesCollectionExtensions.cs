@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
@@ -5,6 +6,7 @@ using SGP.Shared.Interfaces;
 
 namespace SGP.Application;
 
+[ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
     private static readonly Assembly[] AssembliesToScan = new[] { Assembly.GetExecutingAssembly() };
