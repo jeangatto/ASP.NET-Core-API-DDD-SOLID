@@ -69,7 +69,7 @@ public class FluentResultExtensionsTests
     {
         // Arrange
         const int expectedStatusCode = StatusCodes.Status500InternalServerError;
-        var result = new Result().WithErrors(new[] {"Erro0", "Erro1", "Erro3", "Erro2"});
+        var result = new Result().WithErrors(new[] { "Erro0", "Erro1", "Erro3", "Erro2" });
 
         // Act
         var actual = result.ToHttpResult();

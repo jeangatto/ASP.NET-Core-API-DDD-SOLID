@@ -67,7 +67,7 @@ public class AuthenticationService : IAuthenticationService
 
         // Verificando se a conta está bloqueada.
         if (usuario.EstaBloqueado(_dateTimeService))
-            return Result.Fail<TokenResponse>("A sua conta está bloqueada, entre em contato com o nosso suporte.");
+            return Result.Fail<TokenResponse>(new BusinessError("A sua conta está bloqueada, entre em contato com o nosso suporte."));
 
         // Verificando se a senha corresponde a senha criptografada gravada na base de dados.
         if (_hashService.Compare(request.Password, usuario.HashSenha))
@@ -114,7 +114,7 @@ public class AuthenticationService : IAuthenticationService
         // Verificando se o token de atualização está expirado.
         var token = usuario.Tokens.FirstOrDefault(t => t.Atualizacao == request.Token);
         if (token?.EstaValido(_dateTimeService) != true)
-            return Result.Fail<TokenResponse>("O token inválido ou expirado.");
+            return Result.Fail<TokenResponse>(new BusinessError("O token inválido ou expirado."));
 
         // Gerando as regras (roles).
         var claims = GenerateClaims(usuario);
