@@ -1,21 +1,15 @@
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace SGP.PublicApi.Models;
 
+/// <inheritdoc />
 public class ApiResponse<T> : ApiResponse
 {
-    public ApiResponse(bool success, int statusCode, T result) : base(success, statusCode)
-    {
-        Result = result;
-    }
+    public T Result { get; private init; }
 
-    public ApiResponse(bool success, int statusCode, IEnumerable<ApiError> errors) : base(success, statusCode, errors)
-    {
-    }
-
-    public ApiResponse(bool success, int statusCode, ApiError apiError) : base(success, statusCode, apiError)
-    {
-    }
-
-    public T Result { get; }
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 200.
+    /// </summary>
+    public static ApiResponse<T> Ok(T result)
+        => new() { Success = true, StatusCode = StatusCodes.Status200OK, Result = result };
 }

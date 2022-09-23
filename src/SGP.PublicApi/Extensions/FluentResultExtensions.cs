@@ -10,30 +10,43 @@ namespace SGP.PublicApi.Extensions;
 
 public static class FluentResultExtensions
 {
-    private static readonly OkObjectResult EmptyOkResult = new(new ApiResponse(true, StatusCodes.Status200OK));
+    private static readonly OkObjectResult EmptyOkResult = new(ApiResponse.Ok());
 
     public static ObjectResult ToHttpResult(this Result result)
         => result.IsFailed ? result.ToHttpNonSuccessResult() : EmptyOkResult;
 
     public static ObjectResult ToHttpResult<T>(this Result<T> result)
-        => result.IsFailed
-            ? result.ToHttpNonSuccessResult()
-            : new OkObjectResult(new ApiResponse<T>(true, StatusCodes.Status200OK, result.Value));
+        => result.IsFailed ? result.ToHttpNonSuccessResult() : new OkObjectResult(ApiResponse<T>.Ok(result.Value));
 
     private static ObjectResult ToHttpNonSuccessResult(this ResultBase result)
     {
-        var errors = result.Errors.GroupByErrors().Select(message => new ApiError(message));
+        var errors = result.Errors.ToApiErrors();
+
+        if (result.HasError<ValidationError>() || result.HasError<BusinessError>())
+            return new BadRequestObjectResult(ApiResponse.BadRequest(errors));
 
         if (result.HasError<NotFoundError>())
-            return new NotFoundObjectResult(new ApiResponse(false, StatusCodes.Status404NotFound, errors));
+            return new NotFoundObjectResult(ApiResponse.NotFound(errors));
 
-        return new BadRequestObjectResult(new ApiResponse(false, StatusCodes.Status400BadRequest, errors));
+        if (result.HasError<UnauthorizedError>())
+        {
+            return new ObjectResult(ApiResponse.Unauthorized(errors))
+            {
+                StatusCode = StatusCodes.Status401Unauthorized
+            };
+        }
+
+        return new ObjectResult(ApiResponse.InternalServerError(errors))
+        {
+            StatusCode = StatusCodes.Status500InternalServerError
+        };
     }
 
-    private static IEnumerable<string> GroupByErrors(this IEnumerable<IError> errors)
+    private static IEnumerable<ApiError> ToApiErrors(this IEnumerable<IError> errors)
         => errors
             .Select(error => error.Message)
             .Distinct()
             .OrderBy(message => message)
+            .Select(message => new ApiError(message))
             .ToList();
 }

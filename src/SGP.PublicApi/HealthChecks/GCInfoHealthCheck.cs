@@ -18,7 +18,7 @@ public class GCInfoHealthCheck : IHealthCheck
 
         var allocated = GC.GetTotalMemory(forceFullCollection: false);
 
-        var data = new Dictionary<string, object>()
+        var data = new Dictionary<string, object>
         {
             { "Allocated", SizeSuffix(allocated) },
             { "TotalAvailableMemoryBytes", SizeSuffix(memoryInfo.TotalAvailableMemoryBytes) },
@@ -34,11 +34,13 @@ public class GCInfoHealthCheck : IHealthCheck
 
     private static string SizeSuffix(long value, int decimalPlaces = 1)
     {
-        if (value < 0)
-            return "-" + SizeSuffix(-value, decimalPlaces);
-
-        if (value == 0)
-            return string.Format("{0:n" + decimalPlaces + "} bytes", 0);
+        switch (value)
+        {
+            case < 0:
+                return "-" + SizeSuffix(-value, decimalPlaces);
+            case 0:
+                return string.Format("{0:n" + decimalPlaces + "} bytes", 0);
+        }
 
         // mag is 0 for bytes, 1 for KB, 2, for MB, etc.
         var mag = (int)Math.Log(value, 1024);

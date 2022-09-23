@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SGP.Application.Interfaces;
 using SGP.Application.Responses;
 using SGP.PublicApi.Extensions;
+using SGP.PublicApi.Models;
 
 namespace SGP.PublicApi.Controllers.v1;
 
@@ -25,7 +26,8 @@ public class RegioesController : ControllerBase
     [HttpGet]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(IEnumerable<RegiaoResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<RegiaoResponse>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterTodosAsync()
         => (await _service.ObterTodosAsync()).ToHttpResult();
 }

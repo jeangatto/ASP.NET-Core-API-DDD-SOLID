@@ -1,32 +1,128 @@
 using System.Collections.Generic;
-using SGP.Shared.Messages;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace SGP.PublicApi.Models;
 
-public class ApiResponse : BaseResponse
+/// <summary>
+/// Classe responsável pela a padronização das respostas da API.
+/// </summary>
+public class ApiResponse
 {
-    public ApiResponse(bool success, int statusCode)
-    {
-        Success = success;
-        StatusCode = statusCode;
-    }
+    /// <summary>
+    /// Indica se a requisição foi bem-sucedida.
+    /// </summary>
+    public bool Success { get; protected init; }
 
-    public ApiResponse(bool success, int statusCode, string message) : this(success, statusCode)
-    {
-        Errors = new[] { new ApiError(message) };
-    }
+    /// <summary>
+    /// O código do status HTTP.
+    /// </summary>
+    public int StatusCode { get; protected init; }
 
-    public ApiResponse(bool success, int statusCode, ApiError apiError) : this(success, statusCode)
-    {
-        Errors = new[] { apiError };
-    }
+    /// <summary>
+    /// Lista com os erros da requisição se não for bem-sucedida.
+    /// </summary>
+    public IEnumerable<ApiError> Errors { get; private init; } = Enumerable.Empty<ApiError>();
 
-    public ApiResponse(bool success, int statusCode, IEnumerable<ApiError> errors) : this(success, statusCode)
-    {
-        Errors = errors;
-    }
+    #region HTTP Status 200 Ok
 
-    public bool Success { get; }
-    public int StatusCode { get; }
-    public IEnumerable<ApiError> Errors { get; }
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 200
+    /// </summary>
+    public static ApiResponse Ok()
+        => new() { Success = true, StatusCode = StatusCodes.Status200OK };
+
+    #endregion
+
+    #region HTTP Status 400 BadRequest
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 400.
+    /// </summary>
+    public static ApiResponse BadRequest()
+        => new() { Success = false, StatusCode = StatusCodes.Status400BadRequest };
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 400.
+    /// </summary>
+    /// <param name="errorMessage">Mensagem de erro a ser exibida na resposta.</param>
+    public static ApiResponse BadRequest(string errorMessage)
+        => new() { Success = false, StatusCode = StatusCodes.Status400BadRequest, Errors = CreateApiErrors(errorMessage) };
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 400.
+    /// </summary>
+    /// <param name="errors">Lista de erros a serem exibidas na resposta.</param>
+    public static ApiResponse BadRequest(IEnumerable<ApiError> errors)
+        => new() { Success = false, StatusCode = StatusCodes.Status400BadRequest, Errors = errors };
+
+    #endregion
+
+    #region HTTP Status 401 Unauthorized
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 401.
+    /// </summary>
+    public static ApiResponse Unauthorized()
+        => new() { Success = false, StatusCode = StatusCodes.Status401Unauthorized };
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 401.
+    /// </summary>
+    /// <param name="errorMessage">Mensagem de erro a ser exibida na resposta.</param>
+    public static ApiResponse Unauthorized(string errorMessage)
+        => new() { Success = false, StatusCode = StatusCodes.Status401Unauthorized, Errors = CreateApiErrors(errorMessage) };
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 401.
+    /// </summary>
+    /// <param name="errors">Lista de erros a serem exibidas na resposta.</param>
+    public static ApiResponse Unauthorized(IEnumerable<ApiError> errors)
+        => new() { Success = false, StatusCode = StatusCodes.Status401Unauthorized, Errors = errors };
+
+    #endregion
+
+    #region HTTP Status 404 NotFound
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 404.
+    /// </summary>
+    public static ApiResponse NotFound()
+        => new() { Success = false, StatusCode = StatusCodes.Status404NotFound };
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 404.
+    /// </summary>
+    /// <param name="errorMessage">Mensagem de erro a ser exibida na resposta.</param>
+    public static ApiResponse NotFound(string errorMessage)
+        => new() { Success = false, StatusCode = StatusCodes.Status404NotFound, Errors = CreateApiErrors(errorMessage) };
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 404.
+    /// </summary>
+    /// <param name="errors">Lista de erros a serem exibidas na resposta.</param>
+    public static ApiResponse NotFound(IEnumerable<ApiError> errors)
+        => new() { Success = false, StatusCode = StatusCodes.Status404NotFound, Errors = errors };
+
+    #endregion
+
+    #region HTTP Status 500 InternalServerError
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 500.
+    /// </summary>
+    /// <param name="errorMessage">Mensagem de erro a ser exibida na resposta.</param>
+    public static ApiResponse InternalServerError(string errorMessage)
+        => new() { Success = false, StatusCode = StatusCodes.Status500InternalServerError, Errors = CreateApiErrors(errorMessage) };
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 500.
+    /// </summary>
+    /// <param name="errors">Lista de erros a serem exibidas na resposta.</param>
+    public static ApiResponse InternalServerError(IEnumerable<ApiError> errors)
+        => new() { Success = false, StatusCode = StatusCodes.Status500InternalServerError, Errors = errors };
+
+    #endregion
+
+    private static IEnumerable<ApiError> CreateApiErrors(string errorMessage) => new[] { new ApiError(errorMessage) };
 }

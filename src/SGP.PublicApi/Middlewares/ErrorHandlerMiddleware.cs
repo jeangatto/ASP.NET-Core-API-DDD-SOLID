@@ -11,7 +11,7 @@ namespace SGP.PublicApi.Middlewares;
 
 public class ErrorHandlerMiddleware
 {
-    private const string ErrorMessage = "Ocorreu um erro interno ao processar a sua solicitação.";
+    private const string DefaultErrorMessage = "Ocorreu um erro interno ao processar a sua solicitação.";
 
     private readonly RequestDelegate _next;
     private readonly ILogger<ErrorHandlerMiddleware> _logger;
@@ -40,12 +40,9 @@ public class ErrorHandlerMiddleware
             context.Response.ContentType = MediaTypeNames.Application.Json;
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-            // NOTE: Quando for ambiente de desenvolvimento, será exibida a stack trace completa da exception.
-            var response = _environment.IsDevelopment()
-                ? new ApiResponse(false, StatusCodes.Status500InternalServerError, ex.ToJson()).ToJson()
-                : new ApiResponse(false, StatusCodes.Status500InternalServerError, ErrorMessage).ToJson();
-
-            await context.Response.WriteAsync(response);
+            // Quando for ambiente de desenvolvimento, será exibida a stack trace completa da exception.
+            var errorMessage = _environment.IsDevelopment() ? ex.ToJson() : DefaultErrorMessage;
+            await context.Response.WriteAsync(ApiResponse.InternalServerError(errorMessage).ToJson());
         }
     }
 }

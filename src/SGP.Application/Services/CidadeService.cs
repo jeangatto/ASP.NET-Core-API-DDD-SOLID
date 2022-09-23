@@ -45,7 +45,7 @@ public class CidadeService : ICidadeService
         if (!request.IsValid)
             return request.ToFail<IEnumerable<CidadeResponse>>();
 
-        var cidades = await _repository.ObterTodosPorUfAsync(request.Uf);
+        var cidades = await _repository.ObterTodosPorUfAsync(request.Uf.ToUpperInvariant());
         if (!cidades.Any())
         {
             return Result.Fail<IEnumerable<CidadeResponse>>(

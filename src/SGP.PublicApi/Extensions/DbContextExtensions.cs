@@ -33,17 +33,19 @@ internal static class DbContextExtensions
             // Log tentativas de repetição
             optionsBuilder.LogTo(
                 filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
-                logger: (eventData) =>
+                logger: eventData =>
                 {
-                    var retryEventData = eventData as ExecutionStrategyEventData;
+                    if (eventData is not ExecutionStrategyEventData retryEventData)
+                        return;
+
                     var exceptions = retryEventData.ExceptionsEncountered;
                     var count = exceptions.Count;
                     var delay = retryEventData.Delay;
-                    var message = exceptions[exceptions.Count - 1]?.Message;
+                    var message = exceptions[^1].Message;
                     logger.LogWarning("----- Retry #{Count} with delay {Delay} due to error: {Message}", count, delay, message);
                 });
 
-            // NOTE: Quando for ambiente de desenvolvimento será logado informações detalhadas.
+            // Quando for ambiente de desenvolvimento será logado informações detalhadas.
             var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
             if (environment.IsDevelopment())
                 optionsBuilder.EnableDetailedErrors().EnableSensitiveDataLogging();
@@ -52,7 +54,7 @@ internal static class DbContextExtensions
         // Verificador de saúde da base de dados.
         healthChecksBuilder.AddDbContextCheck<SgpContext>(
             tags: new[] { "database" },
-            customTestQuery: (context, token) => context.Cidades.AsNoTracking().AnyAsync(token));
+            customTestQuery: (context, cancellationToken) => context.Cidades.AsNoTracking().AnyAsync(cancellationToken));
 
         return services;
     }

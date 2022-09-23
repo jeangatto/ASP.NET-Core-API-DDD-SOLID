@@ -6,7 +6,7 @@ namespace SGP.Application.Requests.CidadeRequests;
 
 public class ObterTodosPorUfRequest : BaseRequestWithValidation
 {
-    public ObterTodosPorUfRequest(string uf) => Uf = uf?.ToUpperInvariant();
+    public ObterTodosPorUfRequest(string uf) => Uf = uf;
 
     public string Uf { get; }
 

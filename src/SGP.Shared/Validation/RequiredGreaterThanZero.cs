@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SGP.Shared.Validation;
 
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
 public sealed class RequiredGreaterThanZeroAttribute : ValidationAttribute
 {
     public override bool IsValid(object value)
