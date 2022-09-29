@@ -33,7 +33,7 @@ internal static class JwtBearerExtensions
             })
             .AddJwtBearer(bearerOptions =>
             {
-                // Note: RequireHttpsMetadata deve estar sempre habilitado no ambiente de produção.
+                // RequireHttpsMetadata deve estar sempre habilitado no ambiente de produção.
                 bearerOptions.RequireHttpsMetadata = environment.IsProduction();
                 bearerOptions.SaveToken = true;
                 bearerOptions.TokenValidationParameters = new TokenValidationParameters

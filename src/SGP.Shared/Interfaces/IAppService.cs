@@ -1,7 +1,7 @@
 namespace SGP.Shared.Interfaces;
 
 /// <summary>
-/// [Interface Marcador] Indica que é um serviço da aplicação.
+/// Interface marcadora para representar um serviço da aplicação (Regras de Negócio).
 /// </summary>
 public interface IAppService
 {
