@@ -5,18 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="11.0.*"/>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.*"/>
-    <PackageReference Include="FluentResults" Version="3.*"/>
-    <PackageReference Include="FluentValidation" Version="11.*"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.*"/>
-    <PackageReference Include="Scrutor" Version="4.*"/>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="FluentResults" Version="3.14.0" />
+    <PackageReference Include="FluentValidation" Version="11.2.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Scrutor" Version="4.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj"/>
-    <ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj"/>
-    <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj"/>
+    <ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
+    <ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj" />
+    <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
   </ItemGroup>
 
 </Project>
