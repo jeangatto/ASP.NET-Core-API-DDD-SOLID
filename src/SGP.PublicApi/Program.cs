@@ -3,12 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Data.Context;
-using SGP.Shared.AppSettings;
 
 namespace SGP.PublicApi;
 
@@ -20,20 +19,27 @@ public static class Program
 
         await using var scope = host.Services.CreateAsyncScope();
         await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
+        var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
-        var connectionOptions = scope.ServiceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
+        var inMemoryDatabase = configuration.GetValue<bool>("InMemoryDatabase");
 
         try
         {
-            logger.LogInformation(
-                "----- Connection: {Connection}, Collation: {Collation}",
-                connectionOptions.DefaultConnection,
-                connectionOptions.Collation);
-
-            if ((await context.Database.GetPendingMigrationsAsync()).Any())
+            if (inMemoryDatabase)
             {
-                logger.LogInformation("----- Creating and migrating the database...");
-                await context.Database.MigrateAsync();
+                logger.LogInformation("----- Connection: InMemoryDatabase");
+                await context.Database.EnsureCreatedAsync();
+            }
+            else
+            {
+                var connectionString = context.Database.GetConnectionString();
+                logger.LogInformation("----- Connection: {Connection}", connectionString);
+
+                if ((await context.Database.GetPendingMigrationsAsync()).Any())
+                {
+                    logger.LogInformation("----- Creating and migrating the database...");
+                    await context.Database.MigrateAsync();
+                }
             }
 
             logger.LogInformation("----- Seeding database...");
