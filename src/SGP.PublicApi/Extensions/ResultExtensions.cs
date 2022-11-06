@@ -18,33 +18,26 @@ public static class ResultExtensions
 
     private static IActionResult ToHttpNonSuccessResult(this IResult result)
     {
-        if (result.Status == ResultStatus.Error)
-        {
-            return new BadRequestObjectResult(
-                ApiResponse.BadRequest(result.Errors.Select(error => new ApiError(error)).ToList()));
-        }
-        else if (result.Status == ResultStatus.Invalid)
-        {
-            return new BadRequestObjectResult(
-                ApiResponse.BadRequest(result.ValidationErrors.ConvertAll(e => new ApiError(e.ErrorMessage))));
-        }
-        else if (result.Status == ResultStatus.NotFound)
-        {
-            return new NotFoundObjectResult(
-                ApiResponse.NotFound(result.Errors.Select(error => new ApiError(error)).ToList()));
-        }
-        else if (result.Status == ResultStatus.Unauthorized)
-        {
-            return new UnauthorizedObjectResult(
-                ApiResponse.Unauthorized(result.Errors.Select(error => new ApiError(error)).ToList()));
-        }
-        else if (result.Status == ResultStatus.Forbidden)
-        {
-            return new ForbiddenObjectResult(
-                ApiResponse.Forbidden(result.Errors.Select(error => new ApiError(error)).ToList()));
-        }
+        var errors = result.Errors.Select(error => new ApiError(error)).ToList();
 
-        return new InternalServerErrorObjectResult(
-            ApiResponse.InternalServerError(result.Errors.Select(error => new ApiError(error)).ToList()));
+        switch (result.Status)
+        {
+            case ResultStatus.Invalid:
+
+                var validationErrors = result.ValidationErrors.ConvertAll(e => new ApiError(e.ErrorMessage));
+                return new BadRequestObjectResult(ApiResponse.BadRequest(validationErrors));
+
+            case ResultStatus.NotFound:
+                return new NotFoundObjectResult(ApiResponse.NotFound(errors));
+
+            case ResultStatus.Unauthorized:
+                return new UnauthorizedObjectResult(ApiResponse.Unauthorized());
+
+            case ResultStatus.Forbidden:
+                return new ForbiddenObjectResult(ApiResponse.Forbidden());
+
+            default:
+                return new BadRequestObjectResult(ApiResponse.BadRequest(errors));
+        }
     }
 }

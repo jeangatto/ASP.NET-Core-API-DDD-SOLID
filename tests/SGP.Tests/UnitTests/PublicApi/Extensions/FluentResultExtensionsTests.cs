@@ -1,9 +1,11 @@
 using Ardalis.Result;
+using Bogus;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGP.PublicApi.Extensions;
 using SGP.PublicApi.Models;
+using SGP.PublicApi.ObjectResults;
 using SGP.Tests.Extensions;
 using Xunit;
 using Xunit.Categories;
@@ -14,13 +16,13 @@ namespace SGP.Tests.UnitTests.PublicApi.Extensions;
 public class FluentResultExtensionsTests
 {
     [Fact]
-    public void Should_ReturnsBadRequestResult_WhenTypedResultHasError()
+    public void Should_ReturnsBadRequestResult_WhenResultHasError()
     {
-        // Act
+        // Arrange
         const int expectedStatusCode = StatusCodes.Status400BadRequest;
         const string errorMessage = "Requisição inválida.";
 
-        // Arrange
+        // Act
         var actual = Result.Error(errorMessage).ToActionResult();
 
         // Assert
@@ -40,7 +42,62 @@ public class FluentResultExtensionsTests
     }
 
     [Fact]
-    public void Should_ReturnsDistinctErrorsMessage_WhenResultHasErrors()
+    public void Should_ReturnsBadRequestResult_WhenTypedResultHasError()
+    {
+        // Arrange
+        const int expectedStatusCode = StatusCodes.Status400BadRequest;
+        const string errorMessage = "Requisição inválida.";
+
+        // Act
+        var actual = Result<string>.Error(errorMessage).ToActionResult();
+
+        // Assert
+        actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
+
+        var objectResult = actual as BadRequestObjectResult;
+        objectResult.Should().NotBeNull();
+
+        var apiResponse = objectResult.Value as ApiResponse;
+        apiResponse.Should().NotBeNull();
+        apiResponse.Success.Should().BeFalse();
+        apiResponse.StatusCode.Should().Be(expectedStatusCode);
+        apiResponse.Errors.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.ContainSingle()
+            .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(errorMessage));
+    }
+
+    [Fact]
+    public void Should_ReturnsBadRequestResult_WhenHasValidationErrors()
+    {
+        // Arrange
+        const int expectedStatusCode = StatusCodes.Status400BadRequest;
+        var validationErrors = new Faker<ValidationError>()
+            .RuleFor(v => v.ErrorCode, f => f.Random.Number().ToString())
+            .RuleFor(v => v.ErrorMessage, f => f.Random.String2(10))
+            .Generate(10);
+
+        // Act
+        var actual = Result.Invalid(validationErrors).ToActionResult();
+
+        // Assert
+        actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
+
+        var objectResult = actual as BadRequestObjectResult;
+        objectResult.Should().NotBeNull();
+
+        var apiResponse = objectResult.Value as ApiResponse;
+        apiResponse.Should().NotBeNull();
+        apiResponse.Success.Should().BeFalse();
+        apiResponse.StatusCode.Should().Be(expectedStatusCode);
+        apiResponse.Errors.Should().NotBeNullOrEmpty()
+            .And.OnlyHaveUniqueItems()
+            .And.HaveCount(validationErrors.Count)
+            .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
+    }
+
+    [Fact]
+    public void Should_ReturnsBadRequestResult_WhenResultHasMultipleErrors()
     {
         // Arrange
         const int expectedStatusCode = StatusCodes.Status400BadRequest;
@@ -68,11 +125,11 @@ public class FluentResultExtensionsTests
     [Fact]
     public void Should_ReturnsNotFoundRequestResult_WhenResultHasNotFoundError()
     {
-        // Act
+        // Arrange
         const int expectedStatusCode = StatusCodes.Status404NotFound;
         const string errorMessage = "Nenhum registro encontrado.";
 
-        // Arrange
+        // Act
         var actual = Result.NotFound(errorMessage).ToActionResult();
 
         // Assert
@@ -92,12 +149,54 @@ public class FluentResultExtensionsTests
     }
 
     [Fact]
+    public void Should_ReturnsUnauthorizedObjectResult_WhenResultHasNotFoundError()
+    {
+        // Arrange
+        const int expectedStatusCode = StatusCodes.Status401Unauthorized;
+
+        // Act
+        var actual = Result.Unauthorized().ToActionResult();
+
+        // Assert
+        actual.Should().NotBeNull().And.BeOfType<UnauthorizedObjectResult>();
+
+        var objectResult = actual as UnauthorizedObjectResult;
+        objectResult.Should().NotBeNull();
+
+        var apiResponse = objectResult.Value as ApiResponse;
+        apiResponse.Should().NotBeNull();
+        apiResponse.Success.Should().BeFalse();
+        apiResponse.StatusCode.Should().Be(expectedStatusCode);
+    }
+
+    [Fact]
+    public void Should_ReturnsForbiddenObjectResult_WhenResultHasNotFoundError()
+    {
+        // Arrange
+        const int expectedStatusCode = StatusCodes.Status403Forbidden;
+
+        // Act
+        var actual = Result.Forbidden().ToActionResult();
+
+        // Assert
+        actual.Should().NotBeNull().And.BeOfType<ForbiddenObjectResult>();
+
+        var objectResult = actual as ForbiddenObjectResult;
+        objectResult.Should().NotBeNull();
+
+        var apiResponse = objectResult.Value as ApiResponse;
+        apiResponse.Should().NotBeNull();
+        apiResponse.Success.Should().BeFalse();
+        apiResponse.StatusCode.Should().Be(expectedStatusCode);
+    }
+
+    [Fact]
     public void Should_ReturnsOkResult_WhenResultIsOk()
     {
-        // Act
+        // Arrange
         const int expectedStatusCode = StatusCodes.Status200OK;
 
-        // Arrange
+        // Act
         var actual = Result.Success().ToActionResult();
 
         // Assert
@@ -116,11 +215,11 @@ public class FluentResultExtensionsTests
     [Fact]
     public void Should_ReturnsOkResult_WhenTypedResultIsOk()
     {
-        // Act
+        // Arrange
         const string resultValue = "Hello World!!!";
         const int expectedStatusCode = StatusCodes.Status200OK;
 
-        // Arrange
+        // Act
         var actual = Result<string>.Success(resultValue).ToActionResult();
 
         // Assert
