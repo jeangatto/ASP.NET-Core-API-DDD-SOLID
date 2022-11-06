@@ -31,10 +31,10 @@ public static class ResultExtensions
                 return new NotFoundObjectResult(ApiResponse.NotFound(errors));
 
             case ResultStatus.Unauthorized:
-                return new UnauthorizedObjectResult(ApiResponse.Unauthorized());
+                return new UnauthorizedObjectResult(ApiResponse.Unauthorized(errors));
 
             case ResultStatus.Forbidden:
-                return new ForbiddenObjectResult(ApiResponse.Forbidden());
+                return new ForbiddenObjectResult(ApiResponse.Forbidden(errors));
 
             default:
                 return new BadRequestObjectResult(ApiResponse.BadRequest(errors));

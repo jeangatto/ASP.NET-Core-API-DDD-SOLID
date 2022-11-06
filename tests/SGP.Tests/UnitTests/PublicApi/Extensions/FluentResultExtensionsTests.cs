@@ -4,7 +4,6 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SGP.PublicApi.Extensions;
-using SGP.PublicApi.Models;
 using SGP.PublicApi.ObjectResults;
 using SGP.Tests.Extensions;
 using Xunit;
@@ -27,11 +26,7 @@ public class FluentResultExtensionsTests
 
         // Assert
         actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
-
-        var objectResult = actual as BadRequestObjectResult;
-        objectResult.Should().NotBeNull();
-
-        var apiResponse = objectResult.Value as ApiResponse;
+        var apiResponse = actual.ToApiResponse();
         apiResponse.Should().NotBeNull();
         apiResponse.Success.Should().BeFalse();
         apiResponse.StatusCode.Should().Be(expectedStatusCode);
@@ -53,11 +48,7 @@ public class FluentResultExtensionsTests
 
         // Assert
         actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
-
-        var objectResult = actual as BadRequestObjectResult;
-        objectResult.Should().NotBeNull();
-
-        var apiResponse = objectResult.Value as ApiResponse;
+        var apiResponse = actual.ToApiResponse();
         apiResponse.Should().NotBeNull();
         apiResponse.Success.Should().BeFalse();
         apiResponse.StatusCode.Should().Be(expectedStatusCode);
@@ -82,11 +73,7 @@ public class FluentResultExtensionsTests
 
         // Assert
         actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
-
-        var objectResult = actual as BadRequestObjectResult;
-        objectResult.Should().NotBeNull();
-
-        var apiResponse = objectResult.Value as ApiResponse;
+        var apiResponse = actual.ToApiResponse();
         apiResponse.Should().NotBeNull();
         apiResponse.Success.Should().BeFalse();
         apiResponse.StatusCode.Should().Be(expectedStatusCode);
@@ -108,11 +95,7 @@ public class FluentResultExtensionsTests
 
         // Assert
         actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
-
-        var objectResult = actual as BadRequestObjectResult;
-        objectResult.Should().NotBeNull();
-
-        var apiResponse = objectResult.Value as ApiResponse;
+        var apiResponse = actual.ToApiResponse();
         apiResponse.Should().NotBeNull();
         apiResponse.Success.Should().BeFalse();
         apiResponse.StatusCode.Should().Be(expectedStatusCode);
@@ -134,11 +117,7 @@ public class FluentResultExtensionsTests
 
         // Assert
         actual.Should().NotBeNull().And.BeOfType<NotFoundObjectResult>();
-
-        var objectResult = actual as NotFoundObjectResult;
-        objectResult.Should().NotBeNull();
-
-        var apiResponse = objectResult.Value as ApiResponse;
+        var apiResponse = actual.ToApiResponse();
         apiResponse.Should().NotBeNull();
         apiResponse.Success.Should().BeFalse();
         apiResponse.StatusCode.Should().Be(expectedStatusCode);
@@ -159,11 +138,7 @@ public class FluentResultExtensionsTests
 
         // Assert
         actual.Should().NotBeNull().And.BeOfType<UnauthorizedObjectResult>();
-
-        var objectResult = actual as UnauthorizedObjectResult;
-        objectResult.Should().NotBeNull();
-
-        var apiResponse = objectResult.Value as ApiResponse;
+        var apiResponse = actual.ToApiResponse();
         apiResponse.Should().NotBeNull();
         apiResponse.Success.Should().BeFalse();
         apiResponse.StatusCode.Should().Be(expectedStatusCode);
@@ -180,11 +155,7 @@ public class FluentResultExtensionsTests
 
         // Assert
         actual.Should().NotBeNull().And.BeOfType<ForbiddenObjectResult>();
-
-        var objectResult = actual as ForbiddenObjectResult;
-        objectResult.Should().NotBeNull();
-
-        var apiResponse = objectResult.Value as ApiResponse;
+        var apiResponse = actual.ToApiResponse();
         apiResponse.Should().NotBeNull();
         apiResponse.Success.Should().BeFalse();
         apiResponse.StatusCode.Should().Be(expectedStatusCode);
@@ -201,11 +172,7 @@ public class FluentResultExtensionsTests
 
         // Assert
         actual.Should().NotBeNull().And.BeOfType<OkObjectResult>();
-
-        var objectResult = actual as OkObjectResult;
-        objectResult.Should().NotBeNull();
-
-        var apiResponse = objectResult.Value as ApiResponse;
+        var apiResponse = actual.ToApiResponse();
         apiResponse.Should().NotBeNull();
         apiResponse.Success.Should().BeTrue();
         apiResponse.StatusCode.Should().Be(expectedStatusCode);
@@ -224,11 +191,7 @@ public class FluentResultExtensionsTests
 
         // Assert
         actual.Should().NotBeNull().And.BeOfType<OkObjectResult>();
-
-        var objectResult = actual as OkObjectResult;
-        objectResult.Should().NotBeNull();
-
-        var apiResponse = objectResult.Value as ApiResponse<string>;
+        var apiResponse = actual.ToApiResponse<string>();
         apiResponse.Should().NotBeNull();
         apiResponse.Success.Should().BeTrue();
         apiResponse.StatusCode.Should().Be(expectedStatusCode);
