@@ -32,7 +32,7 @@ public class EstadosController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterTodosAsync()
-        => (await _service.ObterTodosAsync()).ToHttpResult();
+        => (await _service.ObterTodosAsync()).ToActionResult();
 
     /// <summary>
     /// Obtém uma lista de estados pelo nome da região.
@@ -49,5 +49,5 @@ public class EstadosController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterPorIbgeAsync([FromRoute] string regiao)
-        => (await _service.ObterTodosPorRegiaoAsync(new ObterTodosPorRegiaoRequest(regiao))).ToHttpResult();
+        => (await _service.ObterTodosPorRegiaoAsync(new ObterTodosPorRegiaoRequest(regiao))).ToActionResult();
 }

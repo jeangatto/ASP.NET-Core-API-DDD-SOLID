@@ -1,4 +1,4 @@
-using SGP.Shared.Validation;
+using SGP.Shared.ValidationAttributes;
 
 namespace SGP.Shared.AppSettings;
 

@@ -35,7 +35,7 @@ public class CidadesController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterTodosPorUfAsync([FromRoute] string uf)
-        => (await _service.ObterTodosPorUfAsync(new ObterTodosPorUfRequest(uf))).ToHttpResult();
+        => (await _service.ObterTodosPorUfAsync(new ObterTodosPorUfRequest(uf))).ToActionResult();
 
     /// <summary>
     /// Obtém a cidade pelo código de IBGE.
@@ -52,5 +52,5 @@ public class CidadesController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterPorIbgeAsync([FromRoute] int ibge)
-        => (await _service.ObterPorIbgeAsync(new ObterPorIbgeRequest(ibge))).ToHttpResult();
+        => (await _service.ObterPorIbgeAsync(new ObterPorIbgeRequest(ibge))).ToActionResult();
 }

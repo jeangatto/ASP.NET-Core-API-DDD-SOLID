@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace SGP.Shared.Helpers;
+namespace SGP.Shared;
 
-public static class ValidatorHelper
+public static class LazyValidator
 {
     private static readonly ConcurrentDictionary<string, Lazy<IValidator>> Cache = new();
 

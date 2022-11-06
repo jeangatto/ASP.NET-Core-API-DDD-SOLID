@@ -42,7 +42,7 @@ C# 10 + [.NET 6](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-6
 
 ## Executando a aplicação usando o Docker
 
-Após executar o comando no terminal `docker-compose up --build --abort-on-container-exit`, basta abrir a url no navegador: `http://localhost:8000/swagger/`
+Após executar o comando no terminal `docker-compose up --build --abort-on-container-exit --remove-orphans`, basta abrir a url no navegador: `http://localhost:8000/swagger/`
 
 ## MiniProfiler for .NET
 

@@ -7,12 +7,12 @@ public class LogInRequestValidator : AbstractValidator<LogInRequest>
 {
     public LogInRequestValidator()
     {
-        RuleFor(x => x.Email)
+        RuleFor(req => req.Email)
             .NotEmpty()
             .IsValidEmailAddress()
             .MaximumLength(100);
 
-        RuleFor(x => x.Password)
+        RuleFor(req => req.Password)
             .NotEmpty()
             .MinimumLength(4);
     }

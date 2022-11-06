@@ -9,6 +9,8 @@ namespace SGP.PublicApi.Models;
 /// </summary>
 public class ApiResponse
 {
+    #region Properties
+
     /// <summary>
     /// Indica se a requisição foi bem-sucedida.
     /// </summary>
@@ -23,6 +25,8 @@ public class ApiResponse
     /// Lista com os erros da requisição se não for bem-sucedida.
     /// </summary>
     public IEnumerable<ApiError> Errors { get; private init; } = Enumerable.Empty<ApiError>();
+
+    #endregion
 
     #region HTTP Status 200 Ok
 
@@ -79,6 +83,30 @@ public class ApiResponse
     /// <param name="errors">Lista de erros a serem exibidas na resposta.</param>
     public static ApiResponse Unauthorized(IEnumerable<ApiError> errors)
         => new() { Success = false, StatusCode = StatusCodes.Status401Unauthorized, Errors = errors };
+
+    #endregion
+
+    #region HTTP Status 403 Forbidden
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 403.
+    /// </summary>
+    public static ApiResponse Forbidden()
+        => new() { Success = false, StatusCode = StatusCodes.Status403Forbidden };
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 403.
+    /// </summary>
+    /// <param name="errorMessage">Mensagem de erro a ser exibida na resposta.</param>
+    public static ApiResponse Forbidden(string errorMessage)
+        => new() { Success = false, StatusCode = StatusCodes.Status403Forbidden, Errors = CreateApiErrors(errorMessage) };
+
+    /// <summary>
+    /// Cria uma resposta com HTTP Status 403.
+    /// </summary>
+    /// <param name="errors">Lista de erros a serem exibidas na resposta.</param>
+    public static ApiResponse Forbidden(IEnumerable<ApiError> errors)
+        => new() { Success = false, StatusCode = StatusCodes.Status403Forbidden, Errors = errors };
 
     #endregion
 

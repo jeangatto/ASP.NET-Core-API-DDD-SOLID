@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentResults" Version="3.14.0" />
     <PackageReference Include="FluentValidation" Version="11.2.2" />
     <PackageReference Include="JsonNet.ContractResolvers" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />

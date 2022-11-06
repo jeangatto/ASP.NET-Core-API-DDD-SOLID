@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using SGP.Shared.Helpers;
+using SGP.Shared;
 using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests;
@@ -14,5 +14,5 @@ public class GetByIdRequest : BaseRequestWithValidation
     public Guid Id { get; }
 
     public override async Task ValidateAsync()
-        => ValidationResult = await ValidatorHelper.ValidateAsync<GetByIdRequestValidator>(this);
+        => ValidationResult = await LazyValidator.ValidateAsync<GetByIdRequestValidator>(this);
 }

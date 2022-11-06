@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 namespace SGP.PublicApi.Models;
 
 /// <inheritdoc />
-public class ApiResponse<T> : ApiResponse
+public sealed class ApiResponse<T> : ApiResponse
 {
     public T Result { get; private init; }
 

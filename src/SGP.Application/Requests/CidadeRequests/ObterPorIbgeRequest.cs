@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using SGP.Shared.Helpers;
+using SGP.Shared;
 using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.CidadeRequests;
@@ -11,5 +11,5 @@ public class ObterPorIbgeRequest : BaseRequestWithValidation
     public int Ibge { get; }
 
     public override async Task ValidateAsync()
-        => ValidationResult = await ValidatorHelper.ValidateAsync<ObterPorIbgeRequestValidator>(this);
+        => ValidationResult = await LazyValidator.ValidateAsync<ObterPorIbgeRequestValidator>(this);
 }

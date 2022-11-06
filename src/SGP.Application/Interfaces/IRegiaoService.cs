@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentResults;
+using Ardalis.Result;
 using SGP.Application.Responses;
 using SGP.Shared.Interfaces;
 

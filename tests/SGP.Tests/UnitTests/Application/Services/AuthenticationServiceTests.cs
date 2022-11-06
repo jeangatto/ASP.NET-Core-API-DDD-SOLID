@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Ardalis.Result;
 using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -15,7 +16,6 @@ using SGP.Infrastructure.Data;
 using SGP.Infrastructure.Data.Repositories;
 using SGP.Infrastructure.Services;
 using SGP.Shared.AppSettings;
-using SGP.Shared.Errors;
 using SGP.Shared.Interfaces;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
@@ -107,10 +107,11 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
 
         // Assert
         actual.Should().NotBeNull();
-        actual.IsFailed.Should().BeTrue();
+        actual.IsSuccess.Should().BeFalse();
+        actual.Status.Should().Be(ResultStatus.Error);
         actual.Errors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
+            .And.SatisfyRespectively(error => error.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
 
         usuarioRepositoryMock.Verify(s => s.ObterPorEmailAsync(It.IsNotNull<Email>()), Times.Once);
         dateTimeMock.Verify(s => s.Now, Times.Once);
@@ -128,11 +129,11 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
 
         // Assert
         actual.Should().NotBeNull();
-        actual.HasError<ValidationError>().Should().BeTrue();
-        actual.IsFailed.Should().BeTrue();
-        actual.Errors.Should().NotBeNullOrEmpty()
+        actual.IsSuccess.Should().BeFalse();
+        actual.Status.Should().Be(ResultStatus.Invalid);
+        actual.ValidationErrors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
+            .And.Subject.ForEach(error => error.ErrorMessage.Should().NotBeNullOrWhiteSpace());
     }
 
     [Fact]
@@ -148,11 +149,11 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
 
         // Assert
         actual.Should().NotBeNull();
-        actual.HasError<NotFoundError>().Should().BeTrue();
-        actual.IsFailed.Should().BeTrue();
+        actual.IsSuccess.Should().BeFalse();
+        actual.Status.Should().Be(ResultStatus.NotFound);
         actual.Errors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
+            .And.SatisfyRespectively(error => error.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
     }
 
     private static IAuthenticationService CreateAuthenticationService(

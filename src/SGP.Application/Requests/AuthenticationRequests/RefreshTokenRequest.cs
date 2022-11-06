@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using SGP.Shared.Helpers;
+using SGP.Shared;
 using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.AuthenticationRequests;
@@ -16,5 +16,5 @@ public class RefreshTokenRequest : BaseRequestWithValidation
     public string Token { get; }
 
     public override async Task ValidateAsync()
-        => ValidationResult = await ValidatorHelper.ValidateAsync<RefreshTokenRequestValidator>(this);
+        => ValidationResult = await LazyValidator.ValidateAsync<RefreshTokenRequestValidator>(this);
 }

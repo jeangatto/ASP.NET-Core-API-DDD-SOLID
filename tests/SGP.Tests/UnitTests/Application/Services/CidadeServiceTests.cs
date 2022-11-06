@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Ardalis.Result;
 using AutoMapper;
 using FluentAssertions;
 using SGP.Application.Interfaces;
@@ -6,7 +7,6 @@ using SGP.Application.Mapper;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Services;
 using SGP.Infrastructure.Data.Repositories;
-using SGP.Shared.Errors;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using Xunit;
@@ -33,11 +33,11 @@ public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
 
         // Assert
         actual.Should().NotBeNull();
-        actual.HasError<ValidationError>().Should().BeTrue();
-        actual.IsFailed.Should().BeTrue();
-        actual.Errors.Should().NotBeNullOrEmpty()
+        actual.IsSuccess.Should().BeFalse();
+        actual.Status.Should().Be(ResultStatus.Invalid);
+        actual.ValidationErrors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
+            .And.Subject.ForEach(error => error.ErrorMessage.Should().NotBeNullOrWhiteSpace());
     }
 
     [Fact]
@@ -53,11 +53,11 @@ public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
 
         // Assert
         actual.Should().NotBeNull();
-        actual.HasError<NotFoundError>().Should().BeTrue();
-        actual.IsFailed.Should().BeTrue();
+        actual.IsSuccess.Should().BeFalse();
+        actual.Status.Should().Be(ResultStatus.NotFound);
         actual.Errors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
+            .And.SatisfyRespectively(error => error.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
     }
 
     [Fact]
@@ -125,11 +125,11 @@ public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
 
         // Assert
         actual.Should().NotBeNull();
-        actual.HasError<ValidationError>().Should().BeTrue();
-        actual.IsFailed.Should().BeTrue();
-        actual.Errors.Should().NotBeNullOrEmpty()
+        actual.IsSuccess.Should().BeFalse();
+        actual.Status.Should().Be(ResultStatus.Invalid);
+        actual.ValidationErrors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.Subject.ForEach(error => error.Message.Should().NotBeNullOrWhiteSpace());
+            .And.Subject.ForEach(error => error.ErrorMessage.Should().NotBeNullOrWhiteSpace());
     }
 
     [Fact]
@@ -145,11 +145,11 @@ public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
 
         // Assert
         actual.Should().NotBeNull();
-        actual.HasError<NotFoundError>().Should().BeTrue();
-        actual.IsFailed.Should().BeTrue();
+        actual.IsSuccess.Should().BeFalse();
+        actual.Status.Should().Be(ResultStatus.NotFound);
         actual.Errors.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
-            .And.SatisfyRespectively(error => error.Message.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
+            .And.SatisfyRespectively(error => error.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
     }
 
     private ICidadeService CriarServico()

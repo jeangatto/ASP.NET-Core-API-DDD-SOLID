@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SGP.Shared.Validation;
+namespace SGP.Shared.ValidationAttributes;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
 public sealed class RequiredGreaterThanZeroAttribute : ValidationAttribute

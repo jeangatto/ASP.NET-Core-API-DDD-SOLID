@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using SGP.Shared.Helpers;
+using SGP.Shared;
 using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.CidadeRequests;
@@ -11,5 +11,5 @@ public class ObterTodosPorUfRequest : BaseRequestWithValidation
     public string Uf { get; }
 
     public override async Task ValidateAsync()
-        => ValidationResult = await ValidatorHelper.ValidateAsync<ObterTodosPorUfRequestValidator>(this);
+        => ValidationResult = await LazyValidator.ValidateAsync<ObterTodosPorUfRequestValidator>(this);
 }

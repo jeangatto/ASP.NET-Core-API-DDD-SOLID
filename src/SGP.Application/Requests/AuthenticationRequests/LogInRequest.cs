@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using SGP.Shared.Helpers;
+using SGP.Shared;
 using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.AuthenticationRequests;
@@ -24,5 +24,5 @@ public class LogInRequest : BaseRequestWithValidation
     public string Password { get; }
 
     public override async Task ValidateAsync()
-        => ValidationResult = await ValidatorHelper.ValidateAsync<LogInRequestValidator>(this);
+        => ValidationResult = await LazyValidator.ValidateAsync<LogInRequestValidator>(this);
 }

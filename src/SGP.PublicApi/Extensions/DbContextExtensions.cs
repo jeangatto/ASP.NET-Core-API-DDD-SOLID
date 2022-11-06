@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -11,22 +12,27 @@ namespace SGP.PublicApi.Extensions;
 
 internal static class DbContextExtensions
 {
-    private static readonly string AssemblyName = typeof(Program).Assembly.GetName().Name;
-
-    internal static IServiceCollection AddSpgContext(this IServiceCollection services,
-        IHealthChecksBuilder healthChecksBuilder)
+    internal static IServiceCollection AddSpgContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
     {
         services.AddDbContext<SgpContext>((serviceProvider, optionsBuilder) =>
         {
-            var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
-
-            optionsBuilder.UseSqlServer(connectionOptions.DefaultConnection, sqlOptions =>
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            if (configuration.GetValue<bool>("InMemoryDatabase"))
             {
-                sqlOptions.MigrationsAssembly(AssemblyName);
+                optionsBuilder.UseInMemoryDatabase("SPGContextInMemory");
+            }
+            else
+            {
+                var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
 
-                // Configurando a resiliência da conexão: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
-                sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
-            });
+                optionsBuilder.UseSqlServer(connectionOptions.DefaultConnection, sqlOptions =>
+                {
+                    sqlOptions.MigrationsAssembly(typeof(Program).Assembly.GetName().Name);
+
+                    // Configurando a resiliência da conexão: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
+                    sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
+                });
+            }
 
             var logger = serviceProvider.GetRequiredService<ILogger<SgpContext>>();
 

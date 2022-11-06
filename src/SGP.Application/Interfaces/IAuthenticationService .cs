@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using FluentResults;
+using Ardalis.Result;
 using SGP.Application.Requests.AuthenticationRequests;
 using SGP.Application.Responses;
 using SGP.Shared.Interfaces;

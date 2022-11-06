@@ -29,5 +29,5 @@ public class RegioesController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<RegiaoResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterTodosAsync()
-        => (await _service.ObterTodosAsync()).ToHttpResult();
+        => (await _service.ObterTodosAsync()).ToActionResult();
 }

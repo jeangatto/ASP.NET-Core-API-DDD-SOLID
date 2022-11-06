@@ -36,7 +36,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Authenticate([FromBody] LogInRequest request)
-        => (await _service.AuthenticateAsync(request)).ToHttpResult();
+        => (await _service.AuthenticateAsync(request)).ToActionResult();
 
     /// <summary>
     /// Atualiza um token de acesso.
@@ -56,5 +56,5 @@ public class AuthController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
-        => (await _service.RefreshTokenAsync(request)).ToHttpResult();
+        => (await _service.RefreshTokenAsync(request)).ToActionResult();
 }

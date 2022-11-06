@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -30,12 +28,12 @@ public static class Program
                 connectionOptions.DefaultConnection,
                 connectionOptions.Collation);
 
-            if ((await context.Database.GetPendingMigrationsAsync()).Any())
-            {
-                logger.LogInformation("----- Creating and migrating the database...");
-                await context.Database.MigrateAsync();
-            }
-
+            // if ((await context.Database.GetPendingMigrationsAsync()).Any())
+            // {
+            //     logger.LogInformation("----- Creating and migrating the database...");
+            //     await context.Database.MigrateAsync();
+            // }
+            await context.Database.EnsureCreatedAsync();
             logger.LogInformation("----- Seeding database...");
             await context.EnsureSeedDataAsync();
         }

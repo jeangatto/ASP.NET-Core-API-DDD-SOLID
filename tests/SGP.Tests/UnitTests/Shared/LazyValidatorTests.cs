@@ -2,14 +2,14 @@ using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using SGP.Application.Requests;
-using SGP.Shared.Helpers;
+using SGP.Shared;
 using Xunit;
 using Xunit.Categories;
 
-namespace SGP.Tests.UnitTests.Shared.Helpers;
+namespace SGP.Tests.UnitTests.Shared;
 
 [UnitTest]
-public class ValidatorHelperTests
+public class LazyValidatorTests
 {
     [Fact]
     public void Should_ReturnsValidationResult_WhenValidate()
@@ -19,7 +19,7 @@ public class ValidatorHelperTests
         var request = new GetByIdRequest(id);
 
         // Act
-        var actual = ValidatorHelper.Validate<GetByIdRequestValidator>(request);
+        var actual = LazyValidator.Validate<GetByIdRequestValidator>(request);
 
         // Assert
         actual.Should().NotBeNull();
@@ -35,7 +35,7 @@ public class ValidatorHelperTests
         var request = new GetByIdRequest(id);
 
         // Act
-        var actual = await ValidatorHelper.ValidateAsync<GetByIdRequestValidator>(request);
+        var actual = await LazyValidator.ValidateAsync<GetByIdRequestValidator>(request);
 
         // Assert
         actual.Should().NotBeNull();
@@ -48,11 +48,11 @@ public class ValidatorHelperTests
     {
         // Arrange
         // Primeiro uso, criando o cache da instancia do validador
-        ValidatorHelper.Validate<GetByIdRequestValidator>(new GetByIdRequest(Guid.NewGuid()));
+        LazyValidator.Validate<GetByIdRequestValidator>(new GetByIdRequest(Guid.NewGuid()));
         var request = new GetByIdRequest(string.Empty);
 
         // Act
-        var actual = ValidatorHelper.Validate<GetByIdRequestValidator>(request);
+        var actual = LazyValidator.Validate<GetByIdRequestValidator>(request);
 
         // Assert
         actual.Should().NotBeNull();

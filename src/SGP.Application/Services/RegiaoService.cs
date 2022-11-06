@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ardalis.Result;
 using AutoMapper;
-using FluentResults;
 using SGP.Application.Interfaces;
 using SGP.Application.Responses;
 using SGP.Domain.Repositories;
@@ -22,6 +22,6 @@ public class RegiaoService : IRegiaoService
     public async Task<Result<IEnumerable<RegiaoResponse>>> ObterTodosAsync()
     {
         var regioes = await _repository.ObterTodosAsync();
-        return Result.Ok(_mapper.Map<IEnumerable<RegiaoResponse>>(regioes));
+        return Result.Success(_mapper.Map<IEnumerable<RegiaoResponse>>(regioes));
     }
 }
