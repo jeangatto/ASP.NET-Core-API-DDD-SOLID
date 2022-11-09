@@ -9,5 +9,4 @@ public sealed class ConnectionOptions
     [Required]
     public string DefaultConnection { get; private init; }
     public string Collation { get; private init; }
-    public bool UseInMemoryDatabase { get; private init; }
 }

@@ -11,6 +11,7 @@ public static class ServicesCollectionExtensions
         services.AddOptions<CacheOptions>(CacheOptions.ConfigSectionPath);
         services.AddOptions<ConnectionOptions>(ConnectionOptions.ConfigSectionPath);
         services.AddOptions<JwtOptions>(JwtOptions.ConfigSectionPath);
+        services.AddOptions<RootOptions>(RootOptions.ConfigSectionPath);
         return services;
     }
 

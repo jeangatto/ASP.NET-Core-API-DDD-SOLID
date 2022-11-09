@@ -7,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Data.Context;
+using SGP.Shared.AppSettings;
 
 namespace SGP.PublicApi;
 
@@ -20,12 +22,12 @@ public static class Program
         await using var scope = host.Services.CreateAsyncScope();
         await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
         var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+        var rootOptions = scope.ServiceProvider.GetRequiredService<IOptions<RootOptions>>().Value;
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
-        var inMemoryDatabase = configuration.GetValue<bool>("InMemoryDatabase");
 
         try
         {
-            if (inMemoryDatabase)
+            if (rootOptions.InMemoryDatabase)
             {
                 logger.LogInformation("----- Connection: InMemoryDatabase");
                 await context.Database.EnsureCreatedAsync();

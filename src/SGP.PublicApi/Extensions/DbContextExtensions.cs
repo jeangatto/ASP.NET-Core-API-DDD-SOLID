@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -16,8 +15,8 @@ internal static class DbContextExtensions
     {
         services.AddDbContext<SgpContext>((serviceProvider, optionsBuilder) =>
         {
-            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            if (configuration.GetValue<bool>("InMemoryDatabase"))
+            var rootOptions = serviceProvider.GetRequiredService<IOptions<RootOptions>>().Value;
+            if (rootOptions.InMemoryDatabase)
             {
                 optionsBuilder.UseInMemoryDatabase("SPGContextInMemory");
             }
