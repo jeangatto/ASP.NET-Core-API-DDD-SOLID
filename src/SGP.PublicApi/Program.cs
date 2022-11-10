@@ -21,7 +21,6 @@ public static class Program
 
         await using var scope = host.Services.CreateAsyncScope();
         await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
-        var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
         var rootOptions = scope.ServiceProvider.GetRequiredService<IOptions<RootOptions>>().Value;
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
 
