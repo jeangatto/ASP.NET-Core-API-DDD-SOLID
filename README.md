@@ -71,19 +71,29 @@ public static async Task Main(string[] args)
 
     await using var scope = host.Services.CreateAsyncScope();
     await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
+    var rootOptions = scope.ServiceProvider.GetRequiredService<IOptions<RootOptions>>().Value;
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
 
     try
     {
-        logger.LogInformation("Database Connection: {ConnectionString}", context.Database.GetConnectionString());
-
-        if ((await context.Database.GetPendingMigrationsAsync()).Any())
+        if (rootOptions.InMemoryDatabase)
         {
-            logger.LogInformation("Creating and migrating the database...");
-            await context.Database.MigrateAsync();
+            logger.LogInformation("----- Connection: InMemoryDatabase");
+            await context.Database.EnsureCreatedAsync();
+        }
+        else
+        {
+            var connectionString = context.Database.GetConnectionString();
+            logger.LogInformation("----- Connection: {Connection}", connectionString);
+
+            if ((await context.Database.GetPendingMigrationsAsync()).Any())
+            {
+                logger.LogInformation("----- Creating and migrating the database...");
+                await context.Database.MigrateAsync();
+            }
         }
 
-        logger.LogInformation("Seeding database...");
+        logger.LogInformation("----- Seeding database...");
         await context.EnsureSeedDataAsync();
     }
     catch (Exception ex)
@@ -92,7 +102,7 @@ public static async Task Main(string[] args)
         throw;
     }
 
-    logger.LogInformation("Starting the application...");
+    logger.LogInformation("----- Starting the application...");
     await host.RunAsync();
 }
 ```
