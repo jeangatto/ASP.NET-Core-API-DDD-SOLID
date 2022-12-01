@@ -6,8 +6,8 @@ networks:
 
 services:
 
-  sgppublicapi:
-    image: ${DOCKER_REGISTRY-}sgppublicapi
+  sgp-publicapi:
+    image: ${DOCKER_REGISTRY-}sgp-publicapi
     build:
       context: .
       dockerfile: src/SGP.PublicApi/Dockerfile
@@ -17,7 +17,7 @@ services:
       - "sqlserver"
 
   sqlserver:
-    image: mcr.microsoft.com/mssql/server
+    image: mcr.microsoft.com/mssql/server:latest
     ports:
       - "1433:1433"
     environment:
