@@ -1,8 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
 namespace SGP.PublicApi.Migrations;
 
 public partial class Inicial : Migration
@@ -39,7 +37,7 @@ public partial class Inicial : Migration
                 Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 RegiaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                 Nome = table.Column<string>(type: "varchar(75)", unicode: false, maxLength: 75, nullable: false),
-                Uf = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false)
+                Uf = table.Column<string>(type: "char(2)", unicode: false, maxLength: 2, nullable: false, fixedLength: true)
             },
             constraints: table =>
             {
