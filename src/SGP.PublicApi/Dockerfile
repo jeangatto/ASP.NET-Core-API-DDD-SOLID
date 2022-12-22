@@ -1,6 +1,6 @@
 ﻿# https://hub.docker.com/_/microsoft-dotnet-aspnet
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim-amd64 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0-bullseye-slim-amd64 AS base
 WORKDIR /app
 EXPOSE 80
 
@@ -9,7 +9,7 @@ EXPOSE 80
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim-amd64 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-slim-amd64 AS build
 WORKDIR /src
 COPY ["src/SGP.PublicApi/SGP.PublicApi.csproj", "src/SGP.PublicApi/"]
 COPY ["src/SGP.Application/SGP.Application.csproj", "src/SGP.Application/"]
