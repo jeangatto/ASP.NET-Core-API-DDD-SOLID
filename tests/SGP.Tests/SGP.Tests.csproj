@@ -5,11 +5,6 @@
     <IsPackable>false</IsPackable>
     <SonarQubeTestProject>True</SonarQubeTestProject>
     <GenerateTargetFrameworkAttribute>true</GenerateTargetFrameworkAttribute>
-    <CollectCoverage>true</CollectCoverage>
-    <CoverletOutput>/coverage/lcov.info</CoverletOutput>
-    <CoverletOutputFormat>lcov</CoverletOutputFormat>
-    <ExcludeAssembliesWithoutSources>MissingAny</ExcludeAssembliesWithoutSources>
-    <ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
   </PropertyGroup>
 
   <ItemGroup>
