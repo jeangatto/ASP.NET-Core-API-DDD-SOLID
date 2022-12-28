@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using SGP.Shared.AppSettings;
 
 namespace SGP.Shared;
 
+[ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
     public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)

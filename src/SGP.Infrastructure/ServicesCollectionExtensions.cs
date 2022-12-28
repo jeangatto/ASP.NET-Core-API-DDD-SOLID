@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using SGP.Domain.Repositories;
@@ -8,6 +9,7 @@ using SGP.Shared.Interfaces;
 
 namespace SGP.Infrastructure;
 
+[ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
