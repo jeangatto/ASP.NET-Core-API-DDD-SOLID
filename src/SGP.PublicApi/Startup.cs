@@ -65,6 +65,11 @@ public class Startup
             // Route: /profiler/results-index
             options.RouteBasePath = "/profiler";
             options.ColorScheme = ColorScheme.Dark;
+            options.EnableServerTimingHeader = true;
+#if DEBUG
+            options.EnableDebugMode = true;
+            options.TrackConnectionOpenClose = true;
+#endif
         }).AddEntityFramework();
     }
 
