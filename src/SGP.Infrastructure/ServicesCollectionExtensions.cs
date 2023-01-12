@@ -25,7 +25,7 @@ public static class ServicesCollectionExtensions
         services
                .Scan(scan => scan
                    .FromCallingAssembly()
-                   .AddClasses(classes => classes.AssignableTo<IRepository>())
+                   .AddClasses(impl => impl.AssignableTo<IRepository>())
                    .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                    .AsImplementedInterfaces()
                    .WithScopedLifetime());

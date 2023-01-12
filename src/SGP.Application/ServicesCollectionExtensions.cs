@@ -16,7 +16,7 @@ public static class ServicesCollectionExtensions
             .AddAutoMapper(cfg => cfg.DisableConstructorMapping(), AssembliesToScan, ServiceLifetime.Scoped)
             .Scan(scan => scan
                 .FromCallingAssembly()
-                .AddClasses(classes => classes.AssignableTo<IAppService>())
+                .AddClasses(impl => impl.AssignableTo<IAppService>())
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());

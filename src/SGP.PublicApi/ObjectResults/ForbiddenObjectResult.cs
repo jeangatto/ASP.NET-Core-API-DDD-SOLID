@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 namespace SGP.PublicApi.ObjectResults;
 
 [DefaultStatusCode(StatusCodes.Status403Forbidden)]
-public class ForbiddenObjectResult : ObjectResult
+public sealed class ForbiddenObjectResult : ObjectResult
 {
     public ForbiddenObjectResult([ActionResultObjectValue] object value) : base(value)
     {
