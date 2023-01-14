@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Data.Context;
 using SGP.Shared.AppSettings;
+using SGP.Shared.Extensions;
 
 namespace SGP.PublicApi.Extensions;
 
@@ -15,16 +15,16 @@ internal static class DbContextExtensions
     {
         services.AddDbContext<SgpContext>((serviceProvider, optionsBuilder) =>
         {
-            var rootOptions = serviceProvider.GetRequiredService<IOptions<RootOptions>>().Value;
-            if (rootOptions.InMemoryDatabase)
+            var inMemoryOptions = serviceProvider.GetOptions<InMemoryOptions>();
+            if (inMemoryOptions.Database)
             {
-                optionsBuilder.UseInMemoryDatabase("SPGContextInMemory");
+                optionsBuilder.UseInMemoryDatabase($"InMemory_{nameof(SgpContext)}");
             }
             else
             {
-                var connectionOptions = serviceProvider.GetRequiredService<IOptions<ConnectionOptions>>().Value;
+                var connections = serviceProvider.GetOptions<ConnectionStrings>();
 
-                optionsBuilder.UseSqlServer(connectionOptions.DefaultConnection, sqlOptions =>
+                optionsBuilder.UseSqlServer(connections.Database, sqlOptions =>
                 {
                     sqlOptions.MigrationsAssembly(typeof(Program).Assembly.GetName().Name);
 
@@ -53,7 +53,12 @@ internal static class DbContextExtensions
             // Quando for ambiente de desenvolvimento será logado informações detalhadas.
             var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
             if (environment.IsDevelopment())
-                optionsBuilder.EnableDetailedErrors().EnableSensitiveDataLogging();
+            {
+                optionsBuilder
+                    .EnableDetailedErrors()
+                    .EnableSensitiveDataLogging()
+                    .EnableServiceProviderCaching();
+            }
         });
 
         // Verificador de saúde da base de dados.

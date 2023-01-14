@@ -8,7 +8,9 @@ namespace SGP.Tests.Extensions;
 
 public static class HttpClientExtensions
 {
-    public static async Task<TResponse> GetAsync<TResponse>(this HttpClient httpClient, string endpoint)
+    public static async Task<TResponse> GetAsync<TResponse>(
+        this HttpClient httpClient,
+        string endpoint)
     {
         Guard.Against.Null(httpClient, nameof(httpClient));
         Guard.Against.NullOrWhiteSpace(endpoint, nameof(endpoint));
@@ -17,7 +19,10 @@ public static class HttpClientExtensions
         return await ConvertResponseToTypeAsync<TResponse>(httpResponse);
     }
 
-    public static async Task<TResponse> PostAsync<TResponse>(this HttpClient httpClient, string endpoint, HttpContent httpContent)
+    public static async Task<TResponse> PostAsync<TResponse>(
+        this HttpClient httpClient,
+        string endpoint,
+        HttpContent httpContent)
     {
         Guard.Against.Null(httpClient, nameof(httpClient));
         Guard.Against.NullOrWhiteSpace(endpoint, nameof(endpoint));

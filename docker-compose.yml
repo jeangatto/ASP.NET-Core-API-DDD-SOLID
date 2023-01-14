@@ -1,27 +1,46 @@
 version: '3.9'
 
 networks:
-  dockersql-network:
+  app-network:
     driver: bridge
 
 services:
 
-  sgp-publicapi:
+  # Web Application
+  webapi:
     image: ${DOCKER_REGISTRY-}sgp-publicapi
+    container_name: webapi
     build:
       context: .
       dockerfile: src/SGP.PublicApi/Dockerfile
+    links:
+      - "redis"
     networks:
-      - dockersql-network
+      - app-network
     depends_on:
       - "sqlserver"
+      - "redis"
 
+  # Database Server
   sqlserver:
     image: mcr.microsoft.com/mssql/server:latest
+    container_name: sqlserver
     ports:
       - "1433:1433"
     environment:
       - SA_PASSWORD=Sxc56Nu9V
       - ACCEPT_EULA=Y
     networks:
-      - dockersql-network
+      - app-network
+
+  # Cache Server
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: redis-server --requirepass Sxc56Nu9V
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network

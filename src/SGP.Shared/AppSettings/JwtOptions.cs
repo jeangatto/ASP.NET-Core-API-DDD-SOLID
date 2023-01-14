@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using SGP.Shared.Abstractions;
 using SGP.Shared.ValidationAttributes;
 
 namespace SGP.Shared.AppSettings;
 
-public sealed class JwtOptions
+public sealed class JwtOptions : BaseOptions
 {
-    public const string ConfigSectionPath = "JwtConfig";
-
     /// <summary>
     /// aud: Define quem pode usar o token.
     /// </summary>
@@ -20,7 +19,7 @@ public sealed class JwtOptions
     public string Issuer { get; private init; }
 
     /// <summary>
-    /// tempo de vida do token em segundos.
+    /// Tempo de vida do token em segundos.
     /// </summary>
     [RequiredGreaterThanZero]
     public int Seconds { get; private init; }

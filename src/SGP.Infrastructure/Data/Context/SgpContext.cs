@@ -14,7 +14,7 @@ public sealed class SgpContext : DbContext
     public SgpContext(DbContextOptions<SgpContext> dbOptions) : base(dbOptions)
         => ChangeTracker.LazyLoadingEnabled = false;
 
-    public SgpContext(IOptions<ConnectionOptions> options, DbContextOptions<SgpContext> dbOptions) : this(dbOptions)
+    public SgpContext(IOptions<ConnectionStrings> options, DbContextOptions<SgpContext> dbOptions) : this(dbOptions)
         => _collation = options.Value.Collation;
 
     public DbSet<Cidade> Cidades => Set<Cidade>();

@@ -1,11 +1,10 @@
+using SGP.Shared.Abstractions;
 using SGP.Shared.ValidationAttributes;
 
 namespace SGP.Shared.AppSettings;
 
-public sealed class AuthOptions
+public sealed class AuthOptions : BaseOptions
 {
-    public const string ConfigSectionPath = "AuthConfig";
-
     [RequiredGreaterThanZero]
     public int MaximumAttempts { get; private init; }
 

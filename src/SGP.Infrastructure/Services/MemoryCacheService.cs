@@ -12,7 +12,7 @@ public class MemoryCacheService : ICacheService
 {
     private readonly IMemoryCache _memoryCache;
     private readonly ILogger<MemoryCacheService> _logger;
-    private readonly MemoryCacheEntryOptions _memoryCacheOptions;
+    private readonly MemoryCacheEntryOptions _cacheOptions;
 
     public MemoryCacheService(
         ILogger<MemoryCacheService> logger,
@@ -21,7 +21,7 @@ public class MemoryCacheService : ICacheService
     {
         _logger = logger;
         _memoryCache = memoryCache;
-        _memoryCacheOptions = new MemoryCacheEntryOptions
+        _cacheOptions = new MemoryCacheEntryOptions
         {
             AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(cacheOptions.Value.AbsoluteExpirationInHours),
             SlidingExpiration = TimeSpan.FromSeconds(cacheOptions.Value.SlidingExpirationInSeconds)
@@ -30,21 +30,30 @@ public class MemoryCacheService : ICacheService
 
     public async Task<TItem> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<TItem>> factory)
     {
-        if (!_memoryCache.TryGetValue(cacheKey, out var value))
+        return await _memoryCache.GetOrCreateAsync(cacheKey, async (cacheEntry) =>
         {
-            _logger.LogInformation("----- Added to cache: '{CacheKey}'", cacheKey);
-            value = await factory().ConfigureAwait(false);
-            _memoryCache.Set(cacheKey, value, _memoryCacheOptions);
-            return (TItem)value;
-        }
+            var cacheValue = cacheEntry?.Value;
+            if (cacheValue != null)
+            {
+                _logger.LogInformation("----- Fetched from MemoryCache: '{CacheKey}'", cacheKey);
+                return (TItem)cacheValue;
+            }
 
-        _logger.LogInformation("----- Fetched from cache: '{CacheKey}'", cacheKey);
-        return (TItem)value;
+            var item = await factory();
+            if (item != null)
+            {
+                _logger.LogInformation("----- Added to MemoryCache: '{CacheKey}'", cacheKey);
+                _memoryCache.Set(cacheKey, item, _cacheOptions);
+            }
+
+            return item;
+        });
     }
 
-    public void Remove(string cacheKey)
+    public Task RemoveAsync(string cacheKey)
     {
-        _logger.LogInformation("----- Removed from cache: '{CacheKey}'", cacheKey);
+        _logger.LogInformation("----- Removed from MemoryCache: '{Key}'", cacheKey);
         _memoryCache.Remove(cacheKey);
+        return Task.CompletedTask;
     }
 }

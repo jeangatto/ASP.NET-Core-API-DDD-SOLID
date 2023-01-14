@@ -14,11 +14,16 @@ public static class ServicesCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         => services
-            .AddScoped<ICacheService, MemoryCacheService>()
             .AddScoped<IDateTimeService, DateTimeService>()
             .AddScoped<IHashService, BCryptHashService>()
             .AddScoped<ITokenClaimsService, JwtClaimService>()
             .AddScoped<IUnitOfWork, UnitOfWork>();
+
+    public static IServiceCollection AddMemoryCacheService(this IServiceCollection services)
+        => services.AddScoped<ICacheService, MemoryCacheService>();
+
+    public static IServiceCollection AddDistributedCacheService(this IServiceCollection services)
+        => services.AddScoped<ICacheService, DistributedCacheService>();
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {

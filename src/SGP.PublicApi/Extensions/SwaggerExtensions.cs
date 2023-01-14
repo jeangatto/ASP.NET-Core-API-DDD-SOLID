@@ -72,11 +72,11 @@ internal static class SwaggerExtensions
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
-            options.DisplayRequestDuration();
-
             // Build a swagger endpoint for each discovered API version
             foreach (var groupName in provider.ApiVersionDescriptions.Select(description => description.GroupName))
+            {
                 options.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant());
+            }
         });
 
         return app;

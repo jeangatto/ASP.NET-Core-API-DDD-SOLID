@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
 
-  sgp-publicapi:
+  webapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80

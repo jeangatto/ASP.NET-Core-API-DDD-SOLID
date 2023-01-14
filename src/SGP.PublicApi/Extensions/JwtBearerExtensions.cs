@@ -3,12 +3,12 @@ using System.Text;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
+using SGP.Shared.Constants;
+using SGP.Shared.Extensions;
 
 namespace SGP.PublicApi.Extensions;
 
@@ -17,12 +17,11 @@ internal static class JwtBearerExtensions
     internal static IServiceCollection AddJwtBearer(
         this IServiceCollection services,
         IConfiguration configuration,
-        IWebHostEnvironment environment)
+        bool isProduction)
     {
         Guard.Against.Null(configuration, nameof(configuration));
-        Guard.Against.Null(environment, nameof(environment));
 
-        var jwtOptions = GetJwtOptionsFromAppSettings(configuration);
+        var jwtOptions = configuration.GetOptions<JwtOptions>(AppSettingsKeys.JwtOptions);
 
         services
             .AddAuthentication(authOptions =>
@@ -34,7 +33,7 @@ internal static class JwtBearerExtensions
             .AddJwtBearer(bearerOptions =>
             {
                 // RequireHttpsMetadata deve estar sempre habilitado no ambiente de produção.
-                bearerOptions.RequireHttpsMetadata = environment.IsProduction();
+                bearerOptions.RequireHttpsMetadata = isProduction;
                 bearerOptions.SaveToken = true;
                 bearerOptions.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -60,9 +59,4 @@ internal static class JwtBearerExtensions
 
         return services;
     }
-
-    private static JwtOptions GetJwtOptionsFromAppSettings(IConfiguration configuration)
-        => configuration
-            .GetSection(JwtOptions.ConfigSectionPath)
-            .Get<JwtOptions>(options => options.BindNonPublicProperties = true);
 }

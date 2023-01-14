@@ -21,24 +21,26 @@ Criado com o [Rider: o IDE .NET de plataforma cruzada da JetBrains](https://www.
 
 ![Rider logo](https://resources.jetbrains.com/storage/products/company/brand/logos/Rider_icon.svg)
 
-C# 11 + [.NET 7](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-7) + [EF Core 7.0](https://docs.microsoft.com/pt-br/ef/core/what-is-new/ef-core-7.0/whatsnew) + JWT Bearer + OpenAPI (Swagger)
+[.NET 7](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-7) + [EF Core 7.0](https://docs.microsoft.com/pt-br/ef/core/what-is-new/ef-core-7.0/whatsnew) + JWT Bearer + OpenAPI (Swagger)
 
 > Nota: projeto focado em **Back-End**
 
 - RESTful API
+- Banco de dados relacional: **SQL Server**
+- Cache Distribuído: **Redis**
 - Clean Architecture
 - Princípios **S.O.L.I.D.**
 - Conceitos de modelagem de software **DDD (Domain Driven Design)**
 - Padrão Repository-Service (Repository-Service Pattern)
+- Padrão decorador (decorator pattern) [The decorator pattern](https://andrewlock.net/adding-decorated-classes-to-the-asp.net-core-di-container-using-scrutor/)
 - Padrão de Camada-Anticorrupção (Anti-Corruption Layer) **(FluentValidation)**
 - Padrão Resultado **(FluentResults)** [Functional C#: Handling failures](https://enterprisecraftsmanship.com/posts/functional-c-handling-failures-input-errors/)
-- Utilizando **Floating Versions** (wildcard) nos pacotes NuGet
 - [Scrutor](https://github.com/khellang/Scrutor) automaticamente registrando os serviços no ASP.NET Core DI
 - Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**\
     => [Melhores práticas de teste de unidade com .NET Core](https://docs.microsoft.com/pt-br/dotnet/core/testing/unit-testing-best-practices)
 - Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)
 - Verificações de integridade da aplicação com [HealthChecks](https://docs.microsoft.com/pt-br/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-6.0)
-- [SonarCloud](https://sonarcloud.io/) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
+- [SonarCloud](https://sonarcloud.io/project/overview?id=JeanGatto_SGP) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
 
 ## Executando a aplicação usando o Docker
 
@@ -56,7 +58,8 @@ Por padrão é utilizado o SQL Server LocalDB, para alterar a conexão, modifiqu
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=SgpContext;Trusted_Connection=True;MultipleActiveResultSets=true;"
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=SgpContext;Trusted_Connection=True;MultipleActiveResultSets=true;",
+    "Collation": "Latin1_General_CI_AI"
   }
 }
 ```
@@ -65,45 +68,50 @@ Ao iniciar a aplicação o banco de dados será criado automaticamente e efetuad
 também será populado o arquivo de seed.
 
 ```c#
-public static async Task Main(string[] args)
+await using var serviceScope = app.Services.CreateAsyncScope();
+await using var context = serviceScope.ServiceProvider.GetRequiredService<SgpContext>();
+var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
+var inMemoryOptions = serviceScope.ServiceProvider.GetOptions<InMemoryOptions>();
+
+try
 {
-    var host = CreateHostBuilder(args).Build();
+    app.Logger.LogInformation("----- Validating the mappings...");
+    mapper.ConfigurationProvider.AssertConfigurationIsValid();
+    mapper.ConfigurationProvider.CompileMappings();
 
-    await using var scope = host.Services.CreateAsyncScope();
-    await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
-    var rootOptions = scope.ServiceProvider.GetRequiredService<IOptions<RootOptions>>().Value;
-    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
-
-    try
+    if (inMemoryOptions.Cache)
     {
-        if (rootOptions.InMemoryDatabase)
-        {
-            logger.LogInformation("----- Connection: InMemoryDatabase");
-            await context.Database.EnsureCreatedAsync();
-        }
-        else
-        {
-            var connectionString = context.Database.GetConnectionString();
-            logger.LogInformation("----- Connection: {Connection}", connectionString);
-
-            if ((await context.Database.GetPendingMigrationsAsync()).Any())
-            {
-                logger.LogInformation("----- Creating and migrating the database...");
-                await context.Database.MigrateAsync();
-            }
-        }
-
-        logger.LogInformation("----- Seeding database...");
-        await context.EnsureSeedDataAsync();
+        app.Logger.LogInformation("----- Cache: InMemory");
     }
-    catch (Exception ex)
+    else
     {
-        logger.LogError(ex, "An error occurred while populating the database");
-        throw;
+        app.Logger.LogInformation("----- Cache: Distributed");
     }
 
-    logger.LogInformation("----- Starting the application...");
-    await host.RunAsync();
+    if (inMemoryOptions.Database)
+    {
+        app.Logger.LogInformation("----- Connection: InMemoryDatabase");
+        await context.Database.EnsureCreatedAsync();
+    }
+    else
+    {
+        var connectionString = context.Database.GetConnectionString();
+        app.Logger.LogInformation("----- Connection: {Connection}", connectionString);
+
+        if ((await context.Database.GetPendingMigrationsAsync()).Any())
+        {
+            app.Logger.LogInformation("----- Creating and migrating the database...");
+            await context.Database.MigrateAsync();
+        }
+    }
+
+    app.Logger.LogInformation("----- Seeding database...");
+    await context.EnsureSeedDataAsync();
+}
+catch (Exception ex)
+{
+    app.Logger.LogError(ex, "An exception occurred when starting the application: {Message}", ex.Message);
+    throw;
 }
 ```
 

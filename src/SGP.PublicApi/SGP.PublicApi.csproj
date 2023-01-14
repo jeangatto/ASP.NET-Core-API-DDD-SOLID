@@ -27,6 +27,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.2" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
@@ -41,6 +42,10 @@
     <ProjectReference Include="..\SGP.Application\SGP.Application.csproj" />
     <ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj" />
     <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SGP.Tests" />
   </ItemGroup>
 
 </Project>

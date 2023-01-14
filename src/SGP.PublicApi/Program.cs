@@ -1,72 +1,155 @@
 using System;
+using System.IO.Compression;
 using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using SGP.Application;
+using SGP.Infrastructure;
 using SGP.Infrastructure.Data.Context;
+using SGP.PublicApi.Extensions;
+using SGP.PublicApi.Middlewares;
+using SGP.Shared;
 using SGP.Shared.AppSettings;
+using SGP.Shared.Extensions;
+using StackExchange.Profiling;
 
-namespace SGP.PublicApi;
+var builder = WebApplication.CreateBuilder(args);
 
-public static class Program
-{
-    public static async Task Main(string[] args)
+builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
+builder.Services.Configure<KestrelServerOptions>(options => options.AddServerHeader = false);
+builder.Services.Configure<MvcNewtonsoftJsonOptions>(options => options.SerializerSettings.Configure());
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>());
+builder.Services.AddCache(builder.Configuration);
+builder.Services.AddApiVersioningAndApiExplorer();
+builder.Services.AddOpenApi();
+builder.Services.ConfigureAppSettings();
+builder.Services.AddJwtBearer(builder.Configuration, builder.Environment.IsProduction());
+builder.Services.AddServices();
+builder.Services.AddInfrastructure();
+builder.Services.AddRepositories();
+
+var healthChecksBuilder = builder.Services.AddHealthChecks().AddGCInfoCheck();
+builder.Services.AddSpgContext(healthChecksBuilder);
+
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
     {
-        var host = CreateHostBuilder(args).Build();
+        options.SuppressMapClientErrors = true;
+        options.SuppressModelStateInvalidFilter = true;
+    }).AddNewtonsoftJson();
 
-        await using var scope = host.Services.CreateAsyncScope();
-        await using var context = scope.ServiceProvider.GetRequiredService<SgpContext>();
-        var rootOptions = scope.ServiceProvider.GetRequiredService<IOptions<RootOptions>>().Value;
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
+// MiniProfiler for .NET
+// https://miniprofiler.com/dotnet/
+builder.Services.AddMiniProfiler(options =>
+{
+    // Route: /profiler/results-index
+    options.RouteBasePath = "/profiler";
+    options.ColorScheme = ColorScheme.Dark;
+    options.EnableServerTimingHeader = true;
 
-        try
-        {
-            if (rootOptions.InMemoryDatabase)
-            {
-                logger.LogInformation("----- Connection: InMemoryDatabase");
-                await context.Database.EnsureCreatedAsync();
-            }
-            else
-            {
-                var connectionString = context.Database.GetConnectionString();
-                logger.LogInformation("----- Connection: {Connection}", connectionString);
+    if (builder.Environment.IsDevelopment())
+    {
+        options.EnableDebugMode = true;
+        options.TrackConnectionOpenClose = true;
+    }
+}).AddEntityFramework();
 
-                if ((await context.Database.GetPendingMigrationsAsync()).Any())
-                {
-                    logger.LogInformation("----- Creating and migrating the database...");
-                    await context.Database.MigrateAsync();
-                }
-            }
+builder.Host.UseDefaultServiceProvider((context, options) =>
+{
+    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
+    options.ValidateOnBuild = true;
+});
 
-            logger.LogInformation("----- Seeding database...");
-            await context.EnsureSeedDataAsync();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "An error occurred while populating the database");
-            throw;
-        }
+builder.WebHost.UseKestrel();
 
-        logger.LogInformation("----- Starting the application...");
-        await host.RunAsync();
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+    app.UseDeveloperExceptionPage();
+
+ValidatorOptions.Global.Configure();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseSwaggerAndUI(app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
+app.UseHealthChecks();
+app.UseHttpsRedirection();
+app.UseHsts();
+app.UseRouting();
+app.UseHttpLogging();
+app.UseResponseCompression();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseMiniProfiler();
+app.MapControllers();
+
+await using var serviceScope = app.Services.CreateAsyncScope();
+await using var context = serviceScope.ServiceProvider.GetRequiredService<SgpContext>();
+var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
+var inMemoryOptions = serviceScope.ServiceProvider.GetOptions<InMemoryOptions>();
+
+try
+{
+    app.Logger.LogInformation("----- Validating the mappings...");
+    mapper.ConfigurationProvider.AssertConfigurationIsValid();
+    mapper.ConfigurationProvider.CompileMappings();
+
+    if (inMemoryOptions.Cache)
+    {
+        app.Logger.LogInformation("----- Cache: InMemory");
+    }
+    else
+    {
+        app.Logger.LogInformation("----- Cache: Distributed");
     }
 
-    private static IHostBuilder CreateHostBuilder(string[] args)
-        => Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder
-                    .UseKestrel(options => options.AddServerHeader = false)
-                    .UseStartup<Startup>();
-            })
-            .UseDefaultServiceProvider((context, options) =>
-            {
-                options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
-                options.ValidateOnBuild = true;
-            });
+    if (inMemoryOptions.Database)
+    {
+        app.Logger.LogInformation("----- Connection: InMemoryDatabase");
+        await context.Database.EnsureCreatedAsync();
+    }
+    else
+    {
+        var connectionString = context.Database.GetConnectionString();
+        app.Logger.LogInformation("----- Connection: {Connection}", connectionString);
+
+        if ((await context.Database.GetPendingMigrationsAsync()).Any())
+        {
+            app.Logger.LogInformation("----- Creating and migrating the database...");
+            await context.Database.MigrateAsync();
+        }
+    }
+
+    app.Logger.LogInformation("----- Seeding database...");
+    await context.EnsureSeedDataAsync();
 }
+catch (Exception ex)
+{
+    app.Logger.LogError(ex, "An exception occurred when starting the application: {Message}", ex.Message);
+    throw;
+}
+
+app.Logger.LogInformation("----- Starting the application...");
+await app.RunAsync();
+app.Logger.LogInformation("----- Application is running...");
+
+#pragma warning disable CA1050 // Declare types in namespaces
+public partial class Program
+{
+}
+#pragma warning restore CA1050 // Declare types in namespaces
