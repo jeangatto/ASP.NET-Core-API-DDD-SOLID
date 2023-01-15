@@ -9,7 +9,7 @@ using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Data;
 using SGP.Infrastructure.Data.Repositories;
-using SGP.Shared.Interfaces;
+using SGP.Shared.Abstractions;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using Xunit;

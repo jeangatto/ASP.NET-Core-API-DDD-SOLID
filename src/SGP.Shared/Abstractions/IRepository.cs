@@ -1,6 +1,6 @@
 using System;
 
-namespace SGP.Shared.Interfaces;
+namespace SGP.Shared.Abstractions;
 
 /// <summary>
 /// Interface marcadora para representar um repositório de dados.

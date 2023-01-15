@@ -1,7 +1,7 @@
 using System;
 using Ardalis.GuardClauses;
 using Microsoft.Extensions.Logging;
-using SGP.Shared.Interfaces;
+using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Services;
 

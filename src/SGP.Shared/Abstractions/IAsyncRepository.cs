@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SGP.Shared.Entities;
 
-namespace SGP.Shared.Interfaces;
+namespace SGP.Shared.Abstractions;
 
 public interface IAsyncRepository<TEntity> : IRepository where TEntity : BaseEntity, IAggregateRoot
 {

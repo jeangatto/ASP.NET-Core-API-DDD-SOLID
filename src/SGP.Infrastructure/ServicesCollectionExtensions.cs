@@ -5,7 +5,7 @@ using SGP.Domain.Repositories;
 using SGP.Infrastructure.Data;
 using SGP.Infrastructure.Data.Repositories.Cached;
 using SGP.Infrastructure.Services;
-using SGP.Shared.Interfaces;
+using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure;
 

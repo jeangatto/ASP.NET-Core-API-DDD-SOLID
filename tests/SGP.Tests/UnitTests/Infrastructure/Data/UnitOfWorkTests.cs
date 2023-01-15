@@ -6,7 +6,7 @@ using Moq;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Data;
 using SGP.Infrastructure.Data.Context;
-using SGP.Shared.Interfaces;
+using SGP.Shared.Abstractions;
 using SGP.Tests.Fixtures;
 using Xunit;
 using Xunit.Categories;

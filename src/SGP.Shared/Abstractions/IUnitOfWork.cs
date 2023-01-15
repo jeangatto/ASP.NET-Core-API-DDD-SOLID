@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SGP.Shared.Interfaces;
+namespace SGP.Shared.Abstractions;
 
 public interface IUnitOfWork : IDisposable
 {

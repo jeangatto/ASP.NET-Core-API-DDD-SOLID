@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SGP.Infrastructure.Data.Context;
+using SGP.Shared.Abstractions;
 using SGP.Shared.Entities;
-using SGP.Shared.Interfaces;
 
 namespace SGP.Infrastructure.Data.Repositories.Common;
 

@@ -4,8 +4,8 @@ using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Services;
+using SGP.Shared.Abstractions;
 using SGP.Shared.AppSettings;
-using SGP.Shared.Interfaces;
 using Xunit;
 using Xunit.Categories;
 

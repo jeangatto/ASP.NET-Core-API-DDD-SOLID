@@ -12,8 +12,8 @@ using SGP.Application.Responses;
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
+using SGP.Shared.Abstractions;
 using SGP.Shared.AppSettings;
-using SGP.Shared.Interfaces;
 
 namespace SGP.Application.Services;
 

@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using SGP.Shared.Records;
 
-namespace SGP.Shared.Interfaces;
+namespace SGP.Shared.Abstractions;
 
 public interface ITokenClaimsService
 {

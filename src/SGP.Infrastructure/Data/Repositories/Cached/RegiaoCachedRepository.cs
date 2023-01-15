@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Infrastructure.Data.Repositories.Common;
-using SGP.Shared.Interfaces;
+using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Data.Repositories.Cached;
 

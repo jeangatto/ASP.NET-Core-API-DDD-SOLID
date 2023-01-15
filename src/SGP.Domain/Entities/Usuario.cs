@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using SGP.Domain.ValueObjects;
+using SGP.Shared.Abstractions;
 using SGP.Shared.Entities;
-using SGP.Shared.Interfaces;
 
 namespace SGP.Domain.Entities;
 

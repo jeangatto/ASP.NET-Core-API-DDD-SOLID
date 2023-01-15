@@ -1,7 +1,7 @@
 using System;
 using FluentAssertions;
 using SGP.Infrastructure.Services;
-using SGP.Shared.Interfaces;
+using SGP.Shared.Abstractions;
 using Xunit;
 using Xunit.Categories;
 

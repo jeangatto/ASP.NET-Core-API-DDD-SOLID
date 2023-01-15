@@ -4,7 +4,7 @@ using FluentAssertions;
 using Moq;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Services;
-using SGP.Shared.Interfaces;
+using SGP.Shared.Abstractions;
 using SGP.Tests.Extensions;
 using Xunit;
 using Xunit.Categories;

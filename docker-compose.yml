@@ -8,11 +8,12 @@ services:
 
   # Web Application
   webapi:
-    image: ${DOCKER_REGISTRY-}sgp-publicapi
+    image: ${DOCKER_REGISTRY-}webapi
     container_name: webapi
     build:
       context: .
       dockerfile: src/SGP.PublicApi/Dockerfile
+    restart: unless-stopped
     links:
       - "redis"
     networks:
@@ -25,6 +26,7 @@ services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:latest
     container_name: sqlserver
+    restart: always
     ports:
       - "1433:1433"
     environment:
@@ -38,6 +40,7 @@ services:
     image: redis:latest
     container_name: redis
     command: redis-server --requirepass Sxc56Nu9V
+    restart: always
     expose:
       - "6379"
     ports:

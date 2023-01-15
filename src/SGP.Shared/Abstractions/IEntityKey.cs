@@ -1,4 +1,4 @@
-namespace SGP.Shared.Interfaces;
+namespace SGP.Shared.Abstractions;
 
 /// <summary>
 /// Interface marcadora para representar uma entidade.

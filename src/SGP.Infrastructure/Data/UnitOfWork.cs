@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Data.Context;
-using SGP.Shared.Interfaces;
+using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Data;
 

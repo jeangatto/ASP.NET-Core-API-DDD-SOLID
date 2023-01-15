@@ -3,7 +3,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using SGP.Infrastructure.Services;
-using SGP.Shared.Interfaces;
+using SGP.Shared.Abstractions;
 using Xunit;
 using Xunit.Categories;
 

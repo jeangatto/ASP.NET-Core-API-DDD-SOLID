@@ -149,7 +149,10 @@ await app.RunAsync();
 app.Logger.LogInformation("----- Application is running...");
 
 #pragma warning disable CA1050 // Declare types in namespaces
-public partial class Program
+namespace SGP.PublicApi
 {
+    public partial class Program
+    {
+    }
 }
 #pragma warning restore CA1050 // Declare types in namespaces

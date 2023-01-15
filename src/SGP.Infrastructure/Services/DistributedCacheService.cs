@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SGP.Shared.Abstractions;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
-using SGP.Shared.Interfaces;
 
 namespace SGP.Infrastructure.Services;
 

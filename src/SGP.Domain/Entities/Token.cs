@@ -1,6 +1,6 @@
 using System;
+using SGP.Shared.Abstractions;
 using SGP.Shared.Entities;
-using SGP.Shared.Interfaces;
 
 namespace SGP.Domain.Entities;
 
