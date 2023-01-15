@@ -120,7 +120,7 @@ try
 
     if (inMemoryOptions.Database)
     {
-        app.Logger.LogInformation("----- Connection: InMemoryDatabase");
+        app.Logger.LogInformation("----- Connection: InMemory");
         await context.Database.EnsureCreatedAsync();
     }
     else
@@ -146,7 +146,6 @@ catch (Exception ex)
 
 app.Logger.LogInformation("----- Starting the application...");
 await app.RunAsync();
-app.Logger.LogInformation("----- Application is running...");
 
 #pragma warning disable CA1050 // Declare types in namespaces
 namespace SGP.PublicApi

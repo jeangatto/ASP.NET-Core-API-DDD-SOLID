@@ -90,7 +90,7 @@ try
 
     if (inMemoryOptions.Database)
     {
-        app.Logger.LogInformation("----- Connection: InMemoryDatabase");
+        app.Logger.LogInformation("----- Connection: InMemory");
         await context.Database.EnsureCreatedAsync();
     }
     else
@@ -113,6 +113,9 @@ catch (Exception ex)
     app.Logger.LogError(ex, "An exception occurred when starting the application: {Message}", ex.Message);
     throw;
 }
+
+app.Logger.LogInformation("----- Starting the application...");
+await app.RunAsync();
 ```
 
 ## License
