@@ -27,6 +27,8 @@ public static class ServicesCollectionExtensions
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
+        // Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
+        // https://github.com/khellang/Scrutor
         services
                .Scan(scan => scan
                    .FromCallingAssembly()

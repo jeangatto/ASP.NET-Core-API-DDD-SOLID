@@ -12,12 +12,18 @@ public static class ServicesCollectionExtensions
     private static readonly Assembly[] AssembliesToScan = { Assembly.GetExecutingAssembly() };
 
     public static IServiceCollection AddServices(this IServiceCollection services)
-        => services
-            .AddAutoMapper(cfg => cfg.DisableConstructorMapping(), AssembliesToScan, ServiceLifetime.Scoped)
-            .Scan(scan => scan
-                .FromCallingAssembly()
-                .AddClasses(impl => impl.AssignableTo<IAppService>())
-                .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-                .AsImplementedInterfaces()
-                .WithScopedLifetime());
+    {
+        services.AddAutoMapper(cfg => cfg.DisableConstructorMapping(), AssembliesToScan, ServiceLifetime.Singleton);
+
+        // Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
+        // https://github.com/khellang/Scrutor
+        services.Scan(scan => scan
+            .FromCallingAssembly()
+            .AddClasses(impl => impl.AssignableTo<IAppService>())
+            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
+
+        return services;
+    }
 }
