@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SGP.Shared.Entities;
+using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Extensions;
 

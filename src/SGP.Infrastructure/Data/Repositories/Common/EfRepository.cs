@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SGP.Infrastructure.Data.Context;
 using SGP.Shared.Abstractions;
-using SGP.Shared.Entities;
 
 namespace SGP.Infrastructure.Data.Repositories.Common;
 

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SGP.Shared.Entities;
+using SGP.Shared.Abstractions;
 
 namespace SGP.Domain.Entities;
 

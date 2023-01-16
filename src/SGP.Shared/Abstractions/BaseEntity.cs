@@ -1,7 +1,6 @@
 using System;
-using SGP.Shared.Abstractions;
 
-namespace SGP.Shared.Entities;
+namespace SGP.Shared.Abstractions;
 
 /// <summary>
 /// Entidade com a chave (PK) tipada em <see cref="Guid"/>.

@@ -1,6 +1,5 @@
 using System;
 using SGP.Shared.Abstractions;
-using SGP.Shared.Entities;
 
 namespace SGP.Domain.Entities;
 
