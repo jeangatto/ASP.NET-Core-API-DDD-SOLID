@@ -18,7 +18,7 @@ public static class ServicesCollectionExtensions
         // Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
         // https://github.com/khellang/Scrutor
         services.Scan(scan => scan
-            .FromCallingAssembly()
+            .FromAssemblies(AssembliesToScan)
             .AddClasses(impl => impl.AssignableTo<IAppService>())
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsImplementedInterfaces()
