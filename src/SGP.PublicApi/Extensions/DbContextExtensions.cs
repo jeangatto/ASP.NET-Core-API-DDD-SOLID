@@ -13,30 +13,30 @@ internal static class DbContextExtensions
 {
     internal static IServiceCollection AddSpgContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
     {
-        services.AddDbContext<SgpContext>((serviceProvider, optionsBuilder) =>
+        services.AddDbContext<SgpContext>((serviceProvider, options) =>
         {
             var inMemoryOptions = serviceProvider.GetOptions<InMemoryOptions>();
             if (inMemoryOptions.Database)
             {
-                optionsBuilder.UseInMemoryDatabase($"InMemory_{nameof(SgpContext)}");
+                options.UseInMemoryDatabase($"InMemory_{nameof(SgpContext)}");
             }
             else
             {
                 var connections = serviceProvider.GetOptions<ConnectionStrings>();
 
-                optionsBuilder.UseSqlServer(connections.Database, sqlOptions =>
+                options.UseSqlServer(connections.Database, sqlOptions =>
                 {
                     sqlOptions.MigrationsAssembly(typeof(Program).Assembly.GetName().Name);
 
                     // Configurando a resiliência da conexão: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
                     sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
-                });
+                }).EnableServiceProviderCaching();
             }
 
             var logger = serviceProvider.GetRequiredService<ILogger<SgpContext>>();
 
             // Log tentativas de repetição
-            optionsBuilder.LogTo(
+            options.LogTo(
                 filter: (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
                 logger: eventData =>
                 {
@@ -53,12 +53,7 @@ internal static class DbContextExtensions
             // Quando for ambiente de desenvolvimento será logado informações detalhadas.
             var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
             if (environment.IsDevelopment())
-            {
-                optionsBuilder
-                    .EnableDetailedErrors()
-                    .EnableSensitiveDataLogging()
-                    .EnableServiceProviderCaching();
-            }
+                options.EnableDetailedErrors().EnableSensitiveDataLogging();
         });
 
         // Verificador de saúde da base de dados.
