@@ -15,6 +15,8 @@ internal static class DbContextExtensions
     {
         services.AddDbContext<SgpContext>((serviceProvider, options) =>
         {
+            options.EnableServiceProviderCaching();
+
             var inMemoryOptions = serviceProvider.GetOptions<InMemoryOptions>();
             if (inMemoryOptions.Database)
             {
@@ -30,7 +32,7 @@ internal static class DbContextExtensions
 
                     // Configurando a resiliência da conexão: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency
                     sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
-                }).EnableServiceProviderCaching();
+                });
             }
 
             var logger = serviceProvider.GetRequiredService<ILogger<SgpContext>>();
