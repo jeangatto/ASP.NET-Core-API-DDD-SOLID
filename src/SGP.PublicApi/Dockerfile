@@ -1,15 +1,21 @@
-﻿# https://hub.docker.com/_/microsoft-dotnet-aspnet
-
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-bullseye-slim-amd64 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
+
+ENV ASPNETCORE_URLS=http://+:80
+
+# Disable .NET Core welcome and telemetry messages
+ENV DOTNET_NOLOGO=true
+
+# Disable .NET Core SDK telemetry
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-slim-amd64 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["src/SGP.PublicApi/SGP.PublicApi.csproj", "src/SGP.PublicApi/"]
 COPY ["src/SGP.Application/SGP.Application.csproj", "src/SGP.Application/"]
@@ -22,7 +28,7 @@ WORKDIR "/src/src/SGP.PublicApi"
 RUN dotnet build "SGP.PublicApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "SGP.PublicApi.csproj" -c Release -o /app/publish
+RUN dotnet publish "SGP.PublicApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

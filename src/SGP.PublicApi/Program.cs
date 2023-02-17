@@ -1,8 +1,10 @@
 using System;
+using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using AutoMapper;
 using FluentValidation;
+using FluentValidation.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -83,7 +85,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 
-ValidatorOptions.Global.Configure();
+// Configuração global do FluentValidation.
+ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
+ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new CultureInfo("pt-Br") };
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseSwaggerAndUI(app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
@@ -105,9 +109,12 @@ var inMemoryOptions = serviceScope.ServiceProvider.GetOptions<InMemoryOptions>()
 
 try
 {
-    app.Logger.LogInformation("----- Validating the mappings...");
+    app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
+
     mapper.ConfigurationProvider.AssertConfigurationIsValid();
     mapper.ConfigurationProvider.CompileMappings();
+
+    app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
 
     if (inMemoryOptions.Cache)
     {
@@ -120,37 +127,48 @@ try
 
     if (inMemoryOptions.Database)
     {
-        app.Logger.LogInformation("----- Connection: InMemory");
+        app.Logger.LogInformation("----- Database InMemory: Criando e migrando a base de dados...");
         await context.Database.EnsureCreatedAsync();
     }
     else
     {
         var connectionString = context.Database.GetConnectionString();
-        app.Logger.LogInformation("----- Connection: {Connection}", connectionString);
+        app.Logger.LogInformation("----- SQL Server: {Connection}", connectionString);
+        app.Logger.LogInformation("----- SQL Server: Verificando se existem migrações pendentes...");
 
         if ((await context.Database.GetPendingMigrationsAsync()).Any())
         {
-            app.Logger.LogInformation("----- Creating and migrating the database...");
+            app.Logger.LogInformation("----- SQL Server: Criando e migrando a base de dados...");
+
             await context.Database.MigrateAsync();
+
+            app.Logger.LogInformation("----- SQL Server: Base de dados criada e migrada com sucesso!");
+        }
+        else
+        {
+            app.Logger.LogInformation("----- SQL Server: Migrações estão em dia.");
         }
     }
 
-    app.Logger.LogInformation("----- Seeding database...");
+    app.Logger.LogInformation("----- Populando a base de dados...");
+
     await context.EnsureSeedDataAsync();
+
+    app.Logger.LogInformation("----- Base de dados populada com sucesso!");
 }
 catch (Exception ex)
 {
-    app.Logger.LogError(ex, "An exception occurred when starting the application: {Message}", ex.Message);
+    app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message);
     throw;
 }
 
-app.Logger.LogInformation("----- Starting the application...");
-await app.RunAsync();
+app.Logger.LogInformation("----- Iniciado a aplicação...");
+app.Run();
 
 #pragma warning disable CA1050 // Declare types in namespaces
 namespace SGP.PublicApi
 {
-    public partial class Program
+    public class Program
     {
     }
 }

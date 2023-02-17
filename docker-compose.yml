@@ -1,3 +1,11 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+# docker-compose up -d
+# docker-compose up --build
+# docker-compose up --build --abort-on-container-exit --remove-orphans
+# docker-compose down
+# docker-compose down -v
+
 version: '3.9'
 
 networks:
@@ -6,7 +14,7 @@ networks:
 
 services:
 
-  # Web Application
+  # ASPNET Core Web API Application
   webapi:
     image: ${DOCKER_REGISTRY-}webapi
     container_name: webapi
@@ -22,20 +30,22 @@ services:
       - "sqlserver"
       - "redis"
 
-  # Database Server
+  # SQL Server
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:latest
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    cap_add: [ 'SYS_PTRACE' ]
+    hostname: mssql
     container_name: sqlserver
     restart: always
     ports:
-      - "1433:1433"
+      - 1433:1433
     environment:
-      - SA_PASSWORD=Sxc56Nu9V
       - ACCEPT_EULA=Y
+      - SA_PASSWORD=Sxc56Nu9V
     networks:
       - app-network
 
-  # Cache Server
+  # Redis Cache Server
   redis:
     image: redis:latest
     container_name: redis
