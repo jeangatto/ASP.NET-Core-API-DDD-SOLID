@@ -3,11 +3,7 @@ WORKDIR /app
 EXPOSE 80
 
 ENV ASPNETCORE_URLS=http://+:80
-
-# Disable .NET Core welcome and telemetry messages
 ENV DOTNET_NOLOGO=true
-
-# Disable .NET Core SDK telemetry
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
