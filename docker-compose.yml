@@ -1,11 +1,3 @@
-# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
-
-# docker-compose up -d
-# docker-compose up --build
-# docker-compose up --build --abort-on-container-exit --remove-orphans
-# docker-compose down
-# docker-compose down -v
-
 version: '3.9'
 
 networks:
@@ -15,9 +7,9 @@ networks:
 services:
 
   # ASPNET Core Web API Application
-  webapi:
-    image: ${DOCKER_REGISTRY-}webapi
-    container_name: webapi
+  sgp-webapi:
+    image: ${DOCKER_REGISTRY-}sgp-webapi
+    container_name: sgp-webapi
     build:
       context: .
       dockerfile: src/SGP.PublicApi/Dockerfile

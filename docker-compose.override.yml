@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
 
-  webapi:
+  sgp-webapi:
     ports:
       - 8000:80
     environment:

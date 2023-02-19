@@ -42,9 +42,13 @@ Criado com o [Rider: o IDE .NET de plataforma cruzada da JetBrains](https://www.
 - Verificações de integridade da aplicação com [HealthChecks](https://docs.microsoft.com/pt-br/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-6.0)
 - [SonarCloud](https://sonarcloud.io/project/overview?id=JeanGatto_SGP) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
 
+## Dê uma estrela! ⭐
+
+Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
+
 ## Executando a aplicação usando o Docker
 
-Após executar o comando no terminal `docker-compose up --build --abort-on-container-exit --remove-orphans`, basta abrir a url no navegador: `http://localhost:8000/swagger/`
+Após executar o comando no terminal `docker-compose up --build`, basta abrir a url no navegador: `http://localhost:8000/swagger/`
 
 ## MiniProfiler for .NET
 
