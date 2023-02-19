@@ -17,6 +17,10 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=JeanGatto_SGP&metric=bugs)](https://sonarcloud.io/dashboard?id=JeanGatto_SGP)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=JeanGatto_SGP&metric=code_smells)](https://sonarcloud.io/dashboard?id=JeanGatto_SGP)
 
+## Dê uma estrela! ⭐
+
+Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
+
 Criado com o [Rider: o IDE .NET de plataforma cruzada da JetBrains](https://www.jetbrains.com/pt-br/rider/)
 
 ![Rider logo](https://resources.jetbrains.com/storage/products/company/brand/logos/Rider_icon.svg)
@@ -41,10 +45,6 @@ Criado com o [Rider: o IDE .NET de plataforma cruzada da JetBrains](https://www.
 - Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)
 - Verificações de integridade da aplicação com [HealthChecks](https://docs.microsoft.com/pt-br/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-6.0)
 - [SonarCloud](https://sonarcloud.io/project/overview?id=JeanGatto_SGP) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
-
-## Dê uma estrela! ⭐
-
-Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
 
 ## Executando a aplicação usando o Docker
 
