@@ -6,7 +6,7 @@ networks:
 
 services:
 
-  # ASPNET Core Web API Application
+  # ASP.NET Core Web API Application
   sgp-webapi:
     image: ${DOCKER_REGISTRY-}sgp-webapi
     container_name: sgp-webapi
