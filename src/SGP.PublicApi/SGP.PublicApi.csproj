@@ -4,8 +4,9 @@
     <TargetFramework>net7.0</TargetFramework>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <UserSecretsId>97278947-e919-41e9-b2b9-e7388d64abad</UserSecretsId>
+    <DockerTargetOS>Linux</DockerTargetOS>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>97278947-e919-41e9-b2b9-e7388d64abad</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
