@@ -16,7 +16,7 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <WarningsAsErrors>CS4014;</WarningsAsErrors>
-    <NoWarn>$(NoWarn);1591;1701;1702;IDE0063;RCS1090;S1075;S1144;S3236</NoWarn>
+    <NoWarn>$(NoWarn);1591;S3236</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
