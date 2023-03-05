@@ -8,7 +8,7 @@ using SGP.Application.Responses;
 using SGP.PublicApi.Extensions;
 using SGP.PublicApi.Models;
 
-namespace SGP.PublicApi.Controllers.v1;
+namespace SGP.PublicApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiVersion("1.0")]

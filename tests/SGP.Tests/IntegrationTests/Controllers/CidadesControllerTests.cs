@@ -6,7 +6,7 @@ using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using Xunit;
 
-namespace SGP.Tests.IntegrationTests.Controllers.v1;
+namespace SGP.Tests.IntegrationTests.Controllers;
 
 public class CidadesControllerTests : IntegrationTestBase, IClassFixture<WebTestApplicationFactory>
 {
