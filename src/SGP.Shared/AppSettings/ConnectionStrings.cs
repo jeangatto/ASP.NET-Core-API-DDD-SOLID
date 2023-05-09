@@ -2,7 +2,7 @@ using SGP.Shared.Abstractions;
 
 namespace SGP.Shared.AppSettings;
 
-public sealed class ConnectionStrings : BaseOptions
+public sealed class ConnectionStrings : IAppOptions
 {
     /// <summary>
     /// String de conexão com a base de dados relacional.

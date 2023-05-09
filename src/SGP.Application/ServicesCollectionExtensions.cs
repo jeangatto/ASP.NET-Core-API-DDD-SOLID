@@ -11,7 +11,7 @@ public static class ServicesCollectionExtensions
 {
     private static readonly Assembly[] AssembliesToScan = { Assembly.GetExecutingAssembly() };
 
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static void AddServices(this IServiceCollection services)
     {
         services.AddAutoMapper(cfg => cfg.DisableConstructorMapping(), AssembliesToScan, ServiceLifetime.Singleton);
 
@@ -23,7 +23,5 @@ public static class ServicesCollectionExtensions
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsImplementedInterfaces()
             .WithScopedLifetime());
-
-        return services;
     }
 }

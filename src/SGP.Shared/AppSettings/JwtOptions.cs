@@ -4,7 +4,7 @@ using SGP.Shared.ValidationAttributes;
 
 namespace SGP.Shared.AppSettings;
 
-public sealed class JwtOptions : BaseOptions
+public sealed class JwtOptions : IAppOptions
 {
     /// <summary>
     /// aud: Define quem pode usar o token.

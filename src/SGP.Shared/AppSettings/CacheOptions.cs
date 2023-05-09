@@ -3,7 +3,7 @@ using SGP.Shared.ValidationAttributes;
 
 namespace SGP.Shared.AppSettings;
 
-public sealed class CacheOptions : BaseOptions
+public sealed class CacheOptions : IAppOptions
 {
     [RequiredGreaterThanZero]
     public int AbsoluteExpirationInHours { get; private init; }

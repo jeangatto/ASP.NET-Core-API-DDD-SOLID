@@ -15,8 +15,8 @@ namespace SGP.Infrastructure.Services;
 public class JwtClaimService : ITokenClaimsService
 {
     private const short RefreshTokenBytesLength = 64;
-    private readonly JwtOptions _jwtConfig;
     private readonly IDateTimeService _dateTimeService;
+    private readonly JwtOptions _jwtConfig;
 
     public JwtClaimService(IOptions<JwtOptions> jwtOptions, IDateTimeService dateTimeService)
     {
@@ -40,6 +40,7 @@ public class JwtClaimService : ITokenClaimsService
             Subject = new ClaimsIdentity(claims),
             SigningCredentials = CreateSigningCredentials()
         });
+
         var token = tokenHandler.WriteToken(securityToken);
         return new AccessToken(token, createdAt, expiresAt);
     }

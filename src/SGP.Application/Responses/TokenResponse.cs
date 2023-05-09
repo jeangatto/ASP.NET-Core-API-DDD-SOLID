@@ -3,7 +3,7 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Responses;
 
-public sealed class TokenResponse : BaseResponse
+public sealed class TokenResponse : IResponse
 {
     public TokenResponse(string accessToken, DateTime created, DateTime expiration, string refreshToken)
     {

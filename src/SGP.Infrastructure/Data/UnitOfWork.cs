@@ -8,7 +8,7 @@ using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Data;
 
-public class UnitOfWork : IUnitOfWork
+public sealed class UnitOfWork : IUnitOfWork
 {
     private readonly SgpContext _context;
     private readonly ILogger<UnitOfWork> _logger;
@@ -24,7 +24,9 @@ public class UnitOfWork : IUnitOfWork
         try
         {
             var rowsAffected = await _context.SaveChangesAsync(cancellationToken);
+
             _logger.LogInformation("----- Row(s) affected: {RowsAffected}", rowsAffected);
+
             return rowsAffected;
         }
         catch (DbUpdateConcurrencyException ex)
@@ -58,7 +60,7 @@ public class UnitOfWork : IUnitOfWork
     }
 
     // Protected implementation of Dispose pattern.
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (_disposed)
             return;

@@ -10,7 +10,7 @@ using SGP.Infrastructure.Data.Repositories.Common;
 
 namespace SGP.Infrastructure.Data.Repositories;
 
-public class UsuarioRepository : EFRepository<Usuario>, IUsuarioRepository
+public class UsuarioRepository : EfRepository<Usuario>, IUsuarioRepository
 {
     public UsuarioRepository(SgpContext context) : base(context)
     {

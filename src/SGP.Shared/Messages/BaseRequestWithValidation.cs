@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace SGP.Shared.Messages;
 
 /// <inheritdoc />
-public abstract class BaseRequestWithValidation : BaseRequest
+public abstract class BaseRequestWithValidation : IRequest
 {
     protected BaseRequestWithValidation() => ValidationResult = new ValidationResult();
 

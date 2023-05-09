@@ -5,7 +5,7 @@ namespace SGP.PublicApi.Extensions;
 
 internal static class ApiVersioningExtensions
 {
-    internal static IServiceCollection AddApiVersioningAndApiExplorer(this IServiceCollection services)
+    internal static void AddApiVersioningAndApiExplorer(this IServiceCollection services)
         => services
             .AddApiVersioning(options =>
             {

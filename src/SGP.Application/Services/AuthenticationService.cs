@@ -19,17 +19,6 @@ namespace SGP.Application.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
-    #region Fields
-
-    private readonly AuthOptions _authOptions;
-    private readonly IDateTimeService _dateTimeService;
-    private readonly IHashService _hashService;
-    private readonly ITokenClaimsService _tokenClaimsService;
-    private readonly IUsuarioRepository _repository;
-    private readonly IUnitOfWork _uow;
-
-    #endregion
-
     #region Constructor
 
     public AuthenticationService
@@ -49,6 +38,17 @@ public class AuthenticationService : IAuthenticationService
         _repository = repository;
         _uow = uow;
     }
+
+    #endregion
+
+    #region Fields
+
+    private readonly AuthOptions _authOptions;
+    private readonly IDateTimeService _dateTimeService;
+    private readonly IHashService _hashService;
+    private readonly ITokenClaimsService _tokenClaimsService;
+    private readonly IUsuarioRepository _repository;
+    private readonly IUnitOfWork _uow;
 
     #endregion
 
@@ -112,7 +112,7 @@ public class AuthenticationService : IAuthenticationService
 
         // Verificando se o token de atualização está expirado.
         var token = usuario.Tokens.FirstOrDefault(t => t.Atualizacao == request.Token);
-        if (token?.EstaValido(_dateTimeService) != true)
+        if (token == null || token.EstaValido(_dateTimeService))
             return Result.Error("O token inválido ou expirado.");
 
         // Gerando as regras (roles).

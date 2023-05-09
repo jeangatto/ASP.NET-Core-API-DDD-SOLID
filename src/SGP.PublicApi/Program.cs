@@ -63,12 +63,8 @@ builder.Services.AddMiniProfiler(options =>
     options.RouteBasePath = "/profiler";
     options.ColorScheme = ColorScheme.Dark;
     options.EnableServerTimingHeader = true;
-
-    if (builder.Environment.IsDevelopment())
-    {
-        options.EnableDebugMode = true;
-        options.TrackConnectionOpenClose = true;
-    }
+    options.EnableDebugMode = builder.Environment.IsDevelopment();
+    options.TrackConnectionOpenClose = true;
 }).AddEntityFramework();
 
 builder.Host.UseDefaultServiceProvider((context, options) =>
@@ -116,15 +112,6 @@ try
 
     app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
 
-    if (inMemoryOptions.Cache)
-    {
-        app.Logger.LogInformation("----- Cache: InMemory");
-    }
-    else
-    {
-        app.Logger.LogInformation("----- Cache: Distributed");
-    }
-
     if (inMemoryOptions.Database)
     {
         app.Logger.LogInformation("----- Database InMemory: Criando e migrando a base de dados...");
@@ -146,7 +133,7 @@ try
         }
         else
         {
-            app.Logger.LogInformation("----- SQL Server: Migrações estão em dia.");
+            app.Logger.LogInformation("----- SQL Server: Migrações estão em dia");
         }
     }
 
@@ -165,11 +152,13 @@ catch (Exception ex)
 app.Logger.LogInformation("----- Iniciado a aplicação...");
 app.Run();
 
-#pragma warning disable CA1050 // Declare types in namespaces
+#pragma warning disable CA1050
 namespace SGP.PublicApi
 {
+#pragma warning disable S2094
     public class Program
     {
     }
+#pragma warning restore S2094
 }
-#pragma warning restore CA1050 // Declare types in namespaces
+#pragma warning restore CA1050

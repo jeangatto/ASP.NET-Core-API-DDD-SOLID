@@ -9,7 +9,7 @@ namespace SGP.PublicApi.Extensions;
 
 internal static class CacheExtensions
 {
-    internal static IServiceCollection AddCache(this IServiceCollection services, IConfiguration configuration)
+    internal static void AddCache(this IServiceCollection services, IConfiguration configuration)
     {
         var inMemoryOptions = configuration.GetOptions<InMemoryOptions>(AppSettingsKeys.InMemoryOptions);
         if (inMemoryOptions.Cache)
@@ -26,7 +26,5 @@ internal static class CacheExtensions
                 options.Configuration = connections.Cache;
             }).AddDistributedCacheService();
         }
-
-        return services;
     }
 }

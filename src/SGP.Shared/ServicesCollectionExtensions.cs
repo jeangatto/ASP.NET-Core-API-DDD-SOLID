@@ -9,18 +9,17 @@ namespace SGP.Shared;
 [ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
-    public static IServiceCollection ConfigureAppSettings(this IServiceCollection services)
+    public static void ConfigureAppSettings(this IServiceCollection services)
     {
         services.AddOptions<AuthOptions>(AppSettingsKeys.AuthOptions);
         services.AddOptions<CacheOptions>(AppSettingsKeys.CacheOptions);
         services.AddOptions<ConnectionStrings>(AppSettingsKeys.ConnectionStrings);
         services.AddOptions<InMemoryOptions>(AppSettingsKeys.InMemoryOptions);
         services.AddOptions<JwtOptions>(AppSettingsKeys.JwtOptions);
-        return services;
     }
 
     private static void AddOptions<TOptions>(this IServiceCollection services, string configSectionPath)
-        where TOptions : BaseOptions
+        where TOptions : class, IAppOptions
     {
         services
             .AddOptions<TOptions>()

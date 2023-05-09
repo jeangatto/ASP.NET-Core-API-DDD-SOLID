@@ -7,6 +7,9 @@ namespace SGP.Shared.Extensions;
 
 public static class ServiceProviderExtensions
 {
-    public static TOptions GetOptions<TOptions>(this IServiceProvider serviceProvider) where TOptions : BaseOptions
-        => serviceProvider.GetRequiredService<IOptions<TOptions>>().Value;
+    public static TOptions GetOptions<TOptions>(this IServiceProvider serviceProvider)
+        where TOptions : class, IAppOptions
+    {
+        return serviceProvider.GetRequiredService<IOptions<TOptions>>().Value;
+    }
 }

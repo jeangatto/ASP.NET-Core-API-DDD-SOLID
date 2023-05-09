@@ -35,9 +35,8 @@ public class EstadoService : IEstadoService
             return Result.Invalid(request.ValidationResult.AsErrors());
 
         var estados = await _repository.ObterTodosPorRegiaoAsync(request.Regiao);
-        if (!estados.Any())
-            return Result.NotFound($"Nenhum estado encontrado pela região: {request.Regiao}");
-
-        return Result.Success(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
+        return !estados.Any()
+            ? Result.NotFound($"Nenhum estado encontrado pela região: {request.Regiao}")
+            : Result.Success(_mapper.Map<IEnumerable<EstadoResponse>>(estados));
     }
 }

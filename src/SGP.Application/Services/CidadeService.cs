@@ -29,10 +29,9 @@ public class CidadeService : ICidadeService
             return Result.Invalid(request.ValidationResult.AsErrors());
 
         var cidade = await _repository.ObterPorIbgeAsync(request.Ibge);
-        if (cidade == null)
-            return Result.NotFound($"Nenhuma cidade encontrada pelo IBGE: {request.Ibge}");
-
-        return Result.Success(_mapper.Map<CidadeResponse>(cidade));
+        return cidade == null
+            ? Result.NotFound($"Nenhuma cidade encontrada pelo IBGE: {request.Ibge}")
+            : Result.Success(_mapper.Map<CidadeResponse>(cidade));
     }
 
     public async Task<Result<IEnumerable<CidadeResponse>>> ObterTodosPorUfAsync(ObterTodosPorUfRequest request)
@@ -42,9 +41,8 @@ public class CidadeService : ICidadeService
             return Result.Invalid(request.ValidationResult.AsErrors());
 
         var cidades = await _repository.ObterTodosPorUfAsync(request.Uf.ToUpperInvariant());
-        if (!cidades.Any())
-            return Result.NotFound($"Nenhuma cidade encontrada pelo UF: {request.Uf}");
-
-        return Result.Success(_mapper.Map<IEnumerable<CidadeResponse>>(cidades));
+        return !cidades.Any()
+            ? Result.NotFound($"Nenhuma cidade encontrada pelo UF: {request.Uf}")
+            : Result.Success(_mapper.Map<IEnumerable<CidadeResponse>>(cidades));
     }
 }

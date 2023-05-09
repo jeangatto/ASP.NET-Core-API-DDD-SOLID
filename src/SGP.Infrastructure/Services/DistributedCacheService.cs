@@ -12,9 +12,9 @@ namespace SGP.Infrastructure.Services;
 
 public class DistributedCacheService : ICacheService
 {
+    private readonly DistributedCacheEntryOptions _cacheOptions;
     private readonly IDistributedCache _distributedCache;
     private readonly ILogger<DistributedCacheService> _logger;
-    private readonly DistributedCacheEntryOptions _cacheOptions;
 
     public DistributedCacheService(
         ILogger<DistributedCacheService> logger,
@@ -40,20 +40,18 @@ public class DistributedCacheService : ICacheService
             var value = Encoding.UTF8.GetString(result);
             return value.FromJson<TItem>();
         }
-        else
+
+        var item = await factory();
+        if (item != null)
         {
-            var item = await factory();
-            if (item != null)
-            {
-                _logger.LogInformation("----- Added to DistributedCache: '{CacheKey}'", cacheKey);
+            _logger.LogInformation("----- Added to DistributedCache: '{CacheKey}'", cacheKey);
 
-                var value = item.ToJson();
-                var cacheValue = Encoding.UTF8.GetBytes(value);
-                await _distributedCache.SetAsync(cacheKey, cacheValue, _cacheOptions);
-            }
-
-            return item;
+            var value = item.ToJson();
+            var cacheValue = Encoding.UTF8.GetBytes(value);
+            await _distributedCache.SetAsync(cacheKey, cacheValue, _cacheOptions);
         }
+
+        return item;
     }
 
     public async Task RemoveAsync(string cacheKey)

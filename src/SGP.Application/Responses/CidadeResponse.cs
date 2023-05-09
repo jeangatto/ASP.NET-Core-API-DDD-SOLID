@@ -2,7 +2,7 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Responses;
 
-public class CidadeResponse : BaseResponse
+public class CidadeResponse : IResponse
 {
     public string Regiao { get; set; }
     public string Estado { get; set; }

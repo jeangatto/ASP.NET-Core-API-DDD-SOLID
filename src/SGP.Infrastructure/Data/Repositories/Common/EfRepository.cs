@@ -7,10 +7,10 @@ using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Data.Repositories.Common;
 
-public abstract class EFRepository<TEntity> : RepositoryBase<TEntity>, IAsyncRepository<TEntity>
+public abstract class EfRepository<TEntity> : RepositoryBase<TEntity>, IAsyncRepository<TEntity>
     where TEntity : BaseEntity, IAggregateRoot
 {
-    protected EFRepository(SgpContext context) : base(context)
+    protected EfRepository(SgpContext context) : base(context)
     {
     }
 

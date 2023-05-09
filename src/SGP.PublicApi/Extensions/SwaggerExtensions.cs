@@ -16,7 +16,7 @@ namespace SGP.PublicApi.Extensions;
 
 internal static class SwaggerExtensions
 {
-    internal static IServiceCollection AddOpenApi(this IServiceCollection services)
+    internal static void AddOpenApi(this IServiceCollection services)
     {
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
@@ -42,11 +42,7 @@ internal static class SwaggerExtensions
                 {
                     new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
                     },
                     Array.Empty<string>()
                 }
@@ -61,10 +57,9 @@ internal static class SwaggerExtensions
         });
 
         services.AddSwaggerGenNewtonsoftSupport();
-        return services;
     }
 
-    internal static IApplicationBuilder UseSwaggerAndUI(this IApplicationBuilder app,
+    internal static void UseSwaggerAndUI(this IApplicationBuilder app,
         IApiVersionDescriptionProvider provider)
     {
         Guard.Against.Null(provider, nameof(provider));
@@ -78,7 +73,5 @@ internal static class SwaggerExtensions
                 options.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant());
             }
         });
-
-        return app;
     }
 }

@@ -3,7 +3,7 @@ using SGP.Shared.ValidationAttributes;
 
 namespace SGP.Shared.AppSettings;
 
-public sealed class AuthOptions : BaseOptions
+public sealed class AuthOptions : IAppOptions
 {
     [RequiredGreaterThanZero]
     public int MaximumAttempts { get; private init; }
