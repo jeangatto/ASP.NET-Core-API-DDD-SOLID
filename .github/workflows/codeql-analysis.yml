@@ -6,6 +6,10 @@ on:
     branches: [main]
     paths-ignore:
       - "README.md"
+      - ".github/workflows/**.yml"
+      - "docs/**"
+      - "**/*.md"
+      - "**/*.yml"
   schedule:
     - cron: "37 5 * * 3"
 

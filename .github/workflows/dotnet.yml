@@ -7,6 +7,10 @@ on:
     branches: [main]
     paths-ignore:
       - "README.md"
+      - ".github/workflows/**.yml"
+      - "docs/**"
+      - "**/*.md"
+      - "**/*.yml"
 
 env:
   DOTNET_VERSION: "7.0.x"
