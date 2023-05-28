@@ -2,12 +2,12 @@
 
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=jeangatto.sgp)
 [![wakatime](https://wakatime.com/badge/github/JeanGatto/SGP.svg)](https://wakatime.com/badge/github/JeanGatto/SGP)
-[![License](https://img.shields.io/github/license/JeanGatto/SGP.svg)](LICENSE)
+[![License](https://img.shields.io/github/license/JeanGatto/ASP.NET-Core-API-DDD-SOLID.svg)](LICENSE)
 
-[![Build](https://github.com/JeanGatto/SGP/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/dotnet.yml)
-[![SonarCloud](https://github.com/JeanGatto/SGP/actions/workflows/sonar-cloud.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/sonar-cloud.yml)
-[![CodeQL](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml)
-[![DevSkim](https://github.com/JeanGatto/SGP/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/devskim-analysis.yml)
+[![Build](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/actions/workflows/dotnet.yml)
+[![SonarCloud](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/actions/workflows/sonar-cloud.yml/badge.svg)](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/actions/workflows/sonar-cloud.yml)
+[![CodeQL](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/actions/workflows/codeql-analysis.yml)
+[![DevSkim](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/actions/workflows/devskim-analysis.yml)
 
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=ASP.NET-Core-API-DDD-SOLID)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=coverage)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-DDD-SOLID)
@@ -138,4 +138,4 @@ app.Run();
 
 ## License
 
-- [MIT License](https://github.com/JeanGatto/SGP/blob/main/LICENSE)
+- [MIT License](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/blob/main/LICENSE)
