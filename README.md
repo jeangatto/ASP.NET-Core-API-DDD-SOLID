@@ -9,13 +9,13 @@
 [![CodeQL](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/codeql-analysis.yml)
 [![DevSkim](https://github.com/JeanGatto/SGP/actions/workflows/devskim-analysis.yml/badge.svg)](https://github.com/JeanGatto/SGP/actions/workflows/devskim-analysis.yml)
 
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=JeanGatto_SGP&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=JeanGatto_SGP)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=JeanGatto_SGP&metric=coverage)](https://sonarcloud.io/dashboard?id=JeanGatto_SGP)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=JeanGatto_SGP&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=JeanGatto_SGP)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=JeanGatto_SGP&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=JeanGatto_SGP)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=JeanGatto_SGP&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=JeanGatto_SGP)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=JeanGatto_SGP&metric=bugs)](https://sonarcloud.io/dashboard?id=JeanGatto_SGP)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=JeanGatto_SGP&metric=code_smells)](https://sonarcloud.io/dashboard?id=JeanGatto_SGP)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=ASP.NET-Core-API-DDD-SOLID)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=coverage)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-DDD-SOLID)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-DDD-SOLID)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ASP.NET-Core-API-DDD-SOLID)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-DDD-SOLID)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=bugs)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-DDD-SOLID)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=code_smells)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-DDD-SOLID)
 
 ## Dê uma estrela! ⭐
 
@@ -44,7 +44,7 @@ Criado com o [Rider: o IDE .NET de plataforma cruzada da JetBrains](https://www.
     => [Melhores práticas de teste de unidade com .NET Core](https://docs.microsoft.com/pt-br/dotnet/core/testing/unit-testing-best-practices)
 - Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)
 - Verificações de integridade da aplicação com [HealthChecks](https://docs.microsoft.com/pt-br/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-6.0)
-- [SonarCloud](https://sonarcloud.io/project/overview?id=JeanGatto_SGP) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
+- [SonarCloud](https://sonarcloud.io/project/overview?id=ASP.NET-Core-API-DDD-SOLID) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
 
 ## Executando a aplicação usando o Docker
 
