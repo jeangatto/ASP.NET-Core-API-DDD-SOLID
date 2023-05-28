@@ -112,7 +112,7 @@ public class AuthenticationService : IAuthenticationService
 
         // Verificando se o token de atualização está expirado.
         var token = usuario.Tokens.FirstOrDefault(t => t.Atualizacao == request.Token);
-        if (token == null || token.EstaValido(_dateTimeService))
+        if (token?.EstaValido(_dateTimeService) != false)
             return Result.Error("O token inválido ou expirado.");
 
         // Gerando as regras (roles).
@@ -122,7 +122,7 @@ public class AuthenticationService : IAuthenticationService
         var (accessToken, createdAt, expiresAt) = _tokenClaimsService.GenerateAccessToken(claims);
 
         // Revogando (cancelando) o token de atualização atual.
-        token.Revogar(createdAt);
+        token!.Revogar(createdAt);
 
         // Gerando um novo token de atualização.
         var newRefreshToken = _tokenClaimsService.GenerateRefreshToken();
