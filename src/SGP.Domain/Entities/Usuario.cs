@@ -16,7 +16,7 @@ public class Usuario : BaseEntity, IAggregateRoot
         HashSenha = hashSenha;
     }
 
-    private Usuario() // ORM
+    public Usuario() // ORM
     {
     }
 

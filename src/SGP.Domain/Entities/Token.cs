@@ -13,7 +13,7 @@ public class Token : BaseEntity
         ExpiraEm = expiraEm;
     }
 
-    private Token() // ORM
+    public Token() // ORM
     {
     }
 

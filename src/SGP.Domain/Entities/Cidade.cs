@@ -12,7 +12,7 @@ public class Cidade : BaseEntity
         Ibge = ibge;
     }
 
-    private Cidade() // ORM
+    public Cidade() // ORM
     {
     }
 
