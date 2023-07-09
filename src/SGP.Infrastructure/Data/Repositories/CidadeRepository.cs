@@ -15,15 +15,15 @@ public class CidadeRepository : RepositoryBase<Cidade>, ICidadeRepository
     {
     }
 
-    public async Task<Cidade> ObterPorIbgeAsync(int ibge)
-        => await DbSet
+    public async Task<Cidade> ObterPorIbgeAsync(int ibge) =>
+        await DbSet
             .AsNoTrackingWithIdentityResolution()
             .Include(c => c.Estado)
             .ThenInclude(e => e.Regiao)
             .FirstOrDefaultAsync(c => c.Ibge == ibge);
 
-    public async Task<IEnumerable<Cidade>> ObterTodosPorUfAsync(string uf)
-        => await DbSet
+    public async Task<IEnumerable<Cidade>> ObterTodosPorUfAsync(string uf) =>
+        await DbSet
             .AsNoTrackingWithIdentityResolution()
             .Include(c => c.Estado)
             .ThenInclude(e => e.Regiao)

@@ -23,6 +23,6 @@ public class LogInRequest : BaseRequestWithValidation
     [DataType(DataType.Password)]
     public string Password { get; }
 
-    public override async Task ValidateAsync()
-        => ValidationResult = await LazyValidator.ValidateAsync<LogInRequestValidator>(this);
+    public override async Task ValidateAsync() =>
+        ValidationResult = await LazyValidator.ValidateAsync<LogInRequestValidator>(this);
 }

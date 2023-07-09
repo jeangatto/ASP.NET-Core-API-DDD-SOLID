@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -19,8 +18,6 @@ internal static class JwtBearerExtensions
         IConfiguration configuration,
         bool isProduction)
     {
-        Guard.Against.Null(configuration, nameof(configuration));
-
         var jwtOptions = configuration.GetOptions<JwtOptions>(AppSettingsKeys.JwtOptions);
 
         services

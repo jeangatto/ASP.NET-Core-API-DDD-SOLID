@@ -7,7 +7,8 @@ namespace SGP.Application.Requests.AuthenticationRequests;
 
 public class RefreshTokenRequest : BaseRequestWithValidation
 {
-    public RefreshTokenRequest(string token) => Token = token;
+    public RefreshTokenRequest(string token) =>
+        Token = token;
 
     /// <summary>
     /// Token de atualização (RefreshToken)
@@ -15,6 +16,6 @@ public class RefreshTokenRequest : BaseRequestWithValidation
     [Required]
     public string Token { get; }
 
-    public override async Task ValidateAsync()
-        => ValidationResult = await LazyValidator.ValidateAsync<RefreshTokenRequestValidator>(this);
+    public override async Task ValidateAsync() =>
+        ValidationResult = await LazyValidator.ValidateAsync<RefreshTokenRequestValidator>(this);
 }

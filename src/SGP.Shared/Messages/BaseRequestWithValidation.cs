@@ -7,7 +7,8 @@ namespace SGP.Shared.Messages;
 /// <inheritdoc />
 public abstract class BaseRequestWithValidation : IRequest
 {
-    protected BaseRequestWithValidation() => ValidationResult = new ValidationResult();
+    protected BaseRequestWithValidation() =>
+        ValidationResult = new ValidationResult();
 
     [JsonIgnore]
     public ValidationResult ValidationResult { get; protected set; }
@@ -16,7 +17,8 @@ public abstract class BaseRequestWithValidation : IRequest
     /// Indica se a requisição é valida.
     /// </summary>
     [JsonIgnore]
-    public bool IsValid => ValidationResult.IsValid;
+    public bool IsValid =>
+        ValidationResult.IsValid;
 
     /// <summary>
     /// Valida a requisição.

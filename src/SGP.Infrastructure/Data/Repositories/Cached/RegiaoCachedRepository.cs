@@ -15,6 +15,6 @@ public class RegiaoCachedRepository : CachedRepositoryBase<IRegiaoRepository>, I
     public RegiaoCachedRepository(ICacheService cacheService, IRegiaoRepository repository)
         : base(cacheService, repository) { }
 
-    public async Task<IEnumerable<Regiao>> ObterTodosAsync()
-        => await CacheService.GetOrCreateAsync(ObterTodosCacheKey, () => Repository.ObterTodosAsync());
+    public async Task<IEnumerable<Regiao>> ObterTodosAsync() =>
+        await CacheService.GetOrCreateAsync(ObterTodosCacheKey, () => Repository.ObterTodosAsync());
 }

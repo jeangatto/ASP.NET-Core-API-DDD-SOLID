@@ -9,22 +9,22 @@ namespace SGP.Shared;
 [ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
-    public static void ConfigureAppSettings(this IServiceCollection services)
-    {
-        services.AddOptions<AuthOptions>(AppSettingsKeys.AuthOptions);
-        services.AddOptions<CacheOptions>(AppSettingsKeys.CacheOptions);
-        services.AddOptions<ConnectionStrings>(AppSettingsKeys.ConnectionStrings);
-        services.AddOptions<InMemoryOptions>(AppSettingsKeys.InMemoryOptions);
-        services.AddOptions<JwtOptions>(AppSettingsKeys.JwtOptions);
-    }
+    public static void ConfigureAppSettings(this IServiceCollection services) =>
+        services
+            .AddOptions<AuthOptions>(AppSettingsKeys.AuthOptions)
+            .AddOptions<CacheOptions>(AppSettingsKeys.CacheOptions)
+            .AddOptions<ConnectionStrings>(AppSettingsKeys.ConnectionStrings)
+            .AddOptions<InMemoryOptions>(AppSettingsKeys.InMemoryOptions)
+            .AddOptions<JwtOptions>(AppSettingsKeys.JwtOptions);
 
-    private static void AddOptions<TOptions>(this IServiceCollection services, string configSectionPath)
+    private static IServiceCollection AddOptions<TOptions>(this IServiceCollection services, string configSectionPath)
         where TOptions : class, IAppOptions
     {
-        services
+        return services
             .AddOptions<TOptions>()
             .BindConfiguration(configSectionPath, options => options.BindNonPublicProperties = true)
             .ValidateDataAnnotations()
-            .ValidateOnStart();
+            .ValidateOnStart()
+            .Services;
     }
 }

@@ -15,15 +15,15 @@ public class EstadoRepository : RepositoryBase<Estado>, IEstadoRepository
     {
     }
 
-    public async Task<IEnumerable<Estado>> ObterTodosAsync()
-        => await DbSet
+    public async Task<IEnumerable<Estado>> ObterTodosAsync() =>
+        await DbSet
             .AsNoTrackingWithIdentityResolution()
             .Include(e => e.Regiao)
             .OrderBy(e => e.Nome)
             .ToListAsync();
 
-    public async Task<IEnumerable<Estado>> ObterTodosPorRegiaoAsync(string regiao)
-        => await DbSet
+    public async Task<IEnumerable<Estado>> ObterTodosPorRegiaoAsync(string regiao) =>
+        await DbSet
             .AsNoTrackingWithIdentityResolution()
             .Include(e => e.Regiao)
             .Where(e => e.Regiao.Nome == regiao)

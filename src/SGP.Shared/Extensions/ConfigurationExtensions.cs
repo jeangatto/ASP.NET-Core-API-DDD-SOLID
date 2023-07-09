@@ -9,7 +9,7 @@ public static class ConfigurationExtensions
         where TOptions : IAppOptions
     {
         return configuration
-            .GetSection(configSectionPath)
+            .GetRequiredSection(configSectionPath)
             .Get<TOptions>(binderOptions => binderOptions.BindNonPublicProperties = true);
     }
 }

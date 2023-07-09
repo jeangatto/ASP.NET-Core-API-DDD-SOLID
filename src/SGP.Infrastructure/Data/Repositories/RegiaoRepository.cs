@@ -15,6 +15,6 @@ public class RegiaoRepository : RepositoryBase<Regiao>, IRegiaoRepository
     {
     }
 
-    public async Task<IEnumerable<Regiao>> ObterTodosAsync()
-        => await DbSet.AsNoTracking().OrderBy(r => r.Nome).ToListAsync();
+    public async Task<IEnumerable<Regiao>> ObterTodosAsync() =>
+        await DbSet.AsNoTracking().OrderBy(r => r.Nome).ToListAsync();
 }

@@ -47,8 +47,7 @@ internal static class DbContextExtensions
                     var count = exceptions.Count;
                     var delay = retryEventData.Delay;
                     var message = exceptions[^1].Message;
-                    logger.LogWarning("----- Retry #{Count} with delay {Delay} due to error: {Message}", count, delay,
-                        message);
+                    logger.LogWarning("----- Retry #{Count} with delay {Delay} due to error: {Message}", count, delay, message);
                 });
 
             // Quando for ambiente de desenvolvimento será logado informações detalhadas.

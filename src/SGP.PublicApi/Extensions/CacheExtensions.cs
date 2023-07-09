@@ -14,7 +14,9 @@ internal static class CacheExtensions
         var inMemoryOptions = configuration.GetOptions<InMemoryOptions>(AppSettingsKeys.InMemoryOptions);
         if (inMemoryOptions.Cache)
         {
-            services.AddMemoryCache().AddMemoryCacheService();
+            services
+                .AddMemoryCache()
+                .AddMemoryCacheService();
         }
         else
         {

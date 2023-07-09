@@ -11,11 +11,11 @@ public sealed class SgpContext : DbContext
 {
     private readonly string _collation;
 
-    public SgpContext(DbContextOptions<SgpContext> dbOptions) : base(dbOptions)
-        => ChangeTracker.LazyLoadingEnabled = false;
+    public SgpContext(DbContextOptions<SgpContext> dbOptions) : base(dbOptions) =>
+        ChangeTracker.LazyLoadingEnabled = false;
 
-    public SgpContext(IOptions<ConnectionStrings> options, DbContextOptions<SgpContext> dbOptions) : this(dbOptions)
-        => _collation = options.Value.Collation;
+    public SgpContext(IOptions<ConnectionStrings> options, DbContextOptions<SgpContext> dbOptions) : this(dbOptions) =>
+        _collation = options.Value.Collation;
 
     public DbSet<Cidade> Cidades => Set<Cidade>();
     public DbSet<Estado> Estados => Set<Estado>();

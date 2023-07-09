@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
@@ -59,11 +58,8 @@ internal static class SwaggerExtensions
         services.AddSwaggerGenNewtonsoftSupport();
     }
 
-    internal static void UseSwaggerAndUI(this IApplicationBuilder app,
-        IApiVersionDescriptionProvider provider)
+    internal static void UseSwaggerAndUI(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
     {
-        Guard.Against.Null(provider, nameof(provider));
-
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
