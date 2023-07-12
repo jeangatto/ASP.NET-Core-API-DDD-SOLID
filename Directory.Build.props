@@ -15,6 +15,10 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <WarningsAsErrors>CS4014;</WarningsAsErrors>
+    <!-- Enabling Build Acceleration can reduce incremental build times by up to 80% for SDK-style .NET projects. -->
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    <!-- CS1591: Missing XML Comment Warning -->
+    <!-- S3236 (Sonar Rules): Caller information arguments should not be provided explicitly -->
     <NoWarn>$(NoWarn);1591;S3236</NoWarn>
   </PropertyGroup>
 
