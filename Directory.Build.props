@@ -6,14 +6,19 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/jeangatto/ASP.NET-Core-API-DDD-SOLID</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <LangVersion>latest</LangVersion>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <!-- Set the neutral language to English -->
     <NeutralLanguage>en</NeutralLanguage>
+    <!-- Set the language version to the latest available -->
+    <LangVersion>latest</LangVersion>
+    <!-- Disable implicit usings -->
+    <ImplicitUsings>disable</ImplicitUsings>
+    <!-- Disable nullable reference types -->
+    <Nullable>disable</Nullable>
+    <!-- Set the analysis level to the latest available -->
     <AnalysisLevel>latest</AnalysisLevel>
+    <!-- Enable .NET analyzers -->
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <!-- CS4014: Because this call is not awaited, execution of the current method continues before the call is completed. Consider applying the await operator to the result of the call. -->
     <WarningsAsErrors>CS4014;</WarningsAsErrors>
     <!-- Enabling Build Acceleration can reduce incremental build times by up to 80% for SDK-style .NET projects. -->
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
@@ -43,6 +48,10 @@
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
 </Project>
