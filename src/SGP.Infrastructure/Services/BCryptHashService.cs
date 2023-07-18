@@ -13,8 +13,8 @@ public class BCryptHashService : IHashService
 
     public bool Compare(string text, string hash)
     {
-        Guard.Against.NullOrWhiteSpace(text, nameof(text));
-        Guard.Against.NullOrWhiteSpace(hash, nameof(hash));
+        Guard.Against.NullOrWhiteSpace(text);
+        Guard.Against.NullOrWhiteSpace(hash);
 
         try
         {
@@ -29,7 +29,7 @@ public class BCryptHashService : IHashService
 
     public string Hash(string text)
     {
-        Guard.Against.NullOrWhiteSpace(text, nameof(text));
+        Guard.Against.NullOrWhiteSpace(text);
 
         try
         {

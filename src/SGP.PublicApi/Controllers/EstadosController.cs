@@ -18,7 +18,8 @@ public class EstadosController : ControllerBase
 {
     private readonly IEstadoService _service;
 
-    public EstadosController(IEstadoService service) => _service = service;
+    public EstadosController(IEstadoService service) =>
+        _service = service;
 
     /// <summary>
     /// Obtém uma lista com todos os estados.
@@ -31,8 +32,8 @@ public class EstadosController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<EstadoResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> ObterTodosAsync()
-        => (await _service.ObterTodosAsync()).ToActionResult();
+    public async Task<IActionResult> ObterTodosAsync() =>
+        (await _service.ObterTodosAsync()).ToActionResult();
 
     /// <summary>
     /// Obtém uma lista de estados pelo nome da região.
@@ -48,6 +49,6 @@ public class EstadosController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> ObterPorIbgeAsync([FromRoute] string regiao)
-        => (await _service.ObterTodosPorRegiaoAsync(new ObterTodosPorRegiaoRequest(regiao))).ToActionResult();
+    public async Task<IActionResult> ObterPorIbgeAsync([FromRoute] string regiao) =>
+        (await _service.ObterTodosPorRegiaoAsync(new ObterTodosPorRegiaoRequest(regiao))).ToActionResult();
 }

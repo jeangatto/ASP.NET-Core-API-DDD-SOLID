@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
+  <PropertyGroup Label="Build">
     <TargetFramework>net7.0</TargetFramework>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -9,7 +9,7 @@
     <UserSecretsId>97278947-e919-41e9-b2b9-e7388d64abad</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="Package References">
     <PackageReference Include="Ardalis.GuardClauses" Version="4.0.1" />
     <PackageReference Include="Ardalis.Result" Version="7.1.0" />
     <PackageReference Include="AutoMapper" Version="12.0.1" />
@@ -39,7 +39,7 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.0" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="Project References">
     <ProjectReference Include="..\SGP.Application\SGP.Application.csproj" />
     <ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj" />
     <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />

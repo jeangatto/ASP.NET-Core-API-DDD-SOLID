@@ -1,6 +1,5 @@
 using System.Net.Http;
 using System.Threading.Tasks;
-using Ardalis.GuardClauses;
 using Newtonsoft.Json.Linq;
 using SGP.Shared.Extensions;
 
@@ -12,9 +11,6 @@ public static class HttpClientExtensions
         this HttpClient httpClient,
         string endpoint)
     {
-        Guard.Against.Null(httpClient, nameof(httpClient));
-        Guard.Against.NullOrWhiteSpace(endpoint, nameof(endpoint));
-
         using var httpResponse = await httpClient.GetAsync(endpoint);
         return await ConvertResponseToTypeAsync<TResponse>(httpResponse);
     }
@@ -24,10 +20,6 @@ public static class HttpClientExtensions
         string endpoint,
         HttpContent httpContent)
     {
-        Guard.Against.Null(httpClient, nameof(httpClient));
-        Guard.Against.NullOrWhiteSpace(endpoint, nameof(endpoint));
-        Guard.Against.Null(httpContent, nameof(httpContent));
-
         using var httpResponse = await httpClient.PostAsync(endpoint, httpContent);
         return await ConvertResponseToTypeAsync<TResponse>(httpResponse);
     }

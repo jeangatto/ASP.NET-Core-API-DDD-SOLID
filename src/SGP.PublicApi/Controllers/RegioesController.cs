@@ -17,7 +17,8 @@ public class RegioesController : ControllerBase
 {
     private readonly IRegiaoService _service;
 
-    public RegioesController(IRegiaoService service) => _service = service;
+    public RegioesController(IRegiaoService service) =>
+        _service = service;
 
     /// <summary>
     /// Obtém uma lista com todas as regiões.
@@ -28,6 +29,6 @@ public class RegioesController : ControllerBase
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<RegiaoResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> ObterTodosAsync()
-        => (await _service.ObterTodosAsync()).ToActionResult();
+    public async Task<IActionResult> ObterTodosAsync() =>
+        (await _service.ObterTodosAsync()).ToActionResult();
 }

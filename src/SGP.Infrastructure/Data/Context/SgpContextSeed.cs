@@ -37,7 +37,7 @@ public static class SgpContextSeed
     /// <param name="context">Contexto da base de dados.</param>
     public static async Task EnsureSeedDataAsync(this SgpContext context)
     {
-        Guard.Against.Null(context, nameof(context));
+        Guard.Against.Null(context);
 
         // NOTE: desabilitando alguns recursos do EF Core em prol da performance (BulkInsert)
         context.ChangeTracker.AutoDetectChangesEnabled = false;

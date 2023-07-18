@@ -19,7 +19,8 @@ public class AuthController : ControllerBase
 {
     private readonly IAuthenticationService _service;
 
-    public AuthController(IAuthenticationService service) => _service = service;
+    public AuthController(IAuthenticationService service) =>
+        _service = service;
 
     /// <summary>
     /// Efetua a autenticação.
@@ -35,8 +36,8 @@ public class AuthController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Authenticate([FromBody] LogInRequest request)
-        => (await _service.AuthenticateAsync(request)).ToActionResult();
+    public async Task<IActionResult> Authenticate([FromBody] LogInRequest request) =>
+        (await _service.AuthenticateAsync(request)).ToActionResult();
 
     /// <summary>
     /// Atualiza um token de acesso.
@@ -55,6 +56,6 @@ public class AuthController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
-        => (await _service.RefreshTokenAsync(request)).ToActionResult();
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request) =>
+        (await _service.RefreshTokenAsync(request)).ToActionResult();
 }

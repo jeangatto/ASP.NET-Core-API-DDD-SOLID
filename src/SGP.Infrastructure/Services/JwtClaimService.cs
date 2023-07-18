@@ -26,7 +26,7 @@ public class JwtClaimService : ITokenClaimsService
 
     public AccessToken GenerateAccessToken(Claim[] claims)
     {
-        Guard.Against.NullOrEmpty(claims, nameof(claims));
+        Guard.Against.NullOrEmpty(claims);
 
         var createdAt = _dateTimeService.Now;
         var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);
