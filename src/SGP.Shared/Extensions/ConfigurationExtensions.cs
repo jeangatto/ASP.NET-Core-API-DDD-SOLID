@@ -6,7 +6,7 @@ namespace SGP.Shared.Extensions;
 public static class ConfigurationExtensions
 {
     public static TOptions GetOptions<TOptions>(this IConfiguration configuration, string configSectionPath)
-        where TOptions : IAppOptions
+        where TOptions : class, IAppOptions
     {
         return configuration
             .GetRequiredSection(configSectionPath)

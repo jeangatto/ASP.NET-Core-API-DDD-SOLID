@@ -11,8 +11,8 @@ public static class RuleBuilderExtensions
     /// </summary>
     /// <typeparam name="T">Type of object being validated</typeparam>
     /// <param name="ruleBuilder">The rule builder on which the validator should be defined</param>
-    public static IRuleBuilderOptions<T, string> IsValidEmailAddress<T>(this IRuleBuilder<T, string> ruleBuilder)
-        => ruleBuilder
+    public static IRuleBuilderOptions<T, string> IsValidEmailAddress<T>(this IRuleBuilder<T, string> ruleBuilder) =>
+        ruleBuilder
             .Matches(RegexPatterns.EmailRegexPattern)
             .WithMessage("'{PropertyName}' é um endereço de e-mail inválido.");
 }

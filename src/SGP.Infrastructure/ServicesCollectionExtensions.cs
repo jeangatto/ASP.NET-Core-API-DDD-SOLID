@@ -12,18 +12,18 @@ namespace SGP.Infrastructure;
 [ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
-    public static void AddInfrastructure(this IServiceCollection services)
-        => services
+    public static void AddInfrastructure(this IServiceCollection services) =>
+        services
             .AddScoped<IDateTimeService, DateTimeService>()
             .AddScoped<IHashService, BCryptHashService>()
             .AddScoped<ITokenClaimsService, JwtClaimService>()
             .AddScoped<IUnitOfWork, UnitOfWork>();
 
-    public static void AddMemoryCacheService(this IServiceCollection services)
-        => services.AddScoped<ICacheService, MemoryCacheService>();
+    public static void AddMemoryCacheService(this IServiceCollection services) =>
+        services.AddScoped<ICacheService, MemoryCacheService>();
 
-    public static void AddDistributedCacheService(this IServiceCollection services)
-        => services.AddScoped<ICacheService, DistributedCacheService>();
+    public static void AddDistributedCacheService(this IServiceCollection services) =>
+        services.AddScoped<ICacheService, DistributedCacheService>();
 
     public static void AddRepositories(this IServiceCollection services)
     {
