@@ -1,7 +1,7 @@
 # Sistema Gerenciador de Pedidos (SGP)
 
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=jeangatto.sgp)
-[![wakatime](https://wakatime.com/badge/github/JeanGatto/SGP.svg)](https://wakatime.com/badge/github/JeanGatto/SGP)
+[![wakatime](https://wakatime.com/badge/user/50699097-5822-4d06-8a98-0c8fa389db9a/project/8d11349e-5eaf-41ef-9c3d-8d3584f9890f.svg)](https://wakatime.com/badge/user/50699097-5822-4d06-8a98-0c8fa389db9a/project/8d11349e-5eaf-41ef-9c3d-8d3584f9890f)
 [![License](https://img.shields.io/github/license/JeanGatto/ASP.NET-Core-API-DDD-SOLID.svg)](LICENSE)
 
 [![Build](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/actions/workflows/dotnet.yml)
