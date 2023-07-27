@@ -25,7 +25,7 @@ WORKDIR "/src/src/SGP.PublicApi"
 RUN dotnet build "SGP.PublicApi.csproj" -c Release -o /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "SGP.PublicApi.csproj" -c Release -o /app/publish --no-restore
+RUN dotnet publish "SGP.PublicApi.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
