@@ -22,7 +22,7 @@ public class BCryptHashService : IHashService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Ocorreu um erro ao verificar o HASH com BCrypt");
+            _logger.LogError(ex, "Ocorreu um erro ao verificar o HASH com BCrypt: {message}", ex.Message);
             throw;
         }
     }
@@ -37,7 +37,7 @@ public class BCryptHashService : IHashService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Ocorreu um erro ao gerar o HASH com BCrypt");
+            _logger.LogError(ex, "Ocorreu um erro ao gerar o HASH com BCrypt: {message}", ex.Message);
             throw;
         }
     }
