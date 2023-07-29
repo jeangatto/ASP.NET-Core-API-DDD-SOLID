@@ -14,6 +14,8 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-slim AS build
 WORKDIR /src
+COPY ["Directory.Build.props", "src/"]
+COPY ["Directory.Packages.props", "src/"]
 COPY ["src/SGP.PublicApi/SGP.PublicApi.csproj", "src/SGP.PublicApi/"]
 COPY ["src/SGP.Application/SGP.Application.csproj", "src/SGP.Application/"]
 COPY ["src/SGP.Shared/SGP.Shared.csproj", "src/SGP.Shared/"]
@@ -22,10 +24,10 @@ COPY ["src/SGP.Infrastructure/SGP.Infrastructure.csproj", "src/SGP.Infrastructur
 RUN dotnet restore "src/SGP.PublicApi/SGP.PublicApi.csproj"
 COPY . .
 WORKDIR "/src/src/SGP.PublicApi"
-RUN dotnet build "SGP.PublicApi.csproj" -c Release -o /app/build --no-restore
+RUN dotnet build "SGP.PublicApi.csproj" --configuration Release --output /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "SGP.PublicApi.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false
+RUN dotnet publish "SGP.PublicApi.csproj" --configuration Release --output /app/publish --no-restore /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

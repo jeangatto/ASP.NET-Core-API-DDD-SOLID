@@ -1,17 +1,18 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SGP.Infrastructure;
 using SGP.Shared.AppSettings;
-using SGP.Shared.Constants;
 using SGP.Shared.Extensions;
 
 namespace SGP.PublicApi.Extensions;
 
+[ExcludeFromCodeCoverage]
 internal static class CacheExtensions
 {
-    internal static void AddCache(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddCache(this IServiceCollection services, IConfiguration configuration)
     {
-        var inMemoryOptions = configuration.GetOptions<InMemoryOptions>(AppSettingsKeys.InMemoryOptions);
+        var inMemoryOptions = configuration.GetOptions<InMemoryOptions>();
         if (inMemoryOptions.Cache)
         {
             services
@@ -20,7 +21,7 @@ internal static class CacheExtensions
         }
         else
         {
-            var connections = configuration.GetOptions<ConnectionStrings>(AppSettingsKeys.ConnectionStrings);
+            var connections = configuration.GetOptions<ConnectionStrings>();
 
             services.AddDistributedRedisCache(options =>
             {
@@ -28,5 +29,7 @@ internal static class CacheExtensions
                 options.Configuration = connections.Cache;
             }).AddDistributedCacheService();
         }
+
+        return services;
     }
 }

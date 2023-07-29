@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -6,19 +7,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SGP.Shared.AppSettings;
-using SGP.Shared.Constants;
 using SGP.Shared.Extensions;
 
 namespace SGP.PublicApi.Extensions;
 
+[ExcludeFromCodeCoverage]
 internal static class JwtBearerExtensions
 {
-    internal static void AddJwtBearer(
+    internal static IServiceCollection AddJwtBearer(
         this IServiceCollection services,
         IConfiguration configuration,
         bool isProduction)
     {
-        var jwtOptions = configuration.GetOptions<JwtOptions>(AppSettingsKeys.JwtOptions);
+        var jwtOptions = configuration.GetOptions<JwtOptions>();
 
         services
             .AddAuthentication(authOptions =>
@@ -53,5 +54,7 @@ internal static class JwtBearerExtensions
                 .RequireAuthenticatedUser()
                 .Build());
         });
+
+        return services;
     }
 }

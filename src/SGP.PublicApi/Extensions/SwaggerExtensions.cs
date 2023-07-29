@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,17 +14,18 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SGP.PublicApi.Extensions;
 
+[ExcludeFromCodeCoverage]
 internal static class SwaggerExtensions
 {
-    internal static void AddOpenApi(this IServiceCollection services)
+    internal static IServiceCollection AddOpenApi(this IServiceCollection services)
     {
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
-        services.AddSwaggerGen(options =>
+        services.AddSwaggerGen(swaggerOptions =>
         {
-            options.OperationFilter<SwaggerDefaultValuesFilter>();
+            swaggerOptions.OperationFilter<SwaggerDefaultValuesFilter>();
 
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            swaggerOptions.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description =
                     "JWT Authorization Header - utilizado com Bearer Authentication.\r\n\r\n" +
@@ -36,7 +38,7 @@ internal static class SwaggerExtensions
                 BearerFormat = "JWT"
             });
 
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            swaggerOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
                     new OpenApiSecurityScheme
@@ -47,26 +49,32 @@ internal static class SwaggerExtensions
                 }
             });
 
-            options.ResolveConflictingActions(apiDescription => apiDescription.FirstOrDefault());
+            swaggerOptions.ResolveConflictingActions(apiDescription => apiDescription.FirstOrDefault());
 
             // Set the comments path for the Swagger JSON and UI.
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            options.IncludeXmlComments(xmlPath, true);
+            swaggerOptions.IncludeXmlComments(xmlPath, true);
         });
 
         services.AddSwaggerGenNewtonsoftSupport();
+
+        return services;
     }
 
     internal static void UseSwaggerAndUI(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
     {
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        app.UseSwaggerUI(swaggerOptions =>
         {
             // Build a swagger endpoint for each discovered API version
-            foreach (var groupName in provider.ApiVersionDescriptions.Select(description => description.GroupName))
+            foreach (var groupName in provider
+                .ApiVersionDescriptions
+                .Select(description => description.GroupName)
+                .Distinct()
+                .ToList())
             {
-                options.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant());
+                swaggerOptions.SwaggerEndpoint($"/swagger/{groupName}/swagger.json", groupName.ToUpperInvariant());
             }
         });
     }

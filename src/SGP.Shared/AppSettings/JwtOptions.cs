@@ -6,6 +6,8 @@ namespace SGP.Shared.AppSettings;
 
 public sealed class JwtOptions : IAppOptions
 {
+    public static string ConfigSectionPath => "JwtOptions";
+
     /// <summary>
     /// aud: Define quem pode usar o token.
     /// </summary>

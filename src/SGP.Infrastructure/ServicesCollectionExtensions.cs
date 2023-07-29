@@ -12,20 +12,20 @@ namespace SGP.Infrastructure;
 [ExcludeFromCodeCoverage]
 public static class ServicesCollectionExtensions
 {
-    public static void AddInfrastructure(this IServiceCollection services) =>
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services) =>
         services
             .AddScoped<IDateTimeService, DateTimeService>()
             .AddScoped<IHashService, BCryptHashService>()
             .AddScoped<ITokenClaimsService, JwtClaimService>()
             .AddScoped<IUnitOfWork, UnitOfWork>();
 
-    public static void AddMemoryCacheService(this IServiceCollection services) =>
+    public static IServiceCollection AddMemoryCacheService(this IServiceCollection services) =>
         services.AddScoped<ICacheService, MemoryCacheService>();
 
-    public static void AddDistributedCacheService(this IServiceCollection services) =>
+    public static IServiceCollection AddDistributedCacheService(this IServiceCollection services) =>
         services.AddScoped<ICacheService, DistributedCacheService>();
 
-    public static void AddRepositories(this IServiceCollection services)
+    public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         // Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
         // https://github.com/khellang/Scrutor
@@ -43,5 +43,7 @@ public static class ServicesCollectionExtensions
             .Decorate<ICidadeRepository, CidadeCachedRepository>()
             .Decorate<IEstadoRepository, EstadoCachedRepository>()
             .Decorate<IRegiaoRepository, RegiaoCachedRepository>();
+
+        return services;
     }
 }

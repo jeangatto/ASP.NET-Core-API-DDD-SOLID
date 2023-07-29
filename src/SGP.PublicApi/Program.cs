@@ -28,25 +28,44 @@ using StackExchange.Profiling;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
-builder.Services.Configure<KestrelServerOptions>(options => options.AddServerHeader = false);
-builder.Services.Configure<MvcNewtonsoftJsonOptions>(options => options.SerializerSettings.Configure());
-builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-
-builder.Services.AddHttpClient();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>());
-builder.Services.AddCache(builder.Configuration);
-builder.Services.AddApiVersioningAndApiExplorer();
-builder.Services.AddOpenApi();
-builder.Services.ConfigureAppSettings();
-builder.Services.AddJwtBearer(builder.Configuration, builder.Environment.IsProduction());
-builder.Services.AddServices();
-builder.Services.AddInfrastructure();
-builder.Services.AddRepositories();
-
-var healthChecksBuilder = builder.Services.AddHealthChecks().AddGCInfoCheck();
-builder.Services.AddSpgContext(healthChecksBuilder);
+builder.Services
+    .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Optimal)
+    .Configure<KestrelServerOptions>(kestrelOptions => kestrelOptions.AddServerHeader = false)
+    .Configure<MvcNewtonsoftJsonOptions>(jsonOptions => jsonOptions.SerializerSettings.Configure())
+    .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true)
+    .AddHttpClient()
+    .AddHttpContextAccessor()
+    .AddResponseCompression(compressionOptions =>
+    {
+        compressionOptions.EnableForHttps = true;
+        compressionOptions.Providers.Add<GzipCompressionProvider>();
+    })
+    .AddCache(builder.Configuration)
+    .AddApiVersioning(versioningOptions =>
+    {
+        // Specify the default API Version as 1.0
+        versioningOptions.DefaultApiVersion = ApiVersion.Default;
+        // Reporting api versions will return the headers "api-supported-versions" and "api-deprecated-versions"
+        versioningOptions.ReportApiVersions = true;
+        // If the client hasn't specified the API version in the request, use the default API version number
+        versioningOptions.AssumeDefaultVersionWhenUnspecified = true;
+    })
+    .AddVersionedApiExplorer(explorerOptions =>
+    {
+        // Add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
+        // NOTE: the specified format code will format the version as "'v'major[.minor][-status]"
+        explorerOptions.GroupNameFormat = "'v'VVV";
+        // NOTE: this option is only necessary when versioning by url segment. the SubstitutionFormat
+        // can also be used to control the format of the API version in route templates
+        explorerOptions.SubstituteApiVersionInUrl = true;
+    })
+    .AddOpenApi()
+    .ConfigureAppSettings()
+    .AddJwtBearer(builder.Configuration, builder.Environment.IsProduction())
+    .AddServices()
+    .AddInfrastructure()
+    .AddRepositories()
+    .AddSpgContext(builder.Services.AddHealthChecks().AddGCInfoCheck());
 
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
@@ -73,7 +92,7 @@ builder.Host.UseDefaultServiceProvider((context, options) =>
     options.ValidateOnBuild = true;
 });
 
-builder.WebHost.UseKestrel();
+builder.WebHost.UseKestrel(kestrelOptions => kestrelOptions.AddServerHeader = false);
 
 var app = builder.Build();
 
