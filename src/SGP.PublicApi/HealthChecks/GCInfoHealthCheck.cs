@@ -12,7 +12,9 @@ public class GCInfoHealthCheck : IHealthCheck
     private const string Description = "Reports degraded status if allocated bytes >= 1gb";
     private static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
-    public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+    public Task<HealthCheckResult> CheckHealthAsync(
+        HealthCheckContext context,
+        CancellationToken cancellationToken = default)
     {
         var memoryInfo = GC.GetGCMemoryInfo();
 
@@ -26,6 +28,8 @@ public class GCInfoHealthCheck : IHealthCheck
             { "Gen1Collections", GC.CollectionCount(1) },
             { "Gen2Collections", GC.CollectionCount(2) }
         };
+
+        data.TrimExcess();
 
         // Report failure if the allocated memory is >= the threshold.
         var healthStatus = allocated >= Threshold ? context.Registration.FailureStatus : HealthStatus.Healthy;
