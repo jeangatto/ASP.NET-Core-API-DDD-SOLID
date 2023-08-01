@@ -1,4 +1,3 @@
-using System;
 using JsonNet.ContractResolvers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -24,15 +23,6 @@ public static class JsonExtensions
     /// <returns>O objeto desserializado da string JSON.</returns>
     public static T FromJson<T>(this string value) =>
         value != null ? JsonConvert.DeserializeObject<T>(value, JsonSettings) : default;
-
-    /// <summary>
-    /// Desserializa o JSON para o tipo especificado.
-    /// </summary>
-    /// <param name="value">O objeto a ser desserializado.</param>
-    /// <param name="type">O tipo de objeto para o qual desserializar.</param>
-    /// <returns>O objeto desserializado da string JSON.</returns>
-    public static object FromJson(this string value, Type type) =>
-        value != null ? JsonConvert.DeserializeObject(value, type, JsonSettings) : default;
 
     /// <summary>
     /// Serializa o objeto especificado em uma string JSON.

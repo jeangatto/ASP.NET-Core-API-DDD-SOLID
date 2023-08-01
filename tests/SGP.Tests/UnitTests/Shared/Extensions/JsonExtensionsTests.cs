@@ -24,19 +24,6 @@ public class JsonExtensionsTests
     }
 
     [Fact]
-    public void Should_ReturnEntity_WhenDeserialize()
-    {
-        // Arrange
-        var expectedUser = new User("John Doe", "john.doe@hotmail.com", EStatus.Active);
-
-        // Act
-        var act = UserJson.FromJson(typeof(User));
-
-        // Assert
-        act.Should().NotBeNull().And.BeOfType<User>().And.BeEquivalentTo(expectedUser);
-    }
-
-    [Fact]
     public void Should_ReturnEntity_WhenDeserializeTyped()
     {
         // Arrange
@@ -78,26 +65,13 @@ public class JsonExtensionsTests
         act.Should().BeNull();
     }
 
-    [Fact]
-    public void Should_ReturnNull_WhenDeserializeNullValue()
-    {
-        // Arrange
-        const string strJson = null;
-
-        // Act
-        var act = strJson.FromJson(typeof(User));
-
-        // Assert
-        act.Should().BeNull();
-    }
-
     private enum EStatus
     {
         Active = 0,
         Inactive = 1
     }
 
-    private record User(string UserName, string Email, EStatus Status)
+    private sealed record User(string UserName, string Email, EStatus Status)
     {
         public string Email { get; } = Email;
         public string UserName { get; } = UserName;
