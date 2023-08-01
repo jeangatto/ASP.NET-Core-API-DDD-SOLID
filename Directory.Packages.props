@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
   <PropertyGroup Label="Build">
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
-
   <ItemGroup Label="Package Versions">
-    <PackageVersion Include="Ardalis.GuardClauses" Version="4.0.1" />
+    <PackageVersion Include="Ardalis.GuardClauses" Version="4.1.1" />
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="7.1.0" />
     <PackageVersion Include="Ardalis.Result" Version="7.1.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="6.0.2" />
@@ -66,7 +64,7 @@
     <PackageVersion Include="Moq" Version="4.18.4" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Polly" Version="7.2.4" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.3.0" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.4.0" />
     <PackageVersion Include="Scrutor" Version="4.2.2" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.6.0.74858" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
@@ -78,5 +76,4 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0" />
     <PackageVersion Include="xunit" Version="2.5.0" />
   </ItemGroup>
-
 </Project>
