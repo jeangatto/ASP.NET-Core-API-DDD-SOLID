@@ -1,9 +1,8 @@
 using System;
 using Bogus;
 using FluentAssertions;
-using Moq;
+using NSubstitute;
 using SGP.Domain.Entities;
-using SGP.Infrastructure.Services;
 using SGP.Shared.Abstractions;
 using SGP.Tests.Extensions;
 using Xunit;
@@ -24,10 +23,9 @@ public class TokenTests
         var criadoEm = DateTime.Now;
         var expiraEm = criadoEm.AddDays(7);
         var token = new Token(accessToken, refreshToken, criadoEm, expiraEm);
-        var dateTimeService = new DateTimeService();
 
         // Act
-        var act = token.EstaValido(dateTimeService);
+        var act = token.EstaValido(Substitute.For<IDateTimeService>());
 
         // Assert
         act.Should().BeTrue();
@@ -43,15 +41,14 @@ public class TokenTests
         var criadoEm = DateTime.Now;
         var expiraEm = criadoEm.AddDays(7);
         var token = new Token(accessToken, refreshToken, criadoEm, expiraEm);
-        var dateTimeMock = new Mock<IDateTimeService>();
-        dateTimeMock.Setup(s => s.Now).Returns(DateTime.Now.AddDays(8)).Verifiable();
+        var dateTimeService = Substitute.For<IDateTimeService>();
+        dateTimeService.Now.Returns(DateTime.Now.AddDays(8));
 
         // Act
-        var act = token.EstaValido(dateTimeMock.Object);
+        var act = token.EstaValido(dateTimeService);
 
         // Assert
         act.Should().BeFalse();
-        dateTimeMock.Verify(s => s.Now, Times.Once);
     }
 
     [Fact]

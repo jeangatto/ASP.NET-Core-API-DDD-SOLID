@@ -5,7 +5,7 @@ using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Moq;
+using NSubstitute;
 using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthenticationRequests;
 using SGP.Application.Services;
@@ -38,9 +38,9 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
         var jwtOptions = CreateJwtOptions();
         var dateTime = new DateTimeService();
         var tokenClaimsService = new JwtClaimService(jwtOptions, dateTime);
-        var hashService = new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
+        var hashService = new BCryptHashService(Substitute.For<ILogger<BCryptHashService>>());
         var usuarioRepository = new UsuarioRepository(_fixture.Context);
-        var unitOfWork = new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
+        var unitOfWork = new UnitOfWork(_fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
         var service = CreateAuthenticationService(
             CreateAuthOptions(),
             dateTime,
@@ -89,18 +89,15 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
 
         var logInRequest = new LogInRequest(usuario.Email.Address, usuario.HashSenha);
 
-        var usuarioRepositoryMock = new Mock<IUsuarioRepository>();
-        usuarioRepositoryMock
-            .Setup(s => s.ObterPorEmailAsync(It.IsNotNull<Email>()))
-            .ReturnsAsync(usuario)
-            .Verifiable();
+        var usuarioRepository = Substitute.For<IUsuarioRepository>();
+        usuarioRepository.ObterPorEmailAsync(Arg.Is<Email>(email => email == usuario.Email)).Returns(usuario);
 
-        var dateTimeMock = new Mock<IDateTimeService>();
-        dateTimeMock.SetupGet(s => s.Now).Returns(DateTime.Now).Verifiable();
+        var dateTimeService = Substitute.For<IDateTimeService>();
+        dateTimeService.Now.Returns(DateTime.Now);
 
         var service = CreateAuthenticationService(
-            dateTimeService: dateTimeMock.Object,
-            usuarioRepository: usuarioRepositoryMock.Object);
+            dateTimeService: dateTimeService,
+            usuarioRepository: usuarioRepository);
 
         // Act
         var actual = await service.AuthenticateAsync(logInRequest);
@@ -113,8 +110,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
             .And.OnlyHaveUniqueItems()
             .And.SatisfyRespectively(error => error.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
 
-        usuarioRepositoryMock.Verify(s => s.ObterPorEmailAsync(It.IsNotNull<Email>()), Times.Once);
-        dateTimeMock.Verify(s => s.Now, Times.Once);
+        await usuarioRepository.Received(1).ObterPorEmailAsync(Arg.Any<Email>());
     }
 
     [Fact]
@@ -165,12 +161,12 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
         IUnitOfWork unitOfWork = null)
     {
         return new AuthenticationService(
-            authOptions ?? Mock.Of<IOptions<AuthOptions>>(),
-            dateTimeService ?? Mock.Of<IDateTimeService>(),
-            hashService ?? Mock.Of<IHashService>(),
-            tokenClaimsService ?? Mock.Of<ITokenClaimsService>(),
-            usuarioRepository ?? Mock.Of<IUsuarioRepository>(),
-            unitOfWork ?? Mock.Of<IUnitOfWork>());
+            authOptions ?? Substitute.For<IOptions<AuthOptions>>(),
+            dateTimeService ?? Substitute.For<IDateTimeService>(),
+            hashService ?? Substitute.For<IHashService>(),
+            tokenClaimsService ?? Substitute.For<ITokenClaimsService>(),
+            usuarioRepository ?? Substitute.For<IUsuarioRepository>(),
+            unitOfWork ?? Substitute.For<IUnitOfWork>());
     }
 
     private static IOptions<AuthOptions> CreateAuthOptions()

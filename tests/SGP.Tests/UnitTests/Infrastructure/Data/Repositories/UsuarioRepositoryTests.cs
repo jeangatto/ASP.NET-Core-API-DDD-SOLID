@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Moq;
+using NSubstitute;
 using SGP.Domain.Entities;
 using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
@@ -151,7 +151,9 @@ public class UsuarioRepositoryTests : IClassFixture<EfSqliteFixture>
             .Generate();
     }
 
-    private IUsuarioRepository CriarRepositorio() => new UsuarioRepository(_fixture.Context);
+    private IUsuarioRepository CriarRepositorio() =>
+        new UsuarioRepository(_fixture.Context);
 
-    private IUnitOfWork CriarUoW() => new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
+    private IUnitOfWork CriarUoW() =>
+        new UnitOfWork(_fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
 }

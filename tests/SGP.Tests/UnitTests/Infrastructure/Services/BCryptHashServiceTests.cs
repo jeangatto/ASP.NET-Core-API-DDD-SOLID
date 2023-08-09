@@ -1,7 +1,7 @@
 using System;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Moq;
+using NSubstitute;
 using SGP.Infrastructure.Services;
 using SGP.Shared.Abstractions;
 using Xunit;
@@ -109,5 +109,6 @@ public class BCryptHashServiceTests
         actual.Should().Throw<ArgumentException>().And.ParamName.Should().Be("text");
     }
 
-    private static IHashService CreateHashService() => new BCryptHashService(Mock.Of<ILogger<BCryptHashService>>());
+    private static IHashService CreateHashService() =>
+        new BCryptHashService(Substitute.For<ILogger<BCryptHashService>>());
 }

@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Moq;
+using NSubstitute;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Data;
 using SGP.Infrastructure.Data.Context;
@@ -56,5 +56,6 @@ public class UnitOfWorkTests : IClassFixture<EfSqliteFixture>
         return _fixture.Context;
     }
 
-    private IUnitOfWork CreateUoW() => new UnitOfWork(_fixture.Context, Mock.Of<ILogger<UnitOfWork>>());
+    private IUnitOfWork CreateUoW() =>
+        new UnitOfWork(_fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
 }
