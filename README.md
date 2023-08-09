@@ -40,8 +40,8 @@ Criado com o [Rider: o IDE .NET de plataforma cruzada da JetBrains](https://www.
 - Padrão de Camada-Anticorrupção (Anti-Corruption Layer) **(FluentValidation)**
 - Padrão Resultado **(FluentResults)** [Functional C#: Handling failures](https://enterprisecraftsmanship.com/posts/functional-c-handling-failures-input-errors/)
 - [Scrutor](https://github.com/khellang/Scrutor) automaticamente registrando os serviços no ASP.NET Core DI
-- Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **Moq**\
-    => [Melhores práticas de teste de unidade com .NET Core](https://docs.microsoft.com/pt-br/dotnet/core/testing/unit-testing-best-practices)
+- Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **NSubstitute**\
+   => [Melhores práticas de teste de unidade com .NET Core](https://docs.microsoft.com/pt-br/dotnet/core/testing/unit-testing-best-practices)
 - Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)
 - Verificações de integridade da aplicação com [HealthChecks](https://docs.microsoft.com/pt-br/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-6.0)
 - [SonarCloud](https://sonarcloud.io/project/overview?id=ASP.NET-Core-API-DDD-SOLID) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
