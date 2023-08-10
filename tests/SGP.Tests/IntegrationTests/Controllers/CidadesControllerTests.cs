@@ -29,13 +29,13 @@ public class CidadesControllerTests : IntegrationTestBase, IClassFixture<WebTest
         act.Should().NotBeNullOrEmpty()
             .And.OnlyHaveUniqueItems()
             .And.HaveCount(total)
-            .And.Subject.ForEach(c =>
+            .And.Subject.ForEach(response =>
             {
-                c.Regiao.Should().NotBeNullOrWhiteSpace();
-                c.Estado.Should().NotBeNullOrWhiteSpace();
-                c.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
-                c.Nome.Should().NotBeNullOrWhiteSpace();
-                c.Ibge.Should().BePositive();
+                response.Regiao.Should().NotBeNullOrWhiteSpace();
+                response.Estado.Should().NotBeNullOrWhiteSpace();
+                response.Uf.Should().NotBeNullOrWhiteSpace().And.HaveLength(2).And.Be(uf);
+                response.Nome.Should().NotBeNullOrWhiteSpace();
+                response.Ibge.Should().BePositive();
             });
     }
 
