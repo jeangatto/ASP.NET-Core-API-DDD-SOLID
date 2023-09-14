@@ -25,21 +25,21 @@
     <PackageVersion Include="FluentValidation" Version="11.7.1" />
     <PackageVersion Include="JsonNet.ContractResolvers" Version="2.0.0" />
     <PackageVersion Include="MediatR" Version="12.1.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.10" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.10" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.10" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.9" />
@@ -47,8 +47,8 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.11" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="7.0.0" />
@@ -58,13 +58,13 @@
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="7.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Primitives" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="6.32.3" />
+    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="7.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
     <PackageVersion Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
     <PackageVersion Include="MiniProfiler.EntityFrameworkCore" Version="4.3.8" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
-    <PackageVersion Include="NSubstitute" Version="5.0.0" />
+    <PackageVersion Include="NSubstitute" Version="5.1.0" />
     <PackageVersion Include="Polly" Version="7.2.4" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.5.0" />
     <PackageVersion Include="Scrutor" Version="4.2.2" />
@@ -72,7 +72,7 @@
     <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
-    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.32.3" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="7.0.0" />
     <PackageVersion Include="xunit.analyzers" Version="1.2.0" />
     <PackageVersion Include="xunit.categories" Version="2.0.8" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0" />
