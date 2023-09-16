@@ -18,13 +18,7 @@
 
 Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
 
-Criado com o [Rider: o IDE .NET de plataforma cruzada da JetBrains](https://www.jetbrains.com/pt-br/rider/)
-
-![Rider logo](https://resources.jetbrains.com/storage/products/company/brand/logos/Rider_icon.svg)
-
 [.NET 7](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-7) + [EF Core 7.0](https://docs.microsoft.com/pt-br/ef/core/what-is-new/ef-core-7.0/whatsnew) + JWT Bearer + OpenAPI (Swagger)
-
-> Nota: projeto focado em **Back-End**
 
 - RESTful API
 - Banco de dados relacional: **SQL Server**
@@ -63,74 +57,6 @@ Por padrão é utilizado o SQL Server LocalDB, para alterar a conexão, modifiqu
     "Collation": "Latin1_General_CI_AI"
   }
 }
-```
-
-Ao iniciar a aplicação o banco de dados será criado automaticamente e efetuado as migrações pendentenes,
-também será populado o arquivo de seed.
-
-```c#
-await using var serviceScope = app.Services.CreateAsyncScope();
-await using var context = serviceScope.ServiceProvider.GetRequiredService<SgpContext>();
-var mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
-var inMemoryOptions = serviceScope.ServiceProvider.GetOptions<InMemoryOptions>();
-
-try
-{
-    app.Logger.LogInformation("----- AutoMapper: Validando os mapeamentos...");
-
-    mapper.ConfigurationProvider.AssertConfigurationIsValid();
-    mapper.ConfigurationProvider.CompileMappings();
-
-    app.Logger.LogInformation("----- AutoMapper: Mapeamentos são válidos!");
-
-    if (inMemoryOptions.Cache)
-    {
-        app.Logger.LogInformation("----- Cache: InMemory");
-    }
-    else
-    {
-        app.Logger.LogInformation("----- Cache: Distributed");
-    }
-
-    if (inMemoryOptions.Database)
-    {
-        app.Logger.LogInformation("----- Database InMemory: Criando e migrando a base de dados...");
-        await context.Database.EnsureCreatedAsync();
-    }
-    else
-    {
-        var connectionString = context.Database.GetConnectionString();
-        app.Logger.LogInformation("----- SQL Server: {Connection}", connectionString);
-        app.Logger.LogInformation("----- SQL Server: Verificando se existem migrações pendentes...");
-
-        if ((await context.Database.GetPendingMigrationsAsync()).Any())
-        {
-            app.Logger.LogInformation("----- SQL Server: Criando e migrando a base de dados...");
-
-            await context.Database.MigrateAsync();
-
-            app.Logger.LogInformation("----- SQL Server: Base de dados criada e migrada com sucesso!");
-        }
-        else
-        {
-            app.Logger.LogInformation("----- SQL Server: Migrações estão em dia.");
-        }
-    }
-
-    app.Logger.LogInformation("----- Populando a base de dados...");
-
-    await context.EnsureSeedDataAsync();
-
-    app.Logger.LogInformation("----- Base de dados populada com sucesso!");
-}
-catch (Exception ex)
-{
-    app.Logger.LogError(ex, "Ocorreu uma exceção ao iniciar a aplicação: {Message}", ex.Message);
-    throw;
-}
-
-app.Logger.LogInformation("----- Iniciado a aplicação...");
-app.Run();
 ```
 
 ## License
