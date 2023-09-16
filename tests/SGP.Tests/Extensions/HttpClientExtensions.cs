@@ -5,7 +5,7 @@ using SGP.Shared.Extensions;
 
 namespace SGP.Tests.Extensions;
 
-public static class HttpClientExtensions
+internal static class HttpClientExtensions
 {
     public static async Task<TResponse> GetAsync<TResponse>(
         this HttpClient httpClient,

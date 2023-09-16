@@ -3,7 +3,7 @@ using SGP.PublicApi.Models;
 
 namespace SGP.Tests.Extensions;
 
-public static class ActionResultExtensions
+internal static class ActionResultExtensions
 {
     public static ApiResponse ToApiResponse(this IActionResult actionResult)
     {

@@ -6,12 +6,15 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <UserSecretsId>97278947-e919-41e9-b2b9-e7388d64abad</UserSecretsId>
+    <RuntimeIdentifiers>linux-arm64;linux-x64</RuntimeIdentifiers>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishReadyToRunShowWarnings>true</PublishReadyToRunShowWarnings>
   </PropertyGroup>
 
   <ItemGroup Label="Package References">
     <PackageReference Include="Ardalis.GuardClauses" />
     <PackageReference Include="Ardalis.Result" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
@@ -45,7 +48,7 @@
     <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="Unit Tests">
     <InternalsVisibleTo Include="SGP.Tests" />
   </ItemGroup>
 

@@ -1,10 +1,14 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0-bullseye-slim AS base
+﻿# https://hub.docker.com/_/microsoft-dotnet-sdk/ 
+ARG sdk_version=7.0-bookworm-slim 
+
+FROM mcr.microsoft.com/dotnet/aspnet:$sdk_version AS base
 WORKDIR /app
 EXPOSE 80
 
 ENV ASPNETCORE_URLS=http://+:80
-ENV DOTNET_NOLOGO=true
-ENV DOTNET_CLI_TELEMETRY_OPTOUT=true
+ENV DOTNET_NOLOGO=1
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
+ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 ENV DOTNET_EnableDiagnostics=0
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
@@ -12,7 +16,8 @@ ENV DOTNET_EnableDiagnostics=0
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:$sdk_version AS build
+ARG configuration=Release
 WORKDIR /src
 COPY ["Directory.Build.props", "src/"]
 COPY ["Directory.Packages.props", "src/"]
@@ -24,10 +29,10 @@ COPY ["src/SGP.Infrastructure/SGP.Infrastructure.csproj", "src/SGP.Infrastructur
 RUN dotnet restore "src/SGP.PublicApi/SGP.PublicApi.csproj"
 COPY . .
 WORKDIR "/src/src/SGP.PublicApi"
-RUN dotnet build "SGP.PublicApi.csproj" --configuration Release --output /app/build --no-restore
+RUN dotnet build "SGP.PublicApi.csproj" --configuration $configuration --no-restore --nologo --output /app/build 
 
 FROM build AS publish
-RUN dotnet publish "SGP.PublicApi.csproj" --configuration Release --output /app/publish --no-restore /p:UseAppHost=false
+RUN dotnet publish "SGP.PublicApi.csproj" --configuration $configuration --no-restore --nologo --self-contained true --output /app/publish
 
 FROM base AS final
 WORKDIR /app

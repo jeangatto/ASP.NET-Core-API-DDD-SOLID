@@ -21,10 +21,7 @@ public abstract class RepositoryBase<TEntity> : IDisposable where TEntity : clas
     private bool _disposed;
 
     // Public implementation of Dispose pattern callable by consumers.
-    ~RepositoryBase()
-    {
-        Dispose(false);
-    }
+    ~RepositoryBase() => Dispose(false);
 
     // Public implementation of Dispose pattern callable by consumers.
     public void Dispose()

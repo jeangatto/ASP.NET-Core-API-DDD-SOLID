@@ -47,10 +47,7 @@ public sealed class UnitOfWork : IUnitOfWork
     private bool _disposed;
 
     // Public implementation of Dispose pattern callable by consumers.
-    ~UnitOfWork()
-    {
-        Dispose(false);
-    }
+    ~UnitOfWork() => Dispose(false);
 
     // Public implementation of Dispose pattern callable by consumers.
     public void Dispose()

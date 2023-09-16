@@ -20,10 +20,7 @@ public abstract class CachedRepositoryBase<TRepository> : IDisposable where TRep
     private bool _disposed;
 
     // Public implementation of Dispose pattern callable by consumers.
-    ~CachedRepositoryBase()
-    {
-        Dispose(false);
-    }
+    ~CachedRepositoryBase() => Dispose(false);
 
     // Public implementation of Dispose pattern callable by consumers.
     public void Dispose()

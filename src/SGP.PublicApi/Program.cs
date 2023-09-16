@@ -1,17 +1,14 @@
 using System;
-using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using AutoMapper;
 using FluentValidation;
-using FluentValidation.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,8 +26,7 @@ using StackExchange.Profiling;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Optimal)
-    .Configure<KestrelServerOptions>(kestrelOptions => kestrelOptions.AddServerHeader = false)
+    .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Fastest)
     .Configure<MvcNewtonsoftJsonOptions>(jsonOptions => jsonOptions.SerializerSettings.Configure())
     .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true)
     .AddHttpClient()
@@ -95,7 +91,6 @@ if (app.Environment.IsDevelopment())
 
 // Configuração global do FluentValidation.
 ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
-ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new CultureInfo("pt-Br") };
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseSwaggerAndUI(app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
@@ -168,9 +163,7 @@ app.Run();
 namespace SGP.PublicApi
 {
 #pragma warning disable S2094
-    public class Program
-    {
-    }
+    public class Program { }
 #pragma warning restore S2094
 }
 #pragma warning restore CA1050

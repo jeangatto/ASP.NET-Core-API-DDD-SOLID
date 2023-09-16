@@ -12,6 +12,7 @@
     <PackageVersion Include="Ardalis.Result" Version="7.1.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="6.0.2" />
     <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="6.0.4" />
+    <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0" />
     <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageVersion Include="AutoMapper" Version="12.0.1" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
@@ -68,7 +69,7 @@
     <PackageVersion Include="Polly" Version="7.2.4" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.5.0" />
     <PackageVersion Include="Scrutor" Version="4.2.2" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.9.0.77355" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.10.0.77988" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="7.0.0" />

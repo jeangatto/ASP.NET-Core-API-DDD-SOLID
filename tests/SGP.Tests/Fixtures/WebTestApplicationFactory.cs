@@ -27,7 +27,7 @@ public class WebTestApplicationFactory : WebApplicationFactory<PublicApi.Program
                 if (descriptor != null)
                     services.Remove(descriptor);
 
-                _connection = new SqliteConnection(ConnectionString.Sqlite);
+                _connection = new SqliteConnection("Data Source=:memory:");
                 _connection.Open();
 
                 services.AddDbContext<SgpContext>(options => options.UseSqlite(_connection));

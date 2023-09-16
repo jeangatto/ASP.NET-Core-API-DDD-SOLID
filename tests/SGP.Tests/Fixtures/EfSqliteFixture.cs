@@ -15,7 +15,7 @@ public class EfSqliteFixture : IAsyncLifetime, IDisposable
 
     public EfSqliteFixture()
     {
-        _connection = new SqliteConnection(ConnectionString.Sqlite);
+        _connection = new SqliteConnection("Data Source=:memory:");
         _connection.Open();
 
         var builder = new DbContextOptionsBuilder<SgpContext>().UseSqlite(_connection);
@@ -45,10 +45,7 @@ public class EfSqliteFixture : IAsyncLifetime, IDisposable
     private bool _disposed;
 
     // Public implementation of Dispose pattern callable by consumers.
-    ~EfSqliteFixture()
-    {
-        Dispose(false);
-    }
+    ~EfSqliteFixture() => Dispose(false);
 
     // Public implementation of Dispose pattern callable by consumers.
     public void Dispose()
