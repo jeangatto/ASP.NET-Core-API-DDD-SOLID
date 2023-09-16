@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Build">
+  <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <SonarQubeTestProject>True</SonarQubeTestProject>
     <GenerateTargetFrameworkAttribute>true</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
-  <ItemGroup Label="Package References">
+  <ItemGroup>
     <PackageReference Include="Ardalis.Result" />
     <PackageReference Include="Ardalis.GuardClauses" />
     <PackageReference Include="AutoMapper" />
@@ -40,7 +40,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup Label="Project References">
+  <ItemGroup>
     <ProjectReference Include="..\..\src\SGP.Application\SGP.Application.csproj" />
     <ProjectReference Include="..\..\src\SGP.Domain\SGP.Domain.csproj" />
     <ProjectReference Include="..\..\src\SGP.Infrastructure\SGP.Infrastructure.csproj" />

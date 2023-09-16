@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Options;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Extensions;
@@ -11,11 +12,27 @@ public sealed class SgpContext : DbContext
 {
     private readonly string _collation;
 
-    public SgpContext(DbContextOptions<SgpContext> dbOptions) : base(dbOptions) =>
-        ChangeTracker.LazyLoadingEnabled = false;
+    public SgpContext(DbContextOptions<SgpContext> dbOptions)
+        : base(dbOptions)
+    {
+    }
 
-    public SgpContext(IOptions<ConnectionStrings> options, DbContextOptions<SgpContext> dbOptions) : this(dbOptions) =>
+    public SgpContext(IOptions<ConnectionStrings> options, DbContextOptions<SgpContext> dbOptions)
+        : this(dbOptions)
+    {
         _collation = options.Value.Collation;
+    }
+
+    public override ChangeTracker ChangeTracker
+    {
+        get
+        {
+            base.ChangeTracker.LazyLoadingEnabled = false;
+            base.ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
+            base.ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
+            return base.ChangeTracker;
+        }
+    }
 
     public DbSet<Cidade> Cidades => Set<Cidade>();
     public DbSet<Estado> Estados => Set<Estado>();

@@ -91,7 +91,6 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 
-// Configuração global do FluentValidation.
 ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
 ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new CultureInfo("pt-Br") };
 
@@ -161,12 +160,3 @@ catch (Exception ex)
 
 app.Logger.LogInformation("----- Iniciado a aplicação...");
 app.Run();
-
-#pragma warning disable CA1050
-namespace SGP.PublicApi
-{
-#pragma warning disable S2094
-    public class Program { }
-#pragma warning restore S2094
-}
-#pragma warning restore CA1050

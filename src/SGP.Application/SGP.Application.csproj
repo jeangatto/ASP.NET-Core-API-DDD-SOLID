@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Build">
+  <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup Label="Package References">
+  <ItemGroup>
     <PackageReference Include="Ardalis.Result" />
     <PackageReference Include="Ardalis.Result.FluentValidation" />
     <PackageReference Include="AutoMapper" />
@@ -14,7 +14,7 @@
     <PackageReference Include="Scrutor" />
   </ItemGroup>
 
-  <ItemGroup Label="Project References">
+  <ItemGroup>
     <ProjectReference Include="..\SGP.Domain\SGP.Domain.csproj" />
     <ProjectReference Include="..\SGP.Infrastructure\SGP.Infrastructure.csproj" />
     <ProjectReference Include="..\SGP.Shared\SGP.Shared.csproj" />

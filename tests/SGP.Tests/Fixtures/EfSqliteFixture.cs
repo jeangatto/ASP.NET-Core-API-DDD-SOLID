@@ -18,8 +18,8 @@ public class EfSqliteFixture : IAsyncLifetime, IDisposable
         _connection = new SqliteConnection("Data Source=:memory:");
         _connection.Open();
 
-        var builder = new DbContextOptionsBuilder<SgpContext>().UseSqlite(_connection);
-        Context = new SgpContext(builder.Options);
+        var optionsBuilder = new DbContextOptionsBuilder<SgpContext>().UseSqlite(_connection);
+        Context = new SgpContext(optionsBuilder.Options);
     }
 
     #endregion

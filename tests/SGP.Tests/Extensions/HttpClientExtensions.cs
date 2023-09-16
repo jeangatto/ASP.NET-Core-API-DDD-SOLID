@@ -26,7 +26,7 @@ internal static class HttpClientExtensions
 
     private static async Task<TResponse> ConvertResponseToTypeAsync<TResponse>(HttpResponseMessage httpResponse)
     {
-        httpResponse.EnsureSuccessStatusCode(); // Status Code 200-299
+        httpResponse.EnsureSuccessStatusCode();
 
         var response = await httpResponse.Content.ReadAsStringAsync();
         var jObject = JObject.Parse(response);
