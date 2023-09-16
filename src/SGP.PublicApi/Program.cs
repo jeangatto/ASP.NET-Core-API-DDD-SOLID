@@ -1,8 +1,10 @@
 using System;
+using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using AutoMapper;
 using FluentValidation;
+using FluentValidation.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -91,6 +93,7 @@ if (app.Environment.IsDevelopment())
 
 // Configuração global do FluentValidation.
 ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
+ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new CultureInfo("pt-Br") };
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseSwaggerAndUI(app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
