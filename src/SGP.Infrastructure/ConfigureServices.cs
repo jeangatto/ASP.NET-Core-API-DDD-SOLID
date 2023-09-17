@@ -10,7 +10,7 @@ using SGP.Shared.Abstractions;
 namespace SGP.Infrastructure;
 
 [ExcludeFromCodeCoverage]
-public static class ServicesCollectionExtensions
+public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services) =>
         services
@@ -29,13 +29,12 @@ public static class ServicesCollectionExtensions
     {
         // Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
         // https://github.com/khellang/Scrutor
-        services
-            .Scan(scan => scan
-                .FromCallingAssembly()
-                .AddClasses(impl => impl.AssignableTo<IRepository>())
-                .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-                .AsImplementedInterfaces()
-                .WithScopedLifetime());
+        services.Scan(scan => scan
+            .FromCallingAssembly()
+            .AddClasses(impl => impl.AssignableTo<IRepository>())
+            .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
 
         // The decorator pattern
         // REF: https://andrewlock.net/adding-decorated-classes-to-the-asp.net-core-di-container-using-scrutor/

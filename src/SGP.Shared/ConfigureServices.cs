@@ -6,7 +6,7 @@ using SGP.Shared.AppSettings;
 namespace SGP.Shared;
 
 [ExcludeFromCodeCoverage]
-public static class ServicesCollectionExtensions
+public static class ConfigureServices
 {
     public static IServiceCollection ConfigureAppSettings(this IServiceCollection services) =>
         services

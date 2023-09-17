@@ -8,7 +8,7 @@ using SGP.Shared.Abstractions;
 namespace SGP.Application;
 
 [ExcludeFromCodeCoverage]
-public static class ServicesCollectionExtensions
+public static class ConfigureServices
 {
     private static readonly Assembly[] AssembliesToScan = { Assembly.GetExecutingAssembly() };
 
