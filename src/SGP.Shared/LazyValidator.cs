@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
@@ -30,7 +29,7 @@ public static class LazyValidator
     private static Lazy<IValidator> CreateOrGetValidatorInstance<TValidator>() where TValidator : IValidator
     {
         var lazyValidator = new Lazy<IValidator>(() =>
-            Activator.CreateInstance<TValidator>(), LazyThreadSafetyMode.ExecutionAndPublication);
+            Activator.CreateInstance<TValidator>(), isThreadSafe: true);
 
         return Cache.GetOrAdd(typeof(TValidator).Name, _ => lazyValidator);
     }

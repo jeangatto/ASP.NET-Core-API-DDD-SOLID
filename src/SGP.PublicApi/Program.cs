@@ -5,7 +5,9 @@ using System.Linq;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.Resources;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -98,7 +100,11 @@ ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new Cu
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseSwaggerAndUI(app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
-app.UseHealthChecks();
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 app.UseHttpsRedirection();
 app.UseHsts();
 app.UseRouting();

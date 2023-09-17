@@ -1,3 +1,4 @@
+using System;
 using JsonNet.ContractResolvers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -13,7 +14,7 @@ public static class JsonExtensions
     private static readonly CamelCaseNamingStrategy NamingStrategy = new();
     private static readonly StringEnumConverter EnumConverter = new(NamingStrategy);
     private static readonly PrivateSetterContractResolver ContractResolver = new() { NamingStrategy = NamingStrategy };
-    private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings().Configure();
+    private static readonly Lazy<JsonSerializerSettings> LazySettings = new(() => new JsonSerializerSettings().Configure(), isThreadSafe: true);
 
     /// <summary>
     /// Desserializa o JSON para o tipo especificado.
@@ -22,7 +23,7 @@ public static class JsonExtensions
     /// <param name="value">O objeto a ser desserializado.</param>
     /// <returns>O objeto desserializado da string JSON.</returns>
     public static T FromJson<T>(this string value) =>
-        value != null ? JsonConvert.DeserializeObject<T>(value, JsonSettings) : default;
+        value != null ? JsonConvert.DeserializeObject<T>(value, LazySettings.Value) : default;
 
     /// <summary>
     /// Serializa o objeto especificado em uma string JSON.
@@ -30,7 +31,7 @@ public static class JsonExtensions
     /// <param name="value">O objeto a ser serializado.</param>
     /// <returns>Uma representação de string JSON do objeto.</returns>
     public static string ToJson<T>(this T value) =>
-        value != null ? JsonConvert.SerializeObject(value, JsonSettings) : default;
+        value != null ? JsonConvert.SerializeObject(value, LazySettings.Value) : default;
 
     public static JsonSerializerSettings Configure(this JsonSerializerSettings settings)
     {

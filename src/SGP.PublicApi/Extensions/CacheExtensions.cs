@@ -10,6 +10,8 @@ namespace SGP.PublicApi.Extensions;
 [ExcludeFromCodeCoverage]
 internal static class CacheExtensions
 {
+    private const string RedisInstanceName = "master";
+
     internal static IServiceCollection AddCacheService(
         this IServiceCollection services,
         IConfiguration configuration,
@@ -18,19 +20,19 @@ internal static class CacheExtensions
         var inMemoryOptions = configuration.GetOptions<InMemoryOptions>();
         if (inMemoryOptions.Cache)
         {
-            services
-                .AddMemoryCache()
-                .AddMemoryCacheService();
+            services.AddMemoryCacheService();
+            services.AddMemoryCache(memoryOptions => memoryOptions.TrackStatistics = true);
         }
         else
         {
             var connections = configuration.GetOptions<ConnectionStrings>();
 
+            services.AddDistributedCacheService();
             services.AddDistributedRedisCache(options =>
             {
-                options.InstanceName = "master";
+                options.InstanceName = RedisInstanceName;
                 options.Configuration = connections.Cache;
-            }).AddDistributedCacheService();
+            });
 
             healthChecksBuilder.AddRedis(connections.Cache);
         }

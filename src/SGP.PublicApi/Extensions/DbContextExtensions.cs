@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -13,30 +14,38 @@ namespace SGP.PublicApi.Extensions;
 [ExcludeFromCodeCoverage]
 internal static class DbContextExtensions
 {
+    private const int DbMaxRetryCount = 3;
+    private const int DbCommandTimeout = 35;
+    private const string DbInMemoryName = $"Db-InMemory-{nameof(SgpContext)}";
+    private const string DbMigrationAssemblyName = "SGP.PublicApi";
+
+    private static readonly string[] DbRelationalTags = { "database", "ef-core", "sql-server", "relational" };
+
     internal static IServiceCollection AddSpgContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
     {
-        services.AddDbContext<SgpContext>((serviceProvider, dbBuilderOptions) =>
+        services.AddDbContext<SgpContext>((serviceProvider, optionsBuilder) =>
         {
             var inMemoryOptions = serviceProvider.GetOptions<InMemoryOptions>();
             if (inMemoryOptions.Database)
             {
-                dbBuilderOptions.UseInMemoryDatabase($"IN_MEMORY_{nameof(SgpContext)}");
+                optionsBuilder.UseInMemoryDatabase(DbInMemoryName + $"-{Guid.NewGuid()}");
             }
             else
             {
                 var connections = serviceProvider.GetOptions<ConnectionStrings>();
 
-                dbBuilderOptions.UseSqlServer(connections.Database, sqlOptions =>
+                optionsBuilder.UseSqlServer(connections.Database, sqlServerOptions =>
                 {
-                    sqlOptions.MigrationsAssembly(typeof(Program).Assembly.GetName().Name);
-                    sqlOptions.EnableRetryOnFailure(3);
+                    sqlServerOptions.MigrationsAssembly(DbMigrationAssemblyName);
+                    sqlServerOptions.EnableRetryOnFailure(DbMaxRetryCount);
+                    sqlServerOptions.CommandTimeout(DbCommandTimeout);
                 });
             }
 
             var logger = serviceProvider.GetRequiredService<ILogger<SgpContext>>();
 
             // Log tentativas de repetição
-            dbBuilderOptions.LogTo(
+            optionsBuilder.LogTo(
                 (eventId, _) => eventId.Id == CoreEventId.ExecutionStrategyRetrying,
                 eventData =>
                 {
@@ -44,30 +53,25 @@ internal static class DbContextExtensions
                         return;
 
                     var exceptions = retryEventData.ExceptionsEncountered;
-                    var count = exceptions.Count;
-                    var delay = retryEventData.Delay;
-                    var message = exceptions[^1].Message;
 
                     logger.LogWarning(
                         "----- Retry #{Count} with delay {Delay} due to error: {Message}",
-                        count,
-                        delay,
-                        message);
+                        exceptions.Count,
+                        retryEventData.Delay,
+                        exceptions[^1].Message);
                 });
 
-            // Quando for ambiente de desenvolvimento será logado informações detalhadas.
             var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-            if (environment.IsDevelopment())
+            if (!environment.IsProduction())
             {
-                dbBuilderOptions
-                    .EnableDetailedErrors()
-                    .EnableSensitiveDataLogging();
+                optionsBuilder.EnableDetailedErrors();
+                optionsBuilder.EnableSensitiveDataLogging();
             }
         });
 
         // Verificador de saúde da base de dados.
         healthChecksBuilder.AddDbContextCheck<SgpContext>(
-            tags: new[] { "database", "dbcontext" },
+            tags: DbRelationalTags,
             customTestQuery: (context, cancellationToken) =>
                 context.Cidades.AsNoTracking().AnyAsync(cancellationToken));
 
