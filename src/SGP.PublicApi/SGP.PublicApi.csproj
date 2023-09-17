@@ -14,6 +14,7 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" />
     <PackageReference Include="Ardalis.Result" />
+    <PackageReference Include="AspNetCore.HealthChecks.Redis" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />

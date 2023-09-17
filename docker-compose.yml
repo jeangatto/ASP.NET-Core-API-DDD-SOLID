@@ -15,19 +15,20 @@ services:
       dockerfile: src/SGP.PublicApi/Dockerfile
     restart: unless-stopped
     links:
-      - "redis"
+      - "sgp-sql-server"
+      - "sgp-redis"
     networks:
       - app-network
     depends_on:
-      - "sqlserver"
-      - "redis"
+      - "sgp-sql-server"
+      - "sgp-redis"
 
   # SQL Server
-  sqlserver:
+  sgp-sql-server:
     image: mcr.microsoft.com/azure-sql-edge:latest
     cap_add: [ 'SYS_PTRACE' ]
     hostname: mssql
-    container_name: sqlserver
+    container_name: sgp-sql-server
     restart: always
     ports:
       - "1433:1433"
@@ -38,9 +39,9 @@ services:
       - app-network
 
   # Redis Cache Server
-  redis:
+  sgp-redis:
     image: redis:latest
-    container_name: redis
+    container_name: sgp-redis
     command: redis-server --requirepass pMA63033n6tF
     restart: always
     expose:

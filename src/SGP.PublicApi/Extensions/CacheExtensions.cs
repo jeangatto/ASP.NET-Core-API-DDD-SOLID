@@ -10,7 +10,10 @@ namespace SGP.PublicApi.Extensions;
 [ExcludeFromCodeCoverage]
 internal static class CacheExtensions
 {
-    internal static IServiceCollection AddCache(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddCacheService(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        IHealthChecksBuilder healthChecksBuilder)
     {
         var inMemoryOptions = configuration.GetOptions<InMemoryOptions>();
         if (inMemoryOptions.Cache)
@@ -28,6 +31,8 @@ internal static class CacheExtensions
                 options.InstanceName = "master";
                 options.Configuration = connections.Cache;
             }).AddDistributedCacheService();
+
+            healthChecksBuilder.AddRedis(connections.Cache);
         }
 
         return services;

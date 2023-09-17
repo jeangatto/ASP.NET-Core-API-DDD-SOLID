@@ -27,6 +27,8 @@ using StackExchange.Profiling;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var healthChecksBuilder = builder.Services.AddHealthChecks();
+
 builder.Services
     .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Fastest)
     .Configure<MvcNewtonsoftJsonOptions>(jsonOptions => jsonOptions.SerializerSettings.Configure())
@@ -38,7 +40,6 @@ builder.Services
         compressionOptions.EnableForHttps = true;
         compressionOptions.Providers.Add<GzipCompressionProvider>();
     })
-    .AddCache(builder.Configuration)
     .AddApiVersioning(versioningOptions =>
     {
         versioningOptions.DefaultApiVersion = ApiVersion.Default;
@@ -53,10 +54,11 @@ builder.Services
     .AddOpenApi()
     .ConfigureAppSettings()
     .AddJwtBearer(builder.Configuration, builder.Environment.IsProduction())
-    .AddServices()
     .AddInfrastructure()
     .AddRepositories()
-    .AddSpgContext(builder.Services.AddHealthChecks());
+    .AddCacheService(builder.Configuration, healthChecksBuilder)
+    .AddSpgContext(healthChecksBuilder)
+    .AddServices();
 
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>

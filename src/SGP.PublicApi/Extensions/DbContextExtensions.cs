@@ -13,10 +13,6 @@ namespace SGP.PublicApi.Extensions;
 [ExcludeFromCodeCoverage]
 internal static class DbContextExtensions
 {
-    private static readonly string MigrationAssemblyName = typeof(Program).Assembly.GetName().Name;
-    private static readonly string[] DbHealthCheckTags = new[] { "database", "dbcontext" };
-    private const int DbMaxRetryCount = 3;
-
     internal static IServiceCollection AddSpgContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
     {
         services.AddDbContext<SgpContext>((serviceProvider, dbBuilderOptions) =>
@@ -24,14 +20,17 @@ internal static class DbContextExtensions
             var inMemoryOptions = serviceProvider.GetOptions<InMemoryOptions>();
             if (inMemoryOptions.Database)
             {
-                dbBuilderOptions.UseInMemoryDatabase($"InMemory_{nameof(SgpContext)}");
+                dbBuilderOptions.UseInMemoryDatabase($"IN_MEMORY_{nameof(SgpContext)}");
             }
             else
             {
                 var connections = serviceProvider.GetOptions<ConnectionStrings>();
 
                 dbBuilderOptions.UseSqlServer(connections.Database, sqlOptions =>
-                    sqlOptions.MigrationsAssembly(MigrationAssemblyName).EnableRetryOnFailure(DbMaxRetryCount));
+                {
+                    sqlOptions.MigrationsAssembly(typeof(Program).Assembly.GetName().Name);
+                    sqlOptions.EnableRetryOnFailure(3);
+                });
             }
 
             var logger = serviceProvider.GetRequiredService<ILogger<SgpContext>>();
@@ -68,7 +67,7 @@ internal static class DbContextExtensions
 
         // Verificador de saúde da base de dados.
         healthChecksBuilder.AddDbContextCheck<SgpContext>(
-            tags: DbHealthCheckTags,
+            tags: new[] { "database", "dbcontext" },
             customTestQuery: (context, cancellationToken) =>
                 context.Cidades.AsNoTracking().AnyAsync(cancellationToken));
 
