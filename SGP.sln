@@ -5,11 +5,14 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A862AD49-3494-4025-9CA7-EAB7E387F738}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
+		docker-compose.override.yml = docker-compose.override.yml
+		docker-compose.yml = docker-compose.yml
 		global.json = global.json
 		LICENSE = LICENSE
 		nuget.config = nuget.config
@@ -39,13 +42,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		.github\workflows\nightly-cleanup.yml = .github\workflows\nightly-cleanup.yml
 		.github\workflows\sonar-cloud.yml = .github\workflows\sonar-cloud.yml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{018766F4-6284-488F-8F31-771848322B65}"
-	ProjectSection(SolutionItems) = preProject
-		.dockerignore = .dockerignore
-		docker-compose.override.yml = docker-compose.override.yml
-		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{0C913A98-ECBB-4054-A6AE-715519D763C2}"
@@ -102,7 +98,6 @@ Global
 		{354FFA12-4DEF-49A6-88B1-83B45F35350A} = {00637B26-894B-4784-9D83-29655C34E53B}
 		{3FB54454-0FC3-4BB9-87A1-92AD63745C53} = {C3E53C44-C421-44E4-834C-AB622D660DF5}
 		{17C9636E-57FC-4E6B-8A4E-B69268BCBF7D} = {A862AD49-3494-4025-9CA7-EAB7E387F738}
-		{018766F4-6284-488F-8F31-771848322B65} = {A862AD49-3494-4025-9CA7-EAB7E387F738}
 		{0C913A98-ECBB-4054-A6AE-715519D763C2} = {1A7E254F-9AE3-4A7C-8EAE-D478A87D6592}
 		{00637B26-894B-4784-9D83-29655C34E53B} = {1A7E254F-9AE3-4A7C-8EAE-D478A87D6592}
 		{AB2855AD-3878-486B-9A6D-E0FE5574B960} = {1A7E254F-9AE3-4A7C-8EAE-D478A87D6592}
