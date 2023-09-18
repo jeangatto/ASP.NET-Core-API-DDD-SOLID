@@ -29,13 +29,14 @@ using StackExchange.Profiling;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var healthChecksBuilder = builder.Services.AddHealthChecks();
-
 builder.Services
     .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Fastest)
     .Configure<MvcNewtonsoftJsonOptions>(jsonOptions => jsonOptions.SerializerSettings.Configure())
-    .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true)
-    .AddHttpClient()
+    .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true);
+
+var healthChecksBuilder = builder.Services.AddHealthChecks();
+
+builder.Services.AddHttpClient()
     .AddHttpContextAccessor()
     .AddResponseCompression(compressionOptions =>
     {
@@ -62,12 +63,14 @@ builder.Services
     .AddSpgContext(healthChecksBuilder)
     .AddServices();
 
+builder.Services.AddDataProtection();
+
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
     {
         options.SuppressMapClientErrors = true;
         options.SuppressModelStateInvalidFilter = true;
-    }).AddNewtonsoftJson();
+    }).AddNewtonsoftJson((_) => { });
 
 // MiniProfiler for .NET
 // https://miniprofiler.com/dotnet/
