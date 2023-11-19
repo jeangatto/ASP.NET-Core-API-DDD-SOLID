@@ -17,38 +17,28 @@ using SGP.Shared.AppSettings;
 
 namespace SGP.Application.Services;
 
-public class AuthenticationService : IAuthenticationService
+public class AuthenticationService(
+    IOptions<AuthOptions> authOptions,
+    IDateTimeService dateTimeService,
+    IHashService hashService,
+    ITokenClaimsService tokenClaimsService,
+    IUsuarioRepository repository,
+    IUnitOfWork uow
+    ) : IAuthenticationService
 {
-    #region Constructor
 
-    public AuthenticationService
-    (
-        IOptions<AuthOptions> authOptions,
-        IDateTimeService dateTimeService,
-        IHashService hashService,
-        ITokenClaimsService tokenClaimsService,
-        IUsuarioRepository repository,
-        IUnitOfWork uow
-    )
-    {
-        _authOptions = authOptions.Value;
-        _dateTimeService = dateTimeService;
-        _hashService = hashService;
-        _tokenClaimsService = tokenClaimsService;
-        _repository = repository;
-        _uow = uow;
-    }
+    #region Constructor
 
     #endregion
 
     #region Fields
 
-    private readonly AuthOptions _authOptions;
-    private readonly IDateTimeService _dateTimeService;
-    private readonly IHashService _hashService;
-    private readonly ITokenClaimsService _tokenClaimsService;
-    private readonly IUsuarioRepository _repository;
-    private readonly IUnitOfWork _uow;
+    private readonly AuthOptions _authOptions = authOptions.Value;
+    private readonly IDateTimeService _dateTimeService = dateTimeService;
+    private readonly IHashService _hashService = hashService;
+    private readonly ITokenClaimsService _tokenClaimsService = tokenClaimsService;
+    private readonly IUsuarioRepository _repository = repository;
+    private readonly IUnitOfWork _uow = uow;
 
     #endregion
 

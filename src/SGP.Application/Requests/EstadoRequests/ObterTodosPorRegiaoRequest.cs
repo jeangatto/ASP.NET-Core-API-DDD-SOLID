@@ -4,12 +4,9 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.EstadoRequests;
 
-public class ObterTodosPorRegiaoRequest : BaseRequestWithValidation
+public class ObterTodosPorRegiaoRequest(string regiao) : BaseRequestWithValidation
 {
-    public ObterTodosPorRegiaoRequest(string regiao) =>
-        Regiao = regiao;
-
-    public string Regiao { get; }
+    public string Regiao { get; } = regiao;
 
     public override async Task ValidateAsync() =>
         ValidationResult = await LazyValidator.ValidateAsync<ObterTodosPorRegiaoRequestValidator>(this);

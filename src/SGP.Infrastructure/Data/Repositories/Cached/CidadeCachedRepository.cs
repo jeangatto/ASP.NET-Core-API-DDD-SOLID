@@ -7,14 +7,11 @@ using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Data.Repositories.Cached;
 
-public class CidadeCachedRepository : CachedRepositoryBase<ICidadeRepository>, ICidadeRepository
+public class CidadeCachedRepository(ICacheService cacheService, ICidadeRepository repository) : CachedRepositoryBase<ICidadeRepository>(cacheService, repository), ICidadeRepository
 {
     private const string RootName = nameof(ICidadeRepository);
     private const string ObterPorIbgeCacheKey = $"{RootName}__{nameof(ObterPorIbgeAsync)}__{{0}}";
     private const string ObterTodosPorUfCacheKey = $"{RootName}__{nameof(ObterTodosPorUfAsync)}__{{0}}";
-
-    public CidadeCachedRepository(ICacheService cacheService, ICidadeRepository repository)
-        : base(cacheService, repository) { }
 
     public async Task<Cidade> ObterPorIbgeAsync(int ibge)
     {

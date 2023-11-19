@@ -6,12 +6,9 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SGP.PublicApi.Options;
 
-public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+public class ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider) : IConfigureOptions<SwaggerGenOptions>
 {
-    private readonly IApiVersionDescriptionProvider _provider;
-
-    public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider) =>
-        _provider = provider;
+    private readonly IApiVersionDescriptionProvider _provider = provider;
 
     public void Configure(SwaggerGenOptions options)
     {

@@ -4,12 +4,9 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.CidadeRequests;
 
-public class ObterTodosPorUfRequest : BaseRequestWithValidation
+public class ObterTodosPorUfRequest(string uf) : BaseRequestWithValidation
 {
-    public ObterTodosPorUfRequest(string uf) =>
-        Uf = uf;
-
-    public string Uf { get; }
+    public string Uf { get; } = uf;
 
     public override async Task ValidateAsync() =>
         ValidationResult = await LazyValidator.ValidateAsync<ObterTodosPorUfRequestValidator>(this);

@@ -1,7 +1,6 @@
 using System;
 using FluentAssertions;
 using SGP.Infrastructure.Services;
-using SGP.Shared.Abstractions;
 using Xunit;
 using Xunit.Categories;
 
@@ -23,5 +22,5 @@ public class LocalDateTimeServiceTests
         actual.Should().BeSameDateAs(DateTime.Now);
     }
 
-    private static IDateTimeService CreateDateTime() => new DateTimeService();
+    private static DateTimeService CreateDateTime() => new();
 }

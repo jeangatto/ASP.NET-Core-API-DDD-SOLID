@@ -10,7 +10,7 @@ namespace SGP.Application;
 [ExcludeFromCodeCoverage]
 public static class ConfigureServices
 {
-    private static readonly Assembly[] AssembliesToScan = { Assembly.GetExecutingAssembly() };
+    private static readonly Assembly[] AssembliesToScan = [Assembly.GetExecutingAssembly()];
 
     public static IServiceCollection AddServices(this IServiceCollection services)
     {

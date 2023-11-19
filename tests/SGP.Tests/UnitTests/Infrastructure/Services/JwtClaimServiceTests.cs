@@ -4,7 +4,6 @@ using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using SGP.Infrastructure.Services;
-using SGP.Shared.Abstractions;
 using SGP.Shared.AppSettings;
 using Xunit;
 using Xunit.Categories;
@@ -56,7 +55,7 @@ public class JwtClaimServiceTests
         var service = CreateTokenClaimsService();
 
         // Act
-        Action actual = () => service.GenerateAccessToken(Array.Empty<Claim>());
+        Action actual = () => service.GenerateAccessToken([]);
 
         // Assert
         actual.Should().ThrowExactly<ArgumentException>().And.ParamName.Should().Be("claims");
@@ -75,11 +74,9 @@ public class JwtClaimServiceTests
         actual.Should().ThrowExactly<ArgumentNullException>().And.ParamName.Should().Be("claims");
     }
 
-    private static ITokenClaimsService CreateTokenClaimsService()
-        => new JwtClaimService(CreateJwtConfig(), CreateDateTimeService());
+    private static JwtClaimService CreateTokenClaimsService() => new(CreateJwtConfig(), CreateDateTimeService());
 
-    private static IDateTimeService CreateDateTimeService()
-        => new DateTimeService();
+    private static DateTimeService CreateDateTimeService() => new();
 
     private static IOptions<JwtOptions> CreateJwtConfig()
     {

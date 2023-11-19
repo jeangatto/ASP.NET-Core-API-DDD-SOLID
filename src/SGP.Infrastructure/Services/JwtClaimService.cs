@@ -12,17 +12,11 @@ using SGP.Shared.Records;
 
 namespace SGP.Infrastructure.Services;
 
-public class JwtClaimService : ITokenClaimsService
+public class JwtClaimService(IOptions<JwtOptions> jwtOptions, IDateTimeService dateTimeService) : ITokenClaimsService
 {
     private const short RefreshTokenBytesLength = 64;
-    private readonly IDateTimeService _dateTimeService;
-    private readonly JwtOptions _jwtConfig;
-
-    public JwtClaimService(IOptions<JwtOptions> jwtOptions, IDateTimeService dateTimeService)
-    {
-        _jwtConfig = jwtOptions.Value;
-        _dateTimeService = dateTimeService;
-    }
+    private readonly IDateTimeService _dateTimeService = dateTimeService;
+    private readonly JwtOptions _jwtConfig = jwtOptions.Value;
 
     public AccessToken GenerateAccessToken(Claim[] claims)
     {

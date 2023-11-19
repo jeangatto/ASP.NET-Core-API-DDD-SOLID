@@ -11,16 +11,10 @@ using SGP.Domain.Repositories;
 
 namespace SGP.Application.Services;
 
-public class EstadoService : IEstadoService
+public class EstadoService(IMapper mapper, IEstadoRepository repository) : IEstadoService
 {
-    private readonly IMapper _mapper;
-    private readonly IEstadoRepository _repository;
-
-    public EstadoService(IMapper mapper, IEstadoRepository repository)
-    {
-        _mapper = mapper;
-        _repository = repository;
-    }
+    private readonly IMapper _mapper = mapper;
+    private readonly IEstadoRepository _repository = repository;
 
     public async Task<Result<IEnumerable<EstadoResponse>>> ObterTodosAsync()
     {

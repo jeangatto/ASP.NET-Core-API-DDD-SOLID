@@ -5,16 +5,14 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Requests.AuthenticationRequests;
 
-public class RefreshTokenRequest : BaseRequestWithValidation
+public class RefreshTokenRequest(string token) : BaseRequestWithValidation
 {
-    public RefreshTokenRequest(string token) =>
-        Token = token;
 
     /// <summary>
     /// Token de atualização (RefreshToken)
     /// </summary>
     [Required]
-    public string Token { get; }
+    public string Token { get; } = token;
 
     public override async Task ValidateAsync() =>
         ValidationResult = await LazyValidator.ValidateAsync<RefreshTokenRequestValidator>(this);

@@ -9,7 +9,6 @@ using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Infrastructure.Data;
 using SGP.Infrastructure.Data.Repositories;
-using SGP.Shared.Abstractions;
 using SGP.Tests.Extensions;
 using SGP.Tests.Fixtures;
 using Xunit;
@@ -18,11 +17,9 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Data.Repositories;
 
 [UnitTest]
-public class UsuarioRepositoryTests : IClassFixture<EfSqliteFixture>
+public class UsuarioRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture;
-
-    public UsuarioRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
+    private readonly EfSqliteFixture _fixture = fixture;
 
     [Fact]
     public async Task Devera_RetonarVerdadeiro_AoVerificarSeEmailJaExiste()
@@ -151,9 +148,7 @@ public class UsuarioRepositoryTests : IClassFixture<EfSqliteFixture>
             .Generate();
     }
 
-    private IUsuarioRepository CriarRepositorio() =>
-        new UsuarioRepository(_fixture.Context);
+    private UsuarioRepository CriarRepositorio() => new(_fixture.Context);
 
-    private IUnitOfWork CriarUoW() =>
-        new UnitOfWork(_fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
+    private UnitOfWork CriarUoW() => new(_fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
 }

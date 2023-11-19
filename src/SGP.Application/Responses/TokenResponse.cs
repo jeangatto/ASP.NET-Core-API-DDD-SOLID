@@ -3,35 +3,28 @@ using SGP.Shared.Messages;
 
 namespace SGP.Application.Responses;
 
-public sealed class TokenResponse : IResponse
+public sealed class TokenResponse(string accessToken, DateTime created, DateTime expiration, string refreshToken) : IResponse
 {
-    public TokenResponse(string accessToken, DateTime created, DateTime expiration, string refreshToken)
-    {
-        AccessToken = accessToken;
-        Created = created;
-        Expiration = expiration;
-        RefreshToken = refreshToken;
-    }
 
     /// <summary>
     /// Token de acesso.
     /// </summary>
-    public string AccessToken { get; }
+    public string AccessToken { get; } = accessToken;
 
     /// <summary>
     /// Data da criação do token.
     /// </summary>
-    public DateTime Created { get; }
+    public DateTime Created { get; } = created;
 
     /// <summary>
     /// Data do vencimento do token.
     /// </summary>
-    public DateTime Expiration { get; }
+    public DateTime Expiration { get; } = expiration;
 
     /// <summary>
     /// Token de atualização.
     /// </summary>
-    public string RefreshToken { get; }
+    public string RefreshToken { get; } = refreshToken;
 
     /// <summary>
     /// Expiração do token em segundos.

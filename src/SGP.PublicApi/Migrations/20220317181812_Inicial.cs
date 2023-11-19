@@ -5,6 +5,8 @@ namespace SGP.PublicApi.Migrations;
 
 public partial class Inicial : Migration
 {
+    private static readonly string[] IndexCidadesEstadoId = ["Nome", "Ibge"];
+
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
@@ -96,7 +98,7 @@ public partial class Inicial : Migration
         migrationBuilder.CreateIndex(
             name: "IX_Cidades_EstadoId",
             table: "Cidades",
-            column: "EstadoId").Annotation("SqlServer:Include", new[] { "Nome", "Ibge" });
+            column: "EstadoId").Annotation("SqlServer:Include", IndexCidadesEstadoId);
 
         migrationBuilder.CreateIndex(
             name: "IX_Cidades_Ibge",

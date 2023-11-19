@@ -5,11 +5,9 @@ using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Services;
 
-public class BCryptHashService : IHashService
+public class BCryptHashService(ILogger<BCryptHashService> logger) : IHashService
 {
-    private readonly ILogger<BCryptHashService> _logger;
-
-    public BCryptHashService(ILogger<BCryptHashService> logger) => _logger = logger;
+    private readonly ILogger<BCryptHashService> _logger = logger;
 
     public bool Compare(string text, string hash)
     {

@@ -111,7 +111,6 @@ app.UseHealthChecks("/health", new HealthCheckOptions
 app.UseHttpsRedirection();
 app.UseHsts();
 app.UseRouting();
-app.UseHttpLogging();
 app.UseResponseCompression();
 app.UseAuthentication();
 app.UseAuthorization();

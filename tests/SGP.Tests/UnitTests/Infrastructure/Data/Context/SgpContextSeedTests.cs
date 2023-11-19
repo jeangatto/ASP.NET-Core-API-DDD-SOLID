@@ -10,11 +10,9 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Data.Context;
 
 [UnitTest]
-public class SgpContextSeedTests : IClassFixture<EfSqliteFixture>
+public class SgpContextSeedTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture;
-
-    public SgpContextSeedTests(EfSqliteFixture fixture) => _fixture = fixture;
+    private readonly EfSqliteFixture _fixture = fixture;
 
     [Fact]
     public async Task Should_ReturnsRowsAffected_WhenEnsureSeedData()

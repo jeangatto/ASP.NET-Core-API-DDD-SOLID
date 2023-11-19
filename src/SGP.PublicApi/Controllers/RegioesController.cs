@@ -13,12 +13,9 @@ namespace SGP.PublicApi.Controllers;
 [Route("api/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]
-public class RegioesController : ControllerBase
+public class RegioesController(IRegiaoService service) : ControllerBase
 {
-    private readonly IRegiaoService _service;
-
-    public RegioesController(IRegiaoService service) =>
-        _service = service;
+    private readonly IRegiaoService _service = service;
 
     /// <summary>
     /// Obtém uma lista com todas as regiões.

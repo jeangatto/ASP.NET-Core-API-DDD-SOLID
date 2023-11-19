@@ -47,13 +47,11 @@ internal static class JwtBearerExtensions
             });
 
         // Ativa o uso do token como forma de autorizar o acesso a recursos deste projeto.
-        services.AddAuthorization(authOptions =>
-        {
-            authOptions.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                .RequireAuthenticatedUser()
-                .Build());
-        });
+        services.AddAuthorizationBuilder()
+            .AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+            .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+            .RequireAuthenticatedUser()
+            .Build());
 
         return services;
     }

@@ -6,7 +6,6 @@ using NSubstitute;
 using SGP.Domain.Entities;
 using SGP.Infrastructure.Data;
 using SGP.Infrastructure.Data.Context;
-using SGP.Shared.Abstractions;
 using SGP.Tests.Fixtures;
 using Xunit;
 using Xunit.Categories;
@@ -14,11 +13,9 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Data;
 
 [UnitTest]
-public class UnitOfWorkTests : IClassFixture<EfSqliteFixture>
+public class UnitOfWorkTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture;
-
-    public UnitOfWorkTests(EfSqliteFixture fixture) => _fixture = fixture;
+    private readonly EfSqliteFixture _fixture = fixture;
 
     [Fact]
     public async Task Should_ReturnRowsAffected_WhenSaveChanges()
@@ -56,6 +53,5 @@ public class UnitOfWorkTests : IClassFixture<EfSqliteFixture>
         return _fixture.Context;
     }
 
-    private IUnitOfWork CreateUoW() =>
-        new UnitOfWork(_fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
+    private UnitOfWork CreateUoW() => new(_fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
 }

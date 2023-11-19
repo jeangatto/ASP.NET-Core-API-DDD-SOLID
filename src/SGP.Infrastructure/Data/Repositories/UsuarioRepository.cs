@@ -10,12 +10,8 @@ using SGP.Infrastructure.Data.Repositories.Common;
 
 namespace SGP.Infrastructure.Data.Repositories;
 
-public class UsuarioRepository : EfRepository<Usuario>, IUsuarioRepository
+public class UsuarioRepository(SgpContext context) : EfRepository<Usuario>(context), IUsuarioRepository
 {
-    public UsuarioRepository(SgpContext context) : base(context)
-    {
-    }
-
     public override async Task<Usuario> GetByIdAsync(Guid id, bool readOnly = false) =>
         await (readOnly ? DbSet.AsNoTracking() : DbSet.AsQueryable())
             .Include(u => u.Tokens.OrderByDescending(t => t.ExpiraEm))

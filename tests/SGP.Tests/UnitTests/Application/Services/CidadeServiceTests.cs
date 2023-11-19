@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Ardalis.Result;
 using AutoMapper;
 using FluentAssertions;
-using SGP.Application.Interfaces;
 using SGP.Application.Mapper;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Services;
@@ -15,11 +14,9 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Application.Services;
 
 [UnitTest]
-public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
+public class CidadeServiceTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture;
-
-    public CidadeServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
+    private readonly EfSqliteFixture _fixture = fixture;
 
     [Fact]
     public async Task Devera_RetornarErroValidacao_AoObterTodosPorUfInvalido()
@@ -152,7 +149,7 @@ public class CidadeServiceTests : IClassFixture<EfSqliteFixture>
             .And.SatisfyRespectively(error => error.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
     }
 
-    private ICidadeService CriarServico()
+    private CidadeService CriarServico()
     {
         var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
         var repositorio = new CidadeRepository(_fixture.Context);

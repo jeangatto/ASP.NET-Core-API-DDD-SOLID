@@ -53,7 +53,7 @@ public static class SgpContextSeed
         context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
     }
 
-    private static async Task AddEntitiesIfNotExistsAsync<TEntity>(DbContext context, string fileName)
+    private static async Task AddEntitiesIfNotExistsAsync<TEntity>(SgpContext context, string fileName)
         where TEntity : class
     {
         if (!await context.Set<TEntity>().AsNoTracking().AnyAsync())

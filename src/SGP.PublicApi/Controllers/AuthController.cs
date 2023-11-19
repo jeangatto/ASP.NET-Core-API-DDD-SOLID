@@ -15,12 +15,9 @@ namespace SGP.PublicApi.Controllers;
 [Route("api/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]
-public class AuthController : ControllerBase
+public class AuthController(IAuthenticationService service) : ControllerBase
 {
-    private readonly IAuthenticationService _service;
-
-    public AuthController(IAuthenticationService service) =>
-        _service = service;
+    private readonly IAuthenticationService _service = service;
 
     /// <summary>
     /// Efetua a autenticação.

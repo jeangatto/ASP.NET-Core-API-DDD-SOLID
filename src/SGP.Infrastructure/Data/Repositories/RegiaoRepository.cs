@@ -9,12 +9,8 @@ using SGP.Infrastructure.Data.Repositories.Common;
 
 namespace SGP.Infrastructure.Data.Repositories;
 
-public class RegiaoRepository : RepositoryBase<Regiao>, IRegiaoRepository
+public class RegiaoRepository(SgpContext context) : RepositoryBase<Regiao>(context), IRegiaoRepository
 {
-    public RegiaoRepository(SgpContext context) : base(context)
-    {
-    }
-
     public async Task<IEnumerable<Regiao>> ObterTodosAsync() =>
         await DbSet.AsNoTracking().OrderBy(r => r.Nome).ToListAsync();
 }

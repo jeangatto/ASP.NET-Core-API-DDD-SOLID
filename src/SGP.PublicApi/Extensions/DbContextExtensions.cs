@@ -19,7 +19,7 @@ internal static class DbContextExtensions
     private const string DbInMemoryName = $"Db-InMemory-{nameof(SgpContext)}";
     private const string DbMigrationAssemblyName = "SGP.PublicApi";
 
-    private static readonly string[] DbRelationalTags = { "database", "ef-core", "sql-server", "relational" };
+    private static readonly string[] DbRelationalTags = ["database", "ef-core", "sql-server", "relational"];
 
     internal static IServiceCollection AddSpgContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
     {

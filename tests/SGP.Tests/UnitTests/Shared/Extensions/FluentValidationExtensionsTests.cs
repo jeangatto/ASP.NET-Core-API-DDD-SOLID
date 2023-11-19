@@ -61,7 +61,7 @@ public class FluentValidationExtensionsTests
         result.ShouldHaveAnyValidationError();
     }
 
-    private static IValidator<string> CreateValidator()
+    private static InlineValidator<string> CreateValidator()
     {
         var validator = new InlineValidator<string>();
         validator.RuleFor(address => address).IsValidEmailAddress();

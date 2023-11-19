@@ -14,12 +14,9 @@ namespace SGP.PublicApi.Controllers;
 [Route("api/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]
-public class EstadosController : ControllerBase
+public class EstadosController(IEstadoService service) : ControllerBase
 {
-    private readonly IEstadoService _service;
-
-    public EstadosController(IEstadoService service) =>
-        _service = service;
+    private readonly IEstadoService _service = service;
 
     /// <summary>
     /// Obtém uma lista com todos os estados.

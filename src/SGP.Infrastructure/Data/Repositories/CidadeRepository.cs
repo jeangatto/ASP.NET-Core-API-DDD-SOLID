@@ -9,12 +9,8 @@ using SGP.Infrastructure.Data.Repositories.Common;
 
 namespace SGP.Infrastructure.Data.Repositories;
 
-public class CidadeRepository : RepositoryBase<Cidade>, ICidadeRepository
+public class CidadeRepository(SgpContext context) : RepositoryBase<Cidade>(context), ICidadeRepository
 {
-    public CidadeRepository(SgpContext context) : base(context)
-    {
-    }
-
     public async Task<Cidade> ObterPorIbgeAsync(int ibge) =>
         await DbSet
             .AsNoTrackingWithIdentityResolution()

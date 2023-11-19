@@ -8,14 +8,9 @@ using SGP.Shared.AppSettings;
 
 namespace SGP.Infrastructure.Data.Context;
 
-public sealed class SgpContext : DbContext
+public sealed class SgpContext(DbContextOptions<SgpContext> dbOptions) : DbContext(dbOptions)
 {
     private readonly string _collation;
-
-    public SgpContext(DbContextOptions<SgpContext> dbOptions)
-        : base(dbOptions)
-    {
-    }
 
     public SgpContext(IOptions<ConnectionStrings> options, DbContextOptions<SgpContext> dbOptions)
         : this(dbOptions)

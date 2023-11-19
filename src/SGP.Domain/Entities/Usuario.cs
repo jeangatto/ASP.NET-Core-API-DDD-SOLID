@@ -7,7 +7,7 @@ namespace SGP.Domain.Entities;
 
 public class Usuario : BaseEntity, IAggregateRoot
 {
-    private readonly List<Token> _tokens = new();
+    private readonly List<Token> _tokens = [];
 
     public Usuario(string nome, Email email, string hashSenha)
     {

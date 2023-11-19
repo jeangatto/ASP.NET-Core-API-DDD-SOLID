@@ -8,16 +8,10 @@ using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Data;
 
-public sealed class UnitOfWork : IUnitOfWork
+public sealed class UnitOfWork(SgpContext context, ILogger<UnitOfWork> logger) : IUnitOfWork
 {
-    private readonly SgpContext _context;
-    private readonly ILogger<UnitOfWork> _logger;
-
-    public UnitOfWork(SgpContext context, ILogger<UnitOfWork> logger)
-    {
-        _context = context;
-        _logger = logger;
-    }
+    private readonly SgpContext _context = context;
+    private readonly ILogger<UnitOfWork> _logger = logger;
 
     public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
     {

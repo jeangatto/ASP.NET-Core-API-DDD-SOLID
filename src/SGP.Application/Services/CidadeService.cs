@@ -11,16 +11,10 @@ using SGP.Domain.Repositories;
 
 namespace SGP.Application.Services;
 
-public class CidadeService : ICidadeService
+public class CidadeService(IMapper mapper, ICidadeRepository repository) : ICidadeService
 {
-    private readonly IMapper _mapper;
-    private readonly ICidadeRepository _repository;
-
-    public CidadeService(IMapper mapper, ICidadeRepository repository)
-    {
-        _mapper = mapper;
-        _repository = repository;
-    }
+    private readonly IMapper _mapper = mapper;
+    private readonly ICidadeRepository _repository = repository;
 
     public async Task<Result<CidadeResponse>> ObterPorIbgeAsync(ObterPorIbgeRequest request)
     {

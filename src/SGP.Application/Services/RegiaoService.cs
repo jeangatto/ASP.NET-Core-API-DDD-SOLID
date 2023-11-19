@@ -8,16 +8,10 @@ using SGP.Domain.Repositories;
 
 namespace SGP.Application.Services;
 
-public class RegiaoService : IRegiaoService
+public class RegiaoService(IMapper mapper, IRegiaoRepository repository) : IRegiaoService
 {
-    private readonly IMapper _mapper;
-    private readonly IRegiaoRepository _repository;
-
-    public RegiaoService(IMapper mapper, IRegiaoRepository repository)
-    {
-        _repository = repository;
-        _mapper = mapper;
-    }
+    private readonly IMapper _mapper = mapper;
+    private readonly IRegiaoRepository _repository = repository;
 
     public async Task<Result<IEnumerable<RegiaoResponse>>> ObterTodosAsync()
     {

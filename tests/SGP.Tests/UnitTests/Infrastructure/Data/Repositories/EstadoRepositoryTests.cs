@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using FluentAssertions;
-using SGP.Domain.Repositories;
 using SGP.Infrastructure.Data.Repositories;
 using SGP.Tests.Constants;
 using SGP.Tests.Extensions;
@@ -11,11 +10,9 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Infrastructure.Data.Repositories;
 
 [UnitTest]
-public class EstadoRepositoryTests : IClassFixture<EfSqliteFixture>
+public class EstadoRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture;
-
-    public EstadoRepositoryTests(EfSqliteFixture fixture) => _fixture = fixture;
+    private readonly EfSqliteFixture _fixture = fixture;
 
     [Theory]
     [InlineData("Nordeste", 9)]
@@ -72,5 +69,5 @@ public class EstadoRepositoryTests : IClassFixture<EfSqliteFixture>
             });
     }
 
-    private IEstadoRepository CriarRepositorio() => new EstadoRepository(_fixture.Context);
+    private EstadoRepository CriarRepositorio() => new(_fixture.Context);
 }

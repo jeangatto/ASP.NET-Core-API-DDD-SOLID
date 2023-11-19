@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
-using SGP.Application.Interfaces;
 using SGP.Application.Mapper;
 using SGP.Application.Services;
 using SGP.Infrastructure.Data.Repositories;
@@ -14,11 +13,9 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Application.Services;
 
 [UnitTest]
-public class EstadoServiceTests : IClassFixture<EfSqliteFixture>
+public class EstadoServiceTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture;
-
-    public EstadoServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
+    private readonly EfSqliteFixture _fixture = fixture;
 
     [Fact]
     public async Task Devera_RetornarResultadoSucessoComEstados_AoObterTodos()
@@ -43,7 +40,7 @@ public class EstadoServiceTests : IClassFixture<EfSqliteFixture>
             });
     }
 
-    private IEstadoService CriarServico()
+    private EstadoService CriarServico()
     {
         var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
         var repositorio = new EstadoRepository(_fixture.Context);

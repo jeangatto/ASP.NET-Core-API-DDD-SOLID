@@ -6,7 +6,6 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using SGP.Application.Interfaces;
 using SGP.Application.Requests.AuthenticationRequests;
 using SGP.Application.Services;
 using SGP.Domain.Entities;
@@ -25,11 +24,9 @@ using Xunit.Categories;
 namespace SGP.Tests.UnitTests.Application.Services;
 
 [UnitTest]
-public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
+public class AuthenticationServiceTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture;
-
-    public AuthenticationServiceTests(EfSqliteFixture fixture) => _fixture = fixture;
+    private readonly EfSqliteFixture _fixture = fixture;
 
     [Fact]
     public async Task Devera_RetornarSucessoComToken_AoAutenticar()
@@ -152,7 +149,7 @@ public class AuthenticationServiceTests : IClassFixture<EfSqliteFixture>
             .And.SatisfyRespectively(error => error.Should().NotBeNullOrWhiteSpace().And.Be(expectedError));
     }
 
-    private static IAuthenticationService CreateAuthenticationService(
+    private static AuthenticationService CreateAuthenticationService(
         IOptions<AuthOptions> authOptions = null,
         IDateTimeService dateTimeService = null,
         IHashService hashService = null,

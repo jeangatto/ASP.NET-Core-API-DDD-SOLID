@@ -9,12 +9,8 @@ using SGP.Infrastructure.Data.Repositories.Common;
 
 namespace SGP.Infrastructure.Data.Repositories;
 
-public class EstadoRepository : RepositoryBase<Estado>, IEstadoRepository
+public class EstadoRepository(SgpContext context) : RepositoryBase<Estado>(context), IEstadoRepository
 {
-    public EstadoRepository(SgpContext context) : base(context)
-    {
-    }
-
     public async Task<IEnumerable<Estado>> ObterTodosAsync() =>
         await DbSet
             .AsNoTrackingWithIdentityResolution()

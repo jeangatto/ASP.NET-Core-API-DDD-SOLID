@@ -18,8 +18,8 @@
 
 Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
 
-[.NET 7](https://docs.microsoft.com/pt-br/dotnet/core/whats-new/dotnet-7) + [EF Core 7.0](https://docs.microsoft.com/pt-br/ef/core/what-is-new/ef-core-7.0/whatsnew) + JWT Bearer + OpenAPI (Swagger)
-
+- ASP.NET Core 8
+- Entity Framework Core 8
 - RESTful API
 - Banco de dados relacional: **SQL Server**
 - Cache Distribuído: **Redis**

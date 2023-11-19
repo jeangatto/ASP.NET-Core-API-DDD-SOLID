@@ -14,12 +14,9 @@ namespace SGP.PublicApi.Controllers;
 [Route("api/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]
-public class CidadesController : ControllerBase
+public class CidadesController(ICidadeService service) : ControllerBase
 {
-    private readonly ICidadeService _service;
-
-    public CidadesController(ICidadeService service) =>
-        _service = service;
+    private readonly ICidadeService _service = service;
 
     /// <summary>
     /// Obtém uma lista de cidades pelo código UF.

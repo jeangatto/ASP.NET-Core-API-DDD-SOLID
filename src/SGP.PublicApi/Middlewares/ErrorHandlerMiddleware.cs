@@ -9,23 +9,16 @@ using SGP.Shared.Extensions;
 
 namespace SGP.PublicApi.Middlewares;
 
-public class ErrorHandlerMiddleware
+public class ErrorHandlerMiddleware(
+    RequestDelegate next,
+    ILogger<ErrorHandlerMiddleware> logger,
+    IHostEnvironment environment)
 {
     private const string DefaultErrorMessage = "Ocorreu um erro interno ao processar a sua solicitação.";
 
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ErrorHandlerMiddleware> _logger;
-    private readonly IHostEnvironment _environment;
-
-    public ErrorHandlerMiddleware(
-        RequestDelegate next,
-        ILogger<ErrorHandlerMiddleware> logger,
-        IHostEnvironment environment)
-    {
-        _next = next;
-        _logger = logger;
-        _environment = environment;
-    }
+    private readonly RequestDelegate _next = next;
+    private readonly ILogger<ErrorHandlerMiddleware> _logger = logger;
+    private readonly IHostEnvironment _environment = environment;
 
     public async Task Invoke(HttpContext context)
     {
