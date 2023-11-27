@@ -5,7 +5,6 @@ namespace SGP.Application.Responses;
 
 public sealed class TokenResponse(string accessToken, DateTime created, DateTime expiration, string refreshToken) : IResponse
 {
-
     /// <summary>
     /// Token de acesso.
     /// </summary>

@@ -7,7 +7,6 @@ namespace SGP.Application.Requests.AuthenticationRequests;
 
 public class RefreshTokenRequest(string token) : BaseRequestWithValidation
 {
-
     /// <summary>
     /// Token de atualização (RefreshToken)
     /// </summary>

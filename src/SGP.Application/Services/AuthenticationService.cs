@@ -23,14 +23,8 @@ public class AuthenticationService(
     IHashService hashService,
     ITokenClaimsService tokenClaimsService,
     IUsuarioRepository repository,
-    IUnitOfWork uow
-    ) : IAuthenticationService
+    IUnitOfWork uow) : IAuthenticationService
 {
-
-    #region Constructor
-
-    #endregion
-
     #region Fields
 
     private readonly AuthOptions _authOptions = authOptions.Value;
