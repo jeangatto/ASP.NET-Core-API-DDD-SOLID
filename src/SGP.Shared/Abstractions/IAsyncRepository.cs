@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 
 namespace SGP.Shared.Abstractions;
 
-public interface IAsyncRepository<TEntity> : IRepository where TEntity : BaseEntity, IAggregateRoot
+public interface IAsyncRepository<TEntity> : IRepository
+    where TEntity : BaseEntity, IAggregateRoot
 {
     void Add(TEntity entity);
     void AddRange(IEnumerable<TEntity> entities);
