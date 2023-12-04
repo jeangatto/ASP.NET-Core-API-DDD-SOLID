@@ -36,7 +36,7 @@ public class AuthenticationControllerTests
         const string email = "jean_gatto@hotmail.com";
         const string senha = "@JiL8@cUA%pV";
 
-        using var webApplicationFactory = CreateWebApplication((serviceScope) =>
+        await using var webApplicationFactory = CreateWebApplication((serviceScope) =>
         {
             using var context = serviceScope.ServiceProvider.GetRequiredService<SgpContext>();
             var hashService = serviceScope.ServiceProvider.GetRequiredService<IHashService>();

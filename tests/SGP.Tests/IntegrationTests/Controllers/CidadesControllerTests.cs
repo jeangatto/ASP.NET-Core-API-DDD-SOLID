@@ -23,7 +23,7 @@ public class CidadesControllerTests
     public async Task Devera_RetornarResultadoSucessoComCidades_AoObterPorUf()
     {
         // Arrange
-        using var webApplicationFactory = CreateWebApplication();
+        await using var webApplicationFactory = CreateWebApplication();
         using var httpClient = webApplicationFactory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         const int total = 645;
@@ -51,7 +51,7 @@ public class CidadesControllerTests
     public async Task Devera_RetornarResultadoSucessoComCidade_AoObterPorIbge()
     {
         // Arrange
-        using var webApplicationFactory = CreateWebApplication();
+        await using var webApplicationFactory = CreateWebApplication();
         using var httpClient = webApplicationFactory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
         const int ibge = 3557105;
