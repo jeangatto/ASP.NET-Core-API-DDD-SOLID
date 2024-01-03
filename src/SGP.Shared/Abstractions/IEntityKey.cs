@@ -3,9 +3,7 @@ namespace SGP.Shared.Abstractions;
 /// <summary>
 /// Interface marcadora para representar uma entidade.
 /// </summary>
-public interface IEntity
-{
-}
+public interface IEntity;
 
 /// <summary>
 /// Interface marcadora para representar uma entidade.

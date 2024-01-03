@@ -14,7 +14,7 @@
     <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageVersion Include="AutoMapper" Version="12.0.1" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageVersion Include="Bogus" Version="35.2.0" />
+    <PackageVersion Include="Bogus" Version="35.3.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.0" />
     <PackageVersion Include="EntityFrameworkCore.DataEncryption" Version="4.0.1" />
