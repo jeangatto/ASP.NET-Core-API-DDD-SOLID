@@ -30,12 +30,18 @@ public class ErrorHandlerMiddleware(
         {
             _logger.LogError(ex, "Foi gerada uma exceção não esperada: {Message}", ex.Message);
 
-            context.Response.ContentType = MediaTypeNames.Application.Json;
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-            // Quando for ambiente de desenvolvimento, será exibida a stack trace completa da exception.
-            var errorMessage = _environment.IsDevelopment() ? ex.ToJson() : DefaultErrorMessage;
-            await context.Response.WriteAsync(ApiResponse.InternalServerError(errorMessage).ToJson());
+            if (_environment.IsDevelopment())
+            {
+                context.Response.ContentType = MediaTypeNames.Text.Plain;
+                await context.Response.WriteAsync(ex.ToString());
+            }
+            else
+            {
+                context.Response.ContentType = MediaTypeNames.Application.Json;
+                await context.Response.WriteAsync(ApiResponse.InternalServerError(DefaultErrorMessage).ToJson());
+            }
         }
     }
 }
