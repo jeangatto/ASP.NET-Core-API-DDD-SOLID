@@ -101,7 +101,7 @@ if (app.Environment.IsDevelopment())
 ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name;
 ValidatorOptions.Global.LanguageManager = new LanguageManager { Culture = new CultureInfo("pt-Br") };
 
-app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseSwaggerAndUI(app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
 app.UseHealthChecks("/health", new HealthCheckOptions
 {
