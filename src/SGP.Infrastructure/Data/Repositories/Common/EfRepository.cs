@@ -7,13 +7,9 @@ using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Data.Repositories.Common;
 
-public abstract class EfRepository<TEntity> : RepositoryBase<TEntity>, IAsyncRepository<TEntity>
-    where TEntity : BaseEntity, IAggregateRoot
+public abstract class EfRepository<TEntity>(SgpContext context)
+    : RepositoryBase<TEntity>(context), IAsyncRepository<TEntity> where TEntity : BaseEntity, IAggregateRoot
 {
-    protected EfRepository(SgpContext context) : base(context)
-    {
-    }
-
     public void Add(TEntity entity) =>
         DbSet.Add(entity);
 

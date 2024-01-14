@@ -120,14 +120,14 @@ public class AuthenticationService(
         return Result.Success(new TokenResponse(accessToken, createdAt, expiresAt, newRefreshToken));
     }
 
-    private static Claim[] GenerateClaims(Usuario usuario) => new[]
-    {
+    private static Claim[] GenerateClaims(Usuario usuario) =>
+    [
         new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
         new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Id.ToString()),
         new Claim(JwtRegisteredClaimNames.Sub, usuario.Nome, ClaimValueTypes.String),
         new Claim(JwtRegisteredClaimNames.Email, usuario.Email.ToString(), ClaimValueTypes.Email)
-    };
+    ];
 
     #endregion
 }

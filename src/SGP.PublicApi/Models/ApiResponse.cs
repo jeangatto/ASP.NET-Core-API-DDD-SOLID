@@ -152,5 +152,5 @@ public class ApiResponse
 
     #endregion
 
-    private static ApiError[] CreateApiErrors(string errorMessage) => new[] { new ApiError(errorMessage) };
+    private static ApiError[] CreateApiErrors(string errorMessage) => [new ApiError(errorMessage)];
 }

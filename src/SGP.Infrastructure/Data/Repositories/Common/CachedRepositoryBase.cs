@@ -3,16 +3,11 @@ using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Data.Repositories.Common;
 
-public abstract class CachedRepositoryBase<TRepository> : IDisposable where TRepository : IRepository
+public abstract class CachedRepositoryBase<TRepository>(ICacheService cacheService, TRepository repository)
+    : IDisposable where TRepository : IRepository
 {
-    protected readonly ICacheService CacheService;
-    protected readonly TRepository Repository;
-
-    protected CachedRepositoryBase(ICacheService cacheService, TRepository repository)
-    {
-        CacheService = cacheService;
-        Repository = repository;
-    }
+    protected readonly ICacheService CacheService = cacheService;
+    protected readonly TRepository Repository = repository;
 
     #region IDisposable
 

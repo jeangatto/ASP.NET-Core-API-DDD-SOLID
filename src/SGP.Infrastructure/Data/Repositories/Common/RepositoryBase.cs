@@ -4,16 +4,10 @@ using SGP.Infrastructure.Data.Context;
 
 namespace SGP.Infrastructure.Data.Repositories.Common;
 
-public abstract class RepositoryBase<TEntity> : IDisposable where TEntity : class
+public abstract class RepositoryBase<TEntity>(SgpContext context) : IDisposable where TEntity : class
 {
-    protected readonly DbSet<TEntity> DbSet;
-    private readonly SgpContext _context;
-
-    protected RepositoryBase(SgpContext context)
-    {
-        _context = context;
-        DbSet = context.Set<TEntity>();
-    }
+    protected readonly DbSet<TEntity> DbSet = context.Set<TEntity>();
+    private readonly SgpContext _context = context;
 
     #region IDisposable
 
