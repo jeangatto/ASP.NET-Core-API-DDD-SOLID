@@ -9,7 +9,6 @@ public static class EntityTypeBuilderExtensions
     /// Configuração da entidade base <see cref="BaseEntity" />.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    /// <param name="builder"></param>
     public static void ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
         where TEntity : BaseEntity
     {

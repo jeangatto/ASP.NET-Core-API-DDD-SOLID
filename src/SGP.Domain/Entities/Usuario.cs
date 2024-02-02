@@ -27,24 +27,26 @@ public class Usuario : BaseEntity, IAggregateRoot
     public DateTime? BloqueioExpiraEm { get; private set; }
     public int NumeroFalhasAoAcessar { get; private set; }
 
-    public IReadOnlyList<Token> Tokens => _tokens.AsReadOnly();
+    public IReadOnlyList<Token> Tokens =>
+        _tokens.AsReadOnly();
 
-    public void AdicionarToken(Token token) => _tokens.Add(token);
+    public void AdicionarToken(Token token) =>
+        _tokens.Add(token);
 
-    public void DefinirUltimoAcesso(DateTime dataUltimoAcesso) => UltimoAcessoEm = dataUltimoAcesso;
+    public void DefinirUltimoAcesso(DateTime dataUltimoAcesso) =>
+        UltimoAcessoEm = dataUltimoAcesso;
 
     /// <summary>
     /// Indica se a conta do usuário está bloqueada.
     /// </summary>
-    /// <param name="dateTimeService"></param>
     /// <returns>Verdadeiro se a conta estiver bloqueada; caso contrário, falso.</returns>
-    public bool EstaBloqueado(IDateTimeService dateTimeService) => BloqueioExpiraEm > dateTimeService.Now;
+    public bool EstaBloqueado(IDateTimeService dateTimeService) =>
+        BloqueioExpiraEm > dateTimeService.Now;
 
     /// <summary>
     /// Incremenenta o número de acessos que falharam.
     /// Quando é atingido o limite de acessos a conta será bloqueada por um tempo.
     /// </summary>
-    /// <param name="dateTimeService"></param>
     /// <param name="numeroTentativas">Número máximo de tentativas até a conta ser bloqueada.</param>
     /// <param name="lockedTimeSpan">Determinado tempo em que a conta ficará bloqueada.</param>
     public void IncrementarFalhas(IDateTimeService dateTimeService, int numeroTentativas, TimeSpan lockedTimeSpan)

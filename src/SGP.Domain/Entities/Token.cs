@@ -52,14 +52,15 @@ public class Token : BaseEntity
     /// <summary>
     /// Indica se o Token foi revogado (cancelado).
     /// </summary>
-    public bool EstaRevogado => RevogadoEm.HasValue;
+    public bool EstaRevogado =>
+        RevogadoEm.HasValue;
 
     /// <summary>
     /// Indica se o token está expirado ou revogado.
     /// </summary>
-    /// <param name="dateTimeService"></param>
     /// <returns>Verdadeiro se o token estiver expirado ou revogado; caso contrário, falso.</returns>
-    public bool EstaValido(IDateTimeService dateTimeService) => ExpiraEm >= dateTimeService.Now || EstaRevogado;
+    public bool EstaValido(IDateTimeService dateTimeService) =>
+        ExpiraEm >= dateTimeService.Now || EstaRevogado;
 
     /// <summary>
     /// Revoga (cancela) o token.
