@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 
 namespace SGP.PublicApi.Models;
@@ -24,7 +23,7 @@ public class ApiResponse
     /// <summary>
     /// Lista com os erros da requisição se não for bem-sucedida.
     /// </summary>
-    public IEnumerable<ApiError> Errors { get; private init; } = Enumerable.Empty<ApiError>();
+    public IEnumerable<ApiError> Errors { get; private init; } = [];
 
     #endregion
 
