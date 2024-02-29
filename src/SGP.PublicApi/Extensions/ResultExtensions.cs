@@ -28,7 +28,7 @@ public static class ResultExtensions
         {
             case ResultStatus.Invalid:
 
-                var validationErrors = result.ValidationErrors.ConvertAll(e => new ApiError(e.ErrorMessage));
+                var validationErrors = result.ValidationErrors.Select(e => new ApiError(e.ErrorMessage));
                 return new BadRequestObjectResult(ApiResponse.BadRequest(validationErrors));
 
             case ResultStatus.NotFound:
