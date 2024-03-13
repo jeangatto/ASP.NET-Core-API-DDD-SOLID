@@ -42,7 +42,7 @@ public class DistributedCacheService : ICacheService
         }
 
         var item = await factory();
-        if (item != null)
+        if (!item.IsDefault())
         {
             _logger.LogInformation("----- Added to DistributedCache: '{CacheKey}'", cacheKey);
 

@@ -31,7 +31,7 @@ public static class JsonExtensions
     /// <param name="value">O objeto a ser serializado.</param>
     /// <returns>Uma representação de string JSON do objeto.</returns>
     public static string ToJson<T>(this T value) =>
-        value != null ? JsonConvert.SerializeObject(value, LazySettings.Value) : default;
+        !value.IsDefault() ? JsonConvert.SerializeObject(value, LazySettings.Value) : default;
 
     public static JsonSerializerSettings Configure(this JsonSerializerSettings settings)
     {

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SGP.Shared.Abstractions;
 using SGP.Shared.AppSettings;
+using SGP.Shared.Extensions;
 
 namespace SGP.Infrastructure.Services;
 
@@ -40,7 +41,7 @@ public class MemoryCacheService : ICacheService
             }
 
             var item = await factory();
-            if (item != null)
+            if (!item.IsDefault())
             {
                 _logger.LogInformation("----- Added to MemoryCache: '{CacheKey}'", cacheKey);
                 _memoryCache.Set(cacheKey, item, _cacheOptions);
