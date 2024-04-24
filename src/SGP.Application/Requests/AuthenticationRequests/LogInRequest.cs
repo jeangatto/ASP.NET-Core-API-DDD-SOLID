@@ -18,5 +18,5 @@ public class LogInRequest(string email, string password) : BaseRequestWithValida
     public string Password { get; } = password;
 
     public override async Task ValidateAsync() =>
-        ValidationResult = await LazyValidator.ValidateAsync<LogInRequestValidator>(this);
+        ValidationResult = await LazyValidator.ValidateAsync<LogInRequestValidator, LogInRequest>(this);
 }

@@ -10,18 +10,18 @@ public static class LazyValidator
 {
     private static readonly ConcurrentDictionary<string, Lazy<IValidator>> Cache = new();
 
-    public static ValidationResult Validate<TValidator>(object instanceToValidate)
+    public static ValidationResult Validate<TValidator, TInstance>(TInstance instanceToValidate)
         where TValidator : IValidator
     {
-        var context = new ValidationContext<object>(instanceToValidate);
+        var context = new ValidationContext<TInstance>(instanceToValidate);
         var lazyValidator = CreateOrGetValidatorInstance<TValidator>();
         return lazyValidator.Value.Validate(context);
     }
 
-    public static async Task<ValidationResult> ValidateAsync<TValidator>(object instanceToValidate)
+    public static async Task<ValidationResult> ValidateAsync<TValidator, TInstance>(TInstance instanceToValidate)
         where TValidator : IValidator
     {
-        var context = new ValidationContext<object>(instanceToValidate);
+        var context = new ValidationContext<TInstance>(instanceToValidate);
         var lazyValidator = CreateOrGetValidatorInstance<TValidator>();
         return await lazyValidator.Value.ValidateAsync(context);
     }

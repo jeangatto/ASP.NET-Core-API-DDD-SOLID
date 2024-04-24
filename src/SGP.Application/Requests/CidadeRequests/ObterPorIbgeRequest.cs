@@ -9,5 +9,5 @@ public class ObterPorIbgeRequest(int ibge) : BaseRequestWithValidation
     public int Ibge { get; } = ibge;
 
     public override async Task ValidateAsync() =>
-        ValidationResult = await LazyValidator.ValidateAsync<ObterPorIbgeRequestValidator>(this);
+        ValidationResult = await LazyValidator.ValidateAsync<ObterPorIbgeRequestValidator, ObterPorIbgeRequest>(this);
 }

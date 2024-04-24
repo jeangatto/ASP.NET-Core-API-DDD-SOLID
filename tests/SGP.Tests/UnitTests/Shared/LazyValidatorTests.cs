@@ -19,7 +19,7 @@ public class LazyValidatorTests
         var request = new GetByIdRequest(id);
 
         // Act
-        var actual = LazyValidator.Validate<GetByIdRequestValidator>(request);
+        var actual = LazyValidator.Validate<GetByIdRequestValidator, GetByIdRequest>(request);
 
         // Assert
         actual.Should().NotBeNull();
@@ -35,7 +35,7 @@ public class LazyValidatorTests
         var request = new GetByIdRequest(id);
 
         // Act
-        var actual = await LazyValidator.ValidateAsync<GetByIdRequestValidator>(request);
+        var actual = await LazyValidator.ValidateAsync<GetByIdRequestValidator, GetByIdRequest>(request);
 
         // Assert
         actual.Should().NotBeNull();
@@ -48,11 +48,11 @@ public class LazyValidatorTests
     {
         // Arrange
         // Primeiro uso, criando o cache da instancia do validador
-        LazyValidator.Validate<GetByIdRequestValidator>(new GetByIdRequest(Guid.NewGuid()));
+        LazyValidator.Validate<GetByIdRequestValidator, GetByIdRequest>(new GetByIdRequest(Guid.NewGuid()));
         var request = new GetByIdRequest(string.Empty);
 
         // Act
-        var actual = LazyValidator.Validate<GetByIdRequestValidator>(request);
+        var actual = LazyValidator.Validate<GetByIdRequestValidator, GetByIdRequest>(request);
 
         // Assert
         actual.Should().NotBeNull();

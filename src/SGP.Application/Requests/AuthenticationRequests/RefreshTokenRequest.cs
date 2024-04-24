@@ -14,5 +14,5 @@ public class RefreshTokenRequest(string token) : BaseRequestWithValidation
     public string Token { get; } = token;
 
     public override async Task ValidateAsync() =>
-        ValidationResult = await LazyValidator.ValidateAsync<RefreshTokenRequestValidator>(this);
+        ValidationResult = await LazyValidator.ValidateAsync<RefreshTokenRequestValidator, RefreshTokenRequest>(this);
 }

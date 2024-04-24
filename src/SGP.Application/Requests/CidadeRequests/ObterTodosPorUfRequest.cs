@@ -9,5 +9,5 @@ public class ObterTodosPorUfRequest(string uf) : BaseRequestWithValidation
     public string Uf { get; } = uf;
 
     public override async Task ValidateAsync() =>
-        ValidationResult = await LazyValidator.ValidateAsync<ObterTodosPorUfRequestValidator>(this);
+        ValidationResult = await LazyValidator.ValidateAsync<ObterTodosPorUfRequestValidator, ObterTodosPorUfRequest>(this);
 }

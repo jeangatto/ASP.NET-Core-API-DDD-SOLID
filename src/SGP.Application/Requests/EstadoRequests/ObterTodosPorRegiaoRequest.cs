@@ -9,5 +9,5 @@ public class ObterTodosPorRegiaoRequest(string regiao) : BaseRequestWithValidati
     public string Regiao { get; } = regiao;
 
     public override async Task ValidateAsync() =>
-        ValidationResult = await LazyValidator.ValidateAsync<ObterTodosPorRegiaoRequestValidator>(this);
+        ValidationResult = await LazyValidator.ValidateAsync<ObterTodosPorRegiaoRequestValidator, ObterTodosPorRegiaoRequest>(this);
 }
