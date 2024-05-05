@@ -28,11 +28,6 @@ public class AuthenticationService(
     #region Fields
 
     private readonly AuthOptions _authOptions = authOptions.Value;
-    private readonly IDateTimeService _dateTimeService = dateTimeService;
-    private readonly IHashService _hashService = hashService;
-    private readonly ITokenClaimsService _tokenClaimsService = tokenClaimsService;
-    private readonly IUsuarioRepository _repository = repository;
-    private readonly IUnitOfWork _uow = uow;
 
     #endregion
 
@@ -44,31 +39,31 @@ public class AuthenticationService(
         if (!request.IsValid)
             return Result.Invalid(request.ValidationResult.AsErrors());
 
-        var usuario = await _repository.ObterPorEmailAsync(new Email(request.Email));
+        var usuario = await repository.ObterPorEmailAsync(new Email(request.Email));
         if (usuario == null)
             return Result.NotFound("A conta informada não existe.");
 
         // Verificando se a conta está bloqueada.
-        if (usuario.EstaBloqueado(_dateTimeService))
+        if (usuario.EstaBloqueado(dateTimeService))
             return Result.Error("A sua conta está bloqueada, entre em contato com o nosso suporte.");
 
         // Verificando se a senha corresponde a senha criptografada gravada na base de dados.
-        if (_hashService.Compare(request.Password, usuario.HashSenha))
+        if (hashService.Compare(request.Password, usuario.HashSenha))
         {
             // Gerando as regras (roles).
             var claims = GenerateClaims(usuario);
 
             // Gerando o token de acesso.
-            var (accessToken, createdAt, expiresAt) = _tokenClaimsService.GenerateAccessToken(claims);
+            var (accessToken, createdAt, expiresAt) = tokenClaimsService.GenerateAccessToken(claims);
 
             // Gerando o token de atualização.
-            var refreshToken = _tokenClaimsService.GenerateRefreshToken();
+            var refreshToken = tokenClaimsService.GenerateRefreshToken();
 
             // Vinculando o token atualização ao usuário.
             usuario.AdicionarToken(new Token(accessToken, refreshToken, createdAt, expiresAt));
 
-            _repository.Update(usuario);
-            await _uow.CommitAsync();
+            repository.Update(usuario);
+            await uow.CommitAsync();
 
             return Result.Success(new TokenResponse(accessToken, createdAt, expiresAt, refreshToken));
         }
@@ -76,10 +71,10 @@ public class AuthenticationService(
         // Se o login for inválido, será incrementado o número de falhas,
         // se atingido o limite de tentativas de acesso a conta será bloqueada por um determinado tempo.
         var lockedTimeSpan = TimeSpan.FromSeconds(_authOptions.SecondsBlocked);
-        usuario.IncrementarFalhas(_dateTimeService, _authOptions.MaximumAttempts, lockedTimeSpan);
+        usuario.IncrementarFalhas(dateTimeService, _authOptions.MaximumAttempts, lockedTimeSpan);
 
-        _repository.Update(usuario);
-        await _uow.CommitAsync();
+        repository.Update(usuario);
+        await uow.CommitAsync();
 
         return Result.Error("O e-mail ou senha está incorreta.");
     }
@@ -90,32 +85,32 @@ public class AuthenticationService(
         if (!request.IsValid)
             return Result.Invalid(request.ValidationResult.AsErrors());
 
-        var usuario = await _repository.ObterPorTokenAtualizacaoAsync(request.Token);
+        var usuario = await repository.ObterPorTokenAtualizacaoAsync(request.Token);
         if (usuario == null)
             return Result.NotFound("Nenhum token encontrado.");
 
         // Verificando se o token de atualização está expirado.
         var token = usuario.Tokens.FirstOrDefault(t => t.Atualizacao == request.Token);
-        if (token?.EstaValido(_dateTimeService) != false)
+        if (token?.EstaValido(dateTimeService) != false)
             return Result.Error("O token inválido ou expirado.");
 
         // Gerando as regras (roles).
         var claims = GenerateClaims(usuario);
 
         // Gerando um novo token de acesso.
-        var (accessToken, createdAt, expiresAt) = _tokenClaimsService.GenerateAccessToken(claims);
+        var (accessToken, createdAt, expiresAt) = tokenClaimsService.GenerateAccessToken(claims);
 
         // Revogando (cancelando) o token de atualização atual.
         token!.Revogar(createdAt);
 
         // Gerando um novo token de atualização.
-        var newRefreshToken = _tokenClaimsService.GenerateRefreshToken();
+        var newRefreshToken = tokenClaimsService.GenerateRefreshToken();
 
         // Vinculando o novo token atualização ao usuário.
         usuario.AdicionarToken(new Token(accessToken, newRefreshToken, createdAt, expiresAt));
 
-        _repository.Update(usuario);
-        await _uow.CommitAsync();
+        repository.Update(usuario);
+        await uow.CommitAsync();
 
         return Result.Success(new TokenResponse(accessToken, createdAt, expiresAt, newRefreshToken));
     }

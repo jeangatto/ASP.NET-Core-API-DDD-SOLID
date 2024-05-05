@@ -15,8 +15,6 @@ namespace SGP.Tests.UnitTests.Application.Services;
 [UnitTest]
 public class EstadoServiceTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture = fixture;
-
     [Fact]
     public async Task Devera_RetornarResultadoSucessoComEstados_AoObterTodos()
     {
@@ -43,7 +41,7 @@ public class EstadoServiceTests(EfSqliteFixture fixture) : IClassFixture<EfSqlit
     private EstadoService CriarServico()
     {
         var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
-        var repositorio = new EstadoRepository(_fixture.Context);
+        var repositorio = new EstadoRepository(fixture.Context);
         return new EstadoService(mapper, repositorio);
     }
 }

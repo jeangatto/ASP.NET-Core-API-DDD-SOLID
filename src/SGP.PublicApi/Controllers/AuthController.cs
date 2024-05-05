@@ -17,8 +17,6 @@ namespace SGP.PublicApi.Controllers;
 [ApiController]
 public class AuthController(IAuthenticationService service) : ControllerBase
 {
-    private readonly IAuthenticationService _service = service;
-
     /// <summary>
     /// Efetua a autenticação.
     /// </summary>
@@ -34,7 +32,7 @@ public class AuthController(IAuthenticationService service) : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Authenticate([FromBody] LogInRequest request) =>
-        (await _service.AuthenticateAsync(request)).ToActionResult();
+        (await service.AuthenticateAsync(request)).ToActionResult();
 
     /// <summary>
     /// Atualiza um token de acesso.
@@ -54,5 +52,5 @@ public class AuthController(IAuthenticationService service) : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request) =>
-        (await _service.RefreshTokenAsync(request)).ToActionResult();
+        (await service.RefreshTokenAsync(request)).ToActionResult();
 }

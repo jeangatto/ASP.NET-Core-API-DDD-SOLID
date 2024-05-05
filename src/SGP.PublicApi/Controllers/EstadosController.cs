@@ -16,8 +16,6 @@ namespace SGP.PublicApi.Controllers;
 [ApiController]
 public class EstadosController(IEstadoService service) : ControllerBase
 {
-    private readonly IEstadoService _service = service;
-
     /// <summary>
     /// Obtém uma lista com todos os estados.
     /// </summary>
@@ -30,7 +28,7 @@ public class EstadosController(IEstadoService service) : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterTodosAsync() =>
-        (await _service.ObterTodosAsync()).ToActionResult();
+        (await service.ObterTodosAsync()).ToActionResult();
 
     /// <summary>
     /// Obtém uma lista de estados pelo nome da região.
@@ -47,5 +45,5 @@ public class EstadosController(IEstadoService service) : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterPorIbgeAsync([FromRoute] string regiao) =>
-        (await _service.ObterTodosPorRegiaoAsync(new ObterTodosPorRegiaoRequest(regiao))).ToActionResult();
+        (await service.ObterTodosPorRegiaoAsync(new ObterTodosPorRegiaoRequest(regiao))).ToActionResult();
 }

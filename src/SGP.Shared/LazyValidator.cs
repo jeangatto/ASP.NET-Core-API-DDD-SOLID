@@ -29,8 +29,8 @@ public static class LazyValidator
     private static Lazy<IValidator> CreateOrGetValidatorInstance<TValidator>() where TValidator : IValidator
     {
         var lazyValidator = new Lazy<IValidator>(() =>
-            Activator.CreateInstance<TValidator>(), isThreadSafe: true);
+            Activator.CreateInstance<TValidator>(), true);
 
-        return Cache.GetOrAdd(typeof(TValidator).Name, _ => lazyValidator);
+        return Cache.GetOrAdd(typeof(TValidator).Name, lazyValidator);
     }
 }

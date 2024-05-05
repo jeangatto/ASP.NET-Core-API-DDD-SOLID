@@ -11,8 +11,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Data.Repositories;
 [UnitTest]
 public class CidadeRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture = fixture;
-
     [Theory]
     [InlineData(3550308, "São Paulo", "SP", "Sudeste")]
     [InlineData(3506003, "Bauru", "SP", "Sudeste")]
@@ -48,30 +46,30 @@ public class CidadeRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfSq
     }
 
     [Theory]
-    [InlineData("AC", 22)]  // Acre
+    [InlineData("AC", 22)] // Acre
     [InlineData("AL", 102)] // Alagoas
-    [InlineData("AM", 62)]  // Amazonas
-    [InlineData("AP", 16)]  // Amapá
+    [InlineData("AM", 62)] // Amazonas
+    [InlineData("AP", 16)] // Amapá
     [InlineData("BA", 417)] // Bahia
     [InlineData("CE", 184)] // Ceará
-    [InlineData("ES", 78)]  // Espírito Santo
+    [InlineData("ES", 78)] // Espírito Santo
     [InlineData("GO", 246)] // Goiás
     [InlineData("MA", 217)] // Maranhão
     [InlineData("MG", 853)] // Minas Gerais
-    [InlineData("MS", 79)]  // Mato Grosso do Sul
+    [InlineData("MS", 79)] // Mato Grosso do Sul
     [InlineData("MT", 141)] // Mato Grosso
     [InlineData("PA", 144)] // Pará
     [InlineData("PB", 223)] // Paraíba
     [InlineData("PE", 185)] // Pernambuco
     [InlineData("PI", 224)] // Piauí
     [InlineData("PR", 399)] // Paraná
-    [InlineData("RJ", 92)]  // Rio de Janeiro
+    [InlineData("RJ", 92)] // Rio de Janeiro
     [InlineData("RN", 167)] // Rio Grande do Norte
-    [InlineData("RO", 52)]  // Rondônia
-    [InlineData("RR", 15)]  // Roraima
+    [InlineData("RO", 52)] // Rondônia
+    [InlineData("RR", 15)] // Roraima
     [InlineData("RS", 497)] // Rio Grande do Sul
     [InlineData("SC", 295)] // Santa Catarina
-    [InlineData("SE", 75)]  // Sergipe
+    [InlineData("SE", 75)] // Sergipe
     [InlineData("SP", 645)] // São Paulo
     [InlineData("TO", 139)] // Tocantins
     public async Task Devera_RetornarCidades_AoObterPorUf(string uf, int totalCidadesEsperada)
@@ -103,5 +101,5 @@ public class CidadeRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfSq
             });
     }
 
-    private CidadeRepository CriarRepositorio() => new(_fixture.Context);
+    private CidadeRepository CriarRepositorio() => new(fixture.Context);
 }

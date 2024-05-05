@@ -14,7 +14,9 @@ public static class JsonExtensions
     private static readonly CamelCaseNamingStrategy NamingStrategy = new();
     private static readonly StringEnumConverter EnumConverter = new(NamingStrategy);
     private static readonly PrivateSetterContractResolver ContractResolver = new() { NamingStrategy = NamingStrategy };
-    private static readonly Lazy<JsonSerializerSettings> LazySettings = new(() => new JsonSerializerSettings().Configure(), isThreadSafe: true);
+
+    private static readonly Lazy<JsonSerializerSettings> LazySettings =
+        new(() => new JsonSerializerSettings().Configure(), isThreadSafe: true);
 
     /// <summary>
     /// Desserializa o JSON para o tipo especificado.

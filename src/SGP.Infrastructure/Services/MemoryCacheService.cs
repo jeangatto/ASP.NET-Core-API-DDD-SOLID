@@ -9,42 +9,33 @@ using SGP.Shared.Extensions;
 
 namespace SGP.Infrastructure.Services;
 
-public class MemoryCacheService : ICacheService
+public class MemoryCacheService(
+    ILogger<MemoryCacheService> logger,
+    IMemoryCache memoryCache,
+    IOptions<CacheOptions> cacheOptions) : ICacheService
 {
-    private readonly IMemoryCache _memoryCache;
-    private readonly ILogger<MemoryCacheService> _logger;
-    private readonly MemoryCacheEntryOptions _cacheOptions;
-
-    public MemoryCacheService(
-        ILogger<MemoryCacheService> logger,
-        IMemoryCache memoryCache,
-        IOptions<CacheOptions> cacheOptions)
+    private readonly MemoryCacheEntryOptions _cacheOptions = new()
     {
-        _logger = logger;
-        _memoryCache = memoryCache;
-        _cacheOptions = new MemoryCacheEntryOptions
-        {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(cacheOptions.Value.AbsoluteExpirationInHours),
-            SlidingExpiration = TimeSpan.FromSeconds(cacheOptions.Value.SlidingExpirationInSeconds)
-        };
-    }
+        AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(cacheOptions.Value.AbsoluteExpirationInHours),
+        SlidingExpiration = TimeSpan.FromSeconds(cacheOptions.Value.SlidingExpirationInSeconds)
+    };
 
     public async Task<TItem> GetOrCreateAsync<TItem>(string cacheKey, Func<Task<TItem>> factory)
     {
-        return await _memoryCache.GetOrCreateAsync(cacheKey, async (cacheEntry) =>
+        return await memoryCache.GetOrCreateAsync(cacheKey, async cacheEntry =>
         {
             var cacheValue = cacheEntry?.Value;
             if (cacheValue != null)
             {
-                _logger.LogInformation("----- Fetched from MemoryCache: '{CacheKey}'", cacheKey);
+                logger.LogInformation("----- Fetched from MemoryCache: '{CacheKey}'", cacheKey);
                 return (TItem)cacheValue;
             }
 
             var item = await factory();
             if (!item.IsDefault())
             {
-                _logger.LogInformation("----- Added to MemoryCache: '{CacheKey}'", cacheKey);
-                _memoryCache.Set(cacheKey, item, _cacheOptions);
+                logger.LogInformation("----- Added to MemoryCache: '{CacheKey}'", cacheKey);
+                memoryCache.Set(cacheKey, item, _cacheOptions);
             }
 
             return item;
@@ -53,8 +44,8 @@ public class MemoryCacheService : ICacheService
 
     public Task RemoveAsync(string cacheKey)
     {
-        _logger.LogInformation("----- Removed from MemoryCache: '{Key}'", cacheKey);
-        _memoryCache.Remove(cacheKey);
+        logger.LogInformation("----- Removed from MemoryCache: '{Key}'", cacheKey);
+        memoryCache.Remove(cacheKey);
         return Task.CompletedTask;
     }
 }

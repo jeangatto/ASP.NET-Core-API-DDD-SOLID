@@ -16,8 +16,6 @@ namespace SGP.Tests.UnitTests.Application.Services;
 [UnitTest]
 public class CidadeServiceTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture = fixture;
-
     [Fact]
     public async Task Devera_RetornarErroValidacao_AoObterTodosPorUfInvalido()
     {
@@ -152,7 +150,7 @@ public class CidadeServiceTests(EfSqliteFixture fixture) : IClassFixture<EfSqlit
     private CidadeService CriarServico()
     {
         var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
-        var repositorio = new CidadeRepository(_fixture.Context);
+        var repositorio = new CidadeRepository(fixture.Context);
         return new CidadeService(mapper, repositorio);
     }
 }

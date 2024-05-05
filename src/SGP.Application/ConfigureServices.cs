@@ -12,7 +12,7 @@ public static class ConfigureServices
 {
     private static readonly Assembly[] AssembliesToScan = [Assembly.GetExecutingAssembly()];
 
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static void AddServices(this IServiceCollection services)
     {
         // Add AutoMapper as a singleton instance
         services.AddSingleton<IMapper>(
@@ -26,7 +26,5 @@ public static class ConfigureServices
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsImplementedInterfaces()
             .WithScopedLifetime());
-
-        return services;
     }
 }

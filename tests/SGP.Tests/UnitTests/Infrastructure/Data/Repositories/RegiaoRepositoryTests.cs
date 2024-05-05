@@ -12,8 +12,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Data.Repositories;
 [UnitTest]
 public class RegiaoRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture = fixture;
-
     [Fact]
     public async Task Devera_ObterTodasRegioes_RetornaRegioes()
     {
@@ -34,5 +32,5 @@ public class RegiaoRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfSq
             });
     }
 
-    private RegiaoRepository CriarRepositorio() => new(_fixture.Context);
+    private RegiaoRepository CriarRepositorio() => new(fixture.Context);
 }

@@ -10,27 +10,24 @@ namespace SGP.Infrastructure.Data;
 
 public sealed class UnitOfWork(SgpContext context, ILogger<UnitOfWork> logger) : IUnitOfWork
 {
-    private readonly SgpContext _context = context;
-    private readonly ILogger<UnitOfWork> _logger = logger;
-
     public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            var rowsAffected = await _context.SaveChangesAsync(cancellationToken);
+            var rowsAffected = await context.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation("----- Row(s) affected: {RowsAffected}", rowsAffected);
+            logger.LogInformation("----- Row(s) affected: {RowsAffected}", rowsAffected);
 
             return rowsAffected;
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            _logger.LogError(ex, "Ocorreu um erro (concorrência) ao salvar as informações na base de dados");
+            logger.LogError(ex, "Ocorreu um erro (concorrência) ao salvar as informações na base de dados");
             throw;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados");
+            logger.LogError(ex, "Ocorreu um erro ao salvar as informações na base de dados");
             throw;
         }
     }
@@ -58,7 +55,7 @@ public sealed class UnitOfWork(SgpContext context, ILogger<UnitOfWork> logger) :
 
         // Dispose managed state (managed objects).
         if (disposing)
-            _context.Dispose();
+            context.Dispose();
 
         _disposed = true;
     }

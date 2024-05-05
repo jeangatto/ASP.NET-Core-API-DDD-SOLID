@@ -19,8 +19,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Data.Repositories;
 [UnitTest]
 public class UsuarioRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture = fixture;
-
     [Fact]
     public async Task Devera_RetonarVerdadeiro_AoVerificarSeEmailJaExiste()
     {
@@ -148,7 +146,7 @@ public class UsuarioRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfS
             .Generate();
     }
 
-    private UsuarioRepository CriarRepositorio() => new(_fixture.Context);
+    private UsuarioRepository CriarRepositorio() => new(fixture.Context);
 
-    private UnitOfWork CriarUoW() => new(_fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
+    private UnitOfWork CriarUoW() => new(fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
 }

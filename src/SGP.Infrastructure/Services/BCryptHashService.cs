@@ -7,8 +7,6 @@ namespace SGP.Infrastructure.Services;
 
 public class BCryptHashService(ILogger<BCryptHashService> logger) : IHashService
 {
-    private readonly ILogger<BCryptHashService> _logger = logger;
-
     public bool Compare(string text, string hash)
     {
         Guard.Against.NullOrWhiteSpace(text);
@@ -20,7 +18,7 @@ public class BCryptHashService(ILogger<BCryptHashService> logger) : IHashService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Ocorreu um erro ao verificar o HASH com BCrypt: {Message}", ex.Message);
+            logger.LogError(ex, "Ocorreu um erro ao verificar o HASH com BCrypt: {Message}", ex.Message);
             throw;
         }
     }
@@ -35,7 +33,7 @@ public class BCryptHashService(ILogger<BCryptHashService> logger) : IHashService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Ocorreu um erro ao gerar o HASH com BCrypt: {Message}", ex.Message);
+            logger.LogError(ex, "Ocorreu um erro ao gerar o HASH com BCrypt: {Message}", ex.Message);
             throw;
         }
     }

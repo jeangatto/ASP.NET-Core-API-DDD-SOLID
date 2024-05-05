@@ -26,8 +26,6 @@ namespace SGP.Tests.UnitTests.Application.Services;
 [UnitTest]
 public class AuthenticationServiceTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture = fixture;
-
     [Fact]
     public async Task Devera_RetornarSucessoComToken_AoAutenticar()
     {
@@ -36,8 +34,8 @@ public class AuthenticationServiceTests(EfSqliteFixture fixture) : IClassFixture
         var dateTime = new DateTimeService();
         var tokenClaimsService = new JwtClaimService(jwtOptions, dateTime);
         var hashService = new BCryptHashService(Substitute.For<ILogger<BCryptHashService>>());
-        var usuarioRepository = new UsuarioRepository(_fixture.Context);
-        var unitOfWork = new UnitOfWork(_fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
+        var usuarioRepository = new UsuarioRepository(fixture.Context);
+        var unitOfWork = new UnitOfWork(fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
         var service = CreateAuthenticationService(
             CreateAuthOptions(),
             dateTime,

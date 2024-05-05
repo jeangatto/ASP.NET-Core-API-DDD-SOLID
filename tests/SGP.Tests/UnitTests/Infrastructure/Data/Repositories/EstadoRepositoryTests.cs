@@ -12,8 +12,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Data.Repositories;
 [UnitTest]
 public class EstadoRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture = fixture;
-
     [Theory]
     [InlineData("Nordeste", 9)]
     [InlineData("Sudeste", 4)]
@@ -69,5 +67,5 @@ public class EstadoRepositoryTests(EfSqliteFixture fixture) : IClassFixture<EfSq
             });
     }
 
-    private EstadoRepository CriarRepositorio() => new(_fixture.Context);
+    private EstadoRepository CriarRepositorio() => new(fixture.Context);
 }

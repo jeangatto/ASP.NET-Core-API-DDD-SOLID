@@ -47,6 +47,7 @@ public class Usuario : BaseEntity, IAggregateRoot
     /// Incremenenta o número de acessos que falharam.
     /// Quando é atingido o limite de acessos a conta será bloqueada por um tempo.
     /// </summary>
+    /// <param name="dateTimeService"></param>
     /// <param name="numeroTentativas">Número máximo de tentativas até a conta ser bloqueada.</param>
     /// <param name="lockedTimeSpan">Determinado tempo em que a conta ficará bloqueada.</param>
     public void IncrementarFalhas(IDateTimeService dateTimeService, int numeroTentativas, TimeSpan lockedTimeSpan)

@@ -15,8 +15,6 @@ namespace SGP.Tests.UnitTests.Infrastructure.Data;
 [UnitTest]
 public class UnitOfWorkTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFixture>
 {
-    private readonly EfSqliteFixture _fixture = fixture;
-
     [Fact]
     public async Task Should_ReturnRowsAffected_WhenSaveChanges()
     {
@@ -49,9 +47,9 @@ public class UnitOfWorkTests(EfSqliteFixture fixture) : IClassFixture<EfSqliteFi
 
     private SgpContext GetContext()
     {
-        _fixture.Context.ChangeTracker.Clear();
-        return _fixture.Context;
+        fixture.Context.ChangeTracker.Clear();
+        return fixture.Context;
     }
 
-    private UnitOfWork CreateUoW() => new(_fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
+    private UnitOfWork CreateUoW() => new(fixture.Context, Substitute.For<ILogger<UnitOfWork>>());
 }

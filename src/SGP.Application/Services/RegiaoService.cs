@@ -10,12 +10,9 @@ namespace SGP.Application.Services;
 
 public class RegiaoService(IMapper mapper, IRegiaoRepository repository) : IRegiaoService
 {
-    private readonly IMapper _mapper = mapper;
-    private readonly IRegiaoRepository _repository = repository;
-
     public async Task<Result<IEnumerable<RegiaoResponse>>> ObterTodosAsync()
     {
-        var regioes = await _repository.ObterTodosAsync();
-        return Result.Success(_mapper.Map<IEnumerable<RegiaoResponse>>(regioes));
+        var regioes = await repository.ObterTodosAsync();
+        return Result.Success(mapper.Map<IEnumerable<RegiaoResponse>>(regioes));
     }
 }

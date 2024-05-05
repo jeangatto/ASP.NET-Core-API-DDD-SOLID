@@ -7,7 +7,6 @@ namespace SGP.Infrastructure.Data.Repositories.Common;
 public abstract class RepositoryBase<TEntity>(SgpContext context) : IDisposable where TEntity : class
 {
     protected readonly DbSet<TEntity> DbSet = context.Set<TEntity>();
-    private readonly SgpContext _context = context;
 
     #region IDisposable
 
@@ -32,7 +31,7 @@ public abstract class RepositoryBase<TEntity>(SgpContext context) : IDisposable 
 
         // Dispose managed state (managed objects).
         if (disposing)
-            _context.Dispose();
+            context.Dispose();
 
         _disposed = true;
     }

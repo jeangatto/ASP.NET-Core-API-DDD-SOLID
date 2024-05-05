@@ -15,14 +15,13 @@ namespace SGP.Infrastructure.Services;
 public class JwtClaimService(IOptions<JwtOptions> jwtOptions, IDateTimeService dateTimeService) : ITokenClaimsService
 {
     private const short RefreshTokenBytesLength = 64;
-    private readonly IDateTimeService _dateTimeService = dateTimeService;
     private readonly JwtOptions _jwtConfig = jwtOptions.Value;
 
     public AccessToken GenerateAccessToken(Claim[] claims)
     {
         Guard.Against.NullOrEmpty(claims);
 
-        var createdAt = _dateTimeService.Now;
+        var createdAt = dateTimeService.Now;
         var expiresAt = createdAt.AddSeconds(_jwtConfig.Seconds);
         var tokenHandler = new JwtSecurityTokenHandler();
         var securityToken = tokenHandler.CreateToken(new SecurityTokenDescriptor
