@@ -7,7 +7,8 @@ using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Data.Repositories.Cached;
 
-public class CidadeCachedRepository(ICacheService cacheService, ICidadeRepository repository) : CachedRepositoryBase<ICidadeRepository>(cacheService, repository), ICidadeRepository
+public class CidadeCachedRepository(ICacheService cacheService, ICidadeRepository repository)
+    : CachedRepositoryBase<ICidadeRepository>(cacheService, repository), ICidadeRepository
 {
     private const string RootName = nameof(ICidadeRepository);
     private const string ObterPorIbgeCacheKey = $"{RootName}__{nameof(ObterPorIbgeAsync)}__{{0}}";

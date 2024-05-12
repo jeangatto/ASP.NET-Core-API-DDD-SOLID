@@ -22,7 +22,7 @@ public class AuthenticationService(
     IDateTimeService dateTimeService,
     IHashService hashService,
     ITokenClaimsService tokenClaimsService,
-    IUsuarioRepository repository,
+    IUsuarioRepository usuarioRepository,
     IUnitOfWork uow) : IAuthenticationService
 {
     #region Fields
@@ -39,7 +39,7 @@ public class AuthenticationService(
         if (!request.IsValid)
             return Result.Invalid(request.ValidationResult.AsErrors());
 
-        var usuario = await repository.ObterPorEmailAsync(new Email(request.Email));
+        var usuario = await usuarioRepository.ObterPorEmailAsync(new Email(request.Email));
         if (usuario == null)
             return Result.NotFound("A conta informada não existe.");
 
@@ -62,7 +62,7 @@ public class AuthenticationService(
             // Vinculando o token atualização ao usuário.
             usuario.AdicionarToken(new Token(accessToken, refreshToken, createdAt, expiresAt));
 
-            repository.Update(usuario);
+            usuarioRepository.Update(usuario);
             await uow.CommitAsync();
 
             return Result.Success(new TokenResponse(accessToken, createdAt, expiresAt, refreshToken));
@@ -73,7 +73,7 @@ public class AuthenticationService(
         var lockedTimeSpan = TimeSpan.FromSeconds(_authOptions.SecondsBlocked);
         usuario.IncrementarFalhas(dateTimeService, _authOptions.MaximumAttempts, lockedTimeSpan);
 
-        repository.Update(usuario);
+        usuarioRepository.Update(usuario);
         await uow.CommitAsync();
 
         return Result.Error("O e-mail ou senha está incorreta.");
@@ -85,7 +85,7 @@ public class AuthenticationService(
         if (!request.IsValid)
             return Result.Invalid(request.ValidationResult.AsErrors());
 
-        var usuario = await repository.ObterPorTokenAtualizacaoAsync(request.Token);
+        var usuario = await usuarioRepository.ObterPorTokenAtualizacaoAsync(request.Token);
         if (usuario == null)
             return Result.NotFound("Nenhum token encontrado.");
 
@@ -109,7 +109,7 @@ public class AuthenticationService(
         // Vinculando o novo token atualização ao usuário.
         usuario.AdicionarToken(new Token(accessToken, newRefreshToken, createdAt, expiresAt));
 
-        repository.Update(usuario);
+        usuarioRepository.Update(usuario);
         await uow.CommitAsync();
 
         return Result.Success(new TokenResponse(accessToken, createdAt, expiresAt, newRefreshToken));

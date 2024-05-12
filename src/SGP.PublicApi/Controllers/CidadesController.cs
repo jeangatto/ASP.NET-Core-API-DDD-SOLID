@@ -14,7 +14,7 @@ namespace SGP.PublicApi.Controllers;
 [Route("api/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]
-public class CidadesController(ICidadeService service) : ControllerBase
+public class CidadesController(ICidadeService cidadeService) : ControllerBase
 {
     /// <summary>
     /// Obtém uma lista de cidades pelo código UF.
@@ -31,7 +31,7 @@ public class CidadesController(ICidadeService service) : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterTodosPorUfAsync([FromRoute] string uf) =>
-        (await service.ObterTodosPorUfAsync(new ObterTodosPorUfRequest(uf))).ToActionResult();
+        (await cidadeService.ObterTodosPorUfAsync(new ObterTodosPorUfRequest(uf))).ToActionResult();
 
     /// <summary>
     /// Obtém a cidade pelo código de IBGE.
@@ -48,5 +48,5 @@ public class CidadesController(ICidadeService service) : ControllerBase
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterPorIbgeAsync([FromRoute] int ibge) =>
-        (await service.ObterPorIbgeAsync(new ObterPorIbgeRequest(ibge))).ToActionResult();
+        (await cidadeService.ObterPorIbgeAsync(new ObterPorIbgeRequest(ibge))).ToActionResult();
 }

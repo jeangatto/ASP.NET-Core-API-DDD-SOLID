@@ -11,7 +11,7 @@ using SGP.Domain.Repositories;
 
 namespace SGP.Application.Services;
 
-public class CidadeService(IMapper mapper, ICidadeRepository repository) : ICidadeService
+public class CidadeService(IMapper mapper, ICidadeRepository cidadeRepository) : ICidadeService
 {
     public async Task<Result<CidadeResponse>> ObterPorIbgeAsync(ObterPorIbgeRequest request)
     {
@@ -19,7 +19,7 @@ public class CidadeService(IMapper mapper, ICidadeRepository repository) : ICida
         if (!request.IsValid)
             return Result.Invalid(request.ValidationResult.AsErrors());
 
-        var cidade = await repository.ObterPorIbgeAsync(request.Ibge);
+        var cidade = await cidadeRepository.ObterPorIbgeAsync(request.Ibge);
         return cidade == null
             ? Result.NotFound($"Nenhuma cidade encontrada pelo IBGE: {request.Ibge}")
             : Result.Success(mapper.Map<CidadeResponse>(cidade));
@@ -31,7 +31,7 @@ public class CidadeService(IMapper mapper, ICidadeRepository repository) : ICida
         if (!request.IsValid)
             return Result.Invalid(request.ValidationResult.AsErrors());
 
-        var cidades = await repository.ObterTodosPorUfAsync(request.Uf.ToUpperInvariant());
+        var cidades = await cidadeRepository.ObterTodosPorUfAsync(request.Uf.ToUpperInvariant());
         return !cidades.Any()
             ? Result.NotFound($"Nenhuma cidade encontrada pelo UF: {request.Uf}")
             : Result.Success(mapper.Map<IEnumerable<CidadeResponse>>(cidades));

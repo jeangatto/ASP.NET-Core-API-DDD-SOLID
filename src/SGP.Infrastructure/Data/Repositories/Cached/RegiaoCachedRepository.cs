@@ -7,7 +7,8 @@ using SGP.Shared.Abstractions;
 
 namespace SGP.Infrastructure.Data.Repositories.Cached;
 
-public class RegiaoCachedRepository(ICacheService cacheService, IRegiaoRepository repository) : CachedRepositoryBase<IRegiaoRepository>(cacheService, repository), IRegiaoRepository
+public class RegiaoCachedRepository(ICacheService cacheService, IRegiaoRepository repository)
+    : CachedRepositoryBase<IRegiaoRepository>(cacheService, repository), IRegiaoRepository
 {
     private const string RootName = nameof(IRegiaoRepository);
     private const string ObterTodosCacheKey = $"{RootName}__{nameof(ObterTodosAsync)}";

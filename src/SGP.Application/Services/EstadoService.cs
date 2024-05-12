@@ -11,11 +11,11 @@ using SGP.Domain.Repositories;
 
 namespace SGP.Application.Services;
 
-public class EstadoService(IMapper mapper, IEstadoRepository repository) : IEstadoService
+public class EstadoService(IMapper mapper, IEstadoRepository estadoRepository) : IEstadoService
 {
     public async Task<Result<IEnumerable<EstadoResponse>>> ObterTodosAsync()
     {
-        var estados = await repository.ObterTodosAsync();
+        var estados = await estadoRepository.ObterTodosAsync();
         return Result.Success(mapper.Map<IEnumerable<EstadoResponse>>(estados));
     }
 
@@ -25,7 +25,7 @@ public class EstadoService(IMapper mapper, IEstadoRepository repository) : IEsta
         if (!request.IsValid)
             return Result.Invalid(request.ValidationResult.AsErrors());
 
-        var estados = await repository.ObterTodosPorRegiaoAsync(request.Regiao);
+        var estados = await estadoRepository.ObterTodosPorRegiaoAsync(request.Regiao);
         return !estados.Any()
             ? Result.NotFound($"Nenhum estado encontrado pela região: {request.Regiao}")
             : Result.Success(mapper.Map<IEnumerable<EstadoResponse>>(estados));

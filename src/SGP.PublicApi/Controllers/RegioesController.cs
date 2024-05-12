@@ -13,7 +13,7 @@ namespace SGP.PublicApi.Controllers;
 [Route("api/[controller]")]
 [ApiVersion("1.0")]
 [ApiController]
-public class RegioesController(IRegiaoService service) : ControllerBase
+public class RegioesController(IRegiaoService regiaoService) : ControllerBase
 {
     /// <summary>
     /// Obtém uma lista com todas as regiões.
@@ -25,5 +25,5 @@ public class RegioesController(IRegiaoService service) : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<RegiaoResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ObterTodosAsync() =>
-        (await service.ObterTodosAsync()).ToActionResult();
+        (await regiaoService.ObterTodosAsync()).ToActionResult();
 }
