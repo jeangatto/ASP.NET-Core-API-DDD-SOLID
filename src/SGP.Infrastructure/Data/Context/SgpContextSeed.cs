@@ -64,7 +64,7 @@ public static class SgpContextSeed
 
             var entities = (await File.ReadAllTextAsync(filePath, Encoding.UTF8)).FromJson<IEnumerable<TEntity>>();
             if (entities?.Any() == true)
-                context.AddRange(entities);
+                await context.AddRangeAsync(entities);
         }
     }
 }

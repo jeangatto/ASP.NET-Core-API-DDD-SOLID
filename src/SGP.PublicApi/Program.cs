@@ -169,4 +169,4 @@ catch (Exception ex)
 }
 
 app.Logger.LogInformation("----- Iniciado a aplicação...");
-app.Run();
+await app.RunAsync();
