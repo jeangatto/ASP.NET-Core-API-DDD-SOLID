@@ -14,6 +14,8 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=bugs)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-DDD-SOLID)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=code_smells)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-DDD-SOLID)
 
+[![Sparkline](https://stars.medv.io/jeangatto/ASP.NET-Core-API-DDD-SOLID.svg)](https://stars.medv.io/jeangatto/ASP.NET-Core-API-DDD-SOLID)
+
 ## Dê uma estrela! ⭐
 
 Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
