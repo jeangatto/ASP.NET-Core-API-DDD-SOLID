@@ -91,7 +91,7 @@ public class FluentResultExtensionsTests
         var errors = new[] { "Erro0", "Erro1", "Erro3", "Erro2" };
 
         // Act
-        var actual = Result.Error(errors).ToActionResult();
+        var actual = Result.Error(new ErrorList(errors)).ToActionResult();
 
         // Assert
         actual.Should().NotBeNull().And.BeOfType<BadRequestObjectResult>();
