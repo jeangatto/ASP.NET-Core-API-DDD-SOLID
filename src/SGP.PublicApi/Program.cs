@@ -2,6 +2,8 @@ using System;
 using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.Resources;
@@ -10,7 +12,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -29,30 +30,22 @@ using StackExchange.Profiling;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services
+builder
+    .Services
     .Configure<GzipCompressionProviderOptions>(compressionOptions => compressionOptions.Level = CompressionLevel.Fastest)
     .Configure<MvcNewtonsoftJsonOptions>(jsonOptions => jsonOptions.SerializerSettings.Configure())
     .Configure<RouteOptions>(routeOptions => routeOptions.LowercaseUrls = true);
 
 var healthChecksBuilder = builder.Services.AddHealthChecks();
 
-builder.Services.AddHttpClient()
+builder
+    .Services
+    .AddHttpClient()
     .AddHttpContextAccessor()
     .AddResponseCompression(compressionOptions =>
     {
         compressionOptions.EnableForHttps = true;
         compressionOptions.Providers.Add<GzipCompressionProvider>();
-    })
-    .AddApiVersioning(versioningOptions =>
-    {
-        versioningOptions.DefaultApiVersion = ApiVersion.Default;
-        versioningOptions.ReportApiVersions = true;
-        versioningOptions.AssumeDefaultVersionWhenUnspecified = true;
-    })
-    .AddVersionedApiExplorer(explorerOptions =>
-    {
-        explorerOptions.GroupNameFormat = "'v'VVV";
-        explorerOptions.SubstituteApiVersionInUrl = true;
     })
     .AddOpenApi()
     .ConfigureAppSettings()
@@ -63,9 +56,24 @@ builder.Services.AddHttpClient()
     .AddSpgContext(healthChecksBuilder)
     .AddServices();
 
+builder
+    .Services
+    .AddApiVersioning(versioningOptions =>
+    {
+        versioningOptions.DefaultApiVersion = ApiVersion.Default;
+        versioningOptions.ReportApiVersions = true;
+        versioningOptions.AssumeDefaultVersionWhenUnspecified = true;
+    })
+    .AddApiExplorer(explorerOptions =>
+    {
+        explorerOptions.GroupNameFormat = "'v'VVV";
+        explorerOptions.SubstituteApiVersionInUrl = true;
+    });
+
 builder.Services.AddDataProtection();
 
-builder.Services.AddControllers()
+builder.Services
+    .AddControllers()
     .ConfigureApiBehaviorOptions(options =>
     {
         options.SuppressMapClientErrors = true;

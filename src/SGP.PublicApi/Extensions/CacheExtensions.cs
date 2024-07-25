@@ -28,7 +28,7 @@ internal static class CacheExtensions
             var connections = configuration.GetOptions<ConnectionStrings>();
 
             services.AddDistributedCacheService();
-            services.AddDistributedRedisCache(options =>
+            services.AddStackExchangeRedisCache(options =>
             {
                 options.InstanceName = RedisInstanceName;
                 options.Configuration = connections.Cache;
