@@ -2,6 +2,7 @@
   "profiles": {
     "Docker Compose": {
       "commandName": "DockerCompose",
+      "dotnetRunMessages": true,
       "commandVersion": "1.0",
       "serviceActions": {
         "sgp-webapi": "StartDebugging"
