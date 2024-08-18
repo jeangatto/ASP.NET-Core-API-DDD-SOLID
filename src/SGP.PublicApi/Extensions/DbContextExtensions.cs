@@ -15,7 +15,7 @@ namespace SGP.PublicApi.Extensions;
 internal static class DbContextExtensions
 {
     private const int DbMaxRetryCount = 3;
-    private const int DbCommandTimeout = 35;
+    private const int DbCommandTimeout = 30;
     private const string DbInMemoryName = $"Db-InMemory-{nameof(SgpContext)}";
     private const string DbMigrationAssemblyName = "SGP.PublicApi";
 
@@ -28,7 +28,7 @@ internal static class DbContextExtensions
             var inMemoryOptions = serviceProvider.GetOptions<InMemoryOptions>();
             if (inMemoryOptions.Database)
             {
-                optionsBuilder.UseInMemoryDatabase(DbInMemoryName + $"-{Guid.NewGuid()}");
+                optionsBuilder.UseInMemoryDatabase($"{DbInMemoryName}-{Guid.NewGuid()}");
             }
             else
             {
@@ -36,9 +36,10 @@ internal static class DbContextExtensions
 
                 optionsBuilder.UseSqlServer(connections.Database, sqlServerOptions =>
                 {
-                    sqlServerOptions.MigrationsAssembly(DbMigrationAssemblyName);
-                    sqlServerOptions.EnableRetryOnFailure(DbMaxRetryCount);
-                    sqlServerOptions.CommandTimeout(DbCommandTimeout);
+                    sqlServerOptions
+                        .MigrationsAssembly(DbMigrationAssemblyName)
+                        .EnableRetryOnFailure(DbMaxRetryCount)
+                        .CommandTimeout(DbCommandTimeout);
                 });
             }
 
@@ -62,11 +63,10 @@ internal static class DbContextExtensions
                 });
 
             var environment = serviceProvider.GetRequiredService<IHostEnvironment>();
-            if (!environment.IsProduction())
-            {
-                optionsBuilder.EnableDetailedErrors();
-                optionsBuilder.EnableSensitiveDataLogging();
-            }
+            var envIsDevelopment = environment.IsDevelopment();
+
+            optionsBuilder.EnableDetailedErrors(envIsDevelopment);
+            optionsBuilder.EnableSensitiveDataLogging(envIsDevelopment);
         });
 
         // Verificador de saúde da base de dados.
