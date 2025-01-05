@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using SGP.Application.Requests.AuthenticationRequests;
 using SGP.Application.Responses;
@@ -38,7 +36,7 @@ public class AuthenticationControllerTests
 
         await using var webApplicationFactory = CreateWebApplication((serviceScope) =>
         {
-            using var context = serviceScope.ServiceProvider.GetRequiredService<SgpContext>();
+            var context = serviceScope.ServiceProvider.GetRequiredService<SgpContext>();
             var hashService = serviceScope.ServiceProvider.GetRequiredService<IHashService>();
             var usuario = new Usuario(nome, new Email(email), hashService.Hash(senha));
             context.Add(usuario);
@@ -64,28 +62,13 @@ public class AuthenticationControllerTests
 
     private static WebApplicationFactory<Program> CreateWebApplication(Action<IServiceScope> configureServiceScope)
     {
-        return new WebApplicationFactory<Program>()
-             .WithWebHostBuilder(hostBuilder =>
-             {
-                 hostBuilder.ConfigureLogging(logging => logging.ClearProviders());
+        var factory = new WebApplicationFactory<Program>()
+             .WithWebHostBuilder(hostBuilder => hostBuilder.ConfigureLogging(logging => logging.ClearProviders()));
 
-                 hostBuilder.ConfigureServices(services =>
-                 {
-                     services.RemoveAll<SgpContext>();
-                     services.RemoveAll<DbContextOptions<SgpContext>>();
+        using var serviceScope = factory.Services.CreateScope();
 
-                     var connection = new SqliteConnection("Data Source=:memory:");
-                     connection.Open();
+        configureServiceScope.Invoke(serviceScope);
 
-                     services.AddDbContext<SgpContext>(optionsBuilder => optionsBuilder.UseSqlite(connection));
-
-                     using var serviceProvider = services.BuildServiceProvider(true);
-                     using var serviceScope = serviceProvider.CreateScope();
-                     using var context = serviceScope.ServiceProvider.GetRequiredService<SgpContext>();
-                     context.Database.EnsureCreated();
-
-                     configureServiceScope.Invoke(serviceScope);
-                 });
-             });
+        return factory;
     }
 }

@@ -8,7 +8,7 @@ namespace SGP.Shared;
 
 public static class LazyValidator
 {
-    private static readonly ConcurrentDictionary<string, Lazy<IValidator>> ValidadorLookUp = new();
+    private static readonly ConcurrentDictionary<string, Lazy<IValidator>> ValidadorLookUp = new(StringComparer.OrdinalIgnoreCase);
 
     public static ValidationResult Validate<TValidator, TInstance>(TInstance instanceToValidate)
         where TValidator : IValidator

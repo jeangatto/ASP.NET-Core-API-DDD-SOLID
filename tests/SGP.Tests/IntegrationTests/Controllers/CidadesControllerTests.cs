@@ -3,13 +3,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using SGP.Application.Responses;
-using SGP.Infrastructure.Data.Context;
 using SGP.Tests.Extensions;
 using Xunit;
 using Xunit.Categories;
@@ -69,28 +64,7 @@ public class CidadesControllerTests
         act.Ibge.Should().BePositive().And.Be(ibge);
     }
 
-    private static WebApplicationFactory<Program> CreateWebApplication()
-    {
-        return new WebApplicationFactory<Program>()
-             .WithWebHostBuilder(hostBuilder =>
-             {
-                 hostBuilder.ConfigureLogging(logging => logging.ClearProviders());
-
-                 hostBuilder.ConfigureServices(services =>
-                 {
-                     services.RemoveAll<SgpContext>();
-                     services.RemoveAll<DbContextOptions<SgpContext>>();
-
-                     var connection = new SqliteConnection("Data Source=:memory:");
-                     connection.Open();
-
-                     services.AddDbContext<SgpContext>(optionsBuilder => optionsBuilder.UseSqlite(connection));
-
-                     using var serviceProvider = services.BuildServiceProvider(true);
-                     using var serviceScope = serviceProvider.CreateScope();
-                     using var context = serviceScope.ServiceProvider.GetRequiredService<SgpContext>();
-                     context.Database.EnsureCreated();
-                 });
-             });
-    }
+    private static WebApplicationFactory<Program> CreateWebApplication() =>
+        new WebApplicationFactory<Program>()
+            .WithWebHostBuilder(hostBuilder => hostBuilder.ConfigureLogging(logging => logging.ClearProviders()));
 }

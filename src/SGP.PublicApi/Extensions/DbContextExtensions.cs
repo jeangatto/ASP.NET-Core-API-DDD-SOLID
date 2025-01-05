@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -21,11 +22,13 @@ internal static class DbContextExtensions
 
     private static readonly string[] DbRelationalTags = ["database", "ef-core", "sql-server", "relational"];
 
-    internal static IServiceCollection AddSpgContext(this IServiceCollection services, IHealthChecksBuilder healthChecksBuilder)
+    internal static IServiceCollection AddSpgContext(this IServiceCollection services, IConfiguration configuration, IHealthChecksBuilder healthChecksBuilder)
     {
+        var inMemoryOptions = configuration.GetOptions<InMemoryOptions>();
+        var serviceLifetime = inMemoryOptions.Database ? ServiceLifetime.Singleton : ServiceLifetime.Scoped;
+
         services.AddDbContext<SgpContext>((serviceProvider, optionsBuilder) =>
         {
-            var inMemoryOptions = serviceProvider.GetOptions<InMemoryOptions>();
             if (inMemoryOptions.Database)
             {
                 optionsBuilder.UseInMemoryDatabase($"{DbInMemoryName}-{Guid.NewGuid()}");
@@ -67,7 +70,7 @@ internal static class DbContextExtensions
 
             optionsBuilder.EnableDetailedErrors(envIsDevelopment);
             optionsBuilder.EnableSensitiveDataLogging(envIsDevelopment);
-        });
+        }, serviceLifetime);
 
         // Verificador de saúde da base de dados.
         healthChecksBuilder.AddDbContextCheck<SgpContext>(

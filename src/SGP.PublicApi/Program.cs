@@ -53,7 +53,7 @@ builder
     .AddInfrastructure()
     .AddRepositories()
     .AddCacheService(builder.Configuration, healthChecksBuilder)
-    .AddSpgContext(healthChecksBuilder)
+    .AddSpgContext(builder.Configuration, healthChecksBuilder)
     .AddServices();
 
 builder
