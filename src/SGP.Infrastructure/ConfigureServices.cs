@@ -29,8 +29,11 @@ public static class ConfigureServices
     {
         // Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
         // https://github.com/khellang/Scrutor
+
+        var assembly = typeof(ConfigureServices).Assembly;
+
         services.Scan(scan => scan
-            .FromCallingAssembly()
+            .FromAssemblies(assembly)
             .AddClasses(impl => impl.AssignableTo<IRepository>())
             .UsingRegistrationStrategy(RegistrationStrategy.Skip)
             .AsImplementedInterfaces()
