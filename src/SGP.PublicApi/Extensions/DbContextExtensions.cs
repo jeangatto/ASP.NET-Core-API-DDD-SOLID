@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +11,8 @@ using Microsoft.Extensions.Logging;
 using SGP.Infrastructure.Data.Context;
 using SGP.Shared.AppSettings;
 using SGP.Shared.Extensions;
+
+#endregion
 
 namespace SGP.PublicApi.Extensions;
 
@@ -22,7 +26,10 @@ internal static class DbContextExtensions
 
     private static readonly string[] DbRelationalTags = ["database", "ef-core", "sql-server", "relational"];
 
-    internal static IServiceCollection AddSpgContext(this IServiceCollection services, IConfiguration configuration, IHealthChecksBuilder healthChecksBuilder)
+    internal static IServiceCollection AddSpgContext(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        IHealthChecksBuilder healthChecksBuilder)
     {
         var inMemoryOptions = configuration.GetOptions<InMemoryOptions>();
         var serviceLifetime = inMemoryOptions.Database ? ServiceLifetime.Singleton : ServiceLifetime.Scoped;

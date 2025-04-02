@@ -35,6 +35,8 @@ services:
       - SA_PASSWORD=pMA63033n6tF
     networks:
       - app-network
+    volumes:
+      - "./data-mssql:/var/opt/mssql/data"
 
   # Redis Cache Server
   sgp-redis:
@@ -48,3 +50,7 @@ services:
       - "6379:6379"
     networks:
       - app-network
+
+volumes:
+  data-mssql:
+    external: true

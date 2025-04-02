@@ -5,6 +5,8 @@
 
 .DS_Store
 */.DS_Store
+.run/
+data-mssql/
 
 # SonarQube generated files
 .sonarqube

@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -14,6 +16,8 @@ using SGP.Domain.Repositories;
 using SGP.Domain.ValueObjects;
 using SGP.Shared.Abstractions;
 using SGP.Shared.AppSettings;
+
+#endregion
 
 namespace SGP.Application.Services;
 
@@ -117,11 +121,11 @@ public class AuthenticationService(
 
     private static Claim[] GenerateClaims(Usuario usuario) =>
     [
-        new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-        new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Id.ToString()),
-        new Claim(JwtRegisteredClaimNames.Sub, usuario.Nome, ClaimValueTypes.String),
-        new Claim(JwtRegisteredClaimNames.Email, usuario.Email.ToString(), ClaimValueTypes.Email)
+        new(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+        new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+        new(JwtRegisteredClaimNames.UniqueName, usuario.Id.ToString()),
+        new(JwtRegisteredClaimNames.Sub, usuario.Nome, ClaimValueTypes.String),
+        new(JwtRegisteredClaimNames.Email, usuario.Email.ToString(), ClaimValueTypes.Email)
     ];
 
     #endregion
