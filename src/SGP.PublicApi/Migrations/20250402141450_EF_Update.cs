@@ -1,37 +1,34 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
+namespace SGP.PublicApi.Migrations;
 
-namespace SGP.PublicApi.Migrations
+/// <inheritdoc />
+public partial class EF_Update : Migration
 {
     /// <inheritdoc />
-    public partial class EF_Update : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropIndex(
-                name: "IX_Cidades_EstadoId",
-                table: "Cidades");
+        migrationBuilder.DropIndex(
+            name: "IX_Cidades_EstadoId",
+            table: "Cidades");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Cidades_EstadoId",
-                table: "Cidades",
-                column: "EstadoId");
-        }
+        migrationBuilder.CreateIndex(
+            name: "IX_Cidades_EstadoId",
+            table: "Cidades",
+            column: "EstadoId");
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropIndex(
-                name: "IX_Cidades_EstadoId",
-                table: "Cidades");
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropIndex(
+            name: "IX_Cidades_EstadoId",
+            table: "Cidades");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Cidades_EstadoId",
-                table: "Cidades",
-                column: "EstadoId")
-                .Annotation("SqlServer:Include", new[] { "Nome", "Ibge" });
-        }
+        migrationBuilder.CreateIndex(
+            name: "IX_Cidades_EstadoId",
+            table: "Cidades",
+            column: "EstadoId")
+            .Annotation("SqlServer:Include", new[] { "Nome", "Ibge" });
     }
 }

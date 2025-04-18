@@ -56,7 +56,9 @@ public class ApiResponse
     public static ApiResponse BadRequest(string errorMessage)
         => new()
         {
-            Success = false, StatusCode = StatusCodes.Status400BadRequest, Errors = CreateApiErrors(errorMessage)
+            Success = false,
+            StatusCode = StatusCodes.Status400BadRequest,
+            Errors = CreateApiErrors(errorMessage)
         };
 
     /// <summary>
@@ -83,7 +85,9 @@ public class ApiResponse
     public static ApiResponse Unauthorized(string errorMessage)
         => new()
         {
-            Success = false, StatusCode = StatusCodes.Status401Unauthorized, Errors = CreateApiErrors(errorMessage)
+            Success = false,
+            StatusCode = StatusCodes.Status401Unauthorized,
+            Errors = CreateApiErrors(errorMessage)
         };
 
     /// <summary>
@@ -110,7 +114,9 @@ public class ApiResponse
     public static ApiResponse Forbidden(string errorMessage)
         => new()
         {
-            Success = false, StatusCode = StatusCodes.Status403Forbidden, Errors = CreateApiErrors(errorMessage)
+            Success = false,
+            StatusCode = StatusCodes.Status403Forbidden,
+            Errors = CreateApiErrors(errorMessage)
         };
 
     /// <summary>
@@ -137,7 +143,9 @@ public class ApiResponse
     public static ApiResponse NotFound(string errorMessage)
         => new()
         {
-            Success = false, StatusCode = StatusCodes.Status404NotFound, Errors = CreateApiErrors(errorMessage)
+            Success = false,
+            StatusCode = StatusCodes.Status404NotFound,
+            Errors = CreateApiErrors(errorMessage)
         };
 
     /// <summary>
