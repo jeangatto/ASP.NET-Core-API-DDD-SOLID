@@ -7,9 +7,7 @@ on:
     types: [opened, synchronize, reopened]
     branches: [main]
     paths-ignore:
-      - "README.md"
-      - ".github/workflows/**.yml"
-      - "docs/**"
+      - ".github/workflows/**"
       - "**/*.md"
       - "**/*.yml"
 
@@ -25,6 +23,11 @@ jobs:
           java-version: 21
           check-latest: true
           distribution: "sapmachine"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
 
       - uses: actions/checkout@v4
         with:
