@@ -20,8 +20,8 @@
 
 Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
 
-- ASP.NET Core 9
-- Entity Framework Core 9
+- ASP.NET Core 10
+- Entity Framework Core 10
 - RESTful API
 - Banco de dados relacional: **SQL Server**
 - Cache Distribuído: **Redis**

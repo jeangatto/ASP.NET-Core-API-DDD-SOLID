@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
+    <!-- Enable central package version management so projects can omit explicit versions -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+    <!-- Pin transitive dependency versions to the central versions to improve reproducibility -->
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <!-- Allow floating (wildcard) versions in the central list (e.g. 9.* or 15.1.*) -->
     <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
     <NoWarn>$(NoWarn);NU1507</NoWarn>
   </PropertyGroup>
@@ -27,35 +30,34 @@
     <PackageVersion Include="FluentValidation" Version="11.11.0" />
     <PackageVersion Include="JsonNet.ContractResolvers" Version="2.0.0" />
     <PackageVersion Include="MediatR" Version="12.1.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.*" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.*" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.*" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Analyzers" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.*" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="7.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.*" />
-    <PackageVersion Include="Microsoft.Extensions.Primitives" Version="7.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.*" />
+    <PackageVersion Include="Microsoft.Extensions.Primitives" Version="10.0.*" />
     <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.6.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.*" />
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.*" />
@@ -73,7 +75,7 @@
     <PackageVersion Include="Scrutor" Version="6.0.*" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="8.*" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.*" />
-    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="9.0.*" />
+    <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.0.*" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.6.1" />
     <PackageVersion Include="xunit.analyzers" Version="1.22.*" />
     <PackageVersion Include="xunit.categories" Version="3.0.1" />

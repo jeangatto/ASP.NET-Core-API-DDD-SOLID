@@ -1,0 +1,41 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".dockerignore" />
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="docker-compose.override.yml" />
+    <File Path="docker-compose.yml" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/workflows/">
+    <File Path=".github/workflows/codeql-analysis.yml" />
+    <File Path=".github/workflows/delete-workflow-runs.yml" />
+    <File Path=".github/workflows/devskim-analysis.yml" />
+    <File Path=".github/workflows/dotnet.yml" />
+    <File Path=".github/workflows/sonar-cloud.yml" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Core/">
+    <Project Path="src/SGP.Application/SGP.Application.csproj" />
+    <Project Path="src/SGP.Domain/SGP.Domain.csproj" />
+    <Project Path="src/SGP.Shared/SGP.Shared.csproj" />
+  </Folder>
+  <Folder Name="/src/Infrastructure/">
+    <Project Path="src/SGP.Infrastructure/SGP.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Presentation/">
+    <Project Path="src/SGP.PublicApi/SGP.PublicApi.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SGP.Tests/SGP.Tests.csproj" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+</Solution>
