@@ -33,10 +33,10 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Restore dependencies
-        run: dotnet restore Shop.slnx
+        run: dotnet restore SGP.slnx
 
       - name: Build
-        run: dotnet build Shop.slnx --nologo --no-restore --configuration Release
+        run: dotnet build SGP.slnx --nologo --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test Shop.slnx --nologo --no-build --no-restore --configuration Release --verbosity minimal
+        run: dotnet test SGP.slnx --nologo --no-build --no-restore --configuration Release --verbosity minimal
