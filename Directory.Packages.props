@@ -18,16 +18,16 @@
     <PackageVersion Include="AspNetCore.HealthChecks.MongoDb" Version="6.0.*" />
     <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="9.0.*" />
     <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.*" />
-    <PackageVersion Include="AutoMapper" Version="14.0.*" />
-    <PackageVersion Include="BCrypt.Net-Next" Version="4.0.*" />
+    <PackageVersion Include="AutoMapper" Version="16.1.1" />
+    <PackageVersion Include="BCrypt.Net-Next" Version="4.1.0" />
     <PackageVersion Include="Bogus" Version="35.6.*" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.*" />
-    <PackageVersion Include="coverlet.msbuild" Version="6.0.*" />
+    <PackageVersion Include="coverlet.collector" Version="8.0.1" />
+    <PackageVersion Include="coverlet.msbuild" Version="8.0.1" />
     <PackageVersion Include="EntityFrameworkCore.DataEncryption" Version="4.0.1" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.21.0" />
-    <PackageVersion Include="FluentAssertions" Version="7.1.0" />
+    <PackageVersion Include="FluentAssertions" Version="8.9.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.6.0" />
-    <PackageVersion Include="FluentValidation" Version="11.11.0" />
+    <PackageVersion Include="FluentValidation" Version="12.1.1" />
     <PackageVersion Include="JsonNet.ContractResolvers" Version="2.0.0" />
     <PackageVersion Include="MediatR" Version="12.1.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.*" />
@@ -58,8 +58,8 @@
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.*" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.*" />
     <PackageVersion Include="Microsoft.Extensions.Primitives" Version="10.0.*" />
-    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.6.1" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.*" />
+    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="8.16.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.*" />
     <PackageVersion Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.*" />
     <PackageVersion Include="MiniProfiler.EntityFrameworkCore" Version="4.5.*" />
@@ -72,11 +72,11 @@
     <PackageVersion Include="Roslynator.CodeFixes" Version="4.*" />
     <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.*" />
     <PackageVersion Include="Roslynator.Refactorings" Version="4.*" />
-    <PackageVersion Include="Scrutor" Version="6.0.*" />
+    <PackageVersion Include="Scrutor" Version="7.0.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="8.*" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.*" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.0.*" />
-    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.6.1" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.16.0" />
     <PackageVersion Include="xunit.analyzers" Version="1.27.*" />
     <PackageVersion Include="xunit.categories" Version="3.0.*" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.*" />

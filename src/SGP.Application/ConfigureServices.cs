@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using Scrutor;
 using SGP.Shared.Abstractions;
 
@@ -16,7 +17,7 @@ public static class ConfigureServices
     {
         // Add AutoMapper as a singleton instance
         services.AddSingleton<IMapper>(
-            new AutoMapper.Mapper(new MapperConfiguration(cfg => cfg.AddMaps(AssembliesToScan))));
+            new AutoMapper.Mapper(new MapperConfiguration(cfg => cfg.AddMaps(AssembliesToScan), new NullLoggerFactory())));
 
         // Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
         // https://github.com/khellang/Scrutor

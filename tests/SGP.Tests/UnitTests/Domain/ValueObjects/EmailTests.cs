@@ -20,6 +20,6 @@ public class EmailTests
 
         // Assert
         actual.Should().NotBeNull();
-        actual.Address.Should().NotBeNullOrWhiteSpace().And.Be(expected).And.NotBeUpperCased();
+        actual.Address.Should().NotBeNullOrWhiteSpace().And.Be(expected);
     }
 }

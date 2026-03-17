@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using SGP.Application.Mapper;
 using SGP.Application.Services;
 using SGP.Infrastructure.Data.Repositories;
@@ -40,7 +41,7 @@ public class EstadoServiceTests(EfSqliteFixture fixture) : IClassFixture<EfSqlit
 
     private EstadoService CriarServico()
     {
-        var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
+        var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>(), new NullLoggerFactory()));
         var repositorio = new EstadoRepository(fixture.Context);
         return new EstadoService(mapper, repositorio);
     }

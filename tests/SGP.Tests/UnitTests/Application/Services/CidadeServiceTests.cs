@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Ardalis.Result;
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using SGP.Application.Mapper;
 using SGP.Application.Requests.CidadeRequests;
 using SGP.Application.Services;
@@ -149,7 +150,7 @@ public class CidadeServiceTests(EfSqliteFixture fixture) : IClassFixture<EfSqlit
 
     private CidadeService CriarServico()
     {
-        var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>()));
+        var mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<DomainToResponseMapper>(), new NullLoggerFactory()));
         var repositorio = new CidadeRepository(fixture.Context);
         return new CidadeService(mapper, repositorio);
     }

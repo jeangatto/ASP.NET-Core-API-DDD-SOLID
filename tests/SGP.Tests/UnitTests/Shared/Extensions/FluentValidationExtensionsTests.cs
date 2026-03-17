@@ -58,7 +58,7 @@ public class FluentValidationExtensionsTests
         var result = validator.TestValidate(emailAddress);
 
         // Assert
-        result.ShouldHaveAnyValidationError();
+        result.ShouldHaveValidationErrorFor(address => address);
     }
 
     private static InlineValidator<string> CreateValidator()
