@@ -22,10 +22,15 @@ public class UsuarioRepository(SgpContext context) : EfRepository<Usuario>(conte
             .Include(u => u.Tokens.OrderByDescending(t => t.ExpiraEm))
             .FirstOrDefaultAsync(u => u.Email.Address == email.Address);
 
-    public async Task<Usuario> ObterPorTokenAtualizacaoAsync(string tokenAtualizacao) =>
-         await DbSet
-            .Include(u => u.Tokens.Where(t => t.Atualizacao == tokenAtualizacao))
+    public async Task<Usuario> ObterPorTokenAtualizacaoAsync(string tokenAtualizacao)
+    {
+        var user = await DbSet
+            .AsNoTracking()
+            .Include(u => u.Tokens)
             .FirstOrDefaultAsync(u => u.Tokens.Any(t => t.Atualizacao == tokenAtualizacao));
+
+        return user;
+    }
 
     public async Task<bool> VerificarSeEmailExisteAsync(Email email) =>
         await DbSet
