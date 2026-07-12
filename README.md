@@ -14,41 +14,78 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=bugs)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-DDD-SOLID)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ASP.NET-Core-API-DDD-SOLID&metric=code_smells)](https://sonarcloud.io/dashboard?id=ASP.NET-Core-API-DDD-SOLID)
 
-## Dê uma estrela! ⭐
+## Visão geral
 
-Se você gostou deste projeto, aprendeu algo, dê uma estrelinha. Obrigado!
+O **SGP** é um sistema gerenciador de pedidos desenvolvido com arquitetura limpa e princípios de DDD, SOLID e boas práticas de testes. O projeto demonstra uma API RESTful em **ASP.NET Core 10** com integração de SQL Server, Redis e observabilidade.
 
-- ASP.NET Core 10
-- Entity Framework Core 10
-- RESTful API
-- Banco de dados relacional: **SQL Server**
-- Cache Distribuído: **Redis**
-- Clean Architecture
-- Princípios **S.O.L.I.D.**
-- Conceitos de modelagem de software **DDD (Domain Driven Design)**
-- Padrão Repository-Service (Repository-Service Pattern)
-- Padrão decorador (decorator pattern) [The decorator pattern](https://andrewlock.net/adding-decorated-classes-to-the-asp.net-core-di-container-using-scrutor/)
-- Padrão de Camada-Anticorrupção (Anti-Corruption Layer) **(FluentValidation)**
-- Padrão Resultado **(FluentResults)** [Functional C#: Handling failures](https://enterprisecraftsmanship.com/posts/functional-c-handling-failures-input-errors/)
-- [Scrutor](https://github.com/khellang/Scrutor) automaticamente registrando os serviços no ASP.NET Core DI
-- Testes Unitários, Integrações com **xUnit**, **FluentAssertions**, **NSubstitute**\
-   => [Melhores práticas de teste de unidade com .NET Core](https://docs.microsoft.com/pt-br/dotnet/core/testing/unit-testing-best-practices)
-- Monitoramento de performance da aplicação: [MiniProfiler for .NET](https://miniprofiler.com/dotnet/)
-- Verificações de integridade da aplicação com [HealthChecks](https://docs.microsoft.com/pt-br/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-6.0)
-- [SonarCloud](https://sonarcloud.io/project/overview?id=ASP.NET-Core-API-DDD-SOLID) para qualidade do código, codesmell, bugs, vulnerabilidades e cobertura de código
+## Recursos principais
 
-## Executando a aplicação usando o Docker
+- API RESTful construída com **ASP.NET Core 10**
+- Camadas separadas: `SGP.PublicApi`, `SGP.Application`, `SGP.Domain`, `SGP.Infrastructure`, `SGP.Shared`
+- Persistência com **Entity Framework Core 10** e **SQL Server**
+- Cache distribuído com **Redis**
+- Injeção de dependência com **Scrutor** e padrões de design como Decorator
+- Validação de entrada com **FluentValidation**
+- Tratamento funcional de erros com **FluentResults**
+- Monitoramento com **MiniProfiler for .NET**
+- Health checks para verificação de integridade
+- Testes unitários e de integração com **xUnit**, **FluentAssertions** e **NSubstitute**
+- Integração contínua e análise de qualidade com **GitHub Actions** e **SonarCloud**
 
-Após executar o comando no terminal `docker-compose up --build`, basta abrir a url no navegador: `http://localhost:8000/swagger/`
+## Pré-requisitos
 
-## MiniProfiler for .NET
+- .NET SDK 10
+- Docker e Docker Compose (opcional para execução em contêiner)
+- SQL Server LocalDB ou outra instância SQL Server configurada
 
-Para acessar a página com os indicadores de desempenho e performance:
-`http://localhost:8000/profiler/results-index`
+## Executando localmente
 
-## Configurando Banco de dados
+1. Abra o terminal na pasta do repositório.
+2. Restaure os pacotes:
 
-Por padrão é utilizado o SQL Server LocalDB, para alterar a conexão, modifique o valor da chave `DefaultConnection` no arquivo `appsettings.Development.json`
+```powershell
+dotnet restore SGP.slnx
+```
+
+3. Execute a API:
+
+```powershell
+dotnet run --project src\SGP.PublicApi\SGP.PublicApi.csproj
+```
+
+4. Acesse a documentação Swagger:
+
+```text
+http://localhost:8000/swagger/
+```
+
+## Executando com Docker
+
+Para rodar a aplicação em contêineres Docker:
+
+```powershell
+docker-compose up --build
+```
+
+Em seguida, abra:
+
+```text
+http://localhost:8000/swagger/
+```
+
+### MiniProfiler
+
+Acesse os dados de performance em:
+
+```text
+http://localhost:8000/profiler/results-index
+```
+
+## Configuração de banco de dados
+
+Por padrão, a aplicação utiliza o `DefaultConnection` definido em `src\SGP.PublicApi\appsettings.Development.json`.
+
+Exemplo de configuração:
 
 ```json
 {
@@ -59,6 +96,33 @@ Por padrão é utilizado o SQL Server LocalDB, para alterar a conexão, modifiqu
 }
 ```
 
-## License
+> Se você usar SQL Server em contêiner, atualize a string de conexão conforme necessário.
 
-- [MIT License](https://github.com/JeanGatto/ASP.NET-Core-API-DDD-SOLID/blob/main/LICENSE)
+## Testes
+
+Execute os testes com:
+
+```powershell
+dotnet test SGP.slnx
+```
+
+## Estrutura do repositório
+
+- `src/SGP.PublicApi/` - aplicação Web API e pontos de entrada
+- `src/SGP.Application/` - lógica de aplicação e casos de uso
+- `src/SGP.Domain/` - entidades de domínio, agregados e regras de negócio
+- `src/SGP.Infrastructure/` - persistência, caches e integrações externas
+- `src/SGP.Shared/` - abstrações compartilhadas, validações e constantes
+- `tests/SGP.Tests/` - testes automatizados
+
+## Contribuição
+
+Contribuições são bem-vindas! Se quiser colaborar:
+
+1. Crie uma issue descrevendo a mudança.
+2. Abra um pull request com pequenas alterações.
+3. Verifique se todos os testes passam antes de submeter.
+
+## Licença
+
+Licenciado sob a [MIT License](LICENSE).

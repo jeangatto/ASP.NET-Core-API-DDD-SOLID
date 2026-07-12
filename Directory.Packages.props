@@ -73,6 +73,7 @@
     <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.*" />
     <PackageVersion Include="Roslynator.Refactorings" Version="4.*" />
     <PackageVersion Include="Scrutor" Version="7.0.0" />
+    <PackageVersion Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="8.*" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.*" />
     <PackageVersion Include="System.Configuration.ConfigurationManager" Version="10.0.*" />

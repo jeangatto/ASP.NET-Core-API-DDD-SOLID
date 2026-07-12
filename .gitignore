@@ -409,3 +409,9 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 .idea/
+src/SGP.Application/SGP.Application.csproj.lscache
+src/SGP.Domain/SGP.Domain.csproj.lscache
+src/SGP.Infrastructure/SGP.Infrastructure.csproj.lscache
+src/SGP.PublicApi/SGP.PublicApi.csproj.lscache
+src/SGP.Shared/SGP.Shared.csproj.lscache
+tests/SGP.Tests/SGP.Tests.csproj.lscache
